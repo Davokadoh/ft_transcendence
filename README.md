@@ -5,6 +5,10 @@
 - https://www.typescriptlang.org/docs/handbook/intro.html
 - https://react.dev/learn/tutorial-tic-tac-toe
 - https://docs.nestjs.com/
+- https://docs.nestjs.com/devtools/ci-cd-integration
+- https://docs.nestjs.com/recipes/hot-reload
+- https://docs.nestjs.com/recipes/passport
+- https://docs.nestjs.com/recipes/prisma
 - https://www.prisma.io/docs
 - https://socket.io/
 - https://docs.emmet.io/cheat-sheet/
