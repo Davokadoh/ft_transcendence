@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+
+  # NestJs - NodeJs
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./app:/app
+    networks:
+      - netpong
+
+  # PostgresSql - Database
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - netpong
+
+# Volumes
+volumes:
+  postgres:
+
+# Networks
+networks:
+  netpong:
+    driver: bridge
