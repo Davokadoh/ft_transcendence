@@ -9,6 +9,8 @@
 - https://docs.nestjs.com/recipes/hot-reload
 - https://docs.nestjs.com/recipes/passport
 - https://docs.nestjs.com/recipes/prisma
+- https://www.prisma.io/blog/series/nestjs-prisma-kges29apbbik
+- https://www.prisma.io/nestjs
 - https://www.prisma.io/docs
 - https://socket.io/
 - https://docs.emmet.io/cheat-sheet/
