@@ -22,3 +22,4 @@
 - https://www.freecodecamp.org/learn/front-end-development-libraries/
 - https://www.freecodecamp.org/learn/relational-database/
 - https://www.freecodecamp.org/learn/back-end-development-and-apis/
+- https://www.w3schools.com/
