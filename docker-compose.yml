@@ -2,34 +2,32 @@ version: '3.9'
 
 services:
 
-  # NestJs - NodeJs
+  # NestJs
   backend:
     build:
-      context: ./app
+      context: ./backend
       dockerfile: Dockerfile
     restart: always
     ports:
       - "3000:3000"
     depends_on:
       - postgres
-    volumes:
-      - ./app:/app
     networks:
       - netpong
 
-  # PostgresSql - Database
+  # PostgreSQL
   postgres:
     image: postgres:latest
     restart: always
     environment:
       POSTGRES_USER_FILE: /run/secrets/pg_user
       POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
-      POSTGRES_DB_FILE: /run/secrets/pg_database
+      #POSTGRES_DB_FILE: /run/secrets/pg_database
       #DB_INIT_ARGS_FILE="/run/secrets/db_init_args"
     secrets:
+      - pg_database
       - pg_password
       - pg_user
-      - pg_database
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:
@@ -46,8 +44,11 @@ services:
 
 secrets:
   pg_user:
+    environment: "PG_USER"
   pg_password:
+    environment: "PG_PASSWORD"
   pg_database:
+    environment: "PG_DATABASE"
   ft_api_id:
     external: true
   ft_api_secret:
