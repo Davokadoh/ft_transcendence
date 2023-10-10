@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3000:3000"
+      - "${API_PORT}:${API_PORT}"
     depends_on:
       - postgres
     networks:
@@ -22,14 +22,14 @@ services:
     environment:
       POSTGRES_USER_FILE: /run/secrets/pg_user
       POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
-      #POSTGRES_DB_FILE: /run/secrets/pg_database
+      POSTGRES_DB_FILE: /run/secrets/pg_database
       #DB_INIT_ARGS_FILE="/run/secrets/db_init_args"
     secrets:
-      - pg_database
-      - pg_password
       - pg_user
-    volumes:
-      - postgres:/var/lib/postgresql/data
+      - pg_password
+      - pg_database
+#    volumes:
+#      - postgres:/var/lib/postgresql/data
     networks:
       - netpong
     ports:
@@ -44,21 +44,21 @@ services:
 
 secrets:
   pg_user:
-    environment: "PG_USER"
+    environment: "POSTGRES_USER"
   pg_password:
-    environment: "PG_PASSWORD"
+    environment: "POSTGRES_PASSWORD"
   pg_database:
-    environment: "PG_DATABASE"
+    environment: "POSTGRES_DATABASE"
   ft_api_id:
     external: true
   ft_api_secret:
     external: true
 
 # Volumes
-volumes:
-  postgres:
+#volumes:
+#  postgres:
 
-    # Networks
+# Networks
 networks:
   netpong:
     driver: bridge

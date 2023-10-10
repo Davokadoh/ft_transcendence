@@ -1,6 +1,20 @@
-FROM node:latest
+FROM node:latest AS base
 
-RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
-RUN pnpm install
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY ./app /app
+WORKDIR /app
 
-CMD pnpm -r dotenv-safe/config start:dev
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
+
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
+EXPOSE $API_PORT
+CMD [ "pnpm", "start:dev" ]

@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id                 String       @id @unique @default(cuid())
+    ftId               Int          @unique
+    email              String       @unique
+    login              String       @unique
+    password           String
+    firstName          String
+    lastName           String
+    avatarURL          String
+    status             UserStatus
+    games              UsersInGames[]
+    chats              UsersInChannels[]
+    friends            User[]       @relation("friend")
+    blocked            User[]       @relation("blocked")
+    createdAt          DateTime     @default(now())
+    updatedAt          DateTime     @updatedAt
+}
+
+enum UserStatus {
+    PLAYING
+    OFFLINE
+    ONLINE
+}
+
+model UsersInGames {
+    user       User     @relation(fields: [userId], references: [id])
+    userId     String
+    game       Game     @relation(fields: [gameId], references: [id])
+    gameId     String
+    assignedAt DateTime @default(now())
+
+    @@id([userId, gameId])
+}
+
+model Game {
+    id         String       @id @unique @default(cuid())
+    status     GameStatus   @default(LOBBY)
+    scoreLimit Int          @default(7)
+    players    UsersInGames @relation(fields: [], references: [])
+    winner     User?        @relation(fields: [winnerId], references: [id])
+    winnerId   String?
+    scores     Int[]
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
+}
+
+enum GameStatus {
+    LOBBY
+    PLAY
+    END
+}
+
+model UsersInChannels {
+	user User @relation(fields: [userId], references: [id])
+	userId Int
+	channel Channel @relation(fields: [userId], references: [id])
+	channelId String
+
+	@@id([userId, channelId])
+}
+
+model Channel {
+    id        String    @id @unique @default(cuid())
+    name      String    @unique
+    type      ChatType  @default(PUBLIC)
+    password  String?
+    owner     User      @relation(fields: [ownerId], references: [id])
+    ownerId   String
+    admins    User[]
+    users     User[]
+    messages  Message[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+}
+
+enum ChatType {
+    DIRECT
+    PRIVATE
+    PUBLIC
+    RESTRICTED
+}
+
+model Message {
+    id        String   @id @unique @default(cuid())
+    body      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    chat      Channel     @relation(fields: [chatId], references: [id])
+    chatId    Int
+    author    User     @relation(fields: [authorId], references: [id])
+    authorId  Int
+}
