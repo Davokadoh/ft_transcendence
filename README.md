@@ -25,3 +25,13 @@
 - https://www.w3schools.com/
 - https://github.com/JoeDog/siege
 - https://axios-http.com
+
+## Ideas
+- Generate QR code to join lobby/game
+- 2vs2 games with smaller pad for the pad closer to the net
+- Funny achievements
+
+## Achievements
+- Win without loosing a single point
+- Scoring against yourself
+- Win with an advantage (ie. the game goes 7-7, 8-7, 9-7)
