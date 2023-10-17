@@ -1,6 +1,6 @@
 # ft_transcendence
 
-# Ressources / Documentation
+## Ressources / Documentation
 - https://api.intra.42.fr/apidoc/guides/getting_started
 - https://www.typescriptlang.org/docs/handbook/intro.html
 - https://react.dev/learn/tutorial-tic-tac-toe
