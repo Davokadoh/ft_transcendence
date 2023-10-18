@@ -1,0 +1,9 @@
+{
+	"dependencies": {
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
+		"@mui/material": "^5.14.14",
+		"@nextui-org/react": "^2.1.13",
+		"framer-motion": "^10.16.4"
+	}
+}
