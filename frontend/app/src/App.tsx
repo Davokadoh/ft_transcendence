@@ -1,35 +1,84 @@
-import * as React from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import React from 'react';
+import { CSSProperties } from 'react';
+import './App.css';
 
-function Copyright() {
+type SeparatorProps = {
+	color?: string;
+	thickness?: number;
+};
+
+function Separator(props: SeparatorProps) {
+	const { color = 'black', thickness = 0.1 } = props;
+
+	const separatorStyle = {
+		width: '90%',
+		height: `${thickness}em`,
+		backgroundColor: color,
+		margin: '1rem 0',
+	};
+
+	return <div style={separatorStyle} />;
+}
+
+type CardProps = {
+	children: React.ReactNode;
+};
+
+function Card(props: CardProps) {
+	const cardStyle: CSSProperties & { flexDirection: string } = {
+		backgroundColor: 'navy',
+		width: '32vw',
+		height: '42vh',
+		borderRadius: '42px',
+		// position: 'absolute',
+		// transform: 'translate(-50%, -50%)',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	};
+
 	return (
-		<Typography variant="body2" color="text.secondary" align="center">
-			{'Copyright © '}
-			<Link color="inherit" href="https://mui.com/">
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}.
-		</Typography>
+		<div style={cardStyle}>
+			{props.children}
+		</div>
 	);
 }
 
-export default function App() {
+// Renders a card form asking email and password, or login via 42 or Google
+function LoginPage() {
 	return (
-		<>
-			<Container maxWidth="sm">
-				<Box>
-					<Typography variant="h4" component="h1" gutterBottom>
-						Material UI Vite.js example in TypeScript
-					</Typography>
-					<Copyright />
-				</Box>
-			</Container>
-			<Container maxWidth="sm">
-					<TextField id="outlined-basic" label="Ceci n'est pas du texte" variant="outlined" />
-			</Container>
-		</>
+		<Card>
+			<form>
+				<label htmlFor="mail">Email:</label>
+				<input type="email" placeholder="Email" />
+				<label htmlFor="password">Password:</label>
+				<input type="password" placeholder="Password" />
+				<button type="submit">Login</button>
+			</form>
+			<Separator />
+			<div>
+				<button>42</button>
+				<button>Google</button>
+			</div>
+		</Card>
+	);
+}
+
+function HomePage() {
+	return (
+		<div>
+			Home Page
+		</div>
+	);
+}
+
+// Renders login page if user not logged in, otherwise renders home page
+export default function App() {
+	const logged = false;
+	return (
+		<div>
+			{logged ? <HomePage /> : <LoginPage />}
+		</div>
 	);
 }

@@ -19,10 +19,10 @@
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"dbaeumer.vscode-eslint",
-				"Catppuccin.catppuccin-vsc",
 				"ms-azuretools.vscode-docker",
 				"oderwat.indent-rainbow",
-				"Prisma.prisma"
+				"Prisma.prisma",
+				"GitHub.copilot-chat"
 			]
 		}
 	},
@@ -37,6 +37,5 @@
 	"remoteUser": "node",
 	"features": {
 		"docker-from-docker": "latest",
-		"rust": "latest"
 	}
 }
