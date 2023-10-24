@@ -1,4 +1,4 @@
-#root {
+/* #root {
 	color-scheme: dark light;
 	background-color: black;
 	color: white;
@@ -10,12 +10,15 @@
 }
 
 body {
-	background-color: black;
-	color: white;
+	background-color: white;
+	color: black;
 	margin: 0;
 	display: flex;
 	place-items: center;
-	min-width: 320px;
+	justify-content: center;
+	align-items: center;
+	vertical-align: middle;
+
 	min-height: 100vh;
 }
 
@@ -78,9 +81,8 @@ form {
 	margin: 0 auto;
 	padding: 1em;
 	box-sizing: border-box;
-	/* we create our grid */
 	display: grid;
 	grid-gap: 1em;
 	grid-template-columns: repeat(1, 1fr);
 	grid-template-rows: 1.3em 1.3em 1.3em;
-}
+} */
