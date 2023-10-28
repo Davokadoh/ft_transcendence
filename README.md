@@ -25,6 +25,7 @@
 - https://www.w3schools.com/
 - https://github.com/JoeDog/siege
 - https://axios-http.com
+- https://www.hanko.io/
 
 ## Ideas
 - Generate QR code to join lobby/game
