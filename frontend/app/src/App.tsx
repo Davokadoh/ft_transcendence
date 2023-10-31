@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 import '@picocss/pico'
+import {config} from 'dotenv'
 
 const articleStyle: CSSProperties = {
 	width: '50%',
@@ -45,7 +46,9 @@ function LoginPage() {
 				</form>
 				<progress value="0" max="100"></progress>
 				<div className='grid'>
-					<button style={{ ...buttonStyle, gridColumn: '1' }}>42</button>
+					<a href={`https://api.intra.42.fr/oauth/authorize?client_id=${import.meta.env.VITE_FT_CLIENT_ID}&redirect_uri=http%3A%2F%2F127.0.0.1%3A5173&response_type=code`} target="_blank" rel="noreferrer">
+						<button style={{ ...buttonStyle, gridColumn: '1' }}>42</button>
+					</a>
 					<button style={{ ...buttonStyle, gridColumn: '2' }}>Google</button>
 				</div>
 			</div>
