@@ -1,6 +1,7 @@
 import React from 'react';
 import { CSSProperties } from 'react';
 import '@picocss/pico'
+import '/src/stylesheet.css'; //font Spoof styles
 
 const articleStyle: CSSProperties = {
 	width: '50%',
@@ -13,7 +14,20 @@ const articleStyle: CSSProperties = {
 
 const buttonStyle: CSSProperties = {
 	width: '6rem',
-	margin: 'auto'
+	margin: 'auto',
+	color: '#9016B2'
+};
+
+const titanOneFontStyles: CSSProperties = {
+	fontFamily: 'Titan One, cursive', // Use 'Titan One' font
+	fontWeight: 'normal', // Make it regular (not bold)
+	color: 'var(--vert)', // #87D300 variable dans index.html
+};
+
+const spoofBoldFontStyle: CSSProperties = {
+	fontFamily: 'Spoof, sans-serif',
+	fontWeight: 'bold', // Make it regular (not bold)
+	color: '#00BAB9'
 };
 
 // Renders a card form asking email and password, or login via 42 or Google
@@ -22,8 +36,8 @@ function LoginPage() {
 		<article className="grid" style={articleStyle}>
 			<div>
 				<hgroup>
-					<h1>Sign in</h1>
-					<h2>A minimalist layout for Login pages</h2>
+				<h1 className="titan-one-font" style={titanOneFontStyles}>Welcome to the Pong-chos website ! </h1>
+					<h2 className='Spoof Bold' style={spoofBoldFontStyle}>A 42 project : Transcendence</h2>
 				</hgroup>
 				<form>
 					<input
@@ -46,8 +60,17 @@ function LoginPage() {
 				</form>
 				<progress value="0" max="100"></progress>
 				<div className='grid'>
-					<button style={{ ...buttonStyle, gridColumn: '1' }}>42</button>
-					<button style={{ ...buttonStyle, gridColumn: '2' }}>Google</button>
+					<button className="spoof-bold-button" style={{
+						...buttonStyle, 
+						gridColumn: '1', 
+						backgroundColor: '#87D300',
+						border: '2px solid #ffffff',
+						}}>42</button>
+					<button className="spoof-bold-button" style={{ ...buttonStyle, 
+						gridColumn: '2',
+						backgroundColor: '#87D300',
+						border: '2px #FFFFFF'
+						}}>Google</button>
 				</div>
 			</div>
 		</article>
@@ -71,3 +94,11 @@ export default function App() {
 		</div>
 	);
 }
+
+// function Spoof() {
+// 	return (
+// 		<div style={spoofBoldFontStyle}>
+// 			<p>This text uses your custom font.</p>
+// 		</div>
+// 	);
+// }
