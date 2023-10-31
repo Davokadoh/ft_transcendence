@@ -29,7 +29,8 @@
 
 ## Ideas
 - Generate QR code to join lobby/game
-- 2vs2 games with smaller pad for the pad closer to the net
+- 2vs2 games like a babyfoot
+- 2vs2 games with each 2 sides of a square by team, 1 by teammate
 - Funny achievements
 
 ## Achievements
