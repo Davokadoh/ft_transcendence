@@ -1,4 +1,3 @@
-import React from 'react';
 import { CSSProperties } from 'react';
 import '@picocss/pico'
 
@@ -42,7 +41,7 @@ function LoginPage() {
 						autoComplete="current-password"
 						required
 					/>
-					<button type="submit" className="contrast" onClick="event.preventDefault()">Login</button>
+					<button type="submit" className="contrast">Login</button>
 				</form>
 				<progress value="0" max="100"></progress>
 				<div className='grid'>
