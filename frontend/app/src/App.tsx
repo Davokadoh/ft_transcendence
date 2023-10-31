@@ -46,7 +46,7 @@ function LoginPage() {
 				</form>
 				<progress value="0" max="100"></progress>
 				<div className='grid'>
-					<a href={`https://api.intra.42.fr/oauth/authorize?client_id=${import.meta.env.VITE_FT_CLIENT_ID}&redirect_uri=http%3A%2F%2F127.0.0.1%3A5173&response_type=code`} target="_blank" rel="noreferrer">
+					<a href={`https://api.intra.42.fr/oauth/authorize?client_id=${import.meta.env.VITE_FT_CLIENT_ID}&redirect_uri=http%3A%2F%2F${import.meta.env.VITE_URL}%3A5173&response_type=code`} target="_blank" rel="noreferrer">
 						<button style={{ ...buttonStyle, gridColumn: '1' }}>42</button>
 					</a>
 					<button style={{ ...buttonStyle, gridColumn: '2' }}>Google</button>
