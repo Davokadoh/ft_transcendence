@@ -5,7 +5,7 @@
 - https://docs.emmet.io/cheat-sheet/
 - https://quickref.me/vscode
 - https://code.visualstudio.com/docs/editor/vscode-web
-- https://github.com/JoeDog/siege
+- https://locust.io/
 
 ## Ideas
 - Generate QR code to join lobby/game
