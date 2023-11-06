@@ -1,11 +1,11 @@
 # ft_transcendence
 
 ## Ressources / Documentation
-- https://api.intra.42.fr/apidoc/guides/getting_started
-- https://docs.emmet.io/cheat-sheet/
-- https://quickref.me/vscode
-- https://code.visualstudio.com/docs/editor/vscode-web
-- https://locust.io/
+- [API 42](https://api.intra.42.fr/apidoc/guides/getting_started)
+- [emmet](https://docs.emmet.io/cheat-sheet/)
+- [vscode shortcuts](https://quickref.me/vscode)
+- [locust](https://locust.io/)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 
 ## Ideas
 - Generate QR code to join lobby/game
