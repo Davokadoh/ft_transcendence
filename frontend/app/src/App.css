@@ -1,4 +1,4 @@
-/* #root {
+#root {
 	color-scheme: dark light;
 	background-color: black;
 	color: white;
@@ -10,7 +10,7 @@
 }
 
 body {
-	background-color: white;
+	background: linear-gradient(to bottom right,var(--violet), var(--vert));
 	color: black;
 	margin: 0;
 	display: flex;
@@ -22,6 +22,21 @@ body {
 	min-height: 100vh;
 }
 
+header {
+	size: 20px;
+	font-size: 2rem;
+	font-weight: 900;
+}
+
+.container nav_class {
+	size: 20px;
+}
+
+.logoNav {
+	size: 20px;
+	align-items: center;
+}
+/* 
 .card {
 	padding: 2em;
 	background-color: navy;
@@ -34,9 +49,9 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-}
+}*/
 
-button {
+button login {
 	border-radius: 8px;
 	border: 1px solid transparent;
 	margin: 1em;
@@ -44,16 +59,18 @@ button {
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
-	background-color: #1a1a1a;
+	background-color: var(--violet);
 	cursor: pointer;
-	transition: border-color 0.25s;
+	transition: color var(--vert);
+	transition: all 0.5s;
 	justify-content: center;
 	align-items: center;
 	white-space: nowrap;
-}
+	color: var(--vert);
+} 
 
 button:hover {
-	border-color: #646cff;
+	color: var(--violet);
 }
 
 button:focus,
@@ -61,7 +78,7 @@ button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
 	:root {
 		color: #213547;
 		background-color: #ffffff;
@@ -85,4 +102,4 @@ form {
 	grid-gap: 1em;
 	grid-template-columns: repeat(1, 1fr);
 	grid-template-rows: 1.3em 1.3em 1.3em;
-} */
+} */ */

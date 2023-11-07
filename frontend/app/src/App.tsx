@@ -1,28 +1,33 @@
 import React from 'react';
 import { CSSProperties } from 'react';
 import '@picocss/pico'
-import '/src/stylesheet.css'; //font Spoof styles
+import './stylesheet.css'; //font Spoof styles
+import './App.css'; //CSS
 
 const articleStyle: CSSProperties = {
-	width: '50%',
-	height: '50%',
+	width: '40%',
+	height: '43%',
 	position: 'absolute',
 	top: '50%',
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
+	backgroundColor: '#FFFFFF',
+	borderRadius: '30px',
+	// borderRadius: '10px 100px / 120px',
 };
-const navbar: CSSProperties = {
-	float: left,
-	list-style-type: none,
-	margin: 0,
-	padding: 0,
-	overflow: hidden,
-	background-color: #333,
-	position: -webkit-sticky, /* Safari */
-	position: sticky,
-	top: 0,
 
-};
+// const navbar: CSSProperties = {
+// 	float: left,
+// 	list-style-type: none,
+// 	margin: 0,
+// 	padding: 0,
+// 	overflow: hidden,
+// 	background-color: #333,
+// 	position: -webkit-sticky, /* Safari */
+// 	position: sticky,
+// 	top: 0,
+// };
+
 const buttonStyle: CSSProperties = {
 	width: '6rem',
 	margin: 'auto',
@@ -67,7 +72,8 @@ function LoginPage() {
 						autoComplete="current-password"
 						required
 					/>
-					<button type="submit" className="contrast" onClick="event.preventDefault()">Login</button>
+					{/* <button type="submit" className="contrast" onClick="event.preventDefault()">Login</button> */}
+					<button type="submit" className="contrast" onClick={(event) => event.preventDefault()}>Login</button>
 				</form>
 				<progress value="0" max="100"></progress>
 				<div className='grid'>
@@ -101,7 +107,7 @@ export default function App() {
 	const logged = false;
 	return (
 		<div className='container'>
-			{logged ? <HomePage /> : <LoginPage />}
+			<LoginPage/>
 		</div>
 	);
 }
