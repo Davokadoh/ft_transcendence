@@ -9,6 +9,7 @@
 - [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
 - [Django Bootstrap](https://www.w3schools.com/django/django_add_bootstrap5.php)
+- [Django Livereload](https://livereload.readthedocs.io/en/latest/integrations/django.html)
 
 ## Ideas
 - Generate QR code to join lobby/game
