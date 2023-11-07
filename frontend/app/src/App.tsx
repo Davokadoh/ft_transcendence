@@ -11,7 +11,18 @@ const articleStyle: CSSProperties = {
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
 };
+const navbar: CSSProperties = {
+	float: left,
+	list-style-type: none,
+	margin: 0,
+	padding: 0,
+	overflow: hidden,
+	background-color: #333,
+	position: -webkit-sticky, /* Safari */
+	position: sticky,
+	top: 0,
 
+};
 const buttonStyle: CSSProperties = {
 	width: '6rem',
 	margin: 'auto',
