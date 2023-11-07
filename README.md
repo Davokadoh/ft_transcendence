@@ -7,7 +7,8 @@
 - [API 42](https://api.intra.42.fr/apidoc/guides/getting_started)
 - [Django](https://www.djangoproject.com/)
 - [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- [Bootstrap & Django](https://www.w3schools.com/django/django_add_bootstrap5.php)
+- [React Bootstrap](https://react-bootstrap.github.io/)
+- [Django Bootstrap](https://www.w3schools.com/django/django_add_bootstrap5.php)
 
 ## Ideas
 - Generate QR code to join lobby/game
