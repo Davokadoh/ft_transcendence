@@ -51,10 +51,10 @@ header {
 	align-items: center;
 }*/
 
-button login {
+button {
 	border-radius: 8px;
-	border: 1px solid transparent;
-	margin: 1em;
+	border: 3px solid var(--vert);
+	margin: 0em;
 	padding: 1em 1.2em;
 	font-size: 1em;
 	font-weight: 500;
@@ -70,7 +70,12 @@ button login {
 } 
 
 button:hover {
+	background-color: var(--vert);
 	color: var(--violet);
+	border: 3px solid var(--violet);
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
 }
 
 button:focus,
