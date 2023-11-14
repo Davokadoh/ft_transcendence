@@ -29,20 +29,21 @@ class Paddle {
 		this.element.top = this.y;
 		}
 	}
-	getX() {
-		return this.element.left;
-	}
-	
-	getY() {
-		return this.y;
-	}
 
-	getWidth() {
-		return this.element.width;
+		getX(): number {
+			return this.element.left as number;
 		}
 
-		getHeight() {
-		return this.element.height;
+		getY(): number {
+			return this.y;
+		}
+
+		getWidth(): number {
+			return this.element.width as number;
+		}
+
+		getHeight(): number {
+			return this.element.height as number;
 		}
 	}
 
@@ -76,7 +77,7 @@ class Ball {
 		// Faites démarrer la balle du centre en direction d'un côté de l'écran
 		this.x = 5;
 		this.y = 5;
-		this.xSpeed = 1;
+		this.xSpeed = 2;
 		this.ySpeed = 1;
 	
 		// Inversez la direction horizontale aléatoirement
@@ -92,16 +93,33 @@ class Ball {
 	this.element.left = this.x;
 	this.element.top = this.y;
 
-	// Rebondissement sur les bords horizontaux
-	if (this.x <= 0 || this.x >= 10) {
-		this.xSpeed *= -1;
-		}
+	// // Rebondissement sur les bords horizontaux
+	// if (this.x <= 0 || this.x >= 10) {
+	// 	this.xSpeed *= -1;
+	// 	}
 
-		// Rebondissement sur les bords verticaux (haut et bas)
+	// 	// Rebondissement sur les bords verticaux (haut et bas)
+	// 	if (this.y <= 0 || this.y >= 9) {
+	// 	this.ySpeed *= -1;
+	// 	}
+	// }
+
+	// Rebondissement sur les bords horizontaux
+	if (this.x <= 0) {
+		// La balle touche le mur gauche, elle disparait et la manche est perdue
+		// Vous pouvez implémenter la logique appropriée ici, par exemple, réinitialiser la balle
+		this.start();
+	} else if (this.x >= 10) {
+		// La balle touche le mur droit, elle disparait et la manche est perdue
+		// Vous pouvez implémenter la logique appropriée ici, par exemple, réinitialiser la balle
+		this.start();
+	} else {
+		// La balle est dans les limites horizontales, continuez le rebondissement sur les bords verticaux
 		if (this.y <= 0 || this.y >= 9) {
-		this.ySpeed *= -1;
+			this.ySpeed *= -1;
 		}
 	}
+}
 
 
 	checkPaddleCollision(paddle: Paddle) {
