@@ -13,7 +13,7 @@
 ## Ideas
 - Generate QR code to join lobby/game
 - 2vs2 games like a babyfoot
-- 2vs2 games with each 2 sides of a square by team, 1 by teammate
+- 2vs2 games in a square, 1 side = 1 player
 - Funny achievements
 
 ## Achievements
