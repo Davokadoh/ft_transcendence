@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="stylesheet" href="css/pico.min.css">
+  <!-- <link rel="stylesheet" href="css/pico.min.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bootstrap + Vite + TS</title>
   <!-- Inclure le framework bootstrap -->
@@ -14,7 +14,8 @@
 <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.9/dist/full.min.css" rel="stylesheet" type="text/css" />
 <script src="https://cdn.tailwindcss.com"></script>
   <!-- Inclure le fichier CSS -->
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="src/App.css">
+  <link rel="stylesheet" type="text/css" href="src/stylesheet.css">
   <!-- <-- Inclure les fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,57 +23,44 @@
 </head>
 
 <body>
-  <header class="bg-light">
+  <header class="">
     <div class="fluid-container">
-      <div class="bg-secondary py-4">
-      <nav>
-        <a class="navbar-brand" href="#">
+      <div class="bg-violet py-3">
+      <nav class="navbar bg-light">
+        <!-- <a class="navbar-brand" href="#">
           <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
-        </a>
-        <ul>
-          <li class="logo"></li>
-          <li><a class="active" href="#login">LOGIN</a></li>
-          <li><a href="#game">GAME</a></li>
-          <li><a href="#chat">CHAT</a></li>
-          <li><a href="#profil">PROFIL</a></li>
-        </ul>
+        </a> -->
+        <div class="ulLiA">
+          <ul>
+            <li class="logo">
+              <a class="logoLink" href="#">
+                <img class ="h-12" src="./src/img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
+              </a>
+            </li>
+          </ul>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">LOGIN</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#game">GAME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#chat">CHAT</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#profil">PROFIL</a>
+            </li>
+          </ul>
       </nav>
+      <hr>
     </div>
   </div>
-    <!-- <div classe="navbar">
-      <style>
-        ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-        }
-        li {
-          display: inline;
-        }
-        </style>
-      <img id="headerImg" src="./img/Pong-Chos_LOGO.png" alt="logo des pong-chos">
-      <nav id="logoNav">
-        <ul>
-          <li class="logoNav" 50%></li>
-        </ul>
-      </nav> -->
     <div class="container">
     </div>
   </header>
-  <!-- parametre de la navbarre stop>-->
+  
   <main>
-    <div id="root"></div>
-    <div class="button"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-1">
-          Première colonne
-        </div>
-        <div class="col-5">
-          Deuxième colonne
-        </div>
-      </div>
-    </div>
   </main>
   <script type="module" src="/src/main.tsx"></script>
   <!-- Bootstrap JS bundle -->

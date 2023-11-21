@@ -24,12 +24,12 @@
 
 @font-face {
 	font-family: 'Spoof';
-	src: url('/app/src/fonts/Spoof/Spoof-Light.eot');
+	src: url('./app/src/fonts/Spoof/Spoof-Light.eot');
 	src: local('Spoof Light'), local('Spoof-Light'),
-		url('/app/src/fonts/Spoof/Spoof-Light.eot?#iefix') format('embedded-opentype'),
-		url('/app/src/fonts/Spoof/Spoof-Light.woff2') format('woff2'),
-		url('/app/src/fonts/Spoof/Spoof-Light.woff') format('woff'),
-		url('/app/src/fonts/Spoof/Spoof-Light.ttf') format('truetype');
+		url('./app/src/fonts/Spoof/Spoof-Light.eot?#iefix') format('embedded-opentype'),
+		url('./app/src/fonts/Spoof/Spoof-Light.woff2') format('woff2'),
+		url('./app/src/fonts/Spoof/Spoof-Light.woff') format('woff'),
+		url('./app/src/fonts/Spoof/Spoof-Light.ttf') format('truetype');
 	font-weight: 300;
 	font-style: normal;
 }
@@ -68,6 +68,11 @@
 		url('/app/src/fonts/Spoof/Spoof-Black.ttf') format('truetype');
 	font-weight: 900;
 	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Titan One';
+	src: url(https://fonts.google.com/specimen/Titan+One);
 }
 
 .spoof-bold-button {
