@@ -1,29 +1,103 @@
-/* navbar*/
+#root {
+	color-scheme: dark light;
+	/* background-color: black; */
+	color: white;
+	font-family: 'Spoof', sans-serif;
+	font-family: 'Titan One', cursive;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 2rem;
+	text-align: center;
+}
 
-ul {
-	list-style-type: none;
+body {
+	/* background: linear-gradient(to bottom right,var(--violet), var(--vert)); */
+	/* color: black; */
 	margin: 0;
-	padding: 0;
-	overflow: hidden;
+	/* display: flex */
+	place-items: center;
+	justify-content: center;
+	align-items: center;
+	vertical-align: middle;
+	/* min-height: 100vh; */
+}
+
+header {
+	size: 20px;
+	font-size: 2rem;
+	font-weight: 900;
 	background-color: white;
 }
 
-li {
-	display: inline-block; /* Remplace float: left; */
-	border-right: 1px solid #bbb;
+.navColor {
+	background-color: white;
 }
 
-li:last-child {
-	border-right: none;
-}
-
-li a {
-	display: block;
+.bg-violet {
+	background-color: #9016B2;
 	color: #9016B2;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
+	font-family: 'Spoof', sans-serif;
 }
+
+/* .test {
+	background-color: violet;
+	navbar-bg: #ffffff;
+} */
+
+/* .bg-secondary.py-4 {
+	background-color: violet;
+} */
+
+/* .container nav_class {
+	size: 20px;
+	color: violet;
+} */
+
+/* .nav-pills.navbar-right {
+	list-style-type:none;
+	margin: 0px;
+	padding: 0px;
+} */
+
+
+/* .ulLiA {
+	display:block;
+	float:left;
+	width:100px;
+	background-color:#6495ED;
+	color:black;
+	text-decoration:none;
+	text-align:center;
+	padding:5px;
+	border:2px solid;
+	/*pour avoir un effet "outset" avec IE :*/
+	/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
+/* } */ */
+
+/* .logo {
+	padding-top: 25px;
+	padding-left: 50px;
+} */
+
+/* .mli {
+	margin-left: 2px;
+	float: left;
+} */
+
+/*
+.card {
+	padding: 2em;
+	background-color: navy;
+	width: 32vw;
+	height: 42vh;
+	border-radius: 42px;
+	position: absolute;
+	transform: 'translate(-50%, -50%)';
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}*/
 
 .logo {
 	background: url('Pong-Chos_LOGO.png') no-repeat;
@@ -36,10 +110,33 @@ li a {
 	margin-right: 20px; /* Ajoute une marge à droite pour l'espace entre le logo et la barre de navigation */
 }
 
-li a:hover:not(.active) {
-	background-color: white;
+.degrade-horizontal {
+	background: linear-gradient(to right, blue, pink);
 }
 
-.active {
-	background-color: white;
+/* @media (prefers-color-scheme: light) {
+	:root {
+		color: #213547;
+		background-color: #ffffff;
+	}
+
+	a:hover {
+		color: #747bff;
+	}
+
+	button {
+		background-color: #f9f9f9;
+	}
 }
+
+form {
+	position: relative;
+	margin: 0 auto;
+	padding: 1em;
+	box-sizing: border-box;
+	display: grid;
+	grid-gap: 1em;
+	grid-template-columns: repeat(1, 1fr);
+	grid-template-rows: 1.3em 1.3em 1.3em;
+} */ */
+

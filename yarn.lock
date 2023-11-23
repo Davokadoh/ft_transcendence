@@ -2167,6 +2167,14 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+css-selector-tokenizer@^0.8:
+  version "0.8.0"
+  resolved "https://registry.npmjs.org/css-selector-tokenizer/-/css-selector-tokenizer-0.8.0.tgz"
+  integrity sha512-Jd6Ig3/pe62/qe5SBPTN8h8LeUg/pT4lLgtavPf7updwwHpvFzxvOQBHYj2LZDMjUnBzgvIUSjRcf6oT5HzHFg==
+  dependencies:
+    cssesc "^3.0.0"
+    fastparse "^1.1.2"
+
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz"
@@ -2177,10 +2185,20 @@ csstype@^3.0.2, csstype@^3.1.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-culori@^3.2.0:
+culori@^3, culori@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/culori/-/culori-3.2.0.tgz"
   integrity sha512-HIEbTSP7vs1mPq/2P9In6QyFE0Tkpevh0k9a+FkjhD+cwsYm9WRSbn4uMdW9O0yXlNYC3ppxL3gWWPOcvEl57w==
+
+daisyui@^4.0.9:
+  version "4.0.9"
+  resolved "https://registry.npmjs.org/daisyui/-/daisyui-4.0.9.tgz"
+  integrity sha512-x9E1UL/gF4ZWOAJaMKOw3Ji9WmNZA0Tok/knRzzJWu9KJu+7kOHREqlhpvnP9Qz/4EOTu0ep9akquQnbeldYYQ==
+  dependencies:
+    css-selector-tokenizer "^0.8"
+    culori "^3"
+    picocolors "^1"
+    postcss-js "^4"
 
 deepmerge@4.3.1:
   version "4.3.1"
@@ -2265,6 +2283,11 @@ fast-glob@^3.3.0:
     glob-parent "^5.1.2"
     merge2 "^1.3.0"
     micromatch "^4.0.4"
+
+fastparse@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/fastparse/-/fastparse-1.1.2.tgz"
+  integrity sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==
 
 fastq@^1.6.0:
   version "1.15.0"
@@ -2597,7 +2620,7 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-picocolors@^1.0.0:
+picocolors@^1, picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
@@ -2626,7 +2649,7 @@ postcss-import@^15.1.0:
     read-cache "^1.0.0"
     resolve "^1.1.7"
 
-postcss-js@^4.0.1:
+postcss-js@^4, postcss-js@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/postcss-js/-/postcss-js-4.0.1.tgz"
   integrity sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==
