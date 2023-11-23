@@ -1,110 +1,45 @@
-#root {
-	color-scheme: dark light;
-	background-color: black;
-	color: white;
-	font-family: Helvetica;
-	max-width: 1280px;
-	margin: 0 auto;
-	padding: 2rem;
-	text-align: center;
-}
+/* navbar*/
 
-body {
-	background: linear-gradient(to bottom right,var(--violet), var(--vert));
-	color: black;
+ul {
+	list-style-type: none;
 	margin: 0;
-	display: flex;
-	place-items: center;
-	justify-content: center;
-	align-items: center;
-	vertical-align: middle;
-
-	min-height: 100vh;
+	padding: 0;
+	overflow: hidden;
+	background-color: white;
 }
 
-header {
-	size: 20px;
-	font-size: 2rem;
-	font-weight: 900;
+li {
+	display: inline-block; /* Remplace float: left; */
+	border-right: 1px solid #bbb;
 }
 
-.container nav_class {
-	size: 20px;
+li:last-child {
+	border-right: none;
 }
 
-.logoNav {
-	size: 20px;
-	align-items: center;
-}
-/* 
-.card {
-	padding: 2em;
-	background-color: navy;
-	width: 32vw;
-	height: 42vh;
-	border-radius: 42px;
-	position: absolute;
-	transform: 'translate(-50%, -50%)';
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}*/
-
-button {
-	border-radius: 8px;
-	border: 3px solid var(--vert);
-	margin: 0em;
-	padding: 1em 1.2em;
-	font-size: 1em;
-	font-weight: 500;
-	font-family: inherit;
-	background-color: var(--violet);
-	cursor: pointer;
-	transition: color var(--vert);
-	transition: all 0.5s;
-	justify-content: center;
-	align-items: center;
-	white-space: nowrap;
-	color: var(--vert);
-} 
-
-button:hover {
-	background-color: var(--vert);
-	color: var(--violet);
-	border: 3px solid var(--violet);
-	font-size: 1em;
-	font-weight: 500;
-	font-family: inherit;
+li a {
+	display: block;
+	color: #9016B2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
 }
 
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
+.logo {
+	background: url('Pong-Chos_LOGO.png') no-repeat;
+	background-size: contain;
+	width: 64px; /* Ajustez la largeur selon vos besoins */
+	height: 64px; /* Ajustez la hauteur selon vos besoins */
 }
 
-/* @media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-
-	a:hover {
-		color: #747bff;
-	}
-
-	button {
-		background-color: #f9f9f9;
-	}
+.logo-container {
+	margin-right: 20px; /* Ajoute une marge à droite pour l'espace entre le logo et la barre de navigation */
 }
 
-form {
-	position: relative;
-	margin: 0 auto;
-	padding: 1em;
-	box-sizing: border-box;
-	display: grid;
-	grid-gap: 1em;
-	grid-template-columns: repeat(1, 1fr);
-	grid-template-rows: 1.3em 1.3em 1.3em;
-} */ */
+li a:hover:not(.active) {
+	background-color: white;
+}
+
+.active {
+	background-color: white;
+}
