@@ -54,6 +54,23 @@ header {
 	margin-right: 50px; /* Ajoutez une marge à droite pour créer un espace entre les éléments */
 }
 
+/* Style de base des liens du menu */
+.ulLiA a {
+    color: #9016B2; /* Couleur de base */
+    text-decoration: none; /* Supprime la soulignement des liens */
+    transition: color 0.3s; /* Ajoute une transition de couleur */
+}
+
+/* Style au survol */
+.ulLiA a:hover {
+    color: #87d300; /* Couleur au survol */
+}
+
+/* Style au clic */
+.ulLiA a:active {
+    color: grey; /* Couleur lors du clic */
+}
+
 .logo {
 	/* background: url('Pong-Chos_LOGO.png') no-repeat; */
 	/* background-size: contain; */

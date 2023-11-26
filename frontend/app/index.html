@@ -17,6 +17,8 @@
   <!-- Inclure le framework daisyui tailwind -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.9/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inclure le framework JQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Inclure le fichier CSS -->
   <link rel="stylesheet" type="text/css" href="src/App.css">
   <link rel="stylesheet" type="text/css" href="src/stylesheet.css">
@@ -28,21 +30,13 @@
 
 <body>
   <header class="">
-    <div class="fluid-container">
-      <div class="bg-violet py-3">
-      <nav class="navbar bg-light">
+      <div class="lineUnderNav">
+      <nav class="navbar justify-content-center fluid-container">
         <!-- <a class="navbar-brand" href="#">
           <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
         </a> -->
         <div class="ulLiA">
-          <ul>
-            <li class="logo">
-              <a class="logoLink" href="#">
-                <img class ="h-12" src="./src/img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
-              </a>
-            </li>
-          </ul>
-          <div class="navAlignCenter">
+          <!-- <div class="navAlignCenter">
               <ul class="nav justify-content-center mx-auto text-center">
                 <li class="nav-item">
                   <a class="nav-link active" href="#">LOGIN</a>
@@ -57,9 +51,27 @@
                   <a class="nav-link disabled" href="#profil">PROFIL</a>
                 </li>
               </ul>
-          </div>
+          </div> -->
+  <!-- Barre de navigation -->
+  <div class="container d-flex justify-content-center">
+    <div class="logo-container">
+      <!-- <a class="logoLink" href="#"> -->
+        <div class="logo">
+          <img src="./src/img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
+        <!-- </a> -->
+      </div>
+    </div>
+
+  </div>
+  <div id="navbar">
+    <ul class="nav justify-content-center mx-auto text-center">
+      <li><a href="#" onclick="loadPage('game')">GAME</a></li>
+      <li><a href="#" onclick="loadPage('chat')">CHAT</a></li>
+      <li><a href="#" onclick="loadPage('profil')">PROFIL</a></li>
+    </ul>
+  </div>
       </nav>
-      <hr>
+      <!-- <hr> -->
     </div>
     <div class="container">
       <div class="login-container">
@@ -70,8 +82,26 @@
               <button type="submit" class="btn bg-vert">Connexion</button>
           </form>
       </div>
-  </div>
   </header>
+
+  <!-- SCRIPT AJAX -->
+  <!-- Liens vers les fichiers JavaScript -->
+  <script src="./src/main.js">
+    // Fonction pour charger les pages de manière asynchrone
+    function loadPage(page) {
+      $.ajax({
+        url: page + '.html', // Supposons que vos pages aient des noms comme "game.html", "chat.html", etc.
+        method: 'GET',
+        dataType: 'html',
+        success: function(data) {
+          $('#content').html(data);
+        },
+        error: function(error) {
+          console.error('Erreur lors du chargement de la page :', error);
+        }
+      });
+    }
+  </script>
 
   <main>
   </main>
