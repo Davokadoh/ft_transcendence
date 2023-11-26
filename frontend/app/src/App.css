@@ -1,6 +1,5 @@
 #root {
-	color-scheme: dark light;
-	/* background-color: black; */
+	/* color-scheme: dark light; */
 	color: white;
 	font-family: 'Spoof', sans-serif;
 	font-family: 'Titan One', cursive;
@@ -13,13 +12,14 @@
 body {
 	/* background: linear-gradient(to bottom right,var(--violet), var(--vert)); */
 	/* color: black; */
+	background-color: white;
 	margin: 0;
 	/* display: flex */
 	place-items: center;
 	justify-content: center;
 	align-items: center;
 	vertical-align: middle;
-	/* min-height: 100vh; */
+	min-height: 100vh;
 }
 
 header {
@@ -33,86 +33,61 @@ header {
 	background-color: white;
 }
 
-.bg-violet {
-	background-color: #9016B2;
-	color: #9016B2;
-	font-family: 'Spoof', sans-serif;
-}
-
-/* .test {
-	background-color: violet;
-	navbar-bg: #ffffff;
-} */
-
-/* .bg-secondary.py-4 {
-	background-color: violet;
-} */
-
-/* .container nav_class {
-	size: 20px;
-	color: violet;
-} */
-
-/* .nav-pills.navbar-right {
-	list-style-type:none;
-	margin: 0px;
-	padding: 0px;
-} */
-
-
-/* .ulLiA {
-	display:block;
-	float:left;
-	width:100px;
-	background-color:#6495ED;
-	color:black;
-	text-decoration:none;
-	text-align:center;
-	padding:5px;
-	border:2px solid;
+.ulLiA {
+	font-size: 20px;
+	display:inline-block;
+	justify-content:center;
+	align-items: center;
+	/* float: right; */
+	/* width:100px; */
+	/* background-color:#6495ED; */
+	color: var(--violet);
+	/* text-decoration:none; */
+	/* text-align:center; */
+	padding:3px;
+	/* border:2px solid; */
 	/*pour avoir un effet "outset" avec IE :*/
 	/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
-/* } */ */
+}
 
-/* .logo {
-	padding-top: 25px;
-	padding-left: 50px;
-} */
-
-/* .mli {
-	margin-left: 2px;
-	float: left;
-} */
-
-/*
-.card {
-	padding: 2em;
-	background-color: navy;
-	width: 32vw;
-	height: 42vh;
-	border-radius: 42px;
-	position: absolute;
-	transform: 'translate(-50%, -50%)';
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}*/
+.ulLiA li {
+	margin-right: 50px; /* Ajoutez une marge à droite pour créer un espace entre les éléments */
+}
 
 .logo {
-	background: url('Pong-Chos_LOGO.png') no-repeat;
-	background-size: contain;
-	width: 64px; /* Ajustez la largeur selon vos besoins */
-	height: 64px; /* Ajustez la hauteur selon vos besoins */
+	/* background: url('Pong-Chos_LOGO.png') no-repeat; */
+	/* background-size: contain; */
+	width: 64px; /* Ajustez la largeur selon besoins */
+	height: 64px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 10px; /* Ajustez la marge selon vos besoins */
 }
 
 .logo-container {
-	margin-right: 20px; /* Ajoute une marge à droite pour l'espace entre le logo et la barre de navigation */
+	margin-right: 50px; /* Ajoute une marge à droite pour l'espace entre le logo et la barre de navigation */
 }
 
 .degrade-horizontal {
-	background: linear-gradient(to right, blue, pink);
+	background: linear-gradient(to bottom, var(--violet), white, var(--vert));
 }
+
+.lineUnderNav {
+	border-bottom: 2px solid #9016B2; /* Ajoutez 'solid' pour spécifier un type de bordure */
+}
+
+.bg-violet {
+    background-color: #9016B2;
+    color: #9016B2;
+    font-family: 'Spoof', sans-serif;
+	}
+
+.bg-vert {
+    background-color: #9016B2;
+    color: #87d300;
+    font-family: 'Spoof', sans-serif;
+	}
 
 /* @media (prefers-color-scheme: light) {
 	:root {
@@ -154,42 +129,30 @@ form {
     font-size: 40px;
     margin: 16% auto;
     text-align: center;
-        /* Style du bouton normal */
-        button {
-            border: 2px solid #ffffff; /* Bordure blanche */
-            background-color: #87d300; /* Fond vert */
-            color: #9016B2; /* Texte violet */
-            transition: all 0.3s; /* Transition douce pour le survol et le clic */
-            font-family: 'Titan One', sans-serif;
-            font-size: 20px;
-        }
+}
 
-        /* Style du bouton survolé */
-        button:hover {
-            color: #ffffff; /* Texte blanc au survol */
-            background-color: #87d300; /* Fond vert au survol */
-        }
+/* Style du bouton normal */
+.login-container button {
+	border: 2px solid #ffffff; /* Bordure blanche */
+	background-color: #87d300; /* Fond vert */
+	color: #9016B2; /* Texte violet */
+	transition: all 0.3s; /* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 20px;
+}
 
-        /* Style du bouton cliqué */
-button:active {
+/* Style du bouton survolé */
+.login-container button:hover {
+	color: #ffffff; /* Texte blanc au survol */
+	background-color: #87d300; /* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.login-container button:active {
 	background-color: #87d300; /* Fond vert au clic */
 	color: #9016B2; /* Texte violet au clic */
 	border: none; /* Pas de bordure au clic */
-	/* border: 2px solid transparent; Bordure transparente au clic */
-	}
-}
-.navColor {
-    background-color: white;
+/* border: 2px solid transparent; Bordure transparente au clic */
 }
 
-.bg-violet {
-    background-color: #9016B2;
-    color: #9016B2;
-    font-family: 'Spoof', sans-serif;
-}
-
-.bg-vert {
-    background-color: #9016B2;
-    color: #87d300;
-    font-family: 'Spoof', sans-serif;
-}
