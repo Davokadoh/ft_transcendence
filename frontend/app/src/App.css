@@ -197,39 +197,63 @@ footer {
 
 /* Bouton Jour/Nuit */
 .toggle-container {
-position: fixed;
-top: 20px;
-right: 20px;
-display: flex;
-align-items: center;
-z-index: 1000;
-}
-
-#toggle-switch {
-display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
 }
 
 .toggle-label {
-background-color: #ccc;
-border-radius: 20px;
-cursor: pointer;
-display: block;
-height: 20px;
-position: relative;
-width: 40px;
+    background: transparent;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.icon-container {
+    flex: 1;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.separator {
+    width: 2px;
+    height: 30px; /* Ajustez la hauteur selon vos besoins */
+    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilisez vos couleurs de dégradé */
+}
+
+#toggle-switch {
+    display: none;
 }
 
 #toggle-switch:checked + .toggle-label {
-background-color: black; /* Couleur pour le mode nuit */
+    background: black; /* Couleur pour le mode nuit */
 }
 
-#toggle-switch:checked + .toggle-label::before {
-	content: 'Nuit'; /* mettre un item */
-	color: #fff;
-	font-size: 14px;
-	position: absolute;
-	right: -35px;
+#toggle-switch:checked + .toggle-label .separator {
+    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilisez vos couleurs de dégradé */
 }
+
+/* Ajoutez le style que vous souhaitez pour les icônes */
+.icon-container img {
+    width: 30px; /* Ajustez la taille selon vos besoins */
+    height: 30px;
+    filter: grayscale(100%); /* Pour l'icône en noir et blanc */
+}
+
+/* Styles pour le mode nuit */
+body.night-mode .toggle-container {
+    color: white; /* Couleur du texte en mode nuit */
+}
+
+body.night-mode .toggle-label {
+    border: 2px solid white; /* Bordure en mode nuit */
+}
+
 
 /* NIGHT MODE */
 
