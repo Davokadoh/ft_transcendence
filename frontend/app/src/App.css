@@ -172,3 +172,28 @@ form {
 	border: none; /* Pas de bordure au clic */
 /* border: 2px solid transparent; Bordure transparente au clic */
 }
+
+/* Style du bouton normal */
+.login-container button {
+	border: 2px solid #ffffff; /* Bordure blanche */
+	background-color: #87d300; /* Fond vert */
+	color: #9016B2; /* Texte violet */
+	transition: all 0.3s; /* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 20px;
+}
+
+/* Style du bouton survolé */
+.login-container button:hover {
+	color: #ffffff; /* Texte blanc au survol */
+	background-color: #87d300; /* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.login-container button:active {
+	background-color: #87d300; /* Fond vert au clic */
+	color: #9016B2; /* Texte violet au clic */
+	border: none; /* Pas de bordure au clic */
+/* border: 2px solid transparent; Bordure transparente au clic */
+}

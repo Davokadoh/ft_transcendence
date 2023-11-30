@@ -4,16 +4,28 @@
 // import './stylesheet.css'; //font Spoof styles
 // import './App.css'; //CSS
 
-// const articleStyle: CSSProperties = {
-// 	width: '40%',
-// 	height: '43%',
-// 	position: 'absolute',
-// 	top: '50%',
-// 	left: '50%',
-// 	transform: 'translate(-50%, -50%)',
-// 	backgroundColor: '#FFFFFF',
-// 	borderRadius: '30px',
-// 	// borderRadius: '10px 100px / 120px',
+const articleStyle: CSSProperties = {
+	width: '40%',
+	height: '43%',
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	backgroundColor: '#FFFFFF',
+	borderRadius: '30px',
+	// borderRadius: '10px 100px / 120px',
+};
+
+// const navbar: CSSProperties = {
+// 	float: left,
+// 	list-style-type: none,
+// 	margin: 0,
+// 	padding: 0,
+// 	overflow: hidden,
+// 	background-color: #333,
+// 	position: -webkit-sticky, /* Safari */
+// 	position: sticky,
+// 	top: 0,
 // };
 
 // // const navbar: CSSProperties = {
@@ -28,11 +40,11 @@
 // // 	top: 0,
 // // };
 
-// const buttonStyle: CSSProperties = {
-// 	width: '6rem',
-// 	margin: 'auto',
-// 	color: '#9016B2' //violet
-// };
+const titanOneFontStyles: CSSProperties = {
+	fontFamily: 'Titan One, cursive', // Use 'Titan One' font
+	fontWeight: 'normal', // Make it regular (not bold)
+	color: 'var(--vert)', // #87D300 variable dans index.html
+};
 
 // const titanOneFontStyles: CSSProperties = {
 // 	fontFamily: 'Titan One, cursive', // Use 'Titan One' font
@@ -111,17 +123,3 @@
 // 		</div>
 // 	);
 // }
-
-// // function Spoof() {
-// // 	return (
-// // 		<div style={spoofBoldFontStyle}>
-// // 			<p>This text uses your custom font.</p>
-// // 		</div>
-// // 	);
-// // }
-
-import '@picocss/pico'
-import './stylesheet.css'; //font Spoof styles
-import './App.css'; //CSS
-// Import all of Bootstrap's JS
-import * as bootstrap from 'bootstrap'
