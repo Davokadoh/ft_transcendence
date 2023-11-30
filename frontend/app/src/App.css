@@ -14,7 +14,7 @@ body {
 	/* color: black; */
 	background-color: white;
 	margin: 0;
-	/* display: flex */
+	/* display: flex; */
 	place-items: center;
 	justify-content: center;
 	align-items: center;
@@ -29,9 +29,11 @@ header {
 	background-color: white;
 }
 
+
 .navColor {
 	background-color: white;
 }
+
 
 .ulLiA {
 	font-size: 20px;
@@ -51,7 +53,8 @@ header {
 }
 
 .ulLiA li {
-	margin-right: 50px; /* Ajoutez une marge à droite pour créer un espace entre les éléments */
+	margin-right: 25px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
+	margin-left: 25px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
 }
 
 /* Style de base des liens du menu */
@@ -76,14 +79,10 @@ header {
 	/* background-size: contain; */
 	width: 100px; /* Ajustez la largeur selon besoins */
 	height: 100px;
-	display: flex;
+	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 10px; /* Ajustez la marge selon vos besoins */
-}
-
-.logo-container {
-	margin-right: 50px; /* Ajoute une marge à droite pour l'espace entre le logo et la barre de navigation */
+	margin-bottom: 10px; /* espace entre logo et textes du menu */
 }
 
 .degrade-horizontal {
@@ -91,7 +90,17 @@ header {
 }
 
 .lineUnderNav {
-	border-bottom: 2px solid #9016B2; /* Ajoutez 'solid' pour spécifier un type de bordure */
+    position: relative;
+}
+
+.lineUnderNav::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px; /* ou la taille que vous souhaitez pour votre bordure */
+    background-image: var(--degrade-color); /* Remplacez les couleurs par celles de votre dégradé */
 }
 
 .bg-violet {

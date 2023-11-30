@@ -95,4 +95,5 @@
 	--vert: #87D300; /* Définition de la variable --vert avec la couleur verte */
 	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */  
 	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */  
+	--degrade-color: linear-gradient(to left, var(--vert), var(--bleu), #9016B2); /* Définition de la variable --degrade-couleur avec un dégradé de couleur */
 }
