@@ -23,17 +23,15 @@ body {
 }
 
 header {
-	size: 20px;
+	/* size: 20px; */
 	font-size: 2rem;
 	font-weight: 900;
 	background-color: white;
 }
 
-
 .navColor {
 	background-color: white;
 }
-
 
 .ulLiA {
 	font-size: 20px;
@@ -74,11 +72,14 @@ header {
     color: grey; /* Couleur lors du clic */
 }
 
+.logo-container {
+	margin-bottom: 7px;
+	text-align: center; /* Centre le contenu du conteneur */
+}
+
 .logo {
-	/* background: url('Pong-Chos_LOGO.png') no-repeat; */
-	/* background-size: contain; */
-	width: 100px; /* Ajustez la largeur selon besoins */
-	height: 100px;
+	width: 100px; /* Ajuster la largeur selon besoins */
+	height: auto;
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
@@ -115,46 +116,23 @@ header {
     font-family: 'Spoof', sans-serif;
 	}
 
-/* @media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-
-	a:hover {
-		color: #747bff;
-	}
-
-	button {
-		background-color: #f9f9f9;
-	}
-}
-
-form {
-	position: relative;
-	margin: 0 auto;
-	padding: 1em;
-	box-sizing: border-box;
-	display: grid;
-	grid-gap: 1em;
-	grid-template-columns: repeat(1, 1fr);
-	grid-template-rows: 1.3em 1.3em 1.3em;
-} */
-
 .login-container {
     border-radius: 30px;
     background-color: #9016B2;
-    padding: 40px;
+    padding: 60px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto; /* Centrer le rectangle horizontalement */
     max-width: 400px; /* Limiter la largeur pour une meilleure lisibilité */
-    height: 250px;
-    margin-top: 20px;
+    height: 250px; /* Hauteur du rectangle */
     font-family: 'Titan One', sans-serif;
     color: #87d300;
-    font-size: 40px;
-    margin: 13% auto;
+    margin: 20% auto; /*distance du login par rapport au header */
     text-align: center;
+}
+
+.login-container h1 {
+	font-size: 50px;
+	margin-bottom: 7px;
 }
 
 /* Style du bouton normal */
@@ -165,6 +143,7 @@ form {
 	transition: all 0.3s; /* Transition douce pour le survol et le clic */
 	font-family: 'Titan One', sans-serif;
 	font-size: 20px;
+	margin-top: 7px;
 }
 
 /* Style du bouton survolé */
@@ -182,3 +161,170 @@ form {
 /* border: 2px solid transparent; Bordure transparente au clic */
 }
 
+
+/* FOOTER */
+footer {
+    background-color: var(--vert); /* Couleur de fond du pied de page */
+    padding: 20px 0; /* Ajoutez un espace intérieur pour le contenu */
+	color: white;
+	position: fixed; /* Position fixe pour rester en bas même en faisant défiler */
+    bottom: 0; /* Alignez-le en bas de la fenêtre */
+    width: 100%; /* Occupe toute la largeur de la fenêtre */
+}
+
+.container {
+    max-width: 1200px; /* Limitez la largeur pour un meilleur rendu sur des écrans plus larges */
+    margin: 0 auto; /* Centrez le contenu du pied de page */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Placez le contenu à gauche et à droite */
+}
+
+.left-content,
+.right-content {
+    width: 48%; /* Donnez une largeur à chaque côté */
+}
+
+/* Ajoutez des styles supplémentaires selon vos besoins */
+
+/* Bouton Jour/Nuit */
+.toggle-container {
+position: fixed;
+top: 20px;
+right: 20px;
+display: flex;
+align-items: center;
+z-index: 1000;
+}
+
+#toggle-switch {
+display: none;
+}
+
+.toggle-label {
+background-color: #ccc;
+border-radius: 20px;
+cursor: pointer;
+display: block;
+height: 20px;
+position: relative;
+width: 40px;
+}
+
+#toggle-switch:checked + .toggle-label {
+background-color: black; /* Couleur pour le mode nuit */
+}
+
+#toggle-switch:checked + .toggle-label::before {
+	content: 'Nuit'; /* mettre un item */
+	color: #fff;
+	font-size: 14px;
+	position: absolute;
+	right: -35px;
+}
+
+/* NIGHT MODE */
+/* Styles pour le mode nuit */
+body {
+	background-color: white;
+	color: black;
+}
+
+/* Styles spécifiques pour la navbar en mode nuit */
+body.night-mode .navbar {
+	background-color: #ffffff;
+	color: black
+}
+
+body.night-mode .light-mode-image  {
+	filter: grayscale(100%);
+}
+
+body.night-mode .lineUnderNav {
+	background-image: black;
+}
+
+/* Styles spécifiques pour le login-container en mode nuit */
+body.night-mode .login-container {
+	background-color: #222;
+	color: #fff;
+}
+
+body.night-mode.degrade-horizontal {
+	background-color: black;
+}
+
+/* ULIA NIGHT MODE */
+body.night-mode.ulLiA {
+	color: black;
+}
+
+body.night-mode.ulLiA a {
+	color: black;
+}
+
+body.night-mode.ulLiA a:hover {
+	color: black;
+}
+
+body.night-mode.login-container {
+	background-color: black;
+	color: white;
+
+}
+
+/* COULEURS NIGHT MODE */
+body.night-mode.bg-vert {
+	background-color: black;
+	color: white;
+}
+
+body.night-mode.bg-violet {
+	background-color: black;
+	color: white;
+}
+
+/* BOUTONS NIGHT MODE */
+/* Style du bouton normal */
+body.night-mode.login-container button {
+	border: 2px solid #ffffff; /* Bordure blanche */
+	background-color: black; /* Fond noir */
+	color: white; /* Texte blanc */
+}
+
+/* Style du bouton survolé */
+body.night-mode.login-container button:hover {
+	color: #ffffff; /* Texte blanc au survol */
+	background-color: black; /* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+body.night-mode.login-container button:active {
+	background-color: black; /* Fond noir au clic */
+	color: white; /* Texte blanc au clic */
+}
+
+/* FOOTER NIGHT MODE */
+footer.night-mode {
+	background-color: black;
+	color: white;
+	filter: grayscale(100%);
+}
+
+
+/* STYLE POUR LE BUREAU EN MODE SOMBRE OU CLAIR */
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color : #1c1c1e ;
+		color : #fefefe ;
+		}
+	a {
+	color : #5fa9ee ;
+	}
+	.navbar {
+	background-color:#1c1c1e;
+	}
+}
