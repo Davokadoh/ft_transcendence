@@ -34,7 +34,7 @@ header {
 }
 
 .ulLiA {
-	font-size: 20px;
+	font-size: 35px;
 	display:inline-block;
 	justify-content:center;
 	align-items: center;
@@ -62,6 +62,11 @@ header {
     transition: color 0.3s; /* Ajoute une transition de couleur */
 }
 
+.sep {
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
+
 /* Style au survol */
 .ulLiA a:hover {
     color: #87d300; /* Couleur au survol */
@@ -78,12 +83,13 @@ header {
 }
 
 .logo {
-	width: 100px; /* Ajuster la largeur selon besoins */
+	width: 120px; /* Ajuster la largeur selon besoins */
 	height: auto;
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 10px; /* espace entre logo et textes du menu */
+	margin-top: 5px;
+	margin-bottom: 5px; /* espace entre logo et textes du menu */
 }
 
 .degrade-horizontal {
@@ -226,14 +232,23 @@ background-color: black; /* Couleur pour le mode nuit */
 }
 
 /* NIGHT MODE */
+
 /* Styles pour le mode nuit */
 body {
 	background-color: white;
 	color: black;
 }
 
+body.night-mode .navbar{
+	color: black;
+}
+
+body.night-mode .sep{
+	color: black;
+}
+
 /* Styles spécifiques pour la navbar en mode nuit */
-body.night-mode .navbar {
+body.night-mode .navbar .ulLiA a {
 	background-color: #ffffff;
 	color: black
 }
@@ -242,8 +257,9 @@ body.night-mode .light-mode-image  {
 	filter: grayscale(100%);
 }
 
-body.night-mode .lineUnderNav {
-	background-image: black;
+body.night-mode .lineUnderNav::after {
+    background-image: none;
+	background-color: black;
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */
@@ -257,19 +273,19 @@ body.night-mode.degrade-horizontal {
 }
 
 /* ULIA NIGHT MODE */
-body.night-mode.ulLiA {
+body.night-mode .ulLiA {
 	color: black;
 }
 
-body.night-mode.ulLiA a {
+body.night-mode .ulLiA a {
 	color: black;
 }
 
-body.night-mode.ulLiA a:hover {
-	color: black;
+body.night-mode .ulLiA a:hover {
+	color: rgb(85, 84, 84);
 }
 
-body.night-mode.login-container {
+body.night-mode .login-container {
 	background-color: black;
 	color: white;
 
@@ -288,30 +304,30 @@ body.night-mode.bg-violet {
 
 /* BOUTONS NIGHT MODE */
 /* Style du bouton normal */
-body.night-mode.login-container button {
+body.night-mode .login-container button {
 	border: 2px solid #ffffff; /* Bordure blanche */
 	background-color: black; /* Fond noir */
 	color: white; /* Texte blanc */
 }
 
 /* Style du bouton survolé */
-body.night-mode.login-container button:hover {
-	color: #ffffff; /* Texte blanc au survol */
-	background-color: black; /* Fond vert au survol */
+body.night-mode .login-container button:hover {
+	color:black; /* Texte blanc au survol */
+	background-color: white; /* Fond noir au survol */
 	border-color: #ffffff;
 }
 
 /* Style du bouton cliqué */
-body.night-mode.login-container button:active {
+body.night-mode .login-container button:active {
 	background-color: black; /* Fond noir au clic */
 	color: white; /* Texte blanc au clic */
+	border: none;
 }
 
 /* FOOTER NIGHT MODE */
-footer.night-mode {
+body.night-mode footer {
 	background-color: black;
 	color: white;
-	filter: grayscale(100%);
 }
 
 
