@@ -1,5 +1,5 @@
 
-@font-face {
+/* @font-face {
 	font-family: 'Spoof';
 	src: local('Spoof Regular'), local('Spoof-Regular'),
 		url('/app/src/fonts/Spoof/Spoof-Regular.eot?#iefix') format('embedded-opentype'),
@@ -8,6 +8,16 @@
 		url('/app/src/fonts/Spoof/Spoof-Regular.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
+} */
+
+@font-face {
+    font-family: 'Spoof';
+    src: url('./app/src/fonts/Spoof/Spoof-Regular.eot') format('embedded-opentype'),
+         url('./app/src/fonts/Spoof/Spoof-Regular.woff2') format('woff2'),
+         url('./app/src/fonts/Spoof/Spoof-Regular.woff') format('woff'),
+         url('./app/src/fonts/Spoof/Spoof-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
@@ -83,6 +93,6 @@
 
 :root {
 	--vert: #87D300; /* Définition de la variable --vert avec la couleur verte */
-	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */  
-	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */  
+	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */
+	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */
 }
