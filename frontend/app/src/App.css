@@ -223,7 +223,7 @@ footer {
 .separator {
     width: 2px;
     height: 30px; /* Ajustez la hauteur selon vos besoins */
-    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilisez vos couleurs de dégradé */
+    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
 }
 
 #toggle-switch {
@@ -235,12 +235,12 @@ footer {
 }
 
 #toggle-switch:checked + .toggle-label .separator {
-    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilisez vos couleurs de dégradé */
+    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
 }
 
-/* Ajoutez le style que vous souhaitez pour les icônes */
+/* Ajoute le style pour les icônes */
 .icon-container img {
-    width: 30px; /* Ajustez la taille selon vos besoins */
+    width: 30px; /* Ajuster la taille selon besoins */
     height: 30px;
     filter: grayscale(100%); /* Pour l'icône en noir et blanc */
 }
@@ -367,4 +367,23 @@ body.night-mode footer {
 	.navbar {
 	background-color:#1c1c1e;
 	}
+	.night-mode .navbar .ulLiA li a {
+		background: none;
+		color: white;
+	}
+	.night-mode .navbar .ulLiA .sep {
+		background: none;
+		color: white;
+	}
+	.night-mode .login-container {
+
+		/* background-color: white; */
+		/* color: black; */
+		border: 3px solid white;
+	}
+	body.night-mode .lineUnderNav::after {
+		background-image: none;
+		background-color: white;
+	}
+	
 }
