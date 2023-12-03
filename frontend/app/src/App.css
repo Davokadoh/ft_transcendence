@@ -15,11 +15,13 @@ body {
 	background-color: white;
 	margin: 0;
 	/* display: flex; */
+	/* flex-direction: column; */
 	place-items: center;
 	justify-content: center;
 	align-items: center;
 	vertical-align: middle;
 	min-height: 100vh;
+	/* overflow-y: auto; */
 }
 
 header {
@@ -128,13 +130,29 @@ header {
     padding: 60px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto; /* Centrer le rectangle horizontalement */
+	display: block;
+	justify-items: center;
+	justify-content: center; /* centrer verticalement ?*/
     max-width: 400px; /* Limiter la largeur pour une meilleure lisibilité */
     height: 250px; /* Hauteur du rectangle */
     font-family: 'Titan One', sans-serif;
     color: #87d300;
-    margin: 20% auto; /*distance du login par rapport au header */
+    margin: 14% auto; /*distance du login par rapport au header */
     text-align: center;
 }
+
+/* media queries pour ajuster le style en fonction de la taille de l'écran si besoin*/
+/* @media (max-width: 600px) {
+    .login-container {
+        padding: 15%;
+    }
+}
+
+@media (max-width: 400px) {
+    .login-container {
+        padding: 20%;
+    }
+} */
 
 .login-container h1 {
 	font-size: 50px;
@@ -380,10 +398,10 @@ body.night-mode footer {
 		/* background-color: white; */
 		/* color: black; */
 		border: 3px solid white;
-	}
+	} 
 	body.night-mode .lineUnderNav::after {
 		background-image: none;
-		background-color: white;
+		background-color: white; /* couleur de la ligne de sep sous navbar */
 	}
 	
 }
