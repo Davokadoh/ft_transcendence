@@ -405,3 +405,16 @@ body.night-mode footer {
 	}
 	
 }
+
+.navbar-toggler
+{
+	color :#87d300;
+}
+
+.navbar-toggler-icon {
+	background-color: #87d300; /* Couleur du contour du bouton (bleu) */
+  }
+  
+  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+	background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
+  }
