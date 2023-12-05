@@ -12,7 +12,6 @@
 body {
 	/* background: linear-gradient(to bottom right,var(--violet), var(--vert)); */
 	/* color: black; */
-	/* background-image: url(img/table-tennis-4046277_640.jpeg); */
 	background-color: white;
 	margin: 0;
 	/* display: flex; */
@@ -405,4 +404,17 @@ body.night-mode footer {
 		background-color: white; /* couleur de la ligne de sep sous navbar */
 	}
 
+}
+
+.navbar-toggler
+{
+	color :#87d300;
+}
+
+.navbar-toggler-icon {
+	background-color: #87d300; /* Couleur du contour du bouton (bleu) */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+	background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
 }
