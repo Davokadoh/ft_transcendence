@@ -218,6 +218,10 @@ footer {
     position: fixed;
     top: 20px;
     right: 20px;
+	margin: 10px;
+	margin-right: 50px;
+	margin-top: 33px;
+	padding: 10px;
     display: flex;
     align-items: center;
     z-index: 1000;
@@ -230,6 +234,7 @@ footer {
     display: flex;
     align-items: center;
     overflow: hidden;
+	width: 150px;
 }
 
 .icon-container {
@@ -242,38 +247,30 @@ footer {
     width: 2px;
     height: 30px; /* Ajustez la hauteur selon vos besoins */
     background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
+	margin: 5px;
 }
 
 #toggle-switch {
     display: none;
 }
 
+
+/* NIGHT MODE */
+
 #toggle-switch:checked + .toggle-label {
-    background: black; /* Couleur pour le mode nuit */
+    background-color: white; /* Couleur pour le mode nuit */
 }
 
 #toggle-switch:checked + .toggle-label .separator {
-    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
+    /* background: linear-gradient(to bottom, var(--violet), var(--vert));  */
+	background: black;
 }
 
-/* Ajoute le style pour les icônes */
-.icon-container img {
-    width: 30px; /* Ajuster la taille selon besoins */
-    height: 30px;
-    filter: grayscale(100%); /* Pour l'icône en noir et blanc */
-}
 
 /* Styles pour le mode nuit */
 body.night-mode .toggle-container {
     color: white; /* Couleur du texte en mode nuit */
 }
-
-body.night-mode .toggle-label {
-    border: 2px solid white; /* Bordure en mode nuit */
-}
-
-
-/* NIGHT MODE */
 
 /* Styles pour le mode nuit */
 body {
@@ -384,6 +381,14 @@ body.night-mode footer {
 	}
 	.navbar {
 	background-color:#1c1c1e;
+	}
+	.PING_BW {
+	    filter: brightness(100%) !important;
+		color: white;
+	}
+	.night-mode .PING_BW {
+		filter:contrast(100%);
+		/* filter:grayscale(0%); */
 	}
 	.night-mode .navbar .ulLiA li a {
 		background: none;
