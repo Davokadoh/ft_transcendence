@@ -229,7 +229,10 @@ footer {
 
 .toggle-label {
     background: transparent;
-    border-radius: 30px;
+    border-radius: 20px;
+	border: 2px solid;
+	border-color: #9016B2;
+	padding: 5px
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -256,6 +259,10 @@ footer {
 
 
 /* NIGHT MODE */
+
+.night-mode .toggle-label {
+	border-color: black;
+}
 
 #toggle-switch:checked + .toggle-label {
     background-color: white; /* Couleur pour le mode nuit */
@@ -382,17 +389,18 @@ body.night-mode footer {
 	.navbar {
 	background-color:#1c1c1e;
 	}
-	.PING_BW {
-	    filter: brightness(100%) !important;
-		color: white;
+	.icon-container .PING_BW {
+		filter:contrast(0%);
 	}
 	.night-mode .PING_BW {
 		filter:contrast(100%);
-		/* filter:grayscale(0%); */
 	}
 	.night-mode .navbar .ulLiA li a {
 		background: none;
 		color: white;
+	}
+	body.night-mode .ulLiA a:hover {
+		color: rgb(133, 131, 131);
 	}
 	.night-mode .navbar .ulLiA .sep {
 		background: none;
