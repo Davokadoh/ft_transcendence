@@ -86,20 +86,21 @@
   </script> -->
 </head>
 <body>
-  <!-- Bouton Jour/Nuit -->
-  <div class="toggle-container">
-    <input type="checkbox" id="toggle-switch">
-    <label class="toggle-label" for="toggle-switch">
-        <div class="icon-container">
-            <!-- Icône en couleur -->
-            <img src="./src/img/ping-pong_Color.png" alt="Icône de ping-pong en couleur">
-        </div>
-        <div class="separator"></div> <!-- Séparateur -->
-        <div class="icon-container">
-            <!-- Icône en noir et blanc -->
-            <img src="./src/img/ping-pong_NB.png" alt="Icône de ping-pong noir et blanc">
-        </div>
-    </label>
+
+  	<!-- Bouton Jour/Nuit -->
+    <div class="toggle-container">
+      <input type="checkbox" id="toggle-switch">
+      <label class="toggle-label" for="toggle-switch">
+          <div class="icon-container">
+              <!-- Icône en noir blanc -->
+              <img class="PING_BW img-fluid" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc">
+            </div>
+            <div class="separator"></div> <!-- Séparateur -->
+            <div class="icon-container">
+              <!-- Icône en couleur -->
+              <img class="PING_COL img-fluid" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
+          </div>
+      </label>
   </div>
   <div class="AppContainer"></div>
   <script type="text/JavaScript" charset="utf-8">
@@ -117,6 +118,7 @@
       HashChange();
     }
   </script>
+
 <header class="">
   <div class="lineUnderNav">
     <nav class="navbar justify-content-center fluid-container">
