@@ -35,6 +35,18 @@ header {
 	background-color: white;
 }
 
+.navbar-toggler{
+    color :#87d300;
+}
+
+.navbar-toggler-icon {
+    background-color: #87d300; /* Couleur du contour du bouton (bleu) */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
+}
+
 .ulLiA {
 	font-size: 35px;
 	display:inline-block;
@@ -55,6 +67,7 @@ header {
 .ulLiA li {
 	margin-right: 25px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
 	margin-left: 25px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+	margin-bottom: 0;
 }
 
 /* Style de base des liens du menu */
@@ -80,7 +93,7 @@ header {
 }
 
 .logo-container {
-	margin-bottom: 7px;
+	/* margin-bottom: 0px; */
 	text-align: center; /* Centre le contenu du conteneur */
 }
 
@@ -91,7 +104,7 @@ header {
 	flex-direction: column;
 	align-items: center;
 	margin-top: 5px;
-	margin-bottom: 5px; /* espace entre logo et textes du menu */
+	margin-bottom: 0px; /* espace entre logo et textes du menu */
 }
 
 .degrade-horizontal {
@@ -232,7 +245,7 @@ footer {
     border-radius: 20px;
 	border: 2px solid;
 	border-color: #9016B2;
-	padding: 5px
+	padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
