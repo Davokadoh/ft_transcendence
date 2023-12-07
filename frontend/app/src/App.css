@@ -31,20 +31,50 @@ header {
 	background-color: white;
 }
 
+/* NAVBAR */
 .navColor {
 	background-color: white;
 }
 
 .navbar-toggler{
-    color :#87d300;
+    /* color :#87d300; */
+	outline: none;
+    box-shadow: none;
+	border: 3px solid #9016B2;
 }
 
 .navbar-toggler-icon {
-    background-color: #87d300; /* Couleur du contour du bouton (bleu) */
+	/* background-image: var(-navbar-toggler-icon-bg); */
+	background-color: transparent;
+	color: #87d300;
+	/* background-image: var(--vert) !important; */
+
+}
+
+.navbar-toggler-icon:hover {
+    background-color: #87d300;
+	border-radius: 15%;
+	/* color: #87d300; */
+}
+
+.navbar-toggler:active {
+    background-color: #87d300;
+	border-radius: 15%;
+	border-color: white;
+	/* color: white !important; */
+}
+
+.navbar-toggler:focus {
+    background-color: #87d300;
+	border-radius: 15%;
+	border-color: var(--violet);
+	border: 4px;
+	color: #9016B2;
+	/* color: var(-navbar-color); */
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-    background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
+    background-color: none;
 }
 
 .ulLiA {
@@ -80,6 +110,24 @@ header {
 .sep {
 	font-family: Arial, Helvetica, sans-serif;
 	font-style: normal;
+}
+
+/* Media query pour les petits écrans */
+@media (max-width: 768px) {
+    .navbar .ulLiA a {
+        font-size: 20px; /* taille de police pour les petits écrans */
+		letter-spacing: 1px; /* Ajuster l'espacement des lettres pour les petits écrans */
+		word-spacing: 2px; /* Ajuster l'espacement des mots pour les petits écrans */
+
+    }
+	.sep {
+		font-size: 19px; /* taille des separateurs */
+	}
+	.ulLiA li {
+		margin-right: 10px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
+		margin-left: 10px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+		margin-top: 5;
+	}
 }
 
 /* Style au survol */
@@ -205,18 +253,18 @@ footer {
     padding: 20px 0; /* Ajoutez un espace intérieur pour le contenu */
 	color: white;
 	position: fixed; /* Position fixe pour rester en bas même en faisant défiler */
-    bottom: 0; /* Alignez-le en bas de la fenêtre */
+    bottom: 0; /* Aligne en bas de la fenêtre */
     width: 100%; /* Occupe toute la largeur de la fenêtre */
 }
 
 .container {
-    max-width: 1200px; /* Limitez la largeur pour un meilleur rendu sur des écrans plus larges */
-    margin: 0 auto; /* Centrez le contenu du pied de page */
+    max-width: 1200px; /* Limite la largeur pour un meilleur rendu sur des écrans plus larges */
+    margin: 0 auto; /* Centre le contenu du pied de page */
 }
 
 .footer-content {
     display: flex;
-    justify-content: space-between; /* Placez le contenu à gauche et à droite */
+    justify-content: space-between; /* Place le contenu à gauche et à droite */
 }
 
 .left-content,
