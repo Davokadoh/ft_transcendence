@@ -241,7 +241,7 @@ header {
 	background-color: var(--bleu);
 	font-family: 'Titan One';
 	font-size: 22px;
-	color: black;
+	color: var(--violet);
 	/* DISTANCE AVEC LE FOOTER */
 	/* height: 70px; */
 	/* width: fit-content; */
