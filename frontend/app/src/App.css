@@ -579,7 +579,7 @@ body.night-mode footer {
 		align-items: center;
 		z-index: 1000;
 	}
-
+	
 	.toggle-label {
 		background: transparent;
 		border-radius: 20px;
