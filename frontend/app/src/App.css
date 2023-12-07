@@ -113,24 +113,6 @@ header {
 	font-style: normal;
 }
 
-/* Media query pour les petits écrans */
-@media (max-width: 768px) {
-    .navbar .ulLiA a {
-        font-size: 20px; /* taille de police pour les petits écrans */
-		letter-spacing: 1px; /* Ajuster l'espacement des lettres pour les petits écrans */
-		word-spacing: 2px; /* Ajuster l'espacement des mots pour les petits écrans */
-
-    }
-	.sep {
-		font-size: 19px; /* taille des separateurs */
-	}
-	.ulLiA li {
-		margin-right: 10px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
-		margin-left: 10px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
-		margin-top: 5;
-	}
-}
-
 /* Style au survol */
 .ulLiA a:hover {
     color: #87d300; /* Couleur au survol */
@@ -519,4 +501,72 @@ body.night-mode footer {
 		background-color: white; /* couleur de la ligne de sep sous navbar */
 	}
 	
+}
+
+/* Media query pour les petits écrans */
+@media (max-width: 768px) {
+    .navbar .ulLiA a {
+        font-size: 20px; /* taille de police pour les petits écrans */
+		letter-spacing: 1px; /* Ajuster l'espacement des lettres pour les petits écrans */
+		word-spacing: 2px; /* Ajuster l'espacement des mots pour les petits écrans */
+
+    }
+	.sep {
+		font-size: 19px; /* taille des separateurs */
+	}
+	.ulLiA li {
+		margin-right: 10px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
+		margin-left: 10px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+		margin-top: 5;
+	}
+	/* Bouton Jour/Nuit */
+	.toggle-container {
+		position: fixed;
+		top: 10px;
+		right: 10px;
+		margin: 5px;
+		margin-right: 45px;
+		margin-top: 36px;
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		z-index: 1000;
+	}
+
+	.toggle-label {
+		background: transparent;
+		border-radius: 20px;
+		border: 2px solid;
+		border-color: #9016B2;
+		padding: 2px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		width: 100px;
+		height: 50px;
+	}
+
+	.icon-container {
+		flex: 1;
+		text-align: center;
+		transition: background 0.3s;
+	}
+
+	.icon-container .PING_BW {
+		width: 25px;
+		height: auto;
+	}
+	.icon-container .PONG_COL {
+		width: 33px;
+		height: auto;
+	}
+
+	.separator {
+		width: 1px;
+		height: 20px; /* Ajustez la hauteur selon vos besoins */
+		background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
+		margin: 3px;
+		align-items: center;
+	}
 }
