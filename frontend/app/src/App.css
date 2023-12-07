@@ -32,34 +32,51 @@ header {
 	background-color: white;
 }
 
+/* NAVBAR */
 .navColor {
 	background-color: white;
 }
 
+/* PETIT ECRAN HAMBURGER BUTTON */
 .navbar-toggler{
-    color :#87d300;
+    /* color :#87d300; */
+	outline: none;
+    box-shadow: none;
+	border: 3px solid #9016B2;
 }
 
 .navbar-toggler-icon {
-    background-color: #87d300; /* Couleur du contour du bouton (bleu) */
+	/* background-image: var(-navbar-toggler-icon-bg); */
+	background-color: transparent;
+	color: #87d300;
+	/* background-image: var(--vert) !important; */
+
+}
+
+.navbar-toggler-icon:hover {
+    background-color: #87d300;
+	border-radius: 15%;
+	/* color: #87d300; */
+}
+
+.navbar-toggler:active {
+    background-color: #87d300;
+	border-radius: 15%;
+	border-color: white;
+	/* color: white !important; */
+}
+
+.navbar-toggler:focus {
+    background-color: #87d300;
+	border-radius: 15%;
+	border-color: var(--violet);
+	border: 4px;
+	color: #9016B2;
+	/* color: var(-navbar-color); */
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-    background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
-}
-
-/* Permet de diminuer la taille de la police de la navbar sur les petits ecrans */
-@media (max-width: 576px) {
-	.nav-link-small {
-	  font-size: 14px; /* Ajustez la taille de la police pour les petits écrans */
-	}
-  }
-
-  /* Donne une marge supplementaire au menu deroulant*/
-  @media (max-width: 576px) {
-	.navbar-toggler {
-	  margin-bottom: 10px; /* Ajustez la marge inférieure selon vos besoins */
-	}
+    background-color: none;
 }
 
 .ulLiA {
@@ -104,7 +121,7 @@ header {
 
 /* Style au clic */
 .ulLiA a:active {
-    color: grey; /* Couleur lors du clic */
+    color: var(--gris); /* Couleur lors du clic */
 }
 
 .logo-container {
@@ -170,7 +187,7 @@ header {
     height: 250px; /* Hauteur du rectangle */
     font-family: 'Titan One', sans-serif;
     color: #87d300;
-    margin: 14% auto; /*distance du login par rapport au header */
+    margin: 5% auto; /*distance du login par rapport au header */
     text-align: center;
 }
 
@@ -218,34 +235,43 @@ header {
 /* border: 2px solid transparent; Bordure transparente au clic */
 }
 
+.container-info {
+	/* margin-top: 100px;*/
+	margin-bottom: 100px;
+	background-color: #5fa9ee;
+	font-family: 'Titan One';
+	font-size: 22px;
+	color: black;
+	/* border-radius: 20px; */
+	height: 75px;
+	/* width: fit-content; */
+
+}
+
+.espace {
+	font-size: 35px;
+	color: white;
+}
 
 /* FOOTER */
-
 footer {
-	background-color: var(--vert);
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-  }
+    background-color: var(--vert); /* Couleur de fond du pied de page */
+    padding: 20px 0; /* Ajoutez un espace intérieur pour le contenu */
+	color: white;
+	position: fixed; /* Position fixe pour rester en bas même en faisant défiler */
+    bottom: 0; /* Aligne en bas de la fenêtre */
+    width: 100%; /* Occupe toute la largeur de la fenêtre */
+}
 
-/* footer {
-    background-color: var(--vert); Couleur de fond du pied de page */
-    /* padding: 20px 0; Ajoutez un espace intérieur pour le contenu */
-	/* color: white; */
-	/* position: fixed; Position fixe pour rester en bas même en faisant défiler */
-    /* bottom: 0; Alignez-le en bas de la fenêtre */
-    /* width: 100%; Occupe toute la largeur de la fenêtre */
-/* } */
+.container {
+    max-width: 1200px; /* Limite la largeur pour un meilleur rendu sur des écrans plus larges */
+    margin: 0 auto; /* Centre le contenu du pied de page */
+}
 
-/* .container { */
-    /* max-width: 1200px; Limitez la largeur pour un meilleur rendu sur des écrans plus larges */
-    /* margin: 0 auto; Centrez le contenu du pied de page */
-/* } */
-
-/* .footer-content {
+.footer-content {
     display: flex;
-    justify-content: space-between; /* Placez le contenu à gauche et à droite */
-/* } */ */
+    justify-content: space-between; /* Place le contenu à gauche et à droite */
+}
 
 .left-content,
 /* .right-content  */
@@ -311,12 +337,52 @@ footer {
 
 /* NIGHT MODE */
 
+/* MENU PETIT ECRAN */
+.night-mode .navbar-toggler{
+    /* color :#87d300; */
+	outline: none;
+    box-shadow: none;
+	border: 3px solid black;
+	background-color: white;
+}
+
+.night-mode .navbar-toggler-icon {
+	/* background-image: var(-navbar-toggler-icon-bg); */
+	color: white;
+	/* background-image: var(--vert) !important; */
+}
+
+.night-mode .navbar-toggler-icon:hover {
+    background-color: var(--gris);
+	border-radius: 15%;
+	/* color: #87d300; */
+}
+
+.night-mode .navbar-toggler:active {
+    /* background-color: var(--gris); */
+	border-radius: 15%;
+	border-color: black;
+	border: 2px solid;
+	/* color: white !important; */
+}
+
+.night-mode .navbar-toggler:focus {
+    background-color: var(--gris);
+	border-radius: 15%;
+	border-color: black;
+	border: 4px solid;
+	color: black;
+	/* color: var(-navbar-color); */
+}
+
+/* BOUTON COLOR MODE */
 .night-mode .toggle-label {
 	border-color: black;
 }
 
 #toggle-switch:checked + .toggle-label {
-    background-color: white; /* Couleur pour le mode nuit */
+	/*  Couleur pour le mode nuit */
+    background-color: white;
 }
 
 #toggle-switch:checked + .toggle-label .separator {
@@ -346,7 +412,7 @@ body.night-mode .sep{
 
 /* Styles spécifiques pour la navbar en mode nuit */
 body.night-mode .navbar .ulLiA a {
-	background-color: #ffffff;
+	/* background-color: #ffffff; */
 	color: black
 }
 
@@ -379,7 +445,7 @@ body.night-mode .ulLiA a {
 }
 
 body.night-mode .ulLiA a:hover {
-	color: rgb(85, 84, 84);
+	color: var(--gris);
 }
 
 body.night-mode .login-container {
@@ -451,7 +517,7 @@ body.night-mode footer {
 		color: white;
 	}
 	body.night-mode .ulLiA a:hover {
-		color: rgb(133, 131, 131);
+		color: var(--gris);
 	}
 	.night-mode .navbar .ulLiA .sep {
 		background: none;
@@ -468,4 +534,72 @@ body.night-mode footer {
 		background-color: white; /* couleur de la ligne de sep sous navbar */
 	}
 
+}
+
+/* Media query pour les petits écrans */
+@media (max-width: 768px) {
+    .navbar .ulLiA a {
+        font-size: 20px; /* taille de police pour les petits écrans */
+		letter-spacing: 1px; /* Ajuster l'espacement des lettres pour les petits écrans */
+		word-spacing: 2px; /* Ajuster l'espacement des mots pour les petits écrans */
+
+    }
+	.sep {
+		font-size: 19px; /* taille des separateurs */
+	}
+	.ulLiA li {
+		margin-right: 10px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
+		margin-left: 10px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+		margin-top: 5;
+	}
+	/* Bouton Jour/Nuit */
+	.toggle-container {
+		position: fixed;
+		top: 10px;
+		right: 10px;
+		margin: 5px;
+		margin-right: 45px;
+		margin-top: 36px;
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		z-index: 1000;
+	}
+
+	.toggle-label {
+		background: transparent;
+		border-radius: 20px;
+		border: 2px solid;
+		border-color: #9016B2;
+		padding: 2px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		width: 100px;
+		height: 50px;
+	}
+
+	.icon-container {
+		flex: 1;
+		text-align: center;
+		transition: background 0.3s;
+	}
+
+	.icon-container .PING_BW {
+		width: 25px;
+		height: auto;
+	}
+	.icon-container .PONG_COL {
+		width: 33px;
+		height: auto;
+	}
+
+	.separator {
+		width: 1px;
+		height: 20px; /* Ajustez la hauteur selon vos besoins */
+		background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
+		margin: 3px;
+		align-items: center;
+	}
 }

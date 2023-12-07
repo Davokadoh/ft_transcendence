@@ -1,8 +1,9 @@
-// Votre code JavaScript, y compris la fonction userLoggedIn et les fonctions Ajax
+// le code JavaScript, y compris la fonction userLoggedIn et les fonctions Ajax
 function userLoggedIn() {
 	// ... Logique de connexion ...
-	// Chargez la page de profil après la connexion
+	// Charger la page de profil après la connexion
 	loadPage('profil');
   }
   
-  // Vos autres fonctions JavaScript et gestionnaires d'événements
+  // Vos autres fonctions JavaScript et gestionnaires d'événements 
+  //appeler des fichiers JS et JSX
