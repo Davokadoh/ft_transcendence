@@ -36,6 +36,7 @@ header {
 	background-color: white;
 }
 
+/* PETIT ECRAN HAMBURGER BUTTON */
 .navbar-toggler{
     /* color :#87d300; */
 	outline: none;
@@ -137,7 +138,7 @@ header {
 
 /* Style au clic */
 .ulLiA a:active {
-    color: grey; /* Couleur lors du clic */
+    color: var(--gris); /* Couleur lors du clic */
 }
 
 .logo-container {
@@ -321,12 +322,52 @@ footer {
 
 /* NIGHT MODE */
 
+/* MENU PETIT ECRAN */
+.night-mode .navbar-toggler{
+    /* color :#87d300; */
+	outline: none;
+    box-shadow: none;
+	border: 3px solid black;
+	background-color: white;
+}
+
+.night-mode .navbar-toggler-icon {
+	/* background-image: var(-navbar-toggler-icon-bg); */
+	color: white;
+	/* background-image: var(--vert) !important; */
+}
+
+.night-mode .navbar-toggler-icon:hover {
+    background-color: var(--gris);
+	border-radius: 15%;
+	/* color: #87d300; */
+}
+
+.night-mode .navbar-toggler:active {
+    /* background-color: var(--gris); */
+	border-radius: 15%;
+	border-color: black;
+	border: 2px solid;
+	/* color: white !important; */
+}
+
+.night-mode .navbar-toggler:focus {
+    background-color: var(--gris);
+	border-radius: 15%;
+	border-color: black;
+	border: 4px solid;
+	color: black;
+	/* color: var(-navbar-color); */
+}
+
+/* BOUTON COLOR MODE */
 .night-mode .toggle-label {
 	border-color: black;
 }
 
 #toggle-switch:checked + .toggle-label {
-    background-color: white; /* Couleur pour le mode nuit */
+	/*  Couleur pour le mode nuit */
+    background-color: white;
 }
 
 #toggle-switch:checked + .toggle-label .separator {
@@ -356,7 +397,7 @@ body.night-mode .sep{
 
 /* Styles spécifiques pour la navbar en mode nuit */
 body.night-mode .navbar .ulLiA a {
-	background-color: #ffffff;
+	/* background-color: #ffffff; */
 	color: black
 }
 
@@ -389,7 +430,7 @@ body.night-mode .ulLiA a {
 }
 
 body.night-mode .ulLiA a:hover {
-	color: rgb(85, 84, 84);
+	color: var(--gris);
 }
 
 body.night-mode .login-container {
@@ -461,7 +502,7 @@ body.night-mode footer {
 		color: white;
 	}
 	body.night-mode .ulLiA a:hover {
-		color: rgb(133, 131, 131);
+		color: var(--gris);
 	}
 	.night-mode .navbar .ulLiA .sep {
 		background: none;

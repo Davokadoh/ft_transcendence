@@ -92,6 +92,7 @@
 }
 
 :root {
+	--gris: rgba(200, 196, 196, 0.906);
 	--vert: #87D300; /* Définition de la variable --vert avec la couleur verte */
 	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */  
 	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */  
