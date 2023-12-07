@@ -18,7 +18,7 @@ body {
 	/* display: flex; */
 	/* flex-direction: column; */
 	place-items: center;
-	justify-content: center; */
+	justify-content: center;
 	align-items: center;
 	vertical-align: middle;
 	min-height: 100vh;
@@ -265,17 +265,17 @@ header {
 	overflow: hidden; /* Cache le texte qui dépasse */
 	animation: marquee 15s linear infinite; /* Utilise l'animation marquee */
   }
-  
+
   @keyframes marquee {
 	0% {
 	  transform: translateX(-160%); /* Commence à gauche de la fenêtre */
 	}
-  
+
 	100% {
 	  transform: translateX(160%); /* Termine à droite de la fenêtre */
 	}
   }
-  
+
 
 /* FOOTER */
 footer {
@@ -595,7 +595,7 @@ body.night-mode footer {
 		align-items: center;
 		z-index: 1000;
 	}
-	
+
 	.toggle-label {
 		background: transparent;
 		border-radius: 20px;

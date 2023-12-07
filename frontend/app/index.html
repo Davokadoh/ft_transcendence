@@ -178,7 +178,9 @@ darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
               <span class="navbar-toggler-icon"></span>
             </button>
             <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
-              <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('game')">GAME</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="/game" data-link>GAME</a>
+              </li>
               <li class="sep"> | </li>
               <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('chat')">CHAT</a></li>
               <li class="sep"> | </li>
@@ -191,7 +193,7 @@ darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
     </div>
   </header>
 
-  <main>
+  <main id="app">
     <section class="py-5">
       <div class="container">
         <div class="row gy-4">
@@ -231,8 +233,9 @@ darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
         </div>
       </div>
     </section>
-  </main>
 
+  </main>
+  <script type="module" src="src/main.js"></script>
 
   <!-- Footer -->
   <footer class="text-white py-1 mt-4">
