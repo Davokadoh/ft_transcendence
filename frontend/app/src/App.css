@@ -37,10 +37,10 @@ header {
 }
 
 /* PETIT ECRAN HAMBURGER BUTTON */
-.navbar-toggler{
-    /* color :#87d300; */
+.navbar-toggler {
+	/* color :#87d300; */
 	outline: none;
-    box-shadow: none;
+	box-shadow: none;
 	border: 3px solid #9016B2;
 }
 
@@ -53,20 +53,20 @@ header {
 }
 
 .navbar-toggler-icon:hover {
-    background-color: #87d300;
+	background-color: #87d300;
 	border-radius: 15%;
 	/* color: #87d300; */
 }
 
 .navbar-toggler:active {
-    background-color: #87d300;
+	background-color: #87d300;
 	border-radius: 15%;
 	border-color: white;
 	/* color: white !important; */
 }
 
 .navbar-toggler:focus {
-    background-color: #87d300;
+	background-color: #87d300;
 	border-radius: 15%;
 	border-color: var(--violet);
 	border: 4px;
@@ -75,13 +75,13 @@ header {
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-    background-color: none;
+	background-color: none;
 }
 
 .ulLiA {
 	font-size: 35px;
-	display:inline-block;
-	justify-content:center;
+	display: inline-block;
+	justify-content: center;
 	align-items: center;
 	/* float: right; */
 	/* width:100px; */
@@ -89,23 +89,28 @@ header {
 	color: var(--violet);
 	/* text-decoration:none; */
 	/* text-align:center; */
-	padding:3px;
+	padding: 3px;
 	/* border:2px solid; */
 	/*pour avoir un effet "outset" avec IE :*/
 	/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
 }
 
 .ulLiA li {
-	margin-right: 25px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
-	margin-left: 25px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+	margin-right: 25px;
+	/* Ajoute une marge à droite pour créer un espace entre les éléments */
+	margin-left: 25px;
+	/* Ajoute une marge à gauche pour créer un espace entre les éléments */
 	margin-bottom: 0;
 }
 
 /* Style de base des liens du menu */
 .ulLiA a {
-    color: #9016B2; /* Couleur de base */
-    text-decoration: none; /* Supprime la soulignement des liens */
-    transition: color 0.3s; /* Ajoute une transition de couleur */
+	color: #9016B2;
+	/* Couleur de base */
+	text-decoration: none;
+	/* Supprime la soulignement des liens */
+	transition: color 0.3s;
+	/* Ajoute une transition de couleur */
 }
 
 .sep {
@@ -115,32 +120,38 @@ header {
 
 /* Style au survol */
 .ulLiA a:hover {
-    color: #87d300; /* Couleur au survol */
+	color: #87d300;
+	/* Couleur au survol */
 }
 
 /* Style au clic */
 .ulLiA a:active {
-    color: var(--gris); /* Couleur lors du clic */
+	color: var(--gris);
+	/* Couleur lors du clic */
 }
 
 /* Style au clic */
 .ulLiA a:focus {
-    color: var(--bleu) !important; /* Couleur lors du clic */
+	color: var(--bleu) !important;
+	/* Couleur lors du clic */
 }
 
 .logo-container {
 	/* margin-bottom: 0px; */
-	text-align: center; /* Centre le contenu du conteneur */
+	text-align: center;
+	/* Centre le contenu du conteneur */
 }
 
 .logo {
-	width: 120px; /* Ajuster la largeur selon besoins */
+	width: 120px;
+	/* Ajuster la largeur selon besoins */
 	height: auto;
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
 	margin-top: 5px;
-	margin-bottom: 0px; /* espace entre logo et textes du menu */
+	margin-bottom: 0px;
+	/* espace entre logo et textes du menu */
 }
 
 .degrade-horizontal {
@@ -148,46 +159,53 @@ header {
 }
 
 .lineUnderNav {
-    position: relative;
+	position: relative;
 }
 
 .lineUnderNav::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px; /* ou la taille que vous souhaitez pour votre bordure */
-    background-image: var(--degrade-color); /* Remplacez les couleurs par celles de votre dégradé */
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	/* ou la taille que vous souhaitez pour votre bordure */
+	background-image: var(--degrade-color);
+	/* Remplacez les couleurs par celles de votre dégradé */
 }
 
 .bg-violet {
-    background-color: #9016B2;
-    color: #9016B2;
-    font-family: 'Spoof', sans-serif;
-	}
+	background-color: #9016B2;
+	color: #9016B2;
+	font-family: 'Spoof', sans-serif;
+}
 
 .bg-vert {
-    background-color: #9016B2;
-    color: #87d300;
-    font-family: 'Spoof', sans-serif;
-	}
+	background-color: #9016B2;
+	color: #87d300;
+	font-family: 'Spoof', sans-serif;
+}
 
 .login-container {
-    border-radius: 30px;
-    background-color: #9016B2;
-    padding: 60px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 0 auto; /* Centrer le rectangle horizontalement */
+	border-radius: 30px;
+	background-color: #9016B2;
+	padding: 60px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 0 auto;
+	/* Centrer le rectangle horizontalement */
 	display: block;
 	justify-items: center;
-	justify-content: center; /* centrer verticalement ?*/
-    max-width: 400px; /* Limiter la largeur pour une meilleure lisibilité */
-    height: 250px; /* Hauteur du rectangle */
-    font-family: 'Titan One', sans-serif;
-    color: #87d300;
-    margin: 5% auto; /*distance du login par rapport au header */
-    text-align: center;
+	justify-content: center;
+	/* centrer verticalement ?*/
+	max-width: 400px;
+	/* Limiter la largeur pour une meilleure lisibilité */
+	height: 250px;
+	/* Hauteur du rectangle */
+	font-family: 'Titan One', sans-serif;
+	color: #87d300;
+	margin: 5% auto;
+	/*distance du login par rapport au header */
+	text-align: center;
 }
 
 /* media queries pour ajuster le style en fonction de la taille de l'écran si besoin*/
@@ -210,10 +228,14 @@ header {
 
 /* Style du bouton normal */
 .login-container button {
-	border: 2px solid #ffffff; /* Bordure blanche */
-	background-color: #87d300; /* Fond vert */
-	color: #9016B2; /* Texte violet */
-	transition: all 0.3s; /* Transition douce pour le survol et le clic */
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: #87d300;
+	/* Fond vert */
+	color: #9016B2;
+	/* Texte violet */
+	transition: all 0.3s;
+	/* Transition douce pour le survol et le clic */
 	font-family: 'Titan One', sans-serif;
 	font-size: 20px;
 	margin-top: 7px;
@@ -221,17 +243,22 @@ header {
 
 /* Style du bouton survolé */
 .login-container button:hover {
-	color: #ffffff; /* Texte blanc au survol */
-	background-color: #87d300; /* Fond vert au survol */
+	color: #ffffff;
+	/* Texte blanc au survol */
+	background-color: #87d300;
+	/* Fond vert au survol */
 	border-color: #ffffff;
 }
 
 /* Style du bouton cliqué */
 .login-container button:active {
-	background-color: #87d300; /* Fond vert au clic */
-	color: #9016B2; /* Texte violet au clic */
-	border: none; /* Pas de bordure au clic */
-/* border: 2px solid transparent; Bordure transparente au clic */
+	background-color: #87d300;
+	/* Fond vert au clic */
+	color: #9016B2;
+	/* Texte violet au clic */
+	border: none;
+	/* Pas de bordure au clic */
+	/* border: 2px solid transparent; Bordure transparente au clic */
 }
 
 /* BANDE D'INFO */
@@ -257,107 +284,121 @@ header {
 /* Ajoutez ces styles à votre feuille de style CSS */
 .scrolling-text {
 	overflow: hidden;
-  }
-  
-  .scrolling-text-container {
+}
+
+.scrolling-text-container {
 	white-space: nowrap;
-	animation: scrollText 30s linear infinite; /* Ajustez la durée selon vos préférences */
-  }
-  
-  .scrolling-text-container p {
+	animation: scrollText 30s linear infinite;
+	/* Ajustez la durée selon vos préférences */
+}
+
+.scrolling-text-container p {
 	display: inline-block;
-	margin-right: 20px; /* Ajustez l'espace entre les paragraphes selon vos préférences */
-  }
-  
-  @keyframes scrollText {
+	margin-right: 20px;
+	/* Ajustez l'espace entre les paragraphes selon vos préférences */
+}
+
+@keyframes scrollText {
 	from {
-	  transform: translateX(260%);
+		transform: translateX(260%);
 	}
+
 	to {
-	  transform: translateX(-280%);
+		transform: translateX(-280%);
 	}
-  }
-  
+}
+
 
 /* FOOTER */
 footer {
-    background-color: var(--vert); /* Couleur de fond du pied de page */
-    padding: 20px 0; /* Ajoutez un espace intérieur pour le contenu */
+	background-color: var(--vert);
+	/* Couleur de fond du pied de page */
+	padding: 20px 0;
+	/* Ajoutez un espace intérieur pour le contenu */
 	color: white;
-	position: fixed; /* Position fixe pour rester en bas même en faisant défiler */
-    bottom: 0; /* Aligne en bas de la fenêtre */
-    width: 100%; /* Occupe toute la largeur de la fenêtre */
+	position: fixed;
+	/* Position fixe pour rester en bas même en faisant défiler */
+	bottom: 0;
+	/* Aligne en bas de la fenêtre */
+	width: 100%;
+	/* Occupe toute la largeur de la fenêtre */
 }
 
 .container {
-    max-width: 1200px; /* Limite la largeur pour un meilleur rendu sur des écrans plus larges */
-    margin: 0 auto; /* Centre le contenu du pied de page */
+	max-width: 1200px;
+	/* Limite la largeur pour un meilleur rendu sur des écrans plus larges */
+	margin: 0 auto;
+	/* Centre le contenu du pied de page */
 }
 
 .footer-content {
-    display: flex;
-    justify-content: space-between; /* Place le contenu à gauche et à droite */
+	display: flex;
+	justify-content: space-between;
+	/* Place le contenu à gauche et à droite */
 }
 
 .left-content,
 .right-content {
-    width: 48%; /* Donnez une largeur à chaque côté */
+	width: 48%;
+	/* Donnez une largeur à chaque côté */
 }
 
 /* Ajoutez des styles supplémentaires selon vos besoins */
 
 /* Bouton Jour/Nuit */
 .toggle-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+	position: fixed;
+	top: 20px;
+	right: 20px;
 	margin: 10px;
 	margin-right: 50px;
 	margin-top: 33px;
 	padding: 10px;
-    display: flex;
-    align-items: center;
-    z-index: 1000;
+	display: flex;
+	align-items: center;
+	z-index: 1000;
 }
 
 .toggle-label {
-    background: transparent;
-    border-radius: 20px;
+	background: transparent;
+	border-radius: 20px;
 	border: 2px solid;
 	border-color: #9016B2;
 	padding: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
 	width: 150px;
 }
 
 .icon-container {
-    flex: 1;
-    text-align: center;
-    transition: background 0.3s;
+	flex: 1;
+	text-align: center;
+	transition: background 0.3s;
 }
 
 .separator {
-    width: 2px;
-    height: 30px; /* Ajustez la hauteur selon vos besoins */
-    background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
+	width: 2px;
+	height: 30px;
+	/* Ajustez la hauteur selon vos besoins */
+	background: linear-gradient(to bottom, var(--violet), var(--vert));
+	/* Utilise couleurs de dégradé */
 	margin: 5px;
 }
 
 #toggle-switch {
-    display: none;
+	display: none;
 }
 
 
 /* NIGHT MODE */
 
 /* MENU PETIT ECRAN */
-.night-mode .navbar-toggler{
-    /* color :#87d300; */
+.night-mode .navbar-toggler {
+	/* color :#87d300; */
 	outline: none;
-    box-shadow: none;
+	box-shadow: none;
 	border: 3px solid black;
 	background-color: white;
 }
@@ -369,13 +410,13 @@ footer {
 }
 
 .night-mode .navbar-toggler-icon:hover {
-    background-color: var(--gris);
+	background-color: var(--gris);
 	border-radius: 15%;
 	/* color: #87d300; */
 }
 
 .night-mode .navbar-toggler:active {
-    /* background-color: var(--gris); */
+	/* background-color: var(--gris); */
 	border-radius: 15%;
 	border-color: black;
 	border: 2px solid;
@@ -383,7 +424,7 @@ footer {
 }
 
 .night-mode .navbar-toggler:focus {
-    background-color: var(--gris);
+	background-color: var(--gris);
 	border-radius: 15%;
 	border-color: black;
 	border: 4px solid;
@@ -396,20 +437,21 @@ footer {
 	border-color: black;
 }
 
-#toggle-switch:checked + .toggle-label {
+#toggle-switch:checked+.toggle-label {
 	/*  Couleur pour le mode nuit */
-    background-color: white;
+	background-color: white;
 }
 
-#toggle-switch:checked + .toggle-label .separator {
-    /* background: linear-gradient(to bottom, var(--violet), var(--vert));  */
+#toggle-switch:checked+.toggle-label .separator {
+	/* background: linear-gradient(to bottom, var(--violet), var(--vert));  */
 	background: black;
 }
 
 
 /* Styles pour le mode nuit */
 body.night-mode .toggle-container {
-    color: white; /* Couleur du texte en mode nuit */
+	color: white;
+	/* Couleur du texte en mode nuit */
 }
 
 /* Styles pour le mode nuit */
@@ -418,11 +460,11 @@ body {
 	color: black;
 }
 
-body.night-mode .navbar{
+body.night-mode .navbar {
 	color: black;
 }
 
-body.night-mode .sep{
+body.night-mode .sep {
 	color: black;
 }
 
@@ -432,12 +474,12 @@ body.night-mode .navbar .ulLiA a {
 	color: black
 }
 
-body.night-mode .light-mode-image  {
+body.night-mode .light-mode-image {
 	filter: grayscale(100%);
 }
 
 body.night-mode .lineUnderNav::after {
-    background-image: none;
+	background-image: none;
 	background-color: black;
 }
 
@@ -484,22 +526,29 @@ body.night-mode.bg-violet {
 /* BOUTONS NIGHT MODE */
 /* Style du bouton normal */
 body.night-mode .login-container button {
-	border: 2px solid #ffffff; /* Bordure blanche */
-	background-color: black; /* Fond noir */
-	color: white; /* Texte blanc */
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: black;
+	/* Fond noir */
+	color: white;
+	/* Texte blanc */
 }
 
 /* Style du bouton survolé */
 body.night-mode .login-container button:hover {
-	color:black; /* Texte blanc au survol */
-	background-color: white; /* Fond noir au survol */
+	color: black;
+	/* Texte blanc au survol */
+	background-color: white;
+	/* Fond noir au survol */
 	border-color: #ffffff;
 }
 
 /* Style du bouton cliqué */
 body.night-mode .login-container button:active {
-	background-color: black; /* Fond noir au clic */
-	color: white; /* Texte blanc au clic */
+	background-color: black;
+	/* Fond noir au clic */
+	color: white;
+	/* Texte blanc au clic */
 	border: none;
 }
 
@@ -519,61 +568,80 @@ body.night-mode footer {
 /* STYLE POUR LE BUREAU EN MODE SOMBRE OU CLAIR */
 @media (prefers-color-scheme: dark) {
 	body {
-		background-color : #1c1c1e ;
-		color : #fefefe ;
-		}
+		background-color: #1c1c1e;
+		color: #fefefe;
+	}
+
 	a {
-	color : #5fa9ee ;
+		color: #5fa9ee;
 	}
+
 	.navbar {
-	background-color:#1c1c1e;
+		background-color: #1c1c1e;
 	}
+
 	.icon-container .PING_BW {
-		filter:contrast(0%);
+		filter: contrast(0%);
 	}
+
 	.night-mode .PING_BW {
-		filter:contrast(100%);
+		filter: contrast(100%);
 	}
+
 	.night-mode .navbar .ulLiA li a {
 		background: none;
 		color: white;
 	}
+
 	body.night-mode .ulLiA a:hover {
 		color: var(--gris);
 	}
+
 	.night-mode .navbar .ulLiA .sep {
 		background: none;
 		color: white;
 	}
+
 	.night-mode .login-container {
 
 		/* background-color: white; */
 		/* color: black; */
 		border: 3px solid white;
-	} 
+	}
+
 	body.night-mode .lineUnderNav::after {
 		background-image: none;
-		background-color: white; /* couleur de la ligne de sep sous navbar */
+		background-color: white;
+		/* couleur de la ligne de sep sous navbar */
 	}
-	
+
 }
 
 /* Media query pour les petits écrans */
 @media (max-width: 768px) {
-    .navbar .ulLiA a {
-        font-size: 20px; /* taille de police pour les petits écrans */
-		letter-spacing: 1px; /* Ajuster l'espacement des lettres pour les petits écrans */
-		word-spacing: 2px; /* Ajuster l'espacement des mots pour les petits écrans */
+	.navbar .ulLiA a {
+		font-size: 20px;
+		/* taille de police pour les petits écrans */
+		letter-spacing: 1px;
+		/* Ajuster l'espacement des lettres pour les petits écrans */
+		word-spacing: 2px;
+		/* Ajuster l'espacement des mots pour les petits écrans */
 
-    }
-	.sep {
-		font-size: 19px; /* taille des separateurs */
 	}
+
+	.sep {
+		font-size: 19px;
+		/* taille des separateurs */
+	}
+
 	.ulLiA li {
-		margin-right: 10px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
-		margin-left: 10px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+		margin-right: 10px;
+		/* Ajoute une marge à droite pour créer un espace entre les éléments */
+		margin-left: 10px;
+		/* Ajoute une marge à gauche pour créer un espace entre les éléments */
 		margin-top: 5;
 	}
+
 	/* Bouton Jour/Nuit */
 	.toggle-container {
 		position: fixed;
@@ -587,7 +655,7 @@ body.night-mode footer {
 		align-items: center;
 		z-index: 1000;
 	}
-	
+
 	.toggle-label {
 		background: transparent;
 		border-radius: 20px;
@@ -612,6 +680,7 @@ body.night-mode footer {
 		width: 25px;
 		height: auto;
 	}
+
 	.icon-container .PONG_COL {
 		width: 33px;
 		height: auto;
@@ -619,8 +688,10 @@ body.night-mode footer {
 
 	.separator {
 		width: 1px;
-		height: 20px; /* Ajustez la hauteur selon vos besoins */
-		background: linear-gradient(to bottom, var(--violet), var(--vert)); /* Utilise couleurs de dégradé */
+		height: 20px;
+		/* Ajustez la hauteur selon vos besoins */
+		background: linear-gradient(to bottom, var(--violet), var(--vert));
+		/* Utilise couleurs de dégradé */
 		margin: 3px;
 		align-items: center;
 	}
