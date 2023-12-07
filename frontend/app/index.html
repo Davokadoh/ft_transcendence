@@ -98,73 +98,31 @@
 
 <body>
   <header class="">
-              	<!-- Bouton Jour/Nuit -->
-                <div class="toggle-container">
-                  <input type="checkbox" id="toggle-switch">
-                  <label class="toggle-label" for="toggle-switch">
-                      <div class="icon-container">
-                          <!-- Icône en noir blanc -->
-                          <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
-                        </div>
-                        <div class="separator"></div> <!-- Séparateur -->
-                        <div class="icon-container">
-                          <!-- Icône en couleur -->
-                          <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
-                      </div>
-                  </label>
-              </div>
+
     <div class="lineUnderNav">
       <nav class="navbar justify-content-center fluid-container">
-
-        <!-- <a class="navbar-brand" href="#">
-          <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
-        </a> -->
         <div class="ulLiA">
-          <!-- <div class="navAlignCenter">
-              <ul class="nav justify-content-center mx-auto text-center">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#">LOGIN</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#game">GAME</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#chat">CHAT</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#profil">PROFIL</a>
-                </li>
-              </ul>
-          </div> -->
-          <!-- Barre de navigation facon SPA -->
-          <div class="container d-flex justify-content-center">
-            <div class="logo-container">
-              <!-- <a class="logoLink" href="#"> -->
-              <div class="logo">
-                <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
-                <!-- <img src="./src/img/Pong-Chos_LOGO_NB.png" class="dark-mode-image" width="100" height="100"> -->
-                <!-- </a> -->
-              </div>
-            </div>
-          </div>
 
-          <!-- ANCIEN MENU SANS PETIT CODE DE CLAIRE -->
-          <!-- <div id="navbar">
-            <ul class="nav justify-content-center mx-auto">
-              <li><a href="javascript:void(0)" onclick="loadPage('game')">GAME</a></li>
-              <li class="sep"> | </li>
-              <li><a href="#" onclick="loadPage('chat')">CHAT</a></li>
-              <li class="sep"> | </li>
-              <li><a href="#" onclick="loadPage('profil')">PROFIL</a></li>
-            </ul>
-          </div> -->
-          
-          <!-- MENU AVEC PETIT CODE DE CLAIRE -->
+          <!-- JOLI MENU AVEC PETIT CODE DE CLAIRE -->
           <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
               <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Barre de navigation facon SPA -->
+              <div class="logo-container">
+                <a class="logoLink" href="/home" data-link> 
+                <div class="logo">
+                  <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
+                </div>
+                </a>
+              </div>
+
             <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
+              <li class="nav-item">
+                <a class="nav-link" href="/home" data-link>LOG</a>
+              </li>
+              <li class="sep"> | </li>
               <li class="nav-item">
                 <a class="nav-link" href="/game" data-link>GAME</a>
               </li>
@@ -175,6 +133,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="/profil" data-link>PROFIL</a></li>
             </ul>
+              <!-- Bouton Jour/Nuit -->
+              <div class="toggle-container">
+                <input type="checkbox" id="toggle-switch">
+                <label class="toggle-label" for="toggle-switch">
+                    <div class="icon-container">
+                        <!-- Icône en noir blanc -->
+                        <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
+                      </div>
+                      <div class="separator"></div> <!-- Séparateur -->
+                      <div class="icon-container">
+                        <!-- Icône en couleur -->
+                        <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
+                    </div>
+                </label>
+            </div>
           </div>  
           
 
