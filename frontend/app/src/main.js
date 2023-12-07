@@ -2,6 +2,8 @@
 function userLoggedIn() {
 	// ... Logique de connexion ...
 	// Charger la page de profil après la connexion
+	loadPage('game');
+	loadPage('chat');
 	loadPage('profil');
   }
   

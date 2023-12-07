@@ -254,19 +254,27 @@ header {
 	text-align: center;
 }
 
-#scrolling-text {
-	white-space: nowrap; /* Empêche le texte de revenir à la ligne */
-	overflow: hidden; /* Cache le texte qui dépasse */
-	animation: marquee 15s linear infinite; /* Utilise l'animation marquee */
+/* Ajoutez ces styles à votre feuille de style CSS */
+.scrolling-text {
+	overflow: hidden;
   }
   
-  @keyframes marquee {
-	0% {
-	  transform: translateX(-160%); /* Commence à gauche de la fenêtre */
-	}
+  .scrolling-text-container {
+	white-space: nowrap;
+	animation: scrollText 30s linear infinite; /* Ajustez la durée selon vos préférences */
+  }
   
-	100% {
-	  transform: translateX(160%); /* Termine à droite de la fenêtre */
+  .scrolling-text-container p {
+	display: inline-block;
+	margin-right: 20px; /* Ajustez l'espace entre les paragraphes selon vos préférences */
+  }
+  
+  @keyframes scrollText {
+	from {
+	  transform: translateX(260%);
+	}
+	to {
+	  transform: translateX(-280%);
 	}
   }
   

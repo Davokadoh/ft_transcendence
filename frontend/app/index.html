@@ -107,6 +107,42 @@
       });
     }
   </script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	  const gameLink = document.querySelector('#game-link');
+  
+	  gameLink.addEventListener('click', function (event) {
+		event.preventDefault();
+  
+		// Charger le contenu de game.html dans la div #content
+		loadPage('game.html');
+	  });
+  
+	  function loadPage(page) {
+		console.log('AJAX function load page 2 called');
+		$.ajax({
+		  url: page,
+		  method: 'GET',
+		  dataType: 'html',
+		  success: function (data) {
+			$('#content').html(data);
+		  },
+		  error: function (error) {
+			console.error('Erreur lors du chargement de la page :', error);
+		  }
+		});
+	  }
+	});
+  </script>
+
+
+  <!-- STYLES -->
+  <style>
+    .custom-spacing {
+      white-space: pre;
+    }
+  </style>
 </head>
 
 <body>
@@ -179,7 +215,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
-              <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('game')">GAME</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" id="game-link" onclick="loadPage('game')">GAME</a></li>
               <li class="sep"> | </li>
               <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('chat')">CHAT</a></li>
               <li class="sep"> | </li>
@@ -216,8 +252,10 @@
           <div class="container-fluid">
             <div class="row justify-content-center align-items-center">
               <div class="col-lg-6">
-                <div id="scrolling-text">
-                  <p class="">To access to the game and the chat, please log in</p>
+                <div class="scrolling-text-container">
+                  <p class="custom-spacing">Welcome to the Pong-Chos website !</p>
+                  <p class="custom-spacing">                                                                  </p>
+                  <P class="custom-spacing">To access to the game and the chat, please log in...</P>
                 </div>
                 </div>
               </div>

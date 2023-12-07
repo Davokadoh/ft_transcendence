@@ -2,40 +2,168 @@
 <html lang="fr">
 
 <head>
-	<meta charset="UTF-8" />
-	<link rel="icon" type="image/svg+xml" href="/vite.svg" />
-	<!-- <link rel="stylesheet" href="css/pico.min.css"> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>GAME</title>
-	<!-- Inclure le framework bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-	<!-- scripts CDN bootstrap -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <!-- <link rel="stylesheet" href="css/pico.min.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAME</title>
+  <!-- Inclure le framework JQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Inclure le framework bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- scripts CDN bootstrap -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
 
-	<!-- Inclure le framework JQuery -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<!-- Inclure le fichier CSS -->
-	<link rel="stylesheet" type="text/css" href="src/App.css">
-	<link rel="stylesheet" type="text/css" href="src/stylesheet.css">
-	<!-- <-- Inclure les fonts  -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+  <!-- Inclure le fichier CSS -->
+  <link rel="stylesheet" type="text/css" href="src/App.css">
+  <link rel="stylesheet" type="text/css" href="src/stylesheet.css">
+  <!-- <-- Inclure les fonts  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+
+  <!-- <script type="module" src="/src/main.jsx"></script> -->
+
+  <!-- SCRIPTS -->
+  <!-- SCRIPT BOUTON NB/COLOR -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('night mode function called');
+  const toggleSwitch = document.getElementById('toggle-switch');
+
+  toggleSwitch.addEventListener('change', function () {
+    document.body.classList.toggle('night-mode', toggleSwitch.checked);
+  });
+});
+  </script>
+
+<script>
+  const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const darkModeImage = document.querySelector('.dark-mode-image');
+
+  function handleDarkModeChange(e) {
+    console.log('dark mode  handlefunction called');
+    if (e.matches) {
+      // Mode sombre activé, changez l'image
+      darkModeImage.src = './src/img/Pong-Chos_LOGO_NB_DarkMode.png';
+    } else {
+      // Mode sombre désactivé, revenez à l'image normale
+      darkModeImage.src = './src/img/Pong-Chos_LOGO_NB.png';
+    }
+  }
+
+  // Vérifiez le mode sombre lors du chargement de la page
+  handleDarkModeChange(darkModeMediaQuery);
+
+  // Ajoutez un écouteur pour suivre les changements de mode sombre
+  darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
+</script>
+
+  <!-- SCRIPT BOUTON MENU -->
+  <script>
+    function toggleNavbar() {
+      console.log('Toggle Navbar function called');
+
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarNav = document.querySelector('#navbarNav');
+    
+        // Vérifie si le menu est ouvert
+        const isOpen = navbarNav.classList.contains('show');
+    
+        // Si le menu est ouvert, retire la classe active du bouton
+        if (isOpen) {
+            navbarToggler.classList.remove('active');
+        } else {
+            // Si le menu est fermé, ajoute la classe active au bouton
+            navbarToggler.classList.add('active');
+        }
+    }
+      </script>
+
+  <!-- SCRIPT AJAX -->
+  <!-- Liens vers les fichiers JavaScript -->
+  <script src="./src/main.js">
+    // Fonction pour charger les pages de manière asynchrone
+    function loadPage(game) {
+      console.log('AJAX function called');
+      $.ajax({
+        url: "./src/GAME/" + game + '.html',
+        method: 'GET',
+        dataType: 'html',
+        success: function (data) {
+          $('#content').html(data);
+        },
+        error: function (error) {
+          console.error('Erreur lors du chargement de la page :', error);
+        }
+      });
+    }
+  </script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	  const gameLink = document.querySelector('#game-link');
+  
+	  gameLink.addEventListener('click', function (event) {
+		event.preventDefault();
+  
+		// Charger le contenu de game.html dans la div #content
+		loadPage('game.html');
+	  });
+  
+	  function loadPage(page) {
+		console.log('AJAX function load page 2 called');
+		$.ajax({
+		  url: page,
+		  method: 'GET',
+		  dataType: 'html',
+		  success: function (data) {
+			$('#content').html(data);
+		  },
+		  error: function (error) {
+			console.error('Erreur lors du chargement de la page :', error);
+		  }
+		});
+	  }
+	});
+  </script>
+  
 </head>
 
 <body>
-	<header class="">
-		<div class="lineUnderNav">
-			<nav class="navbar justify-content-center fluid-container">
-				<!-- <a class="navbar-brand" href="#">
+
+  <header class="">
+              	<!-- Bouton Jour/Nuit -->
+                <div class="toggle-container">
+                  <input type="checkbox" id="toggle-switch">
+                  <label class="toggle-label" for="toggle-switch">
+                      <div class="icon-container">
+                          <!-- Icône en noir blanc -->
+                          <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
+                        </div>
+                        <div class="separator"></div> <!-- Séparateur -->
+                        <div class="icon-container">
+                          <!-- Icône en couleur -->
+                          <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
+                      </div>
+                  </label>
+              </div>
+    <div class="lineUnderNav">
+      <nav class="navbar justify-content-center fluid-container">
+
+        <!-- <a class="navbar-brand" href="#">
           <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
         </a> -->
-				<div class="ulLiA">
-					<!-- <div class="navAlignCenter">
+        <div class="ulLiA">
+          <!-- <div class="navAlignCenter">
               <ul class="nav justify-content-center mx-auto text-center">
                 <li class="nav-item">
                   <a class="nav-link active" href="#">LOGIN</a>
@@ -51,70 +179,114 @@
                 </li>
               </ul>
           </div> -->
-					<!-- Barre de navigation facon SPA -->
-					<div class="container d-flex justify-content-center">
-						<div class="logo-container">
-							<!-- <a class="logoLink" href="#"> -->
-							<div class="logo">
-								<img src="./src/img/Pong-Chos_LOGO-min.png" alt="logo des Pong-Chos" width="100"
-									height="100">
-								<!-- </a> -->
-							</div>
-						</div>
-					</div>
-					<div id="navbar">
-						<ul class="nav justify-content-center mx-auto">
-							<li><a href="javascript:void(0)" onclick="loadPage('game')">GAME</a></li>
-							<li><a href="#" onclick="loadPage('chat')">CHAT</a></li>
-							<li><a href="#" onclick="loadPage('profil')">PROFIL</a></li>
-						</ul>
-					</div>
-			</nav>
-			<!-- <hr> -->
-		</div>
-	</header>
+          <!-- Barre de navigation facon SPA -->
+          <div class="container d-flex justify-content-center">
+            <div class="logo-container">
+              <!-- <a class="logoLink" href="#"> -->
+              <div class="logo">
+                <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
+                <!-- <img src="./src/img/Pong-Chos_LOGO_NB.png" class="dark-mode-image" width="100" height="100"> -->
+                <!-- </a> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- ANCIEN MENU SANS PETIT CODE DE CLAIRE -->
+          <!-- <div id="navbar">
+            <ul class="nav justify-content-center mx-auto">
+              <li><a href="javascript:void(0)" onclick="loadPage('game')">GAME</a></li>
+              <li class="sep"> | </li>
+              <li><a href="#" onclick="loadPage('chat')">CHAT</a></li>
+              <li class="sep"> | </li>
+              <li><a href="#" onclick="loadPage('profil')">PROFIL</a></li>
+            </ul>
+          </div> -->
+          
+          <!-- MENU AVEC PETIT CODE DE CLAIRE -->
+          <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
+              <li class="nav-item"><a class="nav-link" href="#" id="game-link" onclick="loadPage('game')">GAME</a></li>
+              <li class="sep"> | </li>
+              <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('chat')">CHAT</a></li>
+              <li class="sep"> | </li>
+              <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('profil')">PROFIL</a></li>
+            </ul>
+          </div>  
+          
+
+      </nav>
+      <!-- <hr> -->
+    </div>
+  </header>
+
+  <main>
+    <section class="py-5">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-12 col-md-12">
+            <div class="login-container">
+              <h1>Log in</h1> <br>
+              <!-- Ajouter le contenu spécifique de la page de connexion ici -->
+              <form>
+                <!-- champs de formulaire ici -->
+                <button type="submit" class="btn bg-vert">Connexion</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+	    <!-- Div où charger le contenu -->
+  <div id="content"> GAME TEST 
+  <title>LES PONG-CHOS</title>
+
+</div>
 
 
-	<main>
-		<section classe py-5>
-			<div class="container">
-				<div class="row gy-4"></div>
-				<div class="col-12 col-md-12">
-					<div class="login-container">
-						<h1>Log in</h1> <br>
-						<!-- Ajoutez le contenu spécifique de la page de connexion ici -->
-						<form>
-							<!-- Vos champs de formulaire ici -->
-							<button type="submit" class="btn bg-vert">Connexion</button>
-						</form>
-					</div>
-				</div>
-			</div>
-			</div>
-		</section>
-	</main>
+      <!-- BANDE D INFO -->
+      <div class="container-info">
+        <!-- py-4 correspond a la taille de la bande en hauteur -->
+        <section class="py-4 mb-4 text-center">
+          <div class="container-fluid">
+            <div class="row justify-content-center align-items-center">
+              <div class="col-lg-6">
+                <div id="scrolling-text">
+                  <p class="">To access to the game and the chat, please log in</p>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <section>
+            <div class="espace">
+              <div class="container-fluid">
+                <p></p>
+              </div>
+            </div>
+          </section>
+        </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  
 
-	<!-- Footer -->
-	<footer>
-		<div class="container">
-			<div class="footer-content">
-				<div class="left-content">
-					<p>@Les Pong-Chos</p>
-				</div>
-				<!-- <div class="right-content">
-                  <p>Help</p>
-              </div> -->
-			</div>
-		</div>
-	</footer>
-
-	<script type="module" src="/src/main.tsx"></script>
-	<!-- Bootstrap JS bundle -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-		</script>
-
-
+  <!-- Footer -->
+  <footer class="text-white py-1 mt-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <p>@2023LesPong-Chos42</p>
+        </div>
+        <!-- <div class="col-lg-6">
+          <p>Help</p>
+        </div> -->
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>
