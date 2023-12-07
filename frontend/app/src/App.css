@@ -14,10 +14,11 @@ body {
 	/* color: black; */
 	background-color: white;
 	margin: 0;
+	margin-bottom: 0;
 	/* display: flex; */
 	/* flex-direction: column; */
 	place-items: center;
-	justify-content: center;
+	justify-content: center; */
 	align-items: center;
 	vertical-align: middle;
 	min-height: 100vh;
@@ -35,17 +36,30 @@ header {
 	background-color: white;
 }
 
-.navbar-toggler
-{
-	color :#87d300;
+.navbar-toggler{
+    color :#87d300;
 }
 
 .navbar-toggler-icon {
-	background-color: #87d300; /* Couleur du contour du bouton (bleu) */
+    background-color: #87d300; /* Couleur du contour du bouton (bleu) */
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-	background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
+    background-color: #87d300; /* Couleur de fond du bouton lorsqu'il est actif (rouge) */
+}
+
+/* Permet de diminuer la taille de la police de la navbar sur les petits ecrans */
+@media (max-width: 576px) {
+	.nav-link-small {
+	  font-size: 14px; /* Ajustez la taille de la police pour les petits écrans */
+	}
+  }
+
+  /* Donne une marge supplementaire au menu deroulant*/
+  @media (max-width: 576px) {
+	.navbar-toggler {
+	  margin-bottom: 10px; /* Ajustez la marge inférieure selon vos besoins */
+	}
 }
 
 .ulLiA {
@@ -68,6 +82,7 @@ header {
 .ulLiA li {
 	margin-right: 25px; /* Ajoute une marge à droite pour créer un espace entre les éléments */
 	margin-left: 25px; /* Ajoute une marge à gauche pour créer un espace entre les éléments */
+	margin-bottom: 0;
 }
 
 /* Style de base des liens du menu */
@@ -93,7 +108,7 @@ header {
 }
 
 .logo-container {
-	margin-bottom: 7px;
+	/* margin-bottom: 0px; */
 	text-align: center; /* Centre le contenu du conteneur */
 }
 
@@ -104,7 +119,7 @@ header {
 	flex-direction: column;
 	align-items: center;
 	margin-top: 5px;
-	margin-bottom: 5px; /* espace entre logo et textes du menu */
+	margin-bottom: 0px; /* espace entre logo et textes du menu */
 }
 
 .degrade-horizontal {
@@ -136,6 +151,11 @@ header {
     color: #87d300;
     font-family: 'Spoof', sans-serif;
 	}
+
+.bg-success{
+	background-color : #87d300;
+	color : #87d300
+}
 
 .login-container {
     border-radius: 30px;
@@ -200,29 +220,40 @@ header {
 
 
 /* FOOTER */
+
 footer {
-    background-color: var(--vert); /* Couleur de fond du pied de page */
-    padding: 20px 0; /* Ajoutez un espace intérieur pour le contenu */
-	color: white;
-	position: fixed; /* Position fixe pour rester en bas même en faisant défiler */
-    bottom: 0; /* Alignez-le en bas de la fenêtre */
-    width: 100%; /* Occupe toute la largeur de la fenêtre */
-}
+	background-color: var(--vert);
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+  }
 
-.container {
-    max-width: 1200px; /* Limitez la largeur pour un meilleur rendu sur des écrans plus larges */
-    margin: 0 auto; /* Centrez le contenu du pied de page */
-}
+/* footer {
+    background-color: var(--vert); Couleur de fond du pied de page */
+    /* padding: 20px 0; Ajoutez un espace intérieur pour le contenu */
+	/* color: white; */
+	/* position: fixed; Position fixe pour rester en bas même en faisant défiler */
+    /* bottom: 0; Alignez-le en bas de la fenêtre */
+    /* width: 100%; Occupe toute la largeur de la fenêtre */
+/* } */
 
-.footer-content {
+/* .container { */
+    /* max-width: 1200px; Limitez la largeur pour un meilleur rendu sur des écrans plus larges */
+    /* margin: 0 auto; Centrez le contenu du pied de page */
+/* } */
+
+/* .footer-content {
     display: flex;
     justify-content: space-between; /* Placez le contenu à gauche et à droite */
-}
+/* } */ */
 
 .left-content,
-.right-content {
+/* .right-content  */
+{
     width: 48%; /* Donnez une largeur à chaque côté */
 }
+
+
 
 /* Ajoutez des styles supplémentaires selon vos besoins */
 
@@ -242,7 +273,10 @@ footer {
 
 .toggle-label {
     background: transparent;
-    border-radius: 30px;
+    border-radius: 20px;
+	border: 2px solid;
+	border-color: #9016B2;
+	padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -250,8 +284,15 @@ footer {
 	width: 150px;
 }
 
+
+@media (max-width: 576px){
+	.toggle-label{
+		font-size: 5px;
+	}
+}
+
 .icon-container {
-    /* flex: 1; */
+    flex: 1;
     text-align: center;
     transition: background 0.3s;
 }
@@ -269,6 +310,10 @@ footer {
 
 
 /* NIGHT MODE */
+
+.night-mode .toggle-label {
+	border-color: black;
+}
 
 #toggle-switch:checked + .toggle-label {
     background-color: white; /* Couleur pour le mode nuit */
@@ -395,17 +440,18 @@ body.night-mode footer {
 	.navbar {
 	background-color:#1c1c1e;
 	}
-	.PING_BW {
-	    filter: brightness(100%) !important;
-		color: white;
+	.icon-container .PING_BW {
+		filter:contrast(0%);
 	}
 	.night-mode .PING_BW {
 		filter:contrast(100%);
-		/* filter:grayscale(0%); */
 	}
 	.night-mode .navbar .ulLiA li a {
 		background: none;
 		color: white;
+	}
+	body.night-mode .ulLiA a:hover {
+		color: rgb(133, 131, 131);
 	}
 	.night-mode .navbar .ulLiA .sep {
 		background: none;
@@ -423,4 +469,3 @@ body.night-mode footer {
 	}
 
 }
-

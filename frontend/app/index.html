@@ -2,11 +2,11 @@
 <html lang="fr">
 
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <!-- <link rel="stylesheet" href="css/pico.min.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bootstrap + Vite + TS</title>
+  <title>LES PONG-CHOS</title>
   <!-- Inclure le framework bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -26,6 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+
   <script type="module" src="/src/main.tsx"></script>
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -44,110 +45,93 @@
 });
   </script>
 
-<script>
-  const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  const darkModeImage = document.querySelector('.dark-mode-image');
+  <script>
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeImage = document.querySelector('.dark-mode-image');
 
-  function handleDarkModeChange(e) {
-    if (e.matches) {
-      // Mode sombre activé, changez l'image
-      darkModeImage.src = './src/img/Pong-Chos_LOGO_NB_DarkMode.png';
-    } else {
-      // Mode sombre désactivé, revenez à l'image normale
-      darkModeImage.src = './src/img/Pong-Chos_LOGO_NB.png';
+    function handleDarkModeChange(e) {
+      if (e.matches) {
+        // Mode sombre activé, changez l'image
+        darkModeImage.src = './src/img/Pong-Chos_LOGO_NB_DarkMode.png';
+      } else {
+        // Mode sombre désactivé, revenez à l'image normale
+        darkModeImage.src = './src/img/Pong-Chos_LOGO_NB.png';
+      }
     }
-  }
 
-  // Vérifiez le mode sombre lors du chargement de la page
+      // Vérifiez le mode sombre lors du chargement de la page
   handleDarkModeChange(darkModeMediaQuery);
 
-  // Ajoutez un écouteur pour suivre les changements de mode sombre
-  darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
+// Ajoutez un écouteur pour suivre les changements de mode sombre
+darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
 </script>
 
 
-  <!-- SCRIPT AJAX -->
-  <!-- Liens vers les fichiers JavaScript -->
-  <!-- <script src="./src/main.js">
-    // Fonction pour charger les pages de manière asynchrone
-    function loadPage(game) {
-      $.ajax({
-        url: "app/src/GAME/" + game + '.html',
-        method: 'GET',
-        dataType: 'html',
-        success: function (data) {
-          $('#content').html(data);
-        },
-        error: function (error) {
-          console.error('Erreur lors du chargement de la page :', error);
-        }
-      });
-    }
-  </script> -->
+<!-- SCRIPT AJAX -->
+<!-- Liens vers les fichiers JavaScript -->
+<script src="./src/main.js">
+  // Fonction pour charger les pages de manière asynchrone
+  function loadPage(game) {
+    $.ajax({
+      url: "app/src/GAME/" + game + '.html',
+      method: 'GET',
+      dataType: 'html',
+      success: function (data) {
+        $('#content').html(data);
+      },
+      error: function (error) {
+        console.error('Erreur lors du chargement de la page :', error);
+      }
+    });
+  }
+</script>
 </head>
-<body>
 
-  	<!-- Bouton Jour/Nuit -->
+<body>
+  <header class="">
+    <!-- Bouton Jour/Nuit -->
     <div class="toggle-container">
       <input type="checkbox" id="toggle-switch">
       <label class="toggle-label" for="toggle-switch">
           <div class="icon-container">
               <!-- Icône en noir blanc -->
-              <img class="PING_BW img-fluid" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc">
+              <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
             </div>
             <div class="separator"></div> <!-- Séparateur -->
             <div class="icon-container">
               <!-- Icône en couleur -->
-              <img class="PING_COL img-fluid" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
+              <img src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
           </div>
       </label>
-  </div>
-  <div class="AppContainer"></div>
-  <script type="text/JavaScript" charset="utf-8">
-    var HashChange = function(){
-      var hash = window.location.hash;
-      if (hash.startsWith('#/') && hash.length > 2){
-        hash = hash.replace("#/", "");
-        var file = "src/" + hash + ".html";
-        $(".AppContainer").load( file );
-      }
-      else{
-        window.location = "#/profil"
-      }
-      window.onhashchange = HashChange
-      HashChange();
-    }
-  </script>
-
-<header class="">
-  <div class="lineUnderNav">
-    <nav class="navbar justify-content-center fluid-container">
-      <!-- <a class="navbar-brand" href="#">
-        <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
-      </a> -->
-      <div class="ulLiA">
-        <!-- <div class="navAlignCenter">
-            <ul class="nav justify-content-center mx-auto text-center">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">LOGIN</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#game">GAME</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#chat">CHAT</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#profil">PROFIL</a>
-              </li>
-            </ul>
-        </div> -->
-        <!-- Barre de navigation facon SPA -->
-        <div class="container d-flex justify-content-center">
+    </div>
+      <div class="lineUnderNav">
+      <nav class="navbar justify-content-center fluid-container">
+        <!-- <a class="navbar-brand" href="#">
+          <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
+        </a> -->
+        <div class="ulLiA">
+          <!-- <div class="navAlignCenter">
+              <ul class="nav justify-content-center mx-auto text-center">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">LOGIN</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#game">GAME</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#chat">CHAT</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#profil">PROFIL</a>
+                </li>
+              </ul>
+          </div> -->
+  <!-- Barre de navigation facon SPA -->
+  <div class="container d-flex justify-content-center">
     <div class="logo-container">
       <!-- <a class="logoLink" href="#"> -->
         <div class="logo">
-          <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
+          <img src="./src/img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
         <!-- </a> -->
       </div>
     </div>
@@ -157,15 +141,16 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
-        <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('game')">GAME</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('chat')">CHAT</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="loadPage('profil')">PROFIL</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-small" href="#" onclick="loadPage('game')">GAME</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-small" href="#" onclick="loadPage('chat')">CHAT</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-small" href="#" onclick="loadPage('profil')">PROFIL</a></li>
+
       </ul>
     </div>
       </nav>
-      <!-- <hr> -->
     </div>
   </header>
+
 
 <main>
   <section classe py-5>
@@ -185,21 +170,27 @@
       </div>
   </section>
 </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="left-content">
-          <p>@Les Pong-Chos</p>
-        </div>
-        <!-- <div class="right-content">
-                  <p>Help</p>
-              </div> -->
+<!-- Footer -->
+<!-- <footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="left-content">
+        <p>@Les Pong-Chos</p>
       </div>
     </div>
-  </footer>
-
+  </div>
+</footer> -->
+<footer class="text-white py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <p>@Les Pong-Chos</p>
+      </div>
+      <!-- <div class="col-lg-6">
+        <p>Help</p>
+      </div> -->
+    </div>
+  </div>
+</footer>
 </body>
-
 </html>
