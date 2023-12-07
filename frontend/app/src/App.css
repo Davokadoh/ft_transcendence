@@ -124,6 +124,11 @@ header {
     color: var(--gris); /* Couleur lors du clic */
 }
 
+/* Style au clic */
+.ulLiA a:focus {
+    color: var(--bleu) !important; /* Couleur lors du clic */
+}
+
 .logo-container {
 	/* margin-bottom: 0px; */
 	text-align: center; /* Centre le contenu du conteneur */
@@ -235,23 +240,42 @@ header {
 /* border: 2px solid transparent; Bordure transparente au clic */
 }
 
+/* BANDE D'INFO */
 .container-info {
-	/* margin-top: 100px;*/
-	margin-bottom: 100px;
-	background-color: #5fa9ee;
+	/* marge sous la bande */
+	margin-bottom: 80px;
+	background-color: var(--bleu);
 	font-family: 'Titan One';
 	font-size: 22px;
-	color: black;
-	/* border-radius: 20px; */
-	height: 75px;
+	color: var(--violet);
+	/* DISTANCE AVEC LE FOOTER */
+	/* height: 70px; */
 	/* width: fit-content; */
-
 }
 
-.espace {
-	font-size: 35px;
-	color: white;
+.container-info p {
+	margin-top: 0px;
+	margin-bottom: 0;
+	justify-items: center;
+	text-align: center;
 }
+
+#scrolling-text {
+	white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+	overflow: hidden; /* Cache le texte qui dépasse */
+	animation: marquee 15s linear infinite; /* Utilise l'animation marquee */
+  }
+  
+  @keyframes marquee {
+	0% {
+	  transform: translateX(-160%); /* Commence à gauche de la fenêtre */
+	}
+  
+	100% {
+	  transform: translateX(160%); /* Termine à droite de la fenêtre */
+	}
+  }
+  
 
 /* FOOTER */
 footer {
@@ -487,9 +511,15 @@ body.night-mode .login-container button:active {
 	border: none;
 }
 
+/* BARRE D INFO MODE BW */
+body.night-mode .container-info {
+	background-color: black !important;
+	color: white !important;
+}
+
 /* FOOTER NIGHT MODE */
 body.night-mode footer {
-	background-color: black;
+	background-color: black !important;
 	color: white;
 }
 
@@ -565,7 +595,7 @@ body.night-mode footer {
 		align-items: center;
 		z-index: 1000;
 	}
-
+	
 	.toggle-label {
 		background: transparent;
 		border-radius: 20px;

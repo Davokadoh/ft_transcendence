@@ -208,11 +208,14 @@ darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
       </div>
       <!-- BANDE D INFO -->
       <div class="container-info">
-        <section class="py-4 bg-info mb-4">
+        <!-- py-4 correspond a la taille de la bande en hauteur -->
+        <section class="py-4 mb-4 text-center">
           <div class="container-fluid">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center align-items-center">
               <div class="col-lg-6">
-                  <p class="text-dark">To access the chat and the games, please log in</p>
+                <div id="scrolling-text">
+                  <p class="">To access to the game and the chat, please log in</p>
+                </div>
                 </div>
               </div>
             </div>
@@ -220,7 +223,7 @@ darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
           <section>
             <div class="espace">
               <div class="container-fluid">
-                <p>...</p>
+                <p></p>
               </div>
             </div>
           </section>
@@ -232,11 +235,11 @@ darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
 
 
   <!-- Footer -->
-  <footer class="text-white py-4 mt-4">
+  <footer class="text-white py-1 mt-4">
     <div class="container">
       <div class="row">
         <div class="col-lg-6">
-          <p>@Les Pong-Chos</p>
+          <p>@2023LesPong-Chos42</p>
         </div>
         <!-- <div class="col-lg-6">
           <p>Help</p>
