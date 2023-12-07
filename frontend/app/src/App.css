@@ -181,7 +181,7 @@ header {
     height: 250px; /* Hauteur du rectangle */
     font-family: 'Titan One', sans-serif;
     color: #87d300;
-    margin: 14% auto; /*distance du login par rapport au header */
+    margin: 5% auto; /*distance du login par rapport au header */
     text-align: center;
 }
 
@@ -229,6 +229,23 @@ header {
 /* border: 2px solid transparent; Bordure transparente au clic */
 }
 
+.container-info {
+	/* margin-top: 100px;*/
+	margin-bottom: 100px;
+	background-color: #5fa9ee;
+	font-family: 'Titan One';
+	font-size: 22px;
+	color: black;
+	/* border-radius: 20px; */
+	height: 75px;
+	/* width: fit-content; */
+
+}
+
+.espace {
+	font-size: 35px;
+	color: white;
+}
 
 /* FOOTER */
 footer {
