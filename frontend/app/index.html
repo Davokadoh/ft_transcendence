@@ -33,6 +33,14 @@
   <!-- <script type="module" src="/src/main.jsx"></script> -->
 
   <!-- SCRIPTS -->
+  <!-- LOG OUT Button -->
+  <script>
+    function logout() {
+      // Ajoutez ici le code de déconnexion, comme rediriger vers la page de connexion, effacer les cookies, etc.
+      // Exemple: window.location.href = "/logout"; // Rediriger vers la page de login
+    }
+  </script>
+
   <!-- SCRIPT BOUTON NB/COLOR -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -209,9 +217,10 @@
         <div class="col-lg-6">
           <p>@2023LesPong-Chos42</p>
         </div>
-        <!-- <div class="col-lg-6">
-          <p>Help</p>
-        </div> -->
+        <div class="col-lg-6 logAlign">
+          <!-- Ajoutez ici le bouton "Log Out" -->
+          <button class="btn btn-link logout" onclick="logout()">Log Out</button>
+        </div>
       </div>
     </div>
   </footer>

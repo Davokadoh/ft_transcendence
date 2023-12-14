@@ -338,7 +338,35 @@ footer {
 	/* Donnez une largeur à chaque côté */
 }
 
-/* Ajoutez des styles supplémentaires selon vos besoins */
+/* LOGOUT BUTTON */
+.logAlign {
+	display: flex;
+	justify-content: right;
+}
+
+.logout {
+	color: white;
+	font-family: 'Titan One', sans-serif;
+	font-size: 20px;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.logout:hover {
+	color: var(--bleu);
+}
+
+.logout:active {
+	color: var(--violet) !important;
+}
+
+.night-mode .logout:hover {
+	color: var(--gris);
+}
+
+.night-mode .logout:active {
+	color: white !important;
+}
 
 /* Bouton Jour/Nuit */
 .toggle-container {
