@@ -1,0 +1,103 @@
+
+
+/* LADDER BUTTON */
+
+.container {
+	/* display: flex; */
+	/* flex-direction: column; */
+}
+
+.styleBtn {
+	font-family: 'Titan One', sans-serif;
+	text-decoration: none;
+	transition: color 0.6s ease;
+}
+
+
+.ladButClass, 
+.quickButClass {
+	margin-top: 65px;
+	font-size: 50px;
+	background-color: var(--violet);
+	color: var(--vert);
+	border-radius: 20px;
+	height: 150px;
+	width: 400px;
+}
+
+.ladButClass:hover, 
+.quickButClass:hover {
+	background-color: var(--vert);
+	color: var(--violet);
+}
+
+.ladButClass:active, 
+.quickButClass:active {
+	background-color: var(--bleu) !important;
+	color: var(--violet) !important;
+}
+
+/* Réinitialisation des styles par default du bouton noir et blanc pour le mode nuit */
+.night-mode .ladButClass,
+.night-mode .quickButClass {
+	background-color: initial;
+	color: white;
+	border: 2px solid white;
+}
+
+.night-mode .ladButClass:hover,
+.night-mode .quickButClass:hover {
+	background-color: initial;
+	color: var(--gris);
+}
+
+.night-mode .ladButClass:active,
+.night-mode .quickButClass:active {
+	background-color: initial !important;
+	color: white !important;
+	border: 2px solid white;
+}
+
+.inviteToGame {
+	font-family: 'Titan One', sans-serif;
+	transition: color 0.6s ease;
+	margin-top: 105px;
+	font-size: 28px;
+	padding: 05;
+	background-color: var(--vert);
+	color: var(--violet);
+	border-radius: 20px;
+	height: 300px;
+	width: 400px;
+	margin-left: auto;
+	align-self: flex-start; /* Aligner le bord supérieur avec le bouton */
+	margin-bottom: auto;
+	align-items: center;
+	justify-content: center;
+}
+
+.invitFriend {
+	margin-top: 25px;
+	margin-bottom: 50px;
+}
+
+.inviteButClass {
+	margin-top: 25px;
+	color: var(--vert);
+	background-color: var(--violet);
+	border: 2px solid white;
+}
+
+.inviteButClass:hover {
+	margin-top: 25px;
+	color: white;
+	background-color: var(--violet);
+	border: 2px solid white;
+}
+
+.inviteButClass:active {
+	margin-top: 25px;
+	color: var(--violet)!important;
+	background-color: var(--vert) !important;
+	border: none;
+}
