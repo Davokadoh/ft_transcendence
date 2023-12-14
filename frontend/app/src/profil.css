@@ -1,0 +1,148 @@
+/* --- Profil --- */
+
+/* container de gauche */
+
+.container_stat {
+	margin-top: 50px;
+    margin-left: 70px; /* Ajustez la valeur de la marge selon vos besoins */
+}
+
+.option-container {
+	border-radius: 30px;
+	background-color: #9016B2;
+	padding: 40px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/* margin: 0 auto; Supprimez cette ligne */
+	max-width: 400px;
+	height: 300px;
+	font-family: 'Titan One', sans-serif;
+	color: #87d300;
+	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	text-align: left;
+}
+
+/* Style du bouton normal */
+.option-container button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: #87d300;
+	/* Fond vert */
+	color: #9016B2;
+	/* Texte violet */
+	transition: all 0.3s;
+	/* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 15px;
+	margin-top: 15px;
+}
+
+/* Style du bouton survolé */
+.option-container button:hover {
+	color: #ffffff;
+	/* Texte blanc au survol */
+	background-color: #87d300;
+	/* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.option-container button:active {
+	background-color: #87d300;
+	/* Fond vert au clic */
+	color: #9016B2;
+	/* Texte violet au clic */
+	border: none;
+	/* Pas de bordure au clic */
+	/* border: 2px solid transparent; Bordure transparente au clic */
+}
+
+/* Styles spécifiques pour le login-container en mode nuit */
+.night-mode .container-stat {
+	background-color: #222;
+	color: #fff;
+}
+
+/* container de droite */
+
+.container_prof {
+	margin-top: 50px;
+	margin-left: 30px;
+    margin-right: 30px; /* Ajustez la valeur de la marge selon vos besoins */
+}
+
+.profil-container {
+	border-radius: 30px;
+	background-color: #87d300;
+	padding: 40px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/* margin: 0 auto; Supprimez cette ligne */
+	max-width: 400px;
+	height: 300px;
+	font-family: 'Titan One', sans-serif;
+	color: #9016B2
+	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	text-align: left;
+}
+
+.profil-container button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: #9016B2;
+	/* Fond vert */
+	color: #87d300;
+	/* Texte violet */
+	transition: all 0.3s;
+	/* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 15px;
+	margin-top: 15px;
+}
+
+/* Style du bouton survolé */
+.profil-container button:hover {
+	color: #ffffff;
+	/* Texte blanc au survol */
+	background-color: #9016B2;
+	/* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.profil-container button:active {
+	background-color: #87d300;
+	/* Fond vert au clic */
+	color: #87d300;
+	/* Texte violet au clic */
+	border: none;
+	/* Pas de bordure au clic */
+	/* border: 2px solid transparent; Bordure transparente au clic */
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+.close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
+}
+

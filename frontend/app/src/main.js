@@ -1,11 +1,27 @@
-// const { appBarClasses } = require("@mui/material");
+// // le code JavaScript, y compris la fonction userLoggedIn et les fonctions Ajax
+// function userLoggedIn() {
+// 	// ... Logique de connexion ...
+// 	// Charger la page de profil après la connexion
+// 	loadPage('game');
+// 	loadPage('chat');
+// 	loadPage('profil');
+//   }
+  
+//   // Vos autres fonctions JavaScript et gestionnaires d'événements 
+//   //appeler des fichiers JS et JSX
 
+//   // const { appBarClasses } = require("@mui/material");
+
+import login from "./views/login"
 import home from "./views/home"
 import game from "./views/game"
+import profil from "./views/profil"
 
 const routes = {
-	"/": {title: "Home", render: home},
+	"/": {title: "Login", render: login},
+	"/home": {title: "Login", render: home},
 	"/game": {title: "Game", render: game},
+	"/profil": {title: "Profil", render: profil},
 };
 
 function router() {
