@@ -22,11 +22,16 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 
-  <!-- Inclure le fichier CSS -->
-  <link rel="stylesheet" type="text/css" href="src/App.css">
-  <link rel="stylesheet" type="text/css" href="src/home.css">
-  <link rel="stylesheet" type="text/css" href="src/profil.css">
-  <link rel="stylesheet" type="text/css" href="src/stylesheet.css">
+  <!-- Inclure les fichiers CSS -->
+  <link rel="stylesheet" type="text/css" href="src/css/App.css">
+  <link rel="stylesheet" type="text/css" href="src/css/home.css">
+  <link rel="stylesheet" type="text/css" href="src/css/profil.css">
+  <link rel="stylesheet" type="text/css" href="src/css/stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="src/css/chat.css">
+
+  <!-- Inclure les scripts  -->
+  <script src="./src/scripts/profil.js" defer></script>
+
   <!-- <-- Inclure les fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,10 +81,10 @@
 
         const navbarToggler = document.querySelector('.navbar-toggler');
         const navbarNav = document.querySelector('#navbarNav');
-    
+
         // Vérifie si le menu est ouvert
         const isOpen = navbarNav.classList.contains('show');
-    
+
         // Si le menu est ouvert, retire la classe active du bouton
         if (isOpen) {
             navbarToggler.classList.remove('active');
@@ -113,7 +118,7 @@
 
             <!-- Barre de navigation facon SPA -->
               <div class="logo-container">
-                <a class="logoLink" href="/home" data-link> 
+                <a class="logoLink" href="/home" data-link>
                 <div class="logo">
                   <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
                 </div>
@@ -150,8 +155,8 @@
                     </div>
                 </label>
             </div>
-          </div>  
-          
+          </div>
+
 
       </nav>
       <!-- <hr> -->

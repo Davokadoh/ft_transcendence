@@ -1,11 +1,12 @@
 const profil = (
     `
-    <div class="row gy-4">
-        <div class="col-md-4">
-            <div class="container_stat">
-                <div class="option-container">
+    <div class="row gy-4 justify-content-center">
+        <div class="col-md-6 mx-auto">
+            <div class="container_opt">
+                <div class="container-option">
                     <form>
-                        <button type="button" id="statsBtn" class="btn bg-vert">Statistics</button> <br>
+                    <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
+                    Statistics</button> <br>
                         <button type="submit" class="btn bg-vert">Feats</button> <br>
                         <button type="submit" class="btn bg-vert">Match History</button> <br>
                         <button type="submit" class="btn bg-vert">Settings</button>
@@ -13,9 +14,9 @@ const profil = (
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 mx-auto">
             <div class="container_prof">
-                <div class="profil-container">
+                <div class="container-profil">
                     <form>
                         <button type="submit" class="btn bg-vert">Contact(s)</button> <br>
                         <button type="submit" class="btn bg-vert">Blocked</button> <br>
@@ -24,31 +25,22 @@ const profil = (
             </div>
         </div>
     </div>
-    <script>
-        var statsBtn = document.getElementById('statsBtn');
-        var modal = document.getElementById('statsModal');
-
-        statsBtn.addEventListener('click', function() {
-            modal.style.display = 'block';
-        });
-
-        // Ajoutez une fonction pour fermer la fenêtre modale
-        function statsModalClose() {
-            modal.style.display = 'none';
-        }
-
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                statsModalClose(); // Appelez la fonction pour fermer la fenêtre modale
-            }
-        });
-    </script>
-    <div id="statsModal" class="modal">
+    <!-- Modal Bootstrap -->
+<div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <span class="close" onclick="statsModalClose()">&times;</span>
-            <p>Informations sur le jeu...</p>
+            <div class="modal-header">
+                <h5 class="modal-title" id="statsModalLabel">Informations sur le jeu...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Contacts </p>
+            </div>
         </div>
     </div>
+</div>
     `
     );
 
