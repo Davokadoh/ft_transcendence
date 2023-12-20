@@ -14,10 +14,10 @@ body {
 }
 
 .container {
-  margin: 60 px auto;
+  //border-radius: 40;
+  margin: 20px auto;
   background: #fff;
   padding: 0;
-  border-radius: 7px;
 }
 
 .profile-image { 
@@ -29,7 +29,7 @@ body {
 .settings-tray {
   background: $grey;
   padding: 10px 15px;
-  border-radius: 7px;
+  //border-radius: 7px;
   
   i {
     margin-top: 10px;
@@ -46,7 +46,7 @@ body {
 }
 
 .search-box {
-  background: #fafafa;
+  background: $grey;//#fafa;
   padding: 10px 13px;
   
   .input-wrapper {
@@ -114,8 +114,19 @@ body {
     h6,
     .time-msg {
       color: #fff;
-    }  
+    }
+    
+    .icon-hidden {
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+      //transform: translate(-50%, -50%);
+    }
+    
   }
+  .icon-hidden {
+      opacity: 0;
+  }
+
 }
 
 hr {
@@ -167,10 +178,13 @@ hr {
 }
 
 .chat-box-tray {
+  border-top: 1px solid #ddd;
   background: #eee;
-  align-items: middle;
+  align-items: flex-end;
   padding: 10px 15px;
   margin-top: 19px;
+  //position: absolute;
+  //bottom: 0;
   
   input {
     margin: 0 10px;
@@ -190,15 +204,3 @@ hr {
     }
   }
 }
-
-
-
-
-/*
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}*/
