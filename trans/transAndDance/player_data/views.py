@@ -1,11 +1,13 @@
-from django.http import HttpResponse
-from django.template import loader
-from .models import Player_data
+# views.py
 
-def player_data(request):
-  myplayers = Player_data.objects.all().values()
-  template = loader.get_template('all_player.html')
-  context = {
-    'myplayers': myplayers
-  }
-  return HttpResponse(template.render(context, request))
+from rest_framework import viewsets
+from .models import Player_data
+from .serializers import TaskSerializer
+from django.http import HttpResponse
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Player_data.objects.all()
+    serializer_class = TaskSerializer
+
+def test(request, nickname):
+    return HttpResponse("Nickname: %s" % Player_data.objects.filter(nickname__icontains=nickname)[0].__str__())
