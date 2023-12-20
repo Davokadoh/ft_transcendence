@@ -8,11 +8,10 @@ class	Player_data(models.Model):
 
 
 	def __str__(self):
-		return self.nickname
-	#	return f"{self.firstname} {self.lastname}"
+		return f"{self.firstname} {self.lastname}"
 
-	def get(self):
-		return self.str()
+	#def get(self):
+	#	return self.str()
 
 class Game(models.Model):
     # Utilisez des noms plus explicites pour les clés étrangères

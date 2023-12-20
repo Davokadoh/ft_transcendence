@@ -10,4 +10,4 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
 
 def test(request, nickname):
-    return HttpResponse("Nickname: %s" % Player_data.objects.filter(nickname__icontains=nickname)[0].__str__())
+    return HttpResponse("Nickname: %s" % Player_data.objects.get(nickname__icontains=nickname))
