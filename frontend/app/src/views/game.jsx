@@ -20,12 +20,13 @@ const game = (
 <br>
 <br>
 <br>
-<br>
 	<div class="container-fluid">
 	  <div class="row justify-content-center align-items-center">
 		<div class="col-lg-6">
 		  <div class="scrolling-text-container">
 		  <img src="./src/img/Pong-Chos_LOGO-min.png" alt="Scrolling Image" class="custom-image-spacing">		  </div>
+		 <br> 
+		 <br> 
 		  </div>
 		</div>
 	  </div>
