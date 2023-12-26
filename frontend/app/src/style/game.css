@@ -143,6 +143,10 @@
 	/* marge sous la bande */
 	margin-bottom: 0px;
 }
+.container-fluid {
+	/* marge sous la bande */
+	margin-bottom: 0px;
+}
 .scrolling-image-container {
 	white-space: nowrap;
 	animation: scrollText 30s linear infinite;
