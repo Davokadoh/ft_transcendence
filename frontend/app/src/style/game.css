@@ -23,6 +23,7 @@
 	border-radius: 20px;
 	height: 150px;
 	width: 400px;
+	border: none;
 }
 
 .ladButClass:hover, 
@@ -37,18 +38,18 @@
 	color: var(--violet) !important;
 }
 
-/* Réinitialisation des styles par default du bouton noir et blanc pour le mode nuit */
+/* MODE NUIT */
 .night-mode .ladButClass,
 .night-mode .quickButClass {
-	background-color: initial;
+	background-color: black;
 	color: white;
-	border: 2px solid white;
+	border: 2px solid black;
 }
 
 .night-mode .ladButClass:hover,
 .night-mode .quickButClass:hover {
 	background-color: initial;
-	color: var(--gris);
+	color: black;
 }
 
 .night-mode .ladButClass:active,
@@ -81,6 +82,10 @@
 	margin-bottom: 50px;
 }
 
+.form-control {
+	color: var(--bleu) !important;
+}
+
 .inviteButClass {
 	margin-top: 25px;
 	color: var(--vert);
@@ -100,4 +105,40 @@
 	color: var(--violet)!important;
 	background-color: var(--vert) !important;
 	border: none;
+}
+
+/* MODE NUIT */
+
+.night-mode .form-control {
+	color: initial !important;
+}
+
+.night-mode .inviteToGame {
+	background-color: black;
+	color: white;
+}
+
+.night-mode .inviteButClass {
+	margin-top: 25px;
+	color: black;
+	background-color: white;
+	border: 2px solid var(--gris);
+}
+
+.night-mode .inviteButClass:hover {
+	margin-top: 25px;
+	color: var(--gris);
+	background-color: white;
+}
+
+.night-mode .inviteButClass:active {
+	margin-top: 25px;
+	color: white!important;
+	background-color: black !important;
+	border: none;
+}
+
+/* STYLE POUR LE BUREAU EN MODE SOMBRE OU CLAIR */
+@media (prefers-color-scheme: dark) {
+
 }

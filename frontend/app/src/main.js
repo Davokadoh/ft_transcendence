@@ -12,11 +12,11 @@
 
 //   // const { appBarClasses } = require("@mui/material");
 
-import home from "./views/home"
+import home from "./views/login"
 import game from "./views/game"
 
 const routes = {
-	"/": {title: "Home", render: home},
+	"/": {title: "Login", render: home},
 	"/game": {title: "Game", render: game},
 };
 

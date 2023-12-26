@@ -1,4 +1,4 @@
-const home = (
+const login = (
 `
 <main id="app">
 <section class="py-5">
@@ -43,4 +43,4 @@ const home = (
 
 );
 
-export default home;
+export default login;
