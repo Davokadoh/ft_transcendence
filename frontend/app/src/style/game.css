@@ -2,6 +2,10 @@
 
 /* LADDER BUTTON */
 
+.body {
+	padding-bottom: 150px;
+}
+
 .container {
 	/* display: flex; */
 	/* flex-direction: column; */
