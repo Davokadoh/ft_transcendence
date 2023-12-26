@@ -140,6 +140,11 @@
 
 /* BANDE D'INFO  IMAGE REBOND*/
 
+.container-info {
+	/* Marge sous la bande */
+	margin-bottom: 20%;
+  }
+
 .scrolling-image-container {
 	white-space: nowrap;
 	/* animation: scrollText 30s linear infinite; */
@@ -177,7 +182,6 @@
 	  transform: translateY(0) rotate(-720deg);
 	}
   }
-  
 
 
 .custom-image-spacing {
