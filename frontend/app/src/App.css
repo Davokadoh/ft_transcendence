@@ -284,13 +284,13 @@ header {
 .scrolling-text-container {
 	white-space: nowrap;
 	animation: scrollText 30s linear infinite;
-	/* Ajustez la durée selon vos préférences */
+	/* Ajuster la durée selon préférences */
 }
 
 .scrolling-text-container p {
 	display: inline-block;
 	margin-right: 20px;
-	/* Ajustez l'espace entre les paragraphes selon vos préférences */
+	/* Ajuster l'espace entre les paragraphes selon vos préférences */
 }
 
 @keyframes scrollText {
