@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Room - {{ room_name }}</title>
+    <style>
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            border: 1px solid #000;
+        }
+
+        .paddle {
+            position: absolute;
+            width: 10px;
+            height: 100px;
+            background-color: #000;
+        }
+
+        .ball {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #FF0000;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pong Room - {{ room_name }}</h1>
+    <div id="game-container">
+        <!-- Divs for player paddles -->
+        <div id="player1" class="paddle"></div>
+        <div id="player2" class="paddle"></div>
+        
+        <!-- Div for the ball -->
+        <div id="ball" class="ball"></div>
+    </div>
+
+    <script>
+        // JavaScript code for handling game updates and interactions
+        const socket = new WebSocket(`ws://${window.location.host}/ws/pong/{{ room_name }}/`);
+
+        // Set up event listeners for WebSocket
+        socket.addEventListener('open', (event) => {
+            console.log('WebSocket connection opened:', event);
+        });
+
+        socket.addEventListener('message', (event) => {
+            const data = JSON.parse(event.data);
+            const type = data.type;
+
+            // Handle different types of messages
+            if (type === 'game_state') {
+                updateGameState(data.state);
+            } else if (type === 'game_start') {
+                // Handle game start
+            }
+        });
+
+        // Function to update game state in the HTML
+        function updateGameState(state) {
+            document.getElementById('player1').style.top = state.players.player1 + 'px';
+            document.getElementById('player2').style.top = state.players.player2 + 'px';
+            document.getElementById('ball').style.left = state.ball.x + 'px';
+            document.getElementById('ball').style.top = state.ball.y + 'px';
+        }
+
+        const playerId = generateUniqueId();
+
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            console.log('Key pressed:', key);
+
+            // Envoi de la touche pressée au serveur via WebSocket
+            socket.send(JSON.stringify({'type': 'key_press', 'key': key, 'player_id': playerId}));
+        });
+        
+        function generateUniqueId() {
+            return 'player_' + Math.random().toString(36).substr(2, 9);
+        }
+        // Function to handle player input (if needed)
+        // Add event listeners for player input and send messages to the server
+        // For example, you can listen for key events and send 'update_position' messages
+    </script>
+</body>
+</html>
