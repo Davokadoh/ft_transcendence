@@ -25,7 +25,8 @@
 		"vscode": {
 			"extensions": [
 				"ms-azuretools.vscode-docker",
-				"oderwat.indent-rainbow"
+				"oderwat.indent-rainbow",
+				"charliermarsh.ruff"
 			]
 		}
 	}
