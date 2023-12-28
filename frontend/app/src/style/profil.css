@@ -234,6 +234,12 @@
 	margin-left: 0px;
 	/* align-items: start !important; */
   }
+
+  .imgButton:hover {
+	background-color: transparent;
+	filter: contrast(175%) brightness(3%);
+	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
+  }
   
   .findFriend {
 	text-align: right !important;
