@@ -6,11 +6,11 @@ import os
 
 
 class CustomAuthenticationBackend(BaseBackend):
-    async def authenticate(self, request, token=None):
+    async def authenticate(self, request):
         if request.auser.is_authenticated:
             return redirect("/home")
 
-        if request.method == "POST":
+        if request.method == "POST": # Return request to be done by the client
             state = os.urandom(42)
             request = requests.get(
                 "https://api.intra.42.fr/oauth/authorize",
@@ -22,9 +22,9 @@ class CustomAuthenticationBackend(BaseBackend):
                     "response_type": "code",
                 },
             )
-            return redirect(request)
+            return redirect(request, permanent=True) # Unsure about the permanent
 
-        if request.method == "GET":
+        if request.method == "GET": # Request 42API auth, return user
             code = request.data.get("code")
             state = request.data.get("state")
             response = requests.post(
@@ -38,6 +38,8 @@ class CustomAuthenticationBackend(BaseBackend):
                     "state": "state",
                 },
             )
+            if response.status_code != '200':
+                return RaiseError(status_code='400')
             access_token = response.json()["access_token"]
             response = requests.get(
                 "https://api.intra.42.fr/v2/me",
