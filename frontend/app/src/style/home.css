@@ -65,8 +65,8 @@
 
 /* Styles spécifiques pour le login-container en mode nuit */
 .night-mode .container_homeLeft{
-	background-color: #222;
-	color: #fff;
+	background-color: black;
+	color: white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -76,8 +76,8 @@
 }
 
 .night-mode .container_homeR{
-	background-color: #222;
-	color: #fff;
+	background-color: black;
+	color: white;
 }
 
 @media (prefers-color-scheme: dark) {

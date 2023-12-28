@@ -110,6 +110,10 @@
 	text-align: center;
 }
 
+.night-mode .onlineFriend {
+	color: white;
+}
+
 .form-control {
 	color: var(--bleu) !important;
 }
