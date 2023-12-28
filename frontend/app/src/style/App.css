@@ -1,0 +1,953 @@
+#root {
+	/* color-scheme: dark light; */
+	color: white;
+	font-family: 'Spoof', sans-serif;
+	font-family: 'Titan One', cursive;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 2rem;
+	text-align: center;
+}
+
+body {
+	/* background: linear-gradient(to bottom right,var(--violet), var(--vert)); */
+	/* color: black; */
+	background-color: white;
+	margin: 0;
+	/* display: flex; */
+	/* flex-direction: column; */
+	place-items: center;
+	justify-content: center;
+	align-items: center;
+	vertical-align: middle;
+	min-height: 100vh;
+	padding-bottom: 100px; /* Remplacez 100px par la hauteur de votre footer */
+	/* overflow-y: auto; */
+}
+
+header {
+	/* size: 20px; */
+	font-size: 2rem;
+	font-weight: 900;
+	background-color: white;
+}
+
+/* NAVBAR */
+.navColor {
+	background-color: white;
+}
+
+/* PETIT ECRAN HAMBURGER BUTTON */
+.navbar-toggler {
+	/* color :#87d300; */
+	outline: none;
+	box-shadow: none;
+	border: 3px solid #9016B2;
+	margin-right: 68px;
+}
+
+.navbar-toggler-icon {
+	/* background-image: var(-navbar-toggler-icon-bg); */
+	background-color: transparent;
+	color: #87d300;
+	/* background-image: var(--vert) !important; */
+
+}
+
+.navbar-toggler-icon:hover {
+	background-color: #87d300;
+	border-radius: 15%;
+	/* color: #87d300; */
+}
+
+.navbar-toggler:active {
+	background-color: #87d300;
+	border-radius: 15%;
+	border-color: white;
+	/* color: white !important; */
+}
+
+.navbar-toggler:focus {
+	background-color: #87d300;
+	border-radius: 15%;
+	border-color: var(--violet);
+	border: 4px;
+	color: #9016B2;
+	/* color: var(-navbar-color); */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+	background-color: none;
+}
+
+.ulLiA {
+	font-size: 35px;
+	display: inline-block;
+	/* justify-content: center; */
+	justify-content: left;
+	align-items: center;
+	/* float: right; */
+	/* width:100px; */
+	/* background-color:#6495ED; */
+	color: var(--violet);
+	/* text-decoration:none; */
+	text-align: left;
+	padding: 3px;
+	/* border:2px solid; */
+	/*pour avoir un effet "outset" avec IE :*/
+	/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
+}
+
+.ulLiA li {
+	margin-right: 15px;
+	/* Ajoute une marge à droite pour créer un espace entre les éléments */
+	margin-left: 15px;
+	/* Ajoute une marge à gauche pour créer un espace entre les éléments */
+	margin-bottom: 0;
+}
+
+/* Style de base des liens du menu */
+.ulLiA a {
+	color: #9016B2;
+	/* Couleur de base */
+	text-decoration: none;
+	/* Supprime la soulignement des liens */
+	transition: color 0.3s;
+	/* Ajoute une transition de couleur */
+}
+
+.ulLiA .logo-container .logo {
+	margin-right: 100px;
+	margin-left: 0px;
+}
+
+.sep {
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
+
+/* Style au survol */
+.ulLiA a:hover {
+	color: #87d300;
+	/* Couleur au survol */
+}
+
+/* Style au clic */
+.ulLiA a:active {
+	color: var(--gris);
+	/* Couleur lors du clic */
+}
+
+/* Style au clic */
+.ulLiA a:focus {
+	color: var(--bleu) !important;
+	/* Couleur lors du clic */
+}
+
+.logo-container {
+	/* margin-bottom: 0px; */
+	/* text-align: center; */
+	/* text-align: left; */
+	/* Centre le contenu du conteneur */
+}
+
+.logo {
+	width: 0px;
+	/* Ajuster la largeur selon besoins */
+	height: auto;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	/* espace entre logo et textes du menu */
+}
+
+.degrade-horizontal {
+	background: linear-gradient(to bottom, var(--violet), white, var(--vert));
+}
+
+.lineUnderNav {
+	position: relative;
+}
+
+.lineUnderNav::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	/* ou la taille que vous souhaitez pour votre bordure */
+	background-image: var(--degrade-color);
+	/* Remplacez les couleurs par celles de votre dégradé */
+}
+
+.bg-violet {
+	background-color: #9016B2;
+	color: #9016B2;
+	font-family: 'Spoof', sans-serif;
+}
+
+.bg-vert {
+	background-color: #9016B2;
+	color: #87d300;
+	font-family: 'Spoof', sans-serif;
+}
+
+.login-container {
+	border-radius: 30px;
+	background-color: #9016B2;
+	padding: 60px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 0 auto;
+	/* Centrer le rectangle horizontalement */
+	display: block;
+	justify-items: center;
+	justify-content: center;
+	/* centrer verticalement ?*/
+	max-width: 400px;
+	/* Limiter la largeur pour une meilleure lisibilité */
+	height: 250px;
+	/* Hauteur du rectangle */
+	font-family: 'Titan One', sans-serif;
+	color: #87d300;
+	margin: 5% auto;
+	/*distance du login par rapport au header */
+	text-align: center;
+}
+
+.login-container h1 {
+	font-size: 50px;
+	margin-bottom: 7px;
+}
+
+/* Style du bouton normal */
+.login-container button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: #87d300;
+	/* Fond vert */
+	color: #9016B2;
+	/* Texte violet */
+	transition: all 0.3s;
+	/* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 20px;
+	margin-top: 7px;
+}
+
+/* Style du bouton survolé */
+.login-container button:hover {
+	color: #ffffff;
+	/* Texte blanc au survol */
+	background-color: #87d300;
+	/* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.login-container button:active {
+	background-color: #87d300;
+	/* Fond vert au clic */
+	color: #9016B2;
+	/* Texte violet au clic */
+	border: none;
+	/* Pas de bordure au clic */
+	/* border: 2px solid transparent; Bordure transparente au clic */
+}
+
+/* BANDE D'INFO */
+.container-info {
+	/* marge sous la bande */
+	margin-bottom: 80px;
+	background-color: var(--bleu);
+	font-family: 'Titan One';
+	font-size: 22px;
+	color: var(--violet);
+	/* DISTANCE AVEC LE FOOTER */
+	/* height: 70px; */
+	/* width: fit-content; */
+}
+
+.container-info p {
+	margin-top: 0px;
+	margin-bottom: 0;
+	justify-items: center;
+	text-align: center;
+}
+
+/* Ajoutez ces styles à votre feuille de style CSS */
+.scrolling-text {
+	overflow: hidden;
+}
+
+.scrolling-text-container {
+	white-space: nowrap;
+	animation: scrollText 30s linear infinite;
+	/* Ajuster la durée selon préférences */
+}
+
+.scrolling-text-container p {
+	display: inline-block;
+	margin-right: 20px;
+	/* Ajuster l'espace entre les paragraphes selon vos préférences */
+}
+
+@keyframes scrollText {
+	from {
+		transform: translateX(260%);
+	}
+
+	to {
+		transform: translateX(-280%);
+	}
+}
+
+
+/* FOOTER */
+footer {
+	background-color: var(--vert);
+	/* Couleur de fond du pied de page */
+	padding: 20px 0;
+	/* Ajoutez un espace intérieur pour le contenu */
+	color: white;
+	position: fixed;
+	/* Position fixe pour rester en bas même en faisant défiler */
+	bottom: 0;
+	/* Aligne en bas de la fenêtre */
+	width: 100%;
+	/* Occupe toute la largeur de la fenêtre */
+}
+
+.container {
+	max-width: 1200px;
+	/* Limite la largeur pour un meilleur rendu sur des écrans plus larges */
+	margin: 0 auto;
+	/* Centre le contenu du pied de page */
+}
+
+.footer-content {
+	display: flex;
+	justify-content: space-between;
+	/* Place le contenu à gauche et à droite */
+}
+
+.left-content,
+.right-content {
+	width: 48%;
+	/* Donnez une largeur à chaque côté */
+}
+
+/* LOGOUT BUTTON */
+.logAlign {
+	display: flex;
+	justify-content: right;
+}
+
+.logout {
+	color: white;
+	font-family: 'Titan One', sans-serif;
+	font-size: 20px;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.logout:hover {
+	color: var(--bleu);
+}
+
+.logout:active {
+	color: var(--violet) !important;
+}
+
+.night-mode .logout:hover {
+	color: var(--gris);
+}
+
+.night-mode .logout:active {
+	color: white !important;
+}
+
+/* Bouton Jour/Nuit */
+.toggle-container {
+	position: fixed;
+	top: 14px;
+	right: 20px;
+	margin: 10px;
+	margin-right: 50px;
+	margin-top: 33px;
+	padding: 10px;
+	/* display: flex; */
+	/* align-items: center; */
+	z-index: 1000;
+}
+
+.toggle-label {
+	background: transparent;
+	border-radius: 20px;
+	border: 2px solid;
+	border-color: #9016B2;
+	padding: 5px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	width: 150px;
+}
+
+.icon-container {
+	flex: 1;
+	text-align: center;
+	transition: background 0.3s;
+}
+
+.separator {
+	width: 2px;
+	height: 30px;
+	/* Ajustez la hauteur selon vos besoins */
+	background: linear-gradient(to bottom, var(--violet), var(--vert));
+	/* Utilise couleurs de dégradé */
+	margin: 5px;
+}
+
+#toggle-switch {
+	display: none;
+}
+
+
+/* NIGHT MODE */
+
+/* MENU PETIT ECRAN */
+.night-mode .navbar-toggler {
+	/* color :#87d300; */
+	outline: none;
+	box-shadow: none;
+	border: 3px solid black;
+	background-color: white;
+}
+
+.night-mode .navbar-toggler-icon {
+	/* background-image: var(-navbar-toggler-icon-bg); */
+	color: white;
+	/* background-image: var(--vert) !important; */
+}
+
+.night-mode .navbar-toggler-icon:hover {
+	background-color: var(--gris);
+	border-radius: 15%;
+	/* color: #87d300; */
+}
+
+.night-mode .navbar-toggler:active {
+	/* background-color: var(--gris); */
+	border-radius: 15%;
+	border-color: black;
+	border: 2px solid;
+	/* color: white !important; */
+}
+
+.night-mode .navbar-toggler:focus {
+	background-color: var(--gris);
+	border-radius: 15%;
+	border-color: black;
+	border: 4px solid;
+	color: black;
+	/* color: var(-navbar-color); */
+}
+
+/* BOUTON COLOR MODE */
+.night-mode .toggle-label {
+	border-color: black;
+}
+
+#toggle-switch:checked+.toggle-label {
+	/*  Couleur pour le mode nuit */
+	background-color: white;
+}
+
+#toggle-switch:checked+.toggle-label .separator {
+	/* background: linear-gradient(to bottom, var(--violet), var(--vert));  */
+	background: black;
+}
+
+
+/* Styles pour le mode nuit */
+body.night-mode .toggle-container {
+	color: white;
+	/* Couleur du texte en mode nuit */
+}
+
+/* Styles pour le mode nuit */
+body {
+	background-color: white;
+	color: black;
+}
+
+body.night-mode .navbar {
+	color: black;
+}
+
+body.night-mode .sep {
+	color: black;
+}
+
+/* Styles spécifiques pour la navbar en mode nuit */
+body.night-mode .navbar .ulLiA a {
+	/* background-color: #ffffff; */
+	color: black
+}
+
+body.night-mode .light-mode-image {
+	filter: grayscale(100%);
+}
+
+body.night-mode .lineUnderNav::after {
+	background-image: none;
+	background-color: black;
+}
+
+/* Styles spécifiques pour le login-container en mode nuit */
+body.night-mode .login-container {
+	background-color: #222;
+	color: #fff;
+}
+
+body.night-mode.degrade-horizontal {
+	background-color: black;
+}
+
+/* ULIA NIGHT MODE */
+body.night-mode .ulLiA {
+	color: black;
+}
+
+body.night-mode .ulLiA a {
+	color: black;
+}
+
+body.night-mode .ulLiA a:hover {
+	color: var(--gris);
+}
+
+body.night-mode .login-container {
+	background-color: black;
+	color: white;
+
+}
+
+/* COULEURS NIGHT MODE */
+body.night-mode.bg-vert {
+	background-color: black;
+	color: white;
+}
+
+body.night-mode.bg-violet {
+	background-color: black;
+	color: white;
+}
+
+/* BOUTONS NIGHT MODE */
+/* Style du bouton normal */
+body.night-mode .login-container button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: black;
+	/* Fond noir */
+	color: white;
+	/* Texte blanc */
+}
+
+/* Style du bouton survolé */
+body.night-mode .login-container button:hover {
+	color: black;
+	/* Texte blanc au survol */
+	background-color: white;
+	/* Fond noir au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+body.night-mode .login-container button:active {
+	background-color: black;
+	/* Fond noir au clic */
+	color: white;
+	/* Texte blanc au clic */
+	border: none;
+}
+
+/* BARRE D INFO MODE BW */
+body.night-mode .container-info {
+	background-color: black !important;
+	color: white !important;
+}
+
+/* FOOTER NIGHT MODE */
+body.night-mode footer {
+	background-color: black !important;
+	color: white;
+}
+
+
+/* STYLE POUR LE BUREAU EN MODE SOMBRE OU CLAIR */
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #1c1c1e;
+		color: #fefefe;
+	}
+
+	a {
+		color: #5fa9ee;
+	}
+
+	.navbar {
+		background-color: #1c1c1e;
+	}
+
+	.icon-container .PING_BW {
+		filter: contrast(0%);
+	}
+
+	.night-mode .PING_BW {
+		filter: contrast(100%);
+	}
+
+	.night-mode .navbar .ulLiA li a {
+		background: none;
+		color: white;
+	}
+
+	body.night-mode .ulLiA a:hover {
+		color: var(--gris);
+	}
+
+	.night-mode .navbar .ulLiA .sep {
+		background: none;
+		color: white;
+	}
+
+	.night-mode .login-container {
+
+		/* background-color: white; */
+		/* color: black; */
+		border: 3px solid white;
+	}
+
+	body.night-mode .lineUnderNav::after {
+		background-image: none;
+		background-color: white;
+		/* couleur de la ligne de sep sous navbar */
+	}
+
+}
+
+/* Media query pour les petits écrans */
+@media (max-width: 768px) {
+	.navbar .ulLiA a {
+		font-size: 20px;
+		/* taille de police pour les petits écrans */
+		letter-spacing: 1px;
+		/* Ajuster l'espacement des lettres pour les petits écrans */
+		word-spacing: 2px;
+		/* Ajuster l'espacement des mots pour les petits écrans */
+	}
+
+	.sep {
+		font-size: 19px;
+		/* taille des separateurs */
+	}
+
+	.ulLiA li {
+		margin-right: 5px;
+		/* Ajoute une marge à droite pour créer un espace entre les éléments */
+		margin-left: 5px;
+		/* Ajoute une marge à gauche pour créer un espace entre les éléments */
+		margin-top: 5;
+	}
+
+	/* Bouton Jour/Nuit */
+	.toggle-container {
+		position: fixed;
+		top: 21px;
+		right: 10px;
+		margin: 5px;
+		margin-right: 45px;
+		margin-top: 36px;
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		z-index: 1000;
+	}
+
+	.toggle-label {
+		background: transparent;
+		border-radius: 20px;
+		border: 2px solid;
+		border-color: #9016B2;
+		padding: 2px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		width: 100px;
+		height: 50px;
+	}
+
+	.icon-container {
+		flex: 1;
+		text-align: center;
+		transition: background 0.3s;
+	}
+
+	.icon-container .PING_BW {
+		width: 25px;
+		height: auto;
+	}
+
+	.icon-container .PONG_COL {
+		width: 33px;
+		height: auto;
+	}
+
+	.separator {
+		width: 1px;
+		height: 20px;
+		/* Ajustez la hauteur selon vos besoins */
+		background: linear-gradient(to bottom, var(--violet), var(--vert));
+		/* Utilise couleurs de dégradé */
+		margin: 3px;
+		align-items: center;
+	}
+}
+
+/* media queries pour ajuster le style en fonction de la taille de l'écran si besoin*/
+@media (min-width: 992px) {
+	/* Bouton Jour/Nuit */
+	.toggle-container {
+		position: fixed;
+		top: 21px;
+		right: 215px;
+		margin: 5px;
+		margin-right: 45px;
+		margin-top: 36px;
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		z-index: 1000;
+	}
+
+	.toggle-label {
+		background: transparent;
+		border-radius: 20px;
+		border: 2px solid;
+		border-color: #9016B2;
+		padding: 2px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		width: 126px;
+		height: 65px;
+	}
+
+	.icon-container {
+		flex: 1;
+		text-align: center;
+		transition: background 0.3s;
+	}
+
+	.icon-container .PING_BW {
+		width: 42px;
+		height: auto;
+	}
+
+	.icon-container .PONG_COL {
+		width: 56px;
+		height: auto;
+	}
+
+	.separator {
+		width: 1px;
+		height: 20px;
+		/* Ajustez la hauteur selon vos besoins */
+		background: linear-gradient(to bottom, var(--violet), var(--vert));
+		/* Utilise couleurs de dégradé */
+		margin: 3px;
+		align-items: center;
+	}
+}
+
+@media (min-width: 991px) {
+	.logo {
+		width: 0px;
+	}
+		/* Bouton Jour/Nuit */
+		.toggle-container {
+			position: fixed;
+			top: 21px;
+			right: 20px;
+			margin: 5px;
+			margin-right: 0px;
+			margin-top: 36px;
+			padding: 5px;
+			display: flex;
+			align-items: center;
+			z-index: 1000;
+		}
+	
+		.toggle-label {
+			background: transparent;
+			border-radius: 20px;
+			border: 2px solid;
+			border-color: #9016B2;
+			padding: 2px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+			width: 126px;
+			height: 65px;
+		}
+	
+		.icon-container {
+			flex: 1;
+			text-align: center;
+			transition: background 0.3s;
+		}
+	
+		.icon-container .PING_BW {
+			width: 42px;
+			height: auto;
+		}
+	
+		.icon-container .PONG_COL {
+			width: 56px;
+			height: auto;
+		}
+	
+		.separator {
+			width: 3px;
+			height: 28px;
+			/* Ajustez la hauteur selon vos besoins */
+			background: linear-gradient(to bottom, var(--violet), var(--vert));
+			/* Utilise couleurs de dégradé */
+			margin: 3px;
+			align-items: center;
+		}
+		.navbar .ulLiA a {
+			font-size: 25px;
+			/* taille de police pour les petits écrans */
+			letter-spacing: 0px;
+			/* Ajuster l'espacement des lettres pour les petits écrans */
+			word-spacing: 0px;
+			/* Ajuster l'espacement des mots pour les petits écrans */
+	
+		}
+	
+		.sep {
+			font-size: 25px;
+			/* taille des separateurs */
+		}
+	
+		.ulLiA li {
+			margin-right: 15px;
+			/* Ajoute une marge à droite pour créer un espace entre les éléments */
+			margin-left: 15px;
+			/* Ajoute une marge à gauche pour créer un espace entre les éléments */
+			margin-top: 0px;
+		}
+}
+
+@media (min-width: 1300px) {
+	.logo {
+		width: 0px;
+	}
+		/* Bouton Jour/Nuit */
+		.toggle-container {
+			position: fixed;
+			top: 14px;
+			right: 20px;
+			margin: 10px;
+			margin-right: 50px;
+			margin-top: 33px;
+			padding: 10px;
+			/* display: flex; */
+			/* align-items: center; */
+			z-index: 1000;
+		}
+	
+		.toggle-label {
+			background: transparent;
+			border-radius: 20px;
+			border: 2px solid;
+			border-color: #9016B2;
+			padding: 5px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+			width: 150px;
+		}
+	
+		.icon-container {
+			flex: 1;
+			text-align: center;
+			transition: background 0.3s;
+		}
+	
+		.icon-container .PING_BW {
+			width:43px;
+			height: auto;
+		}
+	
+		.icon-container .PONG_COL {
+			width: 50x;
+			height: auto;
+		}
+	
+		.separator {
+			width: 2px;
+			height: 30px;
+			/* Ajustez la hauteur selon vos besoins */
+			background: linear-gradient(to bottom, var(--violet), var(--vert));
+			/* Utilise couleurs de dégradé */
+			margin: 5px;
+		}
+		.ulLiA {
+			display: inline-block;
+			/* justify-content: center; */
+			justify-content: left;
+			align-items: center;
+			/* float: right; */
+			/* width:100px; */
+			/* background-color:#6495ED; */
+			color: var(--violet);
+			/* text-decoration:none; */
+			text-align: left;
+			padding: 3px;
+			/* border:2px solid; */
+			/*pour avoir un effet "outset" avec IE :*/
+			/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
+		}
+
+		.navbar .ulLiA a {
+			color: #9016B2;
+			/* Couleur de base */
+			text-decoration: none;
+			/* Supprime la soulignement des liens */
+			transition: color 0.3s;
+			/* Ajoute une transition de couleur */
+			font-size: 35px;
+		}
+	
+		.ulLiA li {
+			margin-right: 15px;
+			/* Ajoute une marge à droite pour créer un espace entre les éléments */
+			margin-left: 15px;
+			/* Ajoute une marge à gauche pour créer un espace entre les éléments */
+			margin-bottom: 0;
+		}
+		.sep {
+			font-size: 35px;
+		}
+}

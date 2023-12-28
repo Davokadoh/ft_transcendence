@@ -22,15 +22,16 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 
-  <!-- Inclure les fichiers CSS -->
-  <link rel="stylesheet" type="text/css" href="src/css/App.css">
-  <link rel="stylesheet" type="text/css" href="src/css/home.css">
-  <link rel="stylesheet" type="text/css" href="src/css/profil.css">
-  <link rel="stylesheet" type="text/css" href="src/css/stylesheet.css">
-  <link rel="stylesheet" type="text/css" href="src/css/chat.css">
+  <!-- Inclure les fichier CSS -->
+  <link rel="stylesheet" type="text/css" href="src/style/App.css">
+  <link rel="stylesheet" type="text/css" href="src/style/stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="src/style/game.css">
+  <link rel="stylesheet" type="text/css" href="src/style/home.css">
+  <link rel="stylesheet" type="text/css" href="src/style/profil.css">
+  <link rel="stylesheet" type="text/css" href="src/style/chat.css">
 
-  <!-- Inclure les scripts  -->
-  <script src="./src/scripts/profil.js" defer></script>
+    <!-- Inclure les scripts  -->
+    <script src="./src/scripts/profil.js" defer></script>
 
   <!-- <-- Inclure les fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,6 +41,14 @@
   <!-- <script type="module" src="/src/main.jsx"></script> -->
 
   <!-- SCRIPTS -->
+  <!-- LOG OUT Button -->
+  <script>
+    function logout() {
+      // Ajoutez ici le code de déconnexion, comme rediriger vers la page de connexion, effacer les cookies, etc.
+      // Exemple: window.location.href = "/logout"; // Rediriger vers la page de login
+    }
+  </script>
+
   <!-- SCRIPT BOUTON NB/COLOR -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -118,7 +127,9 @@
 
             <!-- Barre de navigation facon SPA -->
               <div class="logo-container">
+
                 <a class="logoLink" href="/home" data-link>
+
                 <div class="logo">
                   <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
                 </div>
@@ -155,9 +166,7 @@
                     </div>
                 </label>
             </div>
-          </div>
-
-
+          </div>  
       </nav>
       <!-- <hr> -->
     </div>
@@ -216,9 +225,10 @@
         <div class="col-lg-6">
           <p>@2023LesPong-Chos42</p>
         </div>
-        <!-- <div class="col-lg-6">
-          <p>Help</p>
-        </div> -->
+        <div class="col-lg-6 logAlign">
+          <!-- Ajoutez ici le bouton "Log Out" -->
+          <button class="btn btn-link logout" onclick="logout()">Log Out</button>
+        </div>
       </div>
     </div>
   </footer>

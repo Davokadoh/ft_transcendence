@@ -8,6 +8,7 @@
 //   }
 
 //   // Vos autres fonctions JavaScript et gestionnaires d'événements
+
 //   //appeler des fichiers JS et JSX
 
 //   // const { appBarClasses } = require("@mui/material");
@@ -45,6 +46,5 @@ window.addEventListener("click", e => {
         router();
     }
 });
-
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
