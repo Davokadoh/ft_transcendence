@@ -22,11 +22,11 @@ $(document).ready(function() {
 		$('#myInput').trigger('focus')
 	})
 
-	console.log('Script 1 loaded successfully!');
+	console.log('Script Modal loaded successfully!');
 
 
 	$(document).ready(function() {
-		console.log('Script 2 chargé avec succès !');
+		console.log('Script modif Image chargé avec succès !');
 		// Fonction pour gérer le téléchargement d'image
 		$('#modifyImageButton').on('click', function () {
 			$('#imageInput').click();
