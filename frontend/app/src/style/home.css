@@ -21,7 +21,6 @@
 }
 
 
-
 .game-btn {
 	margin-top: 15px;
 	margin-left: 12px;
@@ -109,5 +108,5 @@
 /* mode sombre */
 
 .night-mode .chat-btn .bulles-img {
-    filter: contrast(0%);
+    filter: invert(1);
 }
