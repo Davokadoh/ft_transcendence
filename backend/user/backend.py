@@ -10,21 +10,20 @@ class CustomAuthenticationBackend(BaseBackend):
         if request.user.is_authenticated:
             return redirect("/home")
 
-        if request.method == "POST": # Return request to be done by the client
+        # Return request to be done by the client
+        if request.method == "POST":
             state = os.urandom(42)
-            request = requests.get(
-                "https://api.intra.42.fr/oauth/authorize",
-                data={
-                    "client_id": os.getenv("CLIENT"),
-                    "redirect_uri": "http://localhost:8000/api/users/auth/callback",
-                    "scope": "public",
-                    "state": state,
-                    "response_type": "code",
-                },
+            auth_url = "https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
+                os.getenv("CLIENT"),
+                "http://localhost:8000/api/auth/callback",
+                "public",
+                state,
             )
-            return redirect(request, permanent=True) # Unsure about the permanent
+            print(request.url)
+            return redirect(auth_url)
 
-        if request.method == "GET": # Request 42API auth, return user
+        # Request 42API auth, return user, need to check state
+        if request.method == "GET":
             code = request.data.get("code")
             state = request.data.get("state")
             response = requests.post(
@@ -38,7 +37,7 @@ class CustomAuthenticationBackend(BaseBackend):
                     "state": "state",
                 },
             )
-            if response.status_code != '200':
+            if response.status_code != "200":
                 return print("Error: " + response.status_code)
             access_token = response.json()["access_token"]
             response = requests.get(
