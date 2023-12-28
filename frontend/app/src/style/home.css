@@ -1,9 +1,9 @@
 /* page HOME */
 
 .container_hl {
-	margin-top: 200px;
+	margin-top: 100px;
     margin-left: 300px; /* Ajustez la valeur de la marge selon vos besoins */
-	margin-bottom: 200px;
+	margin-bottom: 150px;
 }
 
 .container_homeLeft {
@@ -40,9 +40,9 @@
 }
 
 .container_hr {
-	margin-top: 200px;
-	/* margin-left: 300px; */
-	margin-right: 50; /* Ajustez la valeur de la marge selon vos besoins */
+	margin-top: 100px;
+	margin-left: 150px; /* espace entre les rectangles */
+	margin-right: 50; /* Ajuster la valeur de la marge selon besoins */
 }
 
 .container_homeR {
@@ -57,6 +57,10 @@
 	color: #9016B2;
 	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
+}
+
+.container-info {
+	margin-bottom: 50px;
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */

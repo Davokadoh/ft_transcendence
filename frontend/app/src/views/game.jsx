@@ -12,6 +12,10 @@ const game = (
 					<p class="text-center invitFriend">Invite a friend to play</p>
 					<input type="text" class="form-control" placeholder="Enter a username" aria-label="Username" aria-describedby="basic-addon1">
 					<button type="button" class="btn btn-dark inviteButClass" id="ladder">INVITE</button>
+					<p class="joinFriends"> FRIEND(S) WHO HAS JOINED :</p>
+					<p class="onlineFriend"> pseudo1</p>
+					<p class="onlineFriend"> pseudo2</p>
+					<p class="onlineFriend"> pseudo3</p>
 				</div>
 	</div>
 </div>
