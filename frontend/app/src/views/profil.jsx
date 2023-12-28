@@ -4,13 +4,21 @@ const profil = (
         <div class="col-md-6 mx-auto">
             <div class="container_opt">
                 <div class="container-option">
-                    <form>
-                    <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
-                    Statistics</button> <br>
-                        <button type="submit" class="btn bg-vert">Feats</button> <br>
-                        <button type="submit" class="btn bg-vert">Match History</button> <br>
+                <form>
+                <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
+                Statistics</button>
+                <img src="/src/img/statistique.png" alt="Statistics Icon" class="icon iconeS">
+                <br>
+                        <button type="submit" class="btn bg-vert">Feats</button>
+                        <img src="/src/img/feats.png" alt="Feats Icon" class="icon iconeF">
+                 <br>
+                        <button type="submit" class="btn bg-vert">Match History</button> 
+                        <img src="/src/img/historique.png" alt="Match History Icon" class="icon iconeM">
+                <br>
                         <button type="submit" class="btn bg-vert">Settings</button>
+                        <img src="/src/img/reglages.png" alt="Settings Icon" class="icon iconeSt">
                     </form>
+
                 </div>
             </div>
         </div>

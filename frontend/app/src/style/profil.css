@@ -63,6 +63,30 @@
 	color: #fff;
 }
 
+
+.icon {
+	width: 44px;
+	height: auto;
+	margin-left: auto;
+	filter: invert(1);
+}
+
+.iconeS {
+	margin-left: 150px;
+}
+
+.iconeF {
+	margin-left: 190px;
+}
+
+.iconeM {
+	margin-left: 120px;
+}
+
+.iconeSt {
+	margin-left: 165px;
+}
+
 @media (prefers-color-scheme: dark) {
 	.night-mode .container-option {
 		border: 3px solid white;
