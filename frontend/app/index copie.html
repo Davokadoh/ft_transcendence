@@ -22,17 +22,9 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 
-  <!-- Inclure les fichier CSS -->
-  <link rel="stylesheet" type="text/css" href="src/style/App.css">
-  <link rel="stylesheet" type="text/css" href="src/style/stylesheet.css">
-  <link rel="stylesheet" type="text/css" href="src/style/game.css">
-  <link rel="stylesheet" type="text/css" href="src/style/home.css">
-  <link rel="stylesheet" type="text/css" href="src/style/profil.css">
-  <link rel="stylesheet" type="text/css" href="src/style/chat.css">
-
-    <!-- Inclure les scripts  -->
-    <script src="./src/scripts/profil.js" defer></script>
-
+  <!-- Inclure le fichier CSS -->
+  <link rel="stylesheet" type="text/css" href="src/App.css">
+  <link rel="stylesheet" type="text/css" href="src/stylesheet.css">
   <!-- <-- Inclure les fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,14 +33,6 @@
   <!-- <script type="module" src="/src/main.jsx"></script> -->
 
   <!-- SCRIPTS -->
-  <!-- LOG OUT Button -->
-  <script>
-    function logout() {
-      // Ajoutez ici le code de déconnexion, comme rediriger vers la page de connexion, effacer les cookies, etc.
-      // Exemple: window.location.href = "/logout"; // Rediriger vers la page de login
-    }
-  </script>
-
   <!-- SCRIPT BOUTON NB/COLOR -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -90,10 +74,10 @@
 
         const navbarToggler = document.querySelector('.navbar-toggler');
         const navbarNav = document.querySelector('#navbarNav');
-
+    
         // Vérifie si le menu est ouvert
         const isOpen = navbarNav.classList.contains('show');
-
+    
         // Si le menu est ouvert, retire la classe active du bouton
         if (isOpen) {
             navbarToggler.classList.remove('active');
@@ -113,34 +97,75 @@
 </head>
 
 <body>
-  <header class="">
 
+  <header class="">
+              	<!-- Bouton Jour/Nuit -->
+                <div class="toggle-container">
+                  <input type="checkbox" id="toggle-switch">
+                  <label class="toggle-label" for="toggle-switch">
+                      <div class="icon-container">
+                          <!-- Icône en noir blanc -->
+                          <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
+                        </div>
+                        <div class="separator"></div> <!-- Séparateur -->
+                        <div class="icon-container">
+                          <!-- Icône en couleur -->
+                          <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
+                      </div>
+                  </label>
+              </div>
     <div class="lineUnderNav">
       <nav class="navbar justify-content-center fluid-container">
-        <div class="ulLiA">
 
-          <!-- JOLI MENU AVEC PETIT CODE DE CLAIRE -->
+        <!-- <a class="navbar-brand" href="#">
+          <img class ="h-12" src="./img/Pong-Chos_LOGO.png" alt="logo ici mais ne charge pas snif">
+        </a> -->
+        <div class="ulLiA">
+          <!-- <div class="navAlignCenter">
+              <ul class="nav justify-content-center mx-auto text-center">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">LOGIN</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#game">GAME</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#chat">CHAT</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#profil">PROFIL</a>
+                </li>
+              </ul>
+          </div> -->
+          <!-- Barre de navigation facon SPA -->
+          <div class="container d-flex justify-content-center">
+            <div class="logo-container">
+              <!-- <a class="logoLink" href="#"> -->
+              <div class="logo">
+                <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
+                <!-- <img src="./src/img/Pong-Chos_LOGO_NB.png" class="dark-mode-image" width="100" height="100"> -->
+                <!-- </a> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- ANCIEN MENU SANS PETIT CODE DE CLAIRE -->
+          <!-- <div id="navbar">
+            <ul class="nav justify-content-center mx-auto">
+              <li><a href="javascript:void(0)" onclick="loadPage('game')">GAME</a></li>
+              <li class="sep"> | </li>
+              <li><a href="#" onclick="loadPage('chat')">CHAT</a></li>
+              <li class="sep"> | </li>
+              <li><a href="#" onclick="loadPage('profil')">PROFIL</a></li>
+            </ul>
+          </div> -->
+          
+          <!-- MENU AVEC PETIT CODE DE CLAIRE -->
           <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
               <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- Barre de navigation facon SPA -->
-              <div class="logo-container">
-
-                <a class="logoLink" href="/home" data-link>
-
-                <div class="logo">
-                  <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
-                </div>
-                </a>
-              </div>
-
             <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
-              <li class="nav-item">
-                <a class="nav-link" href="/home" data-link>HOME</a>
-              </li>
-              <li class="sep"> | </li>
               <li class="nav-item">
                 <a class="nav-link" href="/game" data-link>GAME</a>
               </li>
@@ -151,22 +176,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="/profil" data-link>PROFIL</a></li>
             </ul>
-              <!-- Bouton Jour/Nuit -->
-              <div class="toggle-container">
-                <input type="checkbox" id="toggle-switch">
-                <label class="toggle-label" for="toggle-switch">
-                    <div class="icon-container">
-                        <!-- Icône en noir blanc -->
-                        <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
-                      </div>
-                      <div class="separator"></div> <!-- Séparateur -->
-                      <div class="icon-container">
-                        <!-- Icône en couleur -->
-                        <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
-                    </div>
-                </label>
-            </div>
           </div>  
+          
+
       </nav>
       <!-- <hr> -->
     </div>
@@ -179,18 +191,14 @@
           <div class="col-12 col-md-12">
             <div class="login-container">
               <h1>Log in</h1> <br>
-              <!-- Ajouter le contenu spécifique de la page de connexion ici -->
               <form>
-                <!-- champs de formulaire ici -->
                 <button type="submit" class="btn bg-vert">Connexion</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <!-- BANDE D INFO -->
       <div class="container-info">
-        <!-- py-4 correspond a la taille de la bande en hauteur -->
         <section class="py-4 mb-4 text-center">
           <div class="container-fluid">
             <div class="row justify-content-center align-items-center">
@@ -225,10 +233,9 @@
         <div class="col-lg-6">
           <p>@2023LesPong-Chos42</p>
         </div>
-        <div class="col-lg-6 logAlign">
-          <!-- Ajoutez ici le bouton "Log Out" -->
-          <button class="btn btn-link logout" onclick="logout()">Log Out</button>
-        </div>
+        <!-- <div class="col-lg-6">
+          <p>Help</p>
+        </div> -->
       </div>
     </div>
   </footer>

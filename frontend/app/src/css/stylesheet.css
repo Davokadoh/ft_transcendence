@@ -1,0 +1,100 @@
+
+/* @font-face {
+	font-family: 'Spoof';
+	src: local('Spoof Regular'), local('Spoof-Regular'),
+		url('/app/src/fonts/Spoof/Spoof-Regular.eot?#iefix') format('embedded-opentype'),
+		url('/app/src/fonts/Spoof/Spoof-Regular.woff2') format('woff2'),
+		url('/app/src/fonts/Spoof/Spoof-Regular.woff') format('woff'),
+		url('/app/src/fonts/Spoof/Spoof-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+} */
+
+@font-face {
+    font-family: 'Spoof';
+    src: url('./app/src/fonts/Spoof/Spoof-Regular.eot') format('embedded-opentype'),
+         url('./app/src/fonts/Spoof/Spoof-Regular.woff2') format('woff2'),
+         url('./app/src/fonts/Spoof/Spoof-Regular.woff') format('woff'),
+         url('./app/src/fonts/Spoof/Spoof-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+	font-family: 'Spoof';
+	src: url('/app/src/fonts/Spoof/Spoof-Medium.eot');
+	src: local('Spoof Medium'), local('Spoof-Medium'),
+		url('/app/src/fonts/Spoof/Spoof-Medium.eot?#iefix') format('embedded-opentype'),
+		url('/app/src/fonts/Spoof/Spoof-Medium.woff2') format('woff2'),
+		url('/app/src/fonts/Spoof/Spoof-Medium.woff') format('woff'),
+		url('/app/src/fonts/Spoof/Spoof-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Spoof';
+	src: url('./app/src/fonts/Spoof/Spoof-Light.eot');
+	src: local('Spoof Light'), local('Spoof-Light'),
+		url('./app/src/fonts/Spoof/Spoof-Light.eot?#iefix') format('embedded-opentype'),
+		url('./app/src/fonts/Spoof/Spoof-Light.woff2') format('woff2'),
+		url('./app/src/fonts/Spoof/Spoof-Light.woff') format('woff'),
+		url('./app/src/fonts/Spoof/Spoof-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Spoof';
+	src: url('/app/src/fonts/Spoof/Spoof-Bold.eot');
+	src: local('Spoof Bold'), local('Spoof-Bold'),
+		url('/app/src/fonts/Spoof/Spoof-Bold.eot?#iefix') format('embedded-opentype'),
+		url('/app/src/fonts/Spoof/Spoof-Bold.woff2') format('woff2'),
+		url('/app/src/fonts/Spoof/Spoof-Bold.woff') format('woff'),
+		url('/app/src/fonts/Spoof/Spoof-Bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Spoof';
+	src: url('/app/src/fonts/Spoof/Spoof-Thin.eot');
+	src: local('Spoof Thin'), local('Spoof-Thin'),
+		url('/app/src/fonts/Spoof/Spoof-Thin.eot?#iefix') format('embedded-opentype'),
+		url('/app/src/fonts/Spoof/Spoof-Thin.woff2') format('woff2'),
+		url('/app/src/fonts/Spoof/Spoof-Thin.woff') format('woff'),
+		url('/app/src/fonts/Spoof/Spoof-Thin.ttf') format('truetype');
+	font-weight: 100;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Spoof';
+	src: url('/app/src/fonts/Spoof/Spoof-Black.eot');
+	src: local('Spoof Black'), local('Spoof-Black'),
+		url('/app/src/fonts/Spoof/Spoof-Black.eot?#iefix') format('embedded-opentype'),
+		url('/app/src/fonts/Spoof/Spoof-Black.woff2') format('woff2'),
+		url('/app/src/fonts/Spoof/Spoof-Black.woff') format('woff'),
+		url('/app/src/fonts/Spoof/Spoof-Black.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Titan One';
+	src: url(https://fonts.google.com/specimen/Titan+One);
+}
+
+.spoof-bold-button {
+	font-family: 'Spoof', sans-serif; /* Utilisez la police Spoof */
+	font-weight: bold; /* Appliquez le style gras */
+	/* Vous pouvez également ajouter d'autres styles de texte, par exemple, la couleur, la taille, etc. */
+}
+
+:root {
+	--gris: rgba(200, 196, 196, 0.906);
+	--vert: #87D300; /* Définition de la variable --vert avec la couleur verte */
+	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */  
+	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */  
+	--degrade-color: linear-gradient(to left, var(--vert), var(--bleu), #9016B2); /* Définition de la variable --degrade-couleur avec un dégradé de couleur */
+}
