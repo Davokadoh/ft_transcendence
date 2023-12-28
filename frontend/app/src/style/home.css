@@ -1,9 +1,9 @@
 /* page HOME */
 
 .container_hl {
-	margin-top: 200px;
+	margin-top: 100px;
     margin-left: 300px; /* Ajustez la valeur de la marge selon vos besoins */
-	margin-bottom: 200px;
+	margin-bottom: 150px;
 }
 
 .container_homeLeft {
@@ -19,7 +19,6 @@
 	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
 }
-
 
 
 .game-btn {
@@ -40,9 +39,9 @@
 }
 
 .container_hr {
-	margin-top: 200px;
-	/* margin-left: 300px; */
-	margin-right: 50; /* Ajustez la valeur de la marge selon vos besoins */
+	margin-top: 100px;
+	margin-left: 150px; /* espace entre les rectangles */
+	margin-right: 50; /* Ajuster la valeur de la marge selon besoins */
 }
 
 .container_homeR {
@@ -59,10 +58,14 @@
 	text-align: left;
 }
 
+.container-info {
+	margin-bottom: 50px;
+}
+
 /* Styles spécifiques pour le login-container en mode nuit */
 .night-mode .container_homeLeft{
-	background-color: #222;
-	color: #fff;
+	background-color: black;
+	color: white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -72,8 +75,8 @@
 }
 
 .night-mode .container_homeR{
-	background-color: #222;
-	color: #fff;
+	background-color: black;
+	color: white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -105,5 +108,5 @@
 /* mode sombre */
 
 .night-mode .chat-btn .bulles-img {
-    filter: contrast(0%);
+    filter: invert(1);
 }

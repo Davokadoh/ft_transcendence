@@ -4,27 +4,48 @@ const profil = (
         <div class="col-md-6 mx-auto">
             <div class="container_opt">
                 <div class="container-option">
-                    <form>
-                    <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
-                    Statistics</button> <br>
-                        <button type="submit" class="btn bg-vert">Feats</button> <br>
-                        <button type="submit" class="btn bg-vert">Match History</button> <br>
+                <form>
+                <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
+                Statistics</button>
+                <img src="/src/img/statistique.png" alt="Statistics Icon" class="icon iconeS">
+                <br>
+                        <button type="submit" class="btn bg-vert">Feats</button>
+                        <img src="/src/img/feats.png" alt="Feats Icon" class="icon iconeF">
+                 <br>
+                        <button type="submit" class="btn bg-vert">Match History</button> 
+                        <img src="/src/img/historique.png" alt="Match History Icon" class="icon iconeM">
+                <br>
                         <button type="submit" class="btn bg-vert">Settings</button>
+                        <img src="/src/img/reglages.png" alt="Settings Icon" class="icon iconeSt">
                     </form>
+
                 </div>
             </div>
         </div>
+
+        <!-- Container IMAGE et PSEUDO -->
         <div class="col-md-6 mx-auto">
-            <div class="container_prof">
-                <div class="container-profil">
-                    <form>
-                        <button type="submit" class="btn bg-vert">Contact(s)</button> <br>
-                        <button type="submit" class="btn bg-vert">Blocked</button> <br>
-                    </form>
+        <div class="container_prof">
+            <div class="container-profil">
+                <form>
+                    <!-- Add the image and username section -->
+                    <div class="profile-section">
+                    <img id="profileImage" src="" alt="Profile Image" class="profile-image">
+                    <div>
+                        <button type="button" class="btn bg-vert modImg" id="modifyImageButton">Modifier Image</button>
+                        <input type="file" accept="image/*" id="imageInput" style="display: none;">
+                        <br>
+                        <label class="nameID" for="username">Nom: </label>
+                        <input class="username" type="text" id="username" value="John Doe">
+                    </div>
                 </div>
+                    <button type="submit" class="btn bg-vert">Contact(s)</button> <br>
+                    <button type="submit" class="btn bg-vert">Blocked</button> <br>
+                </form>
             </div>
         </div>
     </div>
+
     <!-- Modal Bootstrap -->
 <div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -41,6 +62,28 @@ const profil = (
         </div>
     </div>
 </div>
+
+<div class="container-info">
+  <section class="py-4 mb-4 text-center seachFriendAlign">
+    <div class="container-fluid">
+      <div class="row align-items-center text-align-right">
+        <div class="col-lg-3">
+          <p class="findFriend">Find a friend</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
+            <div class="input-group-append">
+              <button type="button" class="btn btn-dark imgButton" id="ladder"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
     `
     );
 

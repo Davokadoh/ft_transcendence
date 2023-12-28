@@ -38,14 +38,6 @@ const home = (
           </div>
         </div>
       </div>
-      <section>
-        <div class="espace">
-          <div class="container-fluid">
-            <p></p>
-          </div>
-        </div>
-      </section>
-    </section>
     </div>
 	`
 );
