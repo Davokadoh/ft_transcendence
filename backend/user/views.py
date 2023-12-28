@@ -4,7 +4,7 @@ from django.views import View
 
 class login(View):
     async def get(self, request):
-        return render(request, "user/login.html")
+        return render(request, "login.html")
 
     async def post(self, request):
         user = authenticate(request)
