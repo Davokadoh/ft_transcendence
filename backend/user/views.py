@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+from .backend import authenticate
 
 class login(View):
     async def get(self, request):

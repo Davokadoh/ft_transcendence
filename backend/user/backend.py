@@ -34,12 +34,12 @@ class CustomAuthenticationBackend(BaseBackend):
                     "client_id": os.getenv("CLIENT"),
                     "client_secret": os.getenv("SECRET"),
                     "code": code,
-                    "redirect_uri": "http://localhost:8000/api/users/auth/callback",  # CHANGE TO ACTUAL CALLBACK URL
+                    "redirect_uri": "http://localhost:8000/",  # CHANGE TO ACTUAL CALLBACK URL
                     "state": "state",
                 },
             )
             if response.status_code != '200':
-                return RaiseError(status_code='400')
+                return print("Error: " + response.status_code)
             access_token = response.json()["access_token"]
             response = requests.get(
                 "https://api.intra.42.fr/v2/me",

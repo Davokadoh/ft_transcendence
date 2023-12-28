@@ -8,6 +8,7 @@
 
 <body>
 	<form action="/login/" method="post">
+		{% csrf_token %}
 		<button>
 			<i></i> Login with 42
 		</button>
