@@ -41,6 +41,28 @@ const profil = (
         </div>
     </div>
 </div>
+
+<div class="container-info">
+  <section class="py-4 mb-4 text-center seachFriendAlign">
+    <div class="container-fluid">
+      <div class="row align-items-center text-align-right">
+        <div class="col-lg-3">
+          <p class="findFriend">Find a friend</p>
+        </div>
+        <div class="col-lg-3">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
+            <div class="input-group-append">
+              <button type="button" class="btn btn-dark imgButton" id="ladder"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
     `
     );
 
