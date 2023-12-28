@@ -70,6 +70,56 @@
 }
 /* container de droite */
 
+/* CHANGER PHOTO DE PROFIL */
+.modImg {
+	background-image: url('../img/ajouter-une-image.png');
+	background-color: transparent !important;
+	color: transparent !important;
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border: none !important;
+	margin-left: 0px;
+}
+
+.modImg:hover {
+	background-color: transparent;
+	filter: contrast(175%) brightness(3%);
+	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
+  }
+
+  .nameID {
+	display: block;
+  }
+
+/* Style for the profile image */
+.profile-image {
+    width: 100px; /* Adjust the size as needed */
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.night-mode .modImg {
+	filter: invert(1); /* Pour passer  une image noir en blanc ! :) */
+}
+
+.night-mode .modImg:hover {
+	/* filter: grayscale(100%); */
+	filter: invert(70%);
+}
+
+.night-mode .profile-image {
+	filter: grayscale(100%);
+}
+
+/* Style for the profile section */
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .container_prof {
 	margin-top: 100px;
 	margin-right: 50px;
@@ -224,6 +274,10 @@
 
 /* BARRE D'INFO */
 
+.container-info {
+	height: 93px;
+}
+
 .imgButton {
 	background-image: url('../img/ajouter-le-contact.png');
 	background-color: transparent;
@@ -239,6 +293,14 @@
 	background-color: transparent;
 	filter: contrast(175%) brightness(3%);
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
+  }
+
+  .night-mode .imgButton {
+	filter: invert(1);
+  }
+
+  .night-mode .imgButton:hover {
+	filter: invert(70%);
   }
   
   .findFriend {
