@@ -6,18 +6,25 @@
 // 	loadPage('chat');
 // 	loadPage('profil');
 //   }
-  
-//   // Vos autres fonctions JavaScript et gestionnaires d'événements 
+
+//   // Vos autres fonctions JavaScript et gestionnaires d'événements
+
 //   //appeler des fichiers JS et JSX
 
 //   // const { appBarClasses } = require("@mui/material");
 
-import home from "./views/login"
+import login from "./views/login"
+import home from "./views/home"
 import game from "./views/game"
+import profil from "./views/profil"
+import chat from "./views/chat"
 
 const routes = {
-	"/": {title: "Login", render: home},
+	"/": {title: "Login", render: login},
+	"/home": {title: "Login", render: home},
 	"/game": {title: "Game", render: game},
+	"/profil": {title: "Profil", render: profil},
+	"/chat": {title: "Chat", render: chat},
 };
 
 function router() {
@@ -39,6 +46,5 @@ window.addEventListener("click", e => {
         router();
     }
 });
-
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);

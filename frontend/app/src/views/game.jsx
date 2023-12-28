@@ -31,7 +31,6 @@ const game = (
 		</div>
 	  </div>
 	</div>
-
 	`
 );
 
