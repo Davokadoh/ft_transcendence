@@ -28,7 +28,7 @@ const profil = (
                         <input type="file" accept="image/*" id="imageInput" style="display: none;">
                         <br>
                         <label class="nameID" for="username">Nom: </label>
-                        <input type="text" id="username" value="John Doe">
+                        <input class="username" type="text" id="username" value="John Doe">
                     </div>
                 </div>
                     <button type="submit" class="btn bg-vert">Contact(s)</button> <br>

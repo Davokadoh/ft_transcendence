@@ -113,6 +113,16 @@
 	filter: grayscale(100%);
 }
 
+/*  USER NAME */
+
+.username {
+	color: var(--bleu) !important;
+}
+
+.night-mode .username {
+	color: black !important;
+}
+
 /* Style for the profile section */
 .profile-section {
     display: flex;
