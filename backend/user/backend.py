@@ -6,7 +6,7 @@ import os
 
 
 class CustomAuthenticationBackend(BaseBackend):
-    async def authenticate(self, request):
+    def authenticate(request):
         if request.auser.is_authenticated:
             return redirect("/home")
 

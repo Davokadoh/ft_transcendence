@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/python:1-3.11-bullseye
 
-RUN pip3 install --upgrade pip && pip3 install Django && pip3 install psycopg2-binary && pip3 install -U 'channels[daphne]'
+RUN pip3 install --upgrade pip && pip3 install Django && pip3 install psycopg2-binary && pip3 install -U 'channels[daphne]' && pip3 install requests
 
 ENV PYTHONUNBUFFERED 1
 
