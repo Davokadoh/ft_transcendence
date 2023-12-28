@@ -1,21 +1,31 @@
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
 import random
 
 
-class User(AbstractUser):
-    nickname = models.CharField(max_length=255)
-    firstname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
+class User(AbstractBaseUser):
+    username = models.CharField(max_length=255, primary_key=True)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    groups = models.CharField(max_length=255)
+    user_permissions = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    is_staff = models.CharField(max_length=255)
+    is_superuser = models.CharField(max_length=255)
+    is_active = models.CharField(max_length=255)
+    USERNAME_FIELD = 'username'
+    
+    # firstname = models.CharField(max_length=255)
+    # lastname = models.CharField(max_length=255)
 
-    def get_games_won(self):
-        return Game.objects.filter("winners".contains(self)).count()
+    # def get_games_won(self):
+    #     return Game.objects.filter("winners".contains(self)).count()
 
-    def get_games_lost(self):
-        return Game.objects.exclude("winners".contains(self)).count()
+    # def get_games_lost(self):
+    #     return Game.objects.exclude("winners".contains(self)).count()
 
 
 class Team(models.Model):

@@ -7,7 +7,7 @@ import os
 
 class CustomAuthenticationBackend(BaseBackend):
     def authenticate(request):
-        if request.auser.is_authenticated:
+        if request.user.is_authenticated:
             return redirect("/home")
 
         if request.method == "POST": # Return request to be done by the client
