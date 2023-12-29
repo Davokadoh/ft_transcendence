@@ -14,14 +14,15 @@ class CustomAuthenticationBackend(BaseBackend):
         if request.method == "POST":
             state = os.urandom(42)
             auth_url = "https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
-                os.getenv("CLIENT"),
-                "http://localhost:8000/api/auth/callback",
+                123, #os.getenv("API_42_CLIENT_ID")
+                "http://localhost:8000/callback",
                 "public",
-                state,
+                123, #state
             )
-            print(request.url)
+            print(request)
             return redirect(auth_url)
 
+    def callback(request):
         # Request 42API auth, return user, need to check state
         if request.method == "GET":
             code = request.data.get("code")
@@ -33,8 +34,8 @@ class CustomAuthenticationBackend(BaseBackend):
                     "client_id": os.getenv("CLIENT"),
                     "client_secret": os.getenv("SECRET"),
                     "code": code,
-                    "redirect_uri": "http://localhost:8000/",  # CHANGE TO ACTUAL CALLBACK URL
-                    "state": "state",
+                    "redirect_uri": "http://localhost:8000/home",  # CHANGE TO ACTUAL CALLBACK URL
+                    "state": state,
                 },
             )
             if response.status_code != "200":

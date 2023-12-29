@@ -8,8 +8,8 @@ class login(View):
         return render(request, "login.html")
 
     async def post(self, request):
-        user = CustomAuthenticationBackend.authenticate(request)
-        if user is not None:
-            return HttpResponse(status=200)
-        else:
-            return HttpResponse(status=407)
+        return CustomAuthenticationBackend.authenticate(request)
+
+class callback(View):
+    async def get(self, request):
+        return CustomAuthenticationBackend.callback(request)
