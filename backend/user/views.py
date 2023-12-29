@@ -8,7 +8,7 @@ class login(View):
         return render(request, "login.html")
 
     async def post(self, request):
-        return CustomAuthenticationBackend.authenticate(request)
+        return CustomAuthenticationBackend.aauthenticate(request)
 
 class callback(View):
     async def get(self, request):
