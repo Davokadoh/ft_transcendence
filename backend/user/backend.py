@@ -14,16 +14,15 @@ class CustomAuthenticationBackend(BaseBackend):
         if request.method == "POST":
             state = os.urandom(42)
             auth_url = "https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
-                123, #os.getenv("API_42_CLIENT_ID")
-                "http://localhost:8000/callback",
+                123,  # os.getenv("API_42_CLIENT_ID")
+                "http://localhost:8000/auth/callback",
                 "public",
-                123, #state
+                123,  # state
             )
-            print(request)
             return redirect(auth_url)
 
+    # Request 42API auth, return user, need to check state
     def callback(request):
-        # Request 42API auth, return user, need to check state
         if request.method == "GET":
             code = request.data.get("code")
             state = request.data.get("state")
@@ -31,15 +30,15 @@ class CustomAuthenticationBackend(BaseBackend):
                 "https://api.intra.42.fr/oauth/token",
                 data={
                     "grant_type": "authorization_code",
-                    "client_id": os.getenv("CLIENT"),
-                    "client_secret": os.getenv("SECRET"),
+                    "client_id": os.getenv("API_42_CLIENT_ID"),
+                    "client_secret": os.getenv("API_42_CLIENT_SECRET"),
                     "code": code,
-                    "redirect_uri": "http://localhost:8000/home",  # CHANGE TO ACTUAL CALLBACK URL
+                    "redirect_uri": "http://localhost:8000/auth/callback",  # CHANGE TO ACTUAL CALLBACK URL
                     "state": state,
                 },
             )
             if response.status_code != "200":
-                return print("Error: " + response.status_code)
+                print("Error, status code is: " + response.status_code)
             access_token = response.json()["access_token"]
             response = requests.get(
                 "https://api.intra.42.fr/v2/me",
