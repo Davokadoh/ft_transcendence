@@ -1,93 +1,148 @@
 const profil = (
-    `
-    <div class="row gy-4 justify-content-center">
-        <div class="col-md-6 mx-auto">
-            <div class="container_opt">
-                <div class="container-option">
-                <form>
-                <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
-                Statistics</button>
-                <img src="/src/img/statistique.png" alt="Statistics Icon" class="icon iconeS">
-                <br>
-                        <button type="submit" class="btn bg-vert">Feats</button>
-                        <img src="/src/img/feats.png" alt="Feats Icon" class="icon iconeF">
-                 <br>
-                        <button type="submit" class="btn bg-vert">Match History</button> 
-                        <img src="/src/img/historique.png" alt="Match History Icon" class="icon iconeM">
-                <br>
-                        <button type="submit" class="btn bg-vert">Settings</button>
-                        <img src="/src/img/reglages.png" alt="Settings Icon" class="icon iconeSt">
-                    </form>
+	`
+	<div class="row gy-4 justify-content-center">
+		<div class="col-md-6 mx-auto">
+			<div class="container_opt">
+				<div class="container-option">
+				<form>
+				<button type="button" class="btn bg-vert" data-toggle="modal" data-target="#statsModal">
+				Statistics</button>
+				<img src="/src/img/statistique.png" alt="Statistics Icon" class="icon iconeS">
+				<br>
+						<button type="submit" class="btn bg-vert">Feats</button>
+						<img src="/src/img/feats.png" alt="Feats Icon" class="icon iconeF">
+				 <br>
+						<button type="submit" class="btn bg-vert">Match History</button> 
+						<img src="/src/img/historique.png" alt="Match History Icon" class="icon iconeM">
+				<br>
+						<button type="submit" class="btn bg-vert">Settings</button>
+						<img src="/src/img/reglages.png" alt="Settings Icon" class="icon iconeSt">
+					</form>
+				</div>
+			</div>
+		</div>
 
-                </div>
-            </div>
-        </div>
+		<!-- Container IMAGE et PSEUDO -->
+		<div class="col-md-6 mx-auto">
+		<div class="container_prof">
+			<div class="container-profil">
+				<form>
+					<!-- Add the image and username section -->
+					<div class="profile-section">
+					<img id="profileImage" src="" alt="Profile Image" class="profile-image">
+					<div>
+						<button type="button" class="btn bg-vert modImg" id="modifyImageButton">Modifier Image</button>
+						<input type="file" accept="image/*" id="imageInput" style="display: none;">
+						<br>
+						<label class="nameID" for="username">Nom: </label>
+						<input class="username" type="text" id="username" value="John Doe">
+					</div>
+				</div>
+					<button type="button" class="btn bg-vert" data-toggle="modal" data-target="#contactsModal">Contacts</button> <br>
+					<button type="button" class="btn bg-vert" data-toggle="modal" data-target="#modalBlocked">Blocked</button> <br>
+				</form>
+			</div>
+		</div>
+	</div>
 
-        <!-- Container IMAGE et PSEUDO -->
-        <div class="col-md-6 mx-auto">
-        <div class="container_prof">
-            <div class="container-profil">
-                <form>
-                    <!-- Add the image and username section -->
-                    <div class="profile-section">
-                    <img id="profileImage" src="" alt="Profile Image" class="profile-image">
-                    <div>
-                        <button type="button" class="btn bg-vert modImg" id="modifyImageButton">Modifier Image</button>
-                        <input type="file" accept="image/*" id="imageInput" style="display: none;">
-                        <br>
-                        <label class="nameID" for="username">Nom: </label>
-                        <input class="username" type="text" id="username" value="John Doe">
-                    </div>
-                </div>
-                    <button type="submit" class="btn bg-vert">Contact(s)</button> <br>
-                    <button type="submit" class="btn bg-vert">Blocked</button> <br>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal Bootstrap -->
+	<!-- Modal Bootstrap Verena FD fenetre de droite bouton contact -->
+	<!-- <div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true"> J AI ENLEVER L ANIMATION EN ENLEVANT FADE CAR MOCHE AVEC FOND PERSO-->
+	<div class="modal modCustom" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-content custom-modal">
+	<div class="modal-header">
+	<h5 class="modal-title" id="contactsModalLabel">Liste des Contacts</h5>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	<span aria-hidden="true">&times;</span>
+	</button>
+	</div>
+	<div class="modal-body">
+	<!-- Contenu de la modale, par exemple ici la liste des contacts -->
+	<ul>
+	<li>Pseudo 1</li>
+	<li>Pseudo 2</li>
+	<!-- ... -->
+	</ul>
+	</div>
+	<div class="modal-footer">
+	<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+	<button type="button" class="btn btn-primary">Inviter</button>
+	<button type="button" class="btn btn-danger">Bloquer</button>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	<!-- Modal Bootstrap Verena FD fenetre de droite bouton blocked -->
+	<div class="modal modCustom" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content blockedModalCustom">
+				<div class="modal-header">
+					<h3 class="modal-title">Blocked contact</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Pseudo 1 blocked
+						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
+					</p>
+					<p>Pseudo 2 blocked
+						<button type="button" class="btn btn-success unBlocked">Unblock</button>
+					</p>
+					<p>Pseudo 3 blocked
+						<button type="button" class="btn btn-success unBlocked">Unblock</button>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert" data-dismiss="modal" aria-label="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal Bootstrap Claire FG -->
 <div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="statsModalLabel">Informations sur le jeu...</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p> Contacts </p>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="statsModalLabel">Informations sur le jeu...</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p> Contacts </p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="container-info">
   <section class="py-4 mb-4 text-center seachFriendAlign">
-    <div class="container-fluid">
-      <div class="row align-items-center text-align-right">
-        <div class="col-lg-3">
-          <p class="findFriend">Find a friend</p>
-        </div>
-        <div class="col-lg-6">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
-            <div class="input-group-append">
-              <button type="button" class="btn btn-dark imgButton" id="ladder"></button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+	<div class="container-fluid">
+	  <div class="row align-items-center text-align-right">
+		<div class="col-lg-3">
+		  <p class="findFriend">Find a friend</p>
+		</div>
+		<div class="col-lg-6">
+		  <div class="input-group">
+			<input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
+			<div class="input-group-append">
+			  <button type="button" class="btn btn-dark imgButton" id="ladder"></button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
   </section>
 </div>
 
 
-    `
-    );
+	`
+	);
 
-    export default profil;
+	export default profil;
 
 
 /*
