@@ -50,7 +50,7 @@ const profil = (
 	<!-- <div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true"> J AI ENLEVER L ANIMATION EN ENLEVANT FADE CAR MOCHE AVEC FOND PERSO-->
 	<div class="modal modCustom" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
-	<div class="modal-content custom-modal">
+	<div class="modal-content custom-modal nightModalMod">
 	<div class="modal-header">
 	<h5 class="modal-title" id="contactsModalLabel">Liste des Contacts</h5>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -77,7 +77,7 @@ const profil = (
 	<!-- Modal Bootstrap Verena FD fenetre de droite bouton blocked -->
 	<div class="modal modCustom" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content blockedModalCustom">
+			<div class="modal-content blockedModalCustom nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title">Blocked contact</h3>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
