@@ -26,6 +26,13 @@
 
 
 	$(document).ready(function() {
+
+	// Initialiser les info-bulles
+	var tooltips = new bootstrap.Tooltip(document.body, {
+		selector: '[data-toggle="tooltip"]'
+	});
+
+
 		console.log('Script modif Image chargé avec succès !');
 		// Fonction pour gérer le téléchargement d'image
 		$('#modifyImageButton').on('click', function () {

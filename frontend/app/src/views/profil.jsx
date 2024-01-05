@@ -75,7 +75,7 @@ const profil = (
 	</div>
 	
 	<!-- Modal Bootstrap Verena FD fenetre de droite bouton blocked -->
-	<div class="modal modCustom" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
+	<div class="modal modCustom modal-dialog-centered" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content blockedModalCustom nightModalMod">
 				<div class="modal-header">

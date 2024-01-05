@@ -112,6 +112,10 @@
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
   }
 
+  .modImg:active {
+	filter: drop-shadow(3px 3px var(--violet));
+  }
+
   .nameID {
 	display: block;
   }
@@ -329,6 +333,11 @@
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
   }
 
+.imgButton:active {
+	background-color: transparent !important;
+	filter: drop-shadow(3px 3px var(--violet));
+}
+
   .night-mode .imgButton {
 	filter: invert(1);
   }
@@ -356,3 +365,83 @@
 	width: 100px; /* Ajuste la largeur du bouton selon tes besoins */
 	/* align-items: start !important; */
   }
+
+
+
+
+
+  /* CUSTOM MODALS */
+/* Modal Contact */
+
+/* Style personnalisé pour la modale du bouton contact FD*/
+.custom-modal {
+	background-color: var(--violet); /* Couleur de fond */
+	padding: 20px; /* Espacement intérieur */
+	border-radius: 20px; /* Coins arrondis */
+	font-family: 'Spoof', sans-serif;
+	color: #87d300;
+	
+	/* Fond personnalisé derrière la modale
+	&::before {
+		content: "";
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(0, 186, 185, 0.7);
+		z-index: -100;
+	} */
+}
+
+/* pas d'autre choix pour centrer ce $&%^$ de modal du coup pas de fond de couleur*/
+.modCustom {
+	margin-left: 30%;
+}
+/* Style personnalisé pour la modale du bouton blocked FD*/
+
+.blockedModalCustom {
+	background-color: var(--violet); /* Couleur de fond */
+	padding: 20px; /* Espacement intérieur */
+	border-radius: 20px; /* Coins arrondis */
+	font-family: 'Spoof', sans-serif;
+	color: #87d300;
+	width: 400px;
+	height: fit-content;
+}
+
+  .unblockBtn {
+	background-image: url('../img/debloque.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 35px;
+	height: 35px;
+	border: none;
+	margin-left: 17px;
+	margin-bottom: 0px;
+  }
+
+  .unblockBtn:hover {
+ /* image couleur modifiee mardi */
+}
+
+  .unblockBtn:active {
+	background-image: url('../img/content.png');
+	filter: invert(1) brightness(100%) hue-rotate(360);
+  }
+
+
+.night-mode .nightModalMod {
+	background-color: black;
+	border: 2px solid white;
+	color: white;
+}
+
+/* creer des boutons pour ces modes et integrer les variables aux boutons */
+.modalButton {
+
+}
+
+.modalNightButton {
+
+}
