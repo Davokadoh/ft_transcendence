@@ -46,55 +46,56 @@ const profil = (
 	</div>
 
 
-	<!-- Modal Bootstrap Verena FD fenetre de droite bouton contact -->
+	<!-- Modal Bootstrap Verena FD fenetre de droite bouton CONTACT -->
 	<!-- <div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true"> J AI ENLEVER L ANIMATION EN ENLEVANT FADE CAR MOCHE AVEC FOND PERSO-->
 	<div class="modal modCustom" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-	<div class="modal-content custom-modal nightModalMod">
-	<div class="modal-header">
-	<h5 class="modal-title" id="contactsModalLabel">Liste des Contacts</h5>
-	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	<span aria-hidden="true">&times;</span>
-	</button>
-	</div>
-	<div class="modal-body">
-	<!-- Contenu de la modale, par exemple ici la liste des contacts -->
-	<ul>
-	<li>Pseudo 1</li>
-	<li>Pseudo 2</li>
-	<!-- ... -->
-	</ul>
-	</div>
-	<div class="modal-footer">
-	<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-	<button type="button" class="btn btn-primary">Inviter</button>
-	<button type="button" class="btn btn-danger">Bloquer</button>
-	</div>
-	</div>
-	</div>
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+				<h3 class="modal-title" id="contactsModalLabel">Liste des Contacts</h3>
+				<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+					<div class="modal-body">
+						<!-- Contenu de la modale, par exemple ici la liste des contacts -->
+						<ul>
+						<li>Pseudo 1</li>
+						<li>Pseudo 2</li>
+						<!-- ... -->
+					</ul>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn modalButton modalNightButton">Invite</button>
+					<button type="button" class="btn modalButton modalNightButton">Block</button>
+					<button type="button" class="btn modalButton modalNightButton" data-dismiss="modal">Close</button>
+					</div>
+			</div>
+		</div>
 	</div>
 	
 	<!-- Modal Bootstrap Verena FD fenetre de droite bouton blocked -->
 	<div class="modal modCustom modal-dialog-centered" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content blockedModalCustom nightModalMod">
+			<div class="modal-content custom-modal blockedModalCustom nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title">Blocked contact</h3>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+					<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
+					<span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
 					<p>Pseudo 1 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
 					<p>Pseudo 2 blocked
-						<button type="button" class="btn btn-success unBlocked">Unblock</button>
+						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
 					<p>Pseudo 3 blocked
-						<button type="button" class="btn btn-success unBlocked">Unblock</button>
+						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn bg-vert" data-dismiss="modal" aria-label="close">Close</button>
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
 				</div>
 			</div>
 		</div>
@@ -103,12 +104,12 @@ const profil = (
 
 	<!-- Modal Bootstrap Claire FG -->
 <div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
+	<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+		<div class="modal-content custom-modal nightModalMod">
 			<div class="modal-header">
-				<h5 class="modal-title" id="statsModalLabel">Informations sur le jeu...</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+				<h3 class="modal-title" id="statsModalLabel">Informations sur le jeu</h3>
+				<button type="button" class="close modalCloseButton modalNightButton" data-dismiss="modal" aria-label="close">
+				<span aria-hidden="true">&times;</span></button>
 				</button>
 			</div>
 			<div class="modal-body">

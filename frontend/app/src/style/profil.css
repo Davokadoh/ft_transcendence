@@ -401,16 +401,11 @@
 /* Style personnalisé pour la modale du bouton blocked FD*/
 
 .blockedModalCustom {
-	background-color: var(--violet); /* Couleur de fond */
-	padding: 20px; /* Espacement intérieur */
-	border-radius: 20px; /* Coins arrondis */
-	font-family: 'Spoof', sans-serif;
-	color: #87d300;
 	width: 400px;
 	height: fit-content;
 }
 
-  .unblockBtn {
+.unblockBtn {
 	background-image: url('../img/debloque.png');
 	background-color: transparent;
 	background-size: cover;
@@ -419,9 +414,9 @@
 	border: none;
 	margin-left: 17px;
 	margin-bottom: 0px;
-  }
+}
 
-  .unblockBtn:hover {
+.unblockBtn:hover {
  /* image couleur modifiee mardi */
 }
 
@@ -430,6 +425,9 @@
 	filter: invert(1) brightness(100%) hue-rotate(360);
   }
 
+  .night-mode .unblockBtn {
+	filter: contrast(0%) invert(1);
+  }
 
 .night-mode .nightModalMod {
 	background-color: black;
@@ -437,11 +435,43 @@
 	color: white;
 }
 
-/* creer des boutons pour ces modes et integrer les variables aux boutons */
-.modalButton {
-
+.modal-title {
+	font-family: 'Titan One', sans-serif;
 }
 
-.modalNightButton {
+/* creer des boutons pour ces modes et integrer les variables aux boutons */
+.modalCloseButton {
+	background-color: transparent;
+	color:#87d300;
+	border: none;
+	font-family: 'Tahoma', sans-serif;
+	font-size: 34px;
+	padding-top: 0px;
+	padding-right: 14px;
+	
+}
 
+.night-mode .modalCloseButton {
+	color: white;
+}
+
+.modalButton {
+	background-color: var(--vert);
+	color: var(--violet);
+}
+
+.modalButton:hover {
+	/* background-color: rgba(135, 211, 0, 0.8); */
+	border: solid 1px var(--vert);
+}
+
+.night-mode .modalNightButton {
+	background-color: white;
+	color: black;
+}
+
+.night-mode .modalNightButton:hover {
+	border: solid 1px white;
+	background-color: transparent;
+	color: white;
 }
