@@ -101,18 +101,55 @@ const profil = (
 	</div>
 
 
-	<!-- Modal Bootstrap Claire FG -->
+
+
+
+	<!-- Modal Bootstrap STATISTICS FG -->
 <div class="modal fade" data-backdrop="static" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
 	<div class="modal-dialog modCustom modal-dialog-centered" role="document">
 		<div class="modal-content custom-modal nightModalMod">
 			<div class="modal-header">
-				<h3 class="modal-title" id="statsModalLabel">Informations sur le jeu</h3>
+				<h3 class="modal-title" id="statsModalLabel">STATISTICS</h3>
 				<button type="button" class="close modalCloseButton modalNightButton" data-dismiss="modal" aria-label="close">
 				<span aria-hidden="true">&times;</span></button>
 				</button>
 			</div>
-			<div class="modal-body">
-				<p> Contacts </p>
+		<div class="modal-body">
+
+			<!-- Onglets -->
+
+			<ul class="nav nav-tabs navCustom" id="myTabs" role="tablist">
+			<li class="nav-item" role="presentation">
+				<a class="nav-link active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab" aria-controls="onglet2" aria-selected="false">Win</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab" aria-controls="onglet3" aria-selected="false">Match</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab" aria-controls="onglet4" aria-selected="false">Ratio</a>
+			</li>
+			</ul>
+
+			<!-- Contenu des onglets -->
+			<div class="tab-content">
+			<div class="tab-pane fade show active tabCust" id="onglet1" role="tabpanel" aria-labelledby="onglet1-tab">
+				6/10  <!--(rang par rapport aux amis)-->
+			</div>
+			<div class="tab-pane fade tabCust" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
+				306 <!--(Nbr de victoires)-->
+			</div>
+			<div class="tab-pane fade tabCust" id="onglet3" role="tabpanel" aria-labelledby="onglet3-tab">
+				612 <!--(Nbr de match)-->
+			</div>
+			<div class="tab-pane fade tabCust" id="onglet4" role="tabpanel" aria-labelledby="onglet4-tab">
+				50% <!--(ratio Nbr de victoires sur nbr de match)-->
+			</div>
+			</div>
+		<div class="modal-footer">
+		<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
 			</div>
 		</div>
 	</div>
@@ -140,9 +177,9 @@ const profil = (
 
 
 	`
-	);
+);
 
-	export default profil;
+export default profil;
 
 
 /*

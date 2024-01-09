@@ -1,0 +1,47 @@
+<!-- Bouton pour ouvrir la fenêtre modale -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	Ouvrir la fenêtre modale
+</button>
+
+<!-- Fenêtre modale -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Fenêtre modale avec onglets</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+			</div>
+			<div class="modal-body">
+
+				<!-- Onglets -->
+				<ul class="nav nav-tabs" id="myTabs" role="tablist">
+					<li class="nav-item" role="presentation">
+						<a class="nav-link active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab"
+							aria-controls="onglet1" aria-selected="true">Onglet 1</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab"
+							aria-controls="onglet2" aria-selected="false">Onglet 2</a>
+					</li>
+					<!-- Ajoutez plus d'onglets au besoin -->
+				</ul>
+
+				<!-- Contenu des onglets -->
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="onglet1" role="tabpanel" aria-labelledby="onglet1-tab">
+						Contenu de l'onglet 1
+					</div>
+					<div class="tab-pane fade" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
+						Contenu de l'onglet 2
+					</div>
+					<!-- Ajoutez plus de contenus d'onglets au besoin -->
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-primary">Enregistrer les modifications</button>
+			</div>
+		</div>
+	</div>
+</div>
