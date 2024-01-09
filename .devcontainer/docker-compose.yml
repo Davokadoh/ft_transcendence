@@ -5,9 +5,9 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-
     volumes:
       - ../..:/workspaces:cached
+    env_file: devcontainer.env
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

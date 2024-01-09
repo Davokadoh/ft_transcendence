@@ -6,15 +6,15 @@ import os
 
 
 class CustomAuthenticationBackend(BaseBackend):
-    async def aauthenticate(request):
-        if request.auser.is_authenticated:
+    def authenticate(request):
+        if request.user.is_authenticated:
             return redirect("/home")
 
         # Return request to be done by the client
         if request.method == "POST":
             state = os.urandom(42)
             auth_url = "https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
-                123,  # os.getenv("API_42_CLIENT_ID")
+                os.getenv("API_42_CLIENT_ID"),
                 "http://localhost:8000/auth/callback",
                 "public",
                 123,  # state
