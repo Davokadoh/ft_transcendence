@@ -83,13 +83,13 @@ const profil = (
 					<span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
-					<p class="pseudoBlock">Pseudo 1 blocked
+					<p class="pseudoBlock d-flex align-items-end">Pseudo 1 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
-					<p class="pseudoBlock">Pseudo 2 blocked
+					<p class="pseudoBlock d-flex align-items-end">Pseudo 2 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
-					<p class="pseudoBlock">Pseudo 3 blocked
+					<p class="pseudoBlock d-flex align-items-end">Pseudo 3 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
 				</div>
@@ -120,16 +120,16 @@ const profil = (
 
 			<ul class="nav nav-tabs navCustom" id="myTabs" role="tablist">
 			<li class="nav-item" role="presentation">
-				<a class="nav-link active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
+				<a class="nav-link modNav active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab" aria-controls="onglet2" aria-selected="false">Win</a>
+				<a class="nav-link modNav" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab" aria-controls="onglet2" aria-selected="false">Win</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab" aria-controls="onglet3" aria-selected="false">Match</a>
+				<a class="nav-link modNav" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab" aria-controls="onglet3" aria-selected="false">Match</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab" aria-controls="onglet4" aria-selected="false">Ratio</a>
+				<a class="nav-link modNav" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab" aria-controls="onglet4" aria-selected="false">Ratio</a>
 			</li>
 			</ul>
 
