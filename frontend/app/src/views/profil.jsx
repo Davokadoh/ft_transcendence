@@ -73,7 +73,7 @@ const profil = (
 		</div>
 	</div>
 	
-	<!-- Modal Bootstrap Verena FD fenetre de droite bouton blocked -->
+	<!-- Modal Bootstrap FD fenetre de droite bouton BLOCKED -->
 	<div class="modal fade modCustom modal-dialog-centered" data-backdrop="static" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content custom-modal blockedModalCustom nightModalMod">
@@ -83,13 +83,13 @@ const profil = (
 					<span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
-					<p>Pseudo 1 blocked
+					<p class="pseudoBlock">Pseudo 1 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
-					<p>Pseudo 2 blocked
+					<p class="pseudoBlock">Pseudo 2 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
-					<p>Pseudo 3 blocked
+					<p class="pseudoBlock">Pseudo 3 blocked
 						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
 					</p>
 				</div>
