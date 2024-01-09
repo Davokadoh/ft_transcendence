@@ -110,7 +110,7 @@ const profil = (
 		<div class="modal-content custom-modal nightModalMod">
 			<div class="modal-header">
 				<h3 class="modal-title" id="statsModalLabel">STATISTICS</h3>
-				<button type="button" class="close modalCloseButton modalNightButton" data-dismiss="modal" aria-label="close">
+				<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
 				<span aria-hidden="true">&times;</span></button>
 				</button>
 			</div>
