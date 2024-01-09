@@ -47,8 +47,7 @@ const profil = (
 
 
 	<!-- Modal Bootstrap Verena FD fenetre de droite bouton CONTACT -->
-	<!-- <div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true"> J AI ENLEVER L ANIMATION EN ENLEVANT FADE CAR MOCHE AVEC FOND PERSO-->
-	<div class="modal modCustom" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
+	<div class="modal fade modCustom" data-backdrop="static" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content custom-modal nightModalMod">
 				<div class="modal-header">
@@ -75,7 +74,7 @@ const profil = (
 	</div>
 	
 	<!-- Modal Bootstrap Verena FD fenetre de droite bouton blocked -->
-	<div class="modal modCustom modal-dialog-centered" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
+	<div class="modal fade modCustom modal-dialog-centered" data-backdrop="static" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content custom-modal blockedModalCustom nightModalMod">
 				<div class="modal-header">
@@ -103,7 +102,7 @@ const profil = (
 
 
 	<!-- Modal Bootstrap Claire FG -->
-<div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
 	<div class="modal-dialog modCustom modal-dialog-centered" role="document">
 		<div class="modal-content custom-modal nightModalMod">
 			<div class="modal-header">
