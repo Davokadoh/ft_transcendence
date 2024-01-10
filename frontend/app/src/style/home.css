@@ -12,7 +12,8 @@
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	/* margin: 0 auto; Supprimez cette ligne */
-	max-width: 400px;
+	/* max-width: 400px; */
+	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
@@ -20,6 +21,17 @@
 	text-align: left;
 }
 
+/* Media query for smaller screens */
+@media (max-width: 1160px) {
+	.flex-container {
+	  flex-direction: column; /* Stack containers vertically */
+	}
+
+	/* Reset the margin for both containers to avoid overlapping */
+	.container_homeLeft, .container_homeR {
+	  margin: 10px; /* Adjust as needed */
+	}
+}
 
 .game-btn {
 	margin-top: 15px;
@@ -50,7 +62,8 @@
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	/* margin: 0 auto; Supprimez cette ligne */
-	max-width: 400px;
+	/* max-width: 400px; */
+	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;

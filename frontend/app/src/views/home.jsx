@@ -1,6 +1,6 @@
 const home = (
 	`
-	<div class="row gy-4 justify-content-center">
+	<div class="row gy-4 justify-content-center flex-container">
         <div class="col-md-6 mx-auto">
             <div class="container_hl">
                 <div class="container_homeLeft">
@@ -24,6 +24,7 @@ const home = (
             </div>
         </div>
     </div>
+    
     <div class="container-info">
     <section class="py-4 mb-4 text-center">
       <div class="container-fluid">
