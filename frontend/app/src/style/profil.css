@@ -1,5 +1,10 @@
 /* --- Profil --- */
 
+/* BOTH CONTAINER */
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+}
 /* container de gauche */
 
 .container_opt {
@@ -14,7 +19,8 @@
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	/* margin: 0 auto; Supprimez cette ligne */
-	max-width: 400px;
+	/* max-width: 400px; */
+	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
@@ -170,7 +176,8 @@
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	/* margin: 0 auto; Supprimez cette ligne */
-	max-width: 400px;
+	/* max-width: 400px; */
+	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
@@ -221,6 +228,18 @@
 @media (prefers-color-scheme: dark) {
 	.night-mode .container-profil {
 		border: 3px solid white;
+	}
+}
+
+/* Media query for smaller screens */
+@media (max-width: 800px) {
+	.flex-container {
+	  flex-direction: column; /* Stack containers vertically */
+	}
+
+	/* Reset the margin for both containers to avoid overlapping */
+	.container_opt, .container_prof {
+	  margin: 10px; /* Adjust as needed */
 	}
 }
 
