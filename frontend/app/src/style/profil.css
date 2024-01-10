@@ -4,6 +4,7 @@
 .flex-container {
 	display: flex;
 	flex-wrap: wrap;
+	overflow: hidden;
 }
 /* container de gauche */
 
@@ -232,7 +233,7 @@
 }
 
 /* Media query for smaller screens */
-@media (max-width: 800px) {
+@media (max-width: 1160px) {
 	.flex-container {
 	  flex-direction: column; /* Stack containers vertically */
 	}

@@ -15,9 +15,12 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
   <!-- Pour les Modals -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
   <!-- Inclure les fichier CSS -->
   <link rel="stylesheet" type="text/css" href="src/style/App.css">
@@ -27,8 +30,8 @@
   <link rel="stylesheet" type="text/css" href="src/style/profil.css">
   <link rel="stylesheet" type="text/css" href="src/style/chat.css">
 
-    <!-- Inclure les scripts  -->
-    <script src="/src/scripts/profil.js" defer></script>
+  <!-- Inclure les scripts  -->
+  <script src="/src/scripts/profil.js" defer></script>
 
   <!-- <-- Inclure les fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,56 +53,56 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       console.log('night mode function called');
-  const toggleSwitch = document.getElementById('toggle-switch');
+      const toggleSwitch = document.getElementById('toggle-switch');
 
-  toggleSwitch.addEventListener('change', function () {
-    document.body.classList.toggle('night-mode', toggleSwitch.checked);
-  });
-});
+      toggleSwitch.addEventListener('change', function () {
+        document.body.classList.toggle('night-mode', toggleSwitch.checked);
+      });
+    });
   </script>
 
-<script>
-  const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  const darkModeImage = document.querySelector('.dark-mode-image');
+  <script>
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeImage = document.querySelector('.dark-mode-image');
 
-  function handleDarkModeChange(e) {
-    console.log('dark mode  handlefunction called');
-    if (e.matches) {
-      // Mode sombre activé, changez l'image
-      darkModeImage.src = './src/img/Pong-Chos_LOGO_NB_DarkMode.png';
-    } else {
-      // Mode sombre désactivé, revenez à l'image normale
-      darkModeImage.src = './src/img/Pong-Chos_LOGO_NB.png';
+    function handleDarkModeChange(e) {
+      console.log('dark mode  handlefunction called');
+      if (e.matches) {
+        // Mode sombre activé, changez l'image
+        darkModeImage.src = './src/img/Pong-Chos_LOGO_NB_DarkMode.png';
+      } else {
+        // Mode sombre désactivé, revenez à l'image normale
+        darkModeImage.src = './src/img/Pong-Chos_LOGO_NB.png';
+      }
     }
-  }
 
-  // Vérifiez le mode sombre lors du chargement de la page
-  handleDarkModeChange(darkModeMediaQuery);
+    // Vérifiez le mode sombre lors du chargement de la page
+    handleDarkModeChange(darkModeMediaQuery);
 
-  // Ajoutez un écouteur pour suivre les changements de mode sombre
-  darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
-</script>
+    // Ajoutez un écouteur pour suivre les changements de mode sombre
+    darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
+  </script>
 
   <!-- SCRIPT BOUTON MENU -->
   <script>
     function toggleNavbar() {
       console.log('Toggle Navbar function called');
 
-        const navbarToggler = document.querySelector('.navbar-toggler');
-        const navbarNav = document.querySelector('#navbarNav');
+      const navbarToggler = document.querySelector('.navbar-toggler');
+      const navbarNav = document.querySelector('#navbarNav');
 
-        // Vérifie si le menu est ouvert
-        const isOpen = navbarNav.classList.contains('show');
+      // Vérifie si le menu est ouvert
+      const isOpen = navbarNav.classList.contains('show');
 
-        // Si le menu est ouvert, retire la classe active du bouton
-        if (isOpen) {
-            navbarToggler.classList.remove('active');
-        } else {
-            // Si le menu est fermé, ajoute la classe active au bouton
-            navbarToggler.classList.add('active');
-        }
+      // Si le menu est ouvert, retire la classe active du bouton
+      if (isOpen) {
+        navbarToggler.classList.remove('active');
+      } else {
+        // Si le menu est fermé, ajoute la classe active au bouton
+        navbarToggler.classList.add('active');
+      }
     }
-      </script>
+  </script>
 
   <!-- STYLES -->
   <style>
@@ -109,7 +112,38 @@
   </style>
 </head>
 
+
+<!-- pour avoir la taille de la fenetre, pour debug -->
+
 <body>
+  </style>
+  </head>
+
+  <body>
+
+    <h1>Taille de la fenêtre</h1>
+    <p id="tailleFenetre"></p>
+
+    <script>
+      function afficherTailleFenetre() {
+        var largeurFenetre = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var hauteurFenetre = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+        document.getElementById('tailleFenetre').innerHTML = 'Largeur : ' + largeurFenetre + 'px, Hauteur : ' + hauteurFenetre + 'px';
+      }
+
+      // Appeler la fonction une fois au chargement de la page
+      afficherTailleFenetre();
+
+      // Appeler la fonction à chaque fois que la fenêtre est redimensionnée
+      window.addEventListener('resize', afficherTailleFenetre);
+    </script>
+
+  </body>
+  <!-- pour avoir la taille de la fenetre, pour debug -->
+
+
+
   <header class="">
 
     <div class="lineUnderNav">
@@ -118,20 +152,22 @@
 
           <!-- JOLI MENU AVEC PETIT CODE DE CLAIRE -->
           <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
               <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Barre de navigation facon SPA -->
-              <div class="logo-container">
+            <div class="logo-container">
 
-                <a class="logoLink" href="/home" data-link>
+              <a class="logoLink" href="/home" data-link>
 
                 <div class="logo">
-                  <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120">
+                  <img src="./src/img/Pong-Chos_LOGO-min.png" class="light-mode-image" alt="logo des Pong-Chos"
+                    width="120" height="120">
                 </div>
-                </a>
-              </div>
+              </a>
+            </div>
 
             <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
               <li class="nav-item">
@@ -143,27 +179,31 @@
               </li>
               <li class="sep"> | </li>
               <li class="nav-item">
-                <a class="nav-link" href="/chat" data-link>CHAT</a></li>
+                <a class="nav-link" href="/chat" data-link>CHAT</a>
+              </li>
               <li class="sep"> | </li>
               <li class="nav-item">
-                <a class="nav-link" href="/profil" data-link>PROFIL</a></li>
+                <a class="nav-link" href="/profil" data-link>PROFIL</a>
+              </li>
             </ul>
-              <!-- Bouton Jour/Nuit -->
-              <div class="toggle-container">
-                <input type="checkbox" id="toggle-switch">
-                <label class="toggle-label" for="toggle-switch">
-                    <div class="icon-container">
-                        <!-- Icône en noir blanc -->
-                        <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc"  height="39px" width="auto">
-                      </div>
-                      <div class="separator"></div> <!-- Séparateur -->
-                      <div class="icon-container">
-                        <!-- Icône en couleur -->
-                        <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px" width="auto">
-                    </div>
-                </label>
+            <!-- Bouton Jour/Nuit -->
+            <div class="toggle-container">
+              <input type="checkbox" id="toggle-switch">
+              <label class="toggle-label" for="toggle-switch">
+                <div class="icon-container">
+                  <!-- Icône en noir blanc -->
+                  <img class="PING_BW" src="./src/img/OKPING_B.png" alt="Icône de ping-pong noir et blanc" height="39px"
+                    width="auto">
+                </div>
+                <div class="separator"></div> <!-- Séparateur -->
+                <div class="icon-container">
+                  <!-- Icône en couleur -->
+                  <img class="PONG_COL" src="./src/img/OKPONG_COL.png" alt="Icône de ping-pong en couleur" height="50px"
+                    width="auto">
+                </div>
+              </label>
             </div>
-          </div>  
+          </div>
       </nav>
       <!-- <hr> -->
     </div>
@@ -194,23 +234,23 @@
               <div class="col-lg-6">
                 <div class="scrolling-text-container">
                   <p class="custom-spacing">Welcome to the Pong-Chos website !</p>
-                  <p class="custom-spacing">                                                                  </p>
+                  <p class="custom-spacing"> </p>
                   <P class="custom-spacing">To access to the game and the chat, please log in...</P>
-                </div>
                 </div>
               </div>
             </div>
           </div>
-          <section>
-            <div class="espace">
-              <div class="container-fluid">
-                <p></p>
-              </div>
-            </div>
-          </section>
-        </section>
-        </div>
       </div>
+      <section>
+        <div class="espace">
+          <div class="container-fluid">
+            <p></p>
+          </div>
+        </div>
+      </section>
+    </section>
+    </div>
+    </div>
     </section>
   </main>
   <script type="module" src="./src/main.js"></script>
