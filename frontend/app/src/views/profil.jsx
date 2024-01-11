@@ -18,7 +18,8 @@ const profil = (
 							Match History</button>
 						<img src="/src/img/historique.png" alt="Match History Icon" class="icon iconeM">
 						<br>
-						<button type="button" class="btn bg-vert">Settings</button>
+						<button type="button" class="btn bg-vert" data-toggle="modal" data-target="#setModal">
+							Settings</button>
 						<img src="/src/img/reglages.png" alt="Settings Icon" class="icon iconeSt">
 					</form>
 				</div>
@@ -230,37 +231,55 @@ const profil = (
 		</div>
 
 
-
 		<!-- Modal Bootstrap MATCH FG -->
-		<div class="modal fade" id="matchModal" aria-labelledby="matchModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title">Blocked contact</h3>
-					<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
-						<span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<p class="pseudoBlock d-flex align-items-end">Pseudo 1 blocked
-						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-							title="Unblock the contact" alt="Button to unblock the contact"></button>
-					</p>
-					<p class="pseudoBlock d-flex align-items-end">Pseudo 2 blocked
-						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-							title="Unblock the contact" alt="Button to unblock the contact"></button>
-					</p>
-					<p class="pseudoBlock d-flex align-items-end">Pseudo 3 blocked
-						<button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-							title="Unblock the contact" alt="Button to unblock the contact"></button>
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
-						aria-label="close">Close</button>
+		<div class="modal fade" data-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
+			aria-labelledby="matchModalLabel" aria-hidden="true">
+			<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+				<div class="modal-content custom-modal nightModalMod">
+					<div class="modal-header">
+						<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
+						<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
+							<span aria-hidden="true">&times;</span></button>
+						</button>
+					</div>
+	
+					<div class="modal-body">
+						<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
+					</div>
+	
+					<div class="modal-footer">
+						<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
+							aria-label="close">Close</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+
+
+		<!-- Modal Bootstrap SETTINGS FG -->
+		<div class="modal fade" data-backdrop="static" id="setModal" tabindex="-1" role="dialog"
+			aria-labelledby="setModalLabel" aria-hidden="true">
+			<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+				<div class="modal-content custom-modal nightModalMod">
+					<div class="modal-header">
+						<h3 class="modal-title" id="setModalLabel">SETTINGS</h3>
+						<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
+							<span aria-hidden="true">&times;</span></button>
+						</button>
+					</div>
+	
+					<div class="modal-body">
+						<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
+					</div>
+	
+					<div class="modal-footer">
+						<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
+							aria-label="close">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		`
 );
 
