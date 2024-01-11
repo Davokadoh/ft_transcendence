@@ -251,6 +251,13 @@
 	}
 }
 
+@media (max-width: 990px) {
+	.miniMode {
+		margin-top: 0px;
+		margin-bottom: 25px;
+	}
+}
+
 /* BOUTONS NIGHT MODE */
 /* Style du bouton normal */
 .night-mode .container-option button {
@@ -385,7 +392,7 @@
 	margin-right: 0px;
 }
 
-.input-group {
+.input-group-custom {
 	width: 300px;
 }
 
@@ -395,8 +402,14 @@
 	/* align-items: start !important; */
 }
 
-
-
+/*  Pour avoir les bords droits du formulaire arrondis mais ca ne fonctionne pas */
+.input-group.custom-input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3),
+.input-group.custom-input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control,
+.input-group.custom-input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-select,
+.input-group.custom-input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: none;
+    border-bottom-right-radius: none;
+}
 
 
 /* CUSTOM MODALS */

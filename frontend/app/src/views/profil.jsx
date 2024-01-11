@@ -54,12 +54,12 @@ const profil = (
 	<div class="container-info">
 		<section class="py-4 mb-4 text-center seachFriendAlign">
 			<div class="container-fluid">
-				<div class="row align-items-center text-align-right">
+				<div class="row align-items-center text-align-right miniMode">
 					<div class="col-lg-3">
 						<p class="findFriend">Find a friend</p>
 					</div>
 					<div class="col-lg-6">
-						<div class="input-group">
+						<div class="input-group input-group-custom">
 							<input type="text" class="form-control" placeholder="Search" aria-label="Username"
 								aria-describedby="basic-addon1">
 							<div class="input-group-append">
@@ -78,7 +78,7 @@ const profil = (
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content custom-modal nightModalMod">
 					<div class="modal-header">
-						<h3 class="modal-title" id="contactsModalLabel">Liste des Contacts</h3>
+						<h3 class="modal-title" id="contactsModalLabel">Contacts</h3>
 						<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
