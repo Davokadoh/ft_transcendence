@@ -1,6 +1,6 @@
 
 const home = (
-`
+  `
 <main id="app">
 <section class="py-5">
   <div class="container">
@@ -9,6 +9,7 @@ const home = (
         <div class="login-container">
           <h1>Log in</h1> <br>
           <form action="http://localhost:8000/auth/login" method="post">
+            <input type="hidden" name="csrf-token" content="ajg4JD(JGdajhLJALHDa">
             <button type="submit" class="btn bg-vert">Connexion</button>
           </form>
         </div>
