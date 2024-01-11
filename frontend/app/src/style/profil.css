@@ -444,7 +444,54 @@
 	margin-left: 30%;
 }
 
-/* Style personnalisé pour la modale du bouton blocked FD*/
+.blockBtn {
+	background-image: url('../img/contacts/blockVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 41px;
+	height: 42px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
+}
+
+.blockBtn:hover {
+	background-image: url('../img/contacts/blockBC.png');
+}
+
+.blockBtn:active {
+	background-image: url('../img/contacts/unHappyVert.png');
+	filter: invert(1) brightness(100%) hue-rotate(360);
+	width: 42px;
+	height: 42px;
+}
+
+.inviteContact {
+	background-image: url('../img/contacts/envoyeVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 40px;
+	height: 40px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
+}
+
+.inviteContact:hover {
+	background-image: url('../img/contacts/envoyeBC.png');
+}
+.inviteContact:active {
+	background-image: url('../img/contacts/sendVert.png');
+	width: 40px;
+	height: 40px;
+}
+
+.pseudoBlock {
+	font-family: 'Spooft', sans-serif;
+	font-size: 21px;
+}
+
+/* MODAL BLOCKED*/
 
 .blockedModalCustom {
 	width: 400px;
@@ -543,11 +590,15 @@
 }
 
 .night-mode .modNav {
-	color: white !important;
+	color: var(--gris) !important;
 }
 .night-mode .modNav:focus {
 	color: black !important;
 }
+.night-mode .modNav:active {
+	color: white !important;
+}
+
 
 .tabCust {
 	margin-top: 10px;
