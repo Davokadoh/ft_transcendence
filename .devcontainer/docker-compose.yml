@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   frontend:
+    container_name: "front"
     build:
       context: ..
       args:
@@ -9,10 +10,11 @@ services:
       dockerfile: .devcontainer/frontend/Dockerfile
     volumes:
       - ../..:/workspaces:cached
-    env_file: devcontainer.env
+    user: "node"
     #entrypoint: pnpm vite
 
   backend:
+    container_name: "back"
     build:
       context: ..
       dockerfile: .devcontainer/backend/Dockerfile
@@ -21,7 +23,7 @@ services:
     env_file: devcontainer.env
     command: sleep infinity
     network_mode: service:db
-    entrypoint: python manage.py runserver
+    entrypoint: cd backend && python manage.py runserver
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)

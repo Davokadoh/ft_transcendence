@@ -1,7 +1,7 @@
 {
 	"name": "ft_transcendance",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "backend",
+	"service": "frontend",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/ruff:1": {},
@@ -23,7 +23,5 @@
 				"charliermarsh.ruff"
 			]
 		}
-	},
-
-	"remoteUser": "node"
+	}
 }
