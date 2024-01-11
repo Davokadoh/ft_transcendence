@@ -2,7 +2,6 @@ from django.urls import reverse
 from .models import User
 from django.shortcuts import redirect
 from django.contrib.auth.backends import BaseBackend
-import views
 import requests
 import os
 
@@ -17,7 +16,7 @@ class CustomAuthenticationBackend(BaseBackend):
             state = os.urandom(42)
             auth_url = "https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("API_42_CLIENT_ID"),
-                "http://localhost:8000" + reverse(views.callback),
+                "http://localhost:8000/auth/callback",
                 "public",
                 123,  # state
             )
@@ -35,7 +34,7 @@ class CustomAuthenticationBackend(BaseBackend):
                     "client_id": os.getenv("API_42_CLIENT_ID"),
                     "client_secret": os.getenv("API_42_CLIENT_SECRET"),
                     "code": code,
-                    "redirect_uri": "http://localhost:8000" + reverse(views.callback),
+                    "redirect_uri": "http://localhost:8000/auth/callback",
                     "state": state,
                 },
             )
