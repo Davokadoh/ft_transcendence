@@ -10,7 +10,8 @@
 
 .container_opt {
 	margin-top: 100px;
-    margin-left: 300px; /* Ajustez la valeur de la marge selon vos besoins */
+	margin-left: 300px;
+	/* Ajustez la valeur de la marge selon vos besoins */
 	margin-bottom: 150px;
 }
 
@@ -25,7 +26,8 @@
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
-	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	margin: 5% 0;
+	/* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
 }
 
@@ -65,7 +67,7 @@
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */
-.night-mode .container-option{
+.night-mode .container-option {
 	background-color: black;
 	color: #fff;
 }
@@ -99,6 +101,7 @@
 		border: 3px solid white;
 	}
 }
+
 /* container de droite */
 
 /* CHANGER PHOTO DE PROFIL */
@@ -117,26 +120,28 @@
 	background-color: transparent;
 	filter: contrast(175%) brightness(3%);
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
-  }
+}
 
-  .modImg:active {
+.modImg:active {
 	filter: drop-shadow(3px 3px var(--violet));
-  }
+}
 
-  .nameID {
+.nameID {
 	display: block;
-  }
+}
 
 /* Style for the profile image */
 .profile-image {
-    width: 100px; /* Adjust the size as needed */
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 10px;
+	width: 100px;
+	/* Adjust the size as needed */
+	height: 100px;
+	border-radius: 50%;
+	margin-right: 10px;
 }
 
 .night-mode .modImg {
-	filter: invert(1); /* Pour passer  une image noir en blanc ! :) */
+	filter: invert(1);
+	/* Pour passer  une image noir en blanc ! :) */
 }
 
 .night-mode .modImg:hover {
@@ -152,6 +157,7 @@
 
 .username {
 	color: var(--bleu) !important;
+	width: 210px;
 }
 
 .night-mode .username {
@@ -160,15 +166,15 @@
 
 /* Style for the profile section */
 .profile-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
 .container_prof {
 	margin-top: 100px;
 	margin-right: 50px;
-    margin-left: 150px;
+	margin-left: 150px;
 }
 
 .container-profil {
@@ -182,7 +188,8 @@
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
-	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	margin: 5% 0;
+	/* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
 }
 
@@ -221,7 +228,7 @@
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */
-.night-mode .container-profil{
+.night-mode .container-profil {
 	background-color: black;
 	color: #fff;
 }
@@ -302,32 +309,32 @@
 
 /* Ajoutez ces styles pour centrer le modal verticalement */
 .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 /* Ajoutez ces styles pour centrer le modal horizontalement */
 .modal-dialog {
-    margin: 0;
+	margin: 0;
 }
 
 /* Ajoutez ces styles pour centrer le contenu du modal verticalement */
 .modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 /* Ajoutez ces styles pour ajuster la position du bouton de fermeture */
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
 }
 
 /* BARRE D'INFO */
@@ -345,62 +352,67 @@
 	border: none;
 	margin-left: 0px;
 	/* align-items: start !important; */
-  }
+}
 
-  .imgButton:hover {
+.imgButton:hover {
 	background-color: transparent;
 	filter: contrast(175%) brightness(3%);
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
-  }
+}
 
 .imgButton:active {
 	background-color: transparent !important;
 	filter: drop-shadow(3px 3px var(--violet));
 }
 
-  .night-mode .imgButton {
+.night-mode .imgButton {
 	filter: invert(1);
-  }
+}
 
-  .night-mode .imgButton:hover {
+.night-mode .imgButton:hover {
 	filter: invert(70%);
-  }
-  
-  .findFriend {
+}
+
+.findFriend {
 	text-align: right !important;
-	margin-bottom: 5px; /* Ajuste la marge en bas du texte */
-  }
-  
-  .form-control {
+	margin-bottom: 5px;
+	/* Ajuste la marge en bas du texte */
+}
+
+.form-control {
 	margin: auto;
 	width: 100%;
 	margin-right: 0px;
-  }
-  
-  .input-group {
+}
+
+.input-group {
 	width: 300px;
-  }
+}
 
-  .input-group-append {
-	width: 100px; /* Ajuste la largeur du bouton selon tes besoins */
+.input-group-append {
+	width: 100px;
+	/* Ajuste la largeur du bouton selon tes besoins */
 	/* align-items: start !important; */
-  }
+}
 
 
 
 
 
-  /* CUSTOM MODALS */
+/* CUSTOM MODALS */
 /* Modal Contact */
 
 /* Style personnalisé pour la modale du bouton contact FD*/
 .custom-modal {
-	background-color: var(--violet); /* Couleur de fond */
-	padding: 20px; /* Espacement intérieur */
-	border-radius: 20px; /* Coins arrondis */
+	background-color: var(--violet);
+	/* Couleur de fond */
+	padding: 20px;
+	/* Espacement intérieur */
+	border-radius: 20px;
+	/* Coins arrondis */
 	font-family: 'Spoof', sans-serif;
 	color: #87d300;
-	
+
 	/* Fond personnalisé derrière la modale
 	&::before {
 		content: "";
@@ -418,6 +430,7 @@
 .modCustom {
 	margin-left: 30%;
 }
+
 /* Style personnalisé pour la modale du bouton blocked FD*/
 
 .blockedModalCustom {
@@ -425,29 +438,42 @@
 	height: fit-content;
 }
 
+.pseudoBlock {
+	font-family: 'Spooft', sans-serif;
+}
+
 .unblockBtn {
-	background-image: url('../img/debloque.png');
+	background-image: url('../img/debloquerVert.png');
 	background-color: transparent;
 	background-size: cover;
-	width: 35px;
-	height: 35px;
+	width: 41px;
+	height: 40px;
 	border: none;
-	margin-left: 17px;
-	margin-bottom: 0px;
+	margin-left: 12px;
+	margin-bottom: auto;
 }
 
 .unblockBtn:hover {
- /* image couleur modifiee mardi */
+	background-image: url('../img/debloquer_BC.png');
 }
 
-  .unblockBtn:active {
-	background-image: url('../img/content.png');
+.unblockBtn:active {
+	background-image: url('../img/happyVert.png');
 	filter: invert(1) brightness(100%) hue-rotate(360);
-  }
+	width: 38px;
+	height: 40px;
+}
 
-  .night-mode .unblockBtn {
-	filter: contrast(0%) invert(1);
-  }
+.night-mode .unblockBtn {
+	background-image: url('../img/debloquer_BC.png');
+}
+.night-mode .unblockBtn:hover {
+	filter: grayscale(70%) contrast(0);
+}
+.night-mode .unblockBtn:active {
+	filter: none;
+	background-image: url('../img/happyBC.png');
+}
 
 .night-mode .nightModalMod {
 	background-color: black;
@@ -462,13 +488,13 @@
 /* creer des boutons pour ces modes et integrer les variables aux boutons */
 .modalCloseButton {
 	background-color: transparent;
-	color:#87d300;
+	color: #87d300;
 	border: none;
 	font-family: 'Tahoma', sans-serif;
 	font-size: 34px;
 	padding-top: 0px;
 	padding-right: 14px;
-	
+
 }
 
 .night-mode .modalCloseButton {
@@ -494,4 +520,26 @@
 	border: solid 1px white;
 	background-color: transparent;
 	color: white;
+}
+
+/* NAV TAN FENETRE GAUCHE STAT */
+
+.modNav {
+	color: #87d300 !important;
+	font-size: 21px;
+}
+
+.night-mode .modNav {
+	color: white !important;
+}
+.night-mode .modNav:focus {
+	color: black !important;
+}
+
+.tabCust {
+	margin-top: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 36px;
+	font-family: 'Titan One', sans-serif;
 }
