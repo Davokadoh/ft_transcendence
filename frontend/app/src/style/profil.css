@@ -486,6 +486,25 @@
 	height: 40px;
 }
 
+.night-mode .inviteContact {
+	background-image: url('../img/contacts/envoyeBC.png');
+}
+.night-mode .inviteContact:hover, .blockBtn:hover {
+	filter: grayscale(70%) contrast(0);
+}
+.night-mode .inviteContact:active {
+	filter: none;
+	background-image: url('../img/contacts/sendBC.png');
+}
+
+.night-mode .blockBtn {
+	background-image: url('../img/contacts/blockBC.png');
+}
+.night-mode .blockBtn:active {
+	background-image: url('../img/contacts/unHappyBC.png');
+	filter: none;
+}
+
 .pseudoBlock {
 	font-family: 'Spooft', sans-serif;
 	font-size: 21px;
