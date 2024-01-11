@@ -8,8 +8,8 @@ const home = (
       <div class="col-12 col-md-12">
         <div class="login-container">
           <h1>Log in</h1> <br>
-          <form>
-            <button type="submit" class="btn bg-vert">Connexion</button>
+          <form action="/login/" method="post">
+            <button type="submit" class="btn bg-vert" href="http://localhost:8000/auth/login">Connexion</button>
           </form>
         </div>
       </div>
