@@ -1,6 +1,8 @@
+from django.urls import reverse
 from .models import User
 from django.shortcuts import redirect
 from django.contrib.auth.backends import BaseBackend
+import views
 import requests
 import os
 
@@ -33,7 +35,7 @@ class CustomAuthenticationBackend(BaseBackend):
                     "client_id": os.getenv("API_42_CLIENT_ID"),
                     "client_secret": os.getenv("API_42_CLIENT_SECRET"),
                     "code": code,
-                    "redirect_uri": "http://localhost:8000/auth/callback",  # CHANGE TO ACTUAL CALLBACK URL
+                    "redirect_uri": "http://localhost:8000" + reverse(views.callback)
                     "state": state,
                 },
             )
