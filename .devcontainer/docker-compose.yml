@@ -1,19 +1,27 @@
 version: '3.8'
 
 services:
-  app:
+  frontend:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      args:
+            VARIANT: 18
+      dockerfile: .devcontainer/frontend/Dockerfile
     volumes:
       - ../..:/workspaces:cached
     env_file: devcontainer.env
+    #entrypoint: pnpm vite
 
-    # Overrides default command so things don't shut down after the process ends.
+  backend:
+    build:
+      context: ..
+      dockerfile: .devcontainer/backend/Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+    env_file: devcontainer.env
     command: sleep infinity
-
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     network_mode: service:db
+    entrypoint: python manage.py runserver
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
