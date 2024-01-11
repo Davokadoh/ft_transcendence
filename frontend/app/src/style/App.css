@@ -440,7 +440,7 @@ footer {
 }
 
 .night-mode .navbar-toggler-icon:hover {
-	background-color: var(--gris);
+	background-color: var(--gris) !important;
 	border-radius: 15%;
 	/* color: #87d300; */
 }
@@ -533,7 +533,7 @@ body.night-mode .ulLiA a {
 }
 
 body.night-mode .ulLiA a:hover {
-	color: var(--gris);
+	color: var(--gris) !important;
 }
 
 body.night-mode .login-container {
