@@ -17,7 +17,7 @@ class CustomAuthenticationBackend(BaseBackend):
             state = os.urandom(42)
             auth_url = "https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("API_42_CLIENT_ID"),
-                "http://localhost:8000/auth/callback",
+                "http://localhost:8000" + reverse(views.callback),
                 "public",
                 123,  # state
             )
