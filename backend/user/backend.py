@@ -35,7 +35,7 @@ class CustomAuthenticationBackend(BaseBackend):
                     "client_id": os.getenv("API_42_CLIENT_ID"),
                     "client_secret": os.getenv("API_42_CLIENT_SECRET"),
                     "code": code,
-                    "redirect_uri": "http://localhost:8000" + reverse(views.callback)
+                    "redirect_uri": "http://localhost:8000" + reverse(views.callback),
                     "state": state,
                 },
             )
