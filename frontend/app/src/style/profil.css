@@ -617,10 +617,11 @@
 /* Styles pour le curseur de la plage (range) */
 .rangeCustom::-webkit-slider-thumb {
     background-color: var(--bleu) !important;
-	border: 2px solid var(--bleu) !important; /* Ajout d'une bordure */
+    border: 2px solid var(--bleu) !important; /* Ajout d'une bordure */
     border-radius: 50% !important; /* Rendre le curseur circulaire */
-    height: 25px; /* Ajuster la hauteur du curseur */
-    width: 25px; /* Ajuster la largeur du curseur */
+    height: 20px; /* Ajuster la hauteur du curseur */
+    width: 20px; /* Ajuster la largeur du curseur */
+    margin-top: -2px; /* Ajuster la position verticale du curseur */
 }
 
 .rangeCustom::-moz-range-thumb {
@@ -648,21 +649,21 @@
 
 .rangeCustom::-moz-range-track {
     background-color: var(--bleu) !important;
-	border-radius: 12px !important;
-    height: 12px;
+	border-radius: 13px !important;
+    height: 13px;
 }
 
 .rangeCustom::-ms-track {
     background-color: var(--bleu) !important;
-	border-radius: 12px !important;
-    height: 12px;
+	border-radius: 13px !important;
+    height: 13px;
 }
 
 .rangeCustom::-ms-fill-lower,
 .rangeCustom::-ms-fill-upper {
     background-color: var(--bleu) !important;
-	border-radius: 12px !important;
-    height: 12px;
+	border-radius: 13px !important;
+    height: 13px;
 }
 
 /* SAVE BUTTON */
