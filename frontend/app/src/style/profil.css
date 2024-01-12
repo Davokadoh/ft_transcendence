@@ -616,12 +616,16 @@
 
 /* Styles pour le curseur de la plage (range) */
 .rangeCustom::-webkit-slider-thumb {
+	margin-top: -2px; /* Ajuster la position verticale du curseur */
+	/* -webkit-appearance: none;
+    appearance: none;
+    width: 0;
+    height: 0; */
     background-color: var(--bleu) !important;
     border: 2px solid var(--bleu) !important; /* Ajout d'une bordure */
     border-radius: 50% !important; /* Rendre le curseur circulaire */
     height: 20px; /* Ajuster la hauteur du curseur */
     width: 20px; /* Ajuster la largeur du curseur */
-    margin-top: -2px; /* Ajuster la position verticale du curseur */
 }
 
 .rangeCustom::-moz-range-thumb {
