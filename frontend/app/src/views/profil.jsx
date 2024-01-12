@@ -272,29 +272,29 @@ const profil = (
 					<!-- Formulaire de paramètres -->
 					<form>
 						<!-- Paramètre 1 : Vitesse des paddles -->
-						<div class="form-group">
+						<div class="form-group formGroupCustom ">
 							<label for="paddleSpeed">Paddles speed <span class="crochets">[</span><span class="rangCust" id="paddleSpeedValue"> 50 </span><span class="crochets">]</span></label>
 							<input type="range" class="form-control-range rangeCustom" id="paddleSpeed" value="50" min="1" max="100">
 						</div>
 	
 						<!-- Paramètre 2 : Vitesse de la balle -->
-						<div class="form-group">
+						<div class="form-group formGroupCustom">
 							<label for="ballSpeed">Ball speed <span class="crochets">[</span><span class="rangCust" id="ballSpeedValue"> 50 </span><span class="crochets">]</span></label>
 							<input type="range" class="form-control-range rangeCustom" id="ballSpeed" value="50" min="1" max="100">
 						</div>
 	
 						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
-						<div class="form-group">
+						<div class="form-group formGroupCustom">
 							<label for="paddleColor">Paddles color</label>
 							<input type="color" class="form-control" id="paddleColor">
 						</div>
-						<div class="form-group">
+						<div class="form-group formGroupCustom">
 							<label for="ballColor">Ball color</label>
 							<input type="color" class="form-control" id="ballColor">
 						</div>
 	
 						<!-- Paramètre 4 : Fond du jeu -->
-						<div class="form-group">
+						<div class="form-group formGroupCustom">
 							<label>Game background</label>
 							<select class="form-control" id="backgroundColor">
 								<option value="black">Black</option>
@@ -305,14 +305,14 @@ const profil = (
 						</div>
 	
 						<!-- Paramètre 5 : Accessibilité -->
-						<div class="form-check">
+						<div class="form-check formCheckCustom">
 							<input type="checkbox" class="form-check-input" id="highContrast">
 							<label class="form-check-label" for="highContrast">
 							Increase contrast</label>
 						</div>
 	
 						<!-- Paramètre 6 : 2FA -->
-						<div class="form-check">
+						<div class="form-check formCheckCustom">
 							<input type="checkbox" class="form-check-input" id="enable2FA">
 							<label class="form-check-label" for="enable2FA">Enable two-factor authentication
 								(2FA)</label>

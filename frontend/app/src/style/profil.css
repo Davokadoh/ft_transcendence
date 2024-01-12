@@ -666,12 +666,22 @@
     height: 13px;
 }
 
+.formGroupCustom {
+	padding: 3px;
+}
+
+.formCheckCustom {
+	padding-top: 3px;
+	/* padding-bottom: 3px; */
+}
+
 /* SAVE BUTTON */
 
 .btn-register {
 	background-color: var(--bleu);
 	color: white;
 	border: solit 1px transparent !important;
+	margin-top: 5px;
 }
 .btn-register:hover {
 	border: solid 1px white;
