@@ -621,19 +621,26 @@
     appearance: none;
     width: 0;
     height: 0; */
+	background: transparent !important;
     background-color: var(--bleu) !important;
     border: 2px solid var(--bleu) !important; /* Ajout d'une bordure */
     border-radius: 50% !important; /* Rendre le curseur circulaire */
-    height: 20px; /* Ajuster la hauteur du curseur */
-    width: 20px; /* Ajuster la largeur du curseur */
+    height: 15px; /* Ajuster la hauteur du curseur */
+    width: 15px; /* Ajuster la largeur du curseur */
+}
+
+/* Styles pour le curseur de la plage (range) - WebKit (Chrome, Safari) */
+.rangeCustom::-webkit-slider-thumb {
+    background-color: transparent; /* Rend le curseur transparent */
+    border: 2px solid var(--bleu); /* Ajout d'une bordure */
 }
 
 .rangeCustom::-moz-range-thumb {
-    background-color: var(--bleu) !important;
-	border: 2px solid var(--bleu) !important;
+    background-color: var(--violet) !important;
+	border: 1px solid var(--violet) !important;
     border-radius: 50% !important;
-    height: 20px;
-    width: 20px;
+    height: 15;
+    width: 15;
 }
 
 .rangeCustom::-ms-thumb {

@@ -39,6 +39,22 @@ document.getElementById('ballSpeed').addEventListener('input', function () {
 
 // ... Ajoutez des écouteurs pour d'autres paramètres ... 
 
+document.getElementById('saveButton').addEventListener('click', function() {
+    // Code de sauvegarde des paramètres
+    // ...
+
+    // Fermer la modal
+    $('#myModal').modal('hide');
+});
+
+// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
+$('#myModal').on('hidden.bs.modal', function () {
+    // Remettre les valeurs par défaut
+    document.getElementById('paddleSpeed').value = 50;
+    document.getElementById('ballSpeed').value = 50;
+    // ... (restaurez d'autres paramètres au besoin)
+});
+
 	// Initialiser les info-bulles
 	var tooltips = new bootstrap.Tooltip(document.body, {
 		selector: '[data-toggle="tooltip"]'
