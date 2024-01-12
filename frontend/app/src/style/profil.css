@@ -440,7 +440,7 @@
 	} */
 }
 
-/* pas d'autre choix pour centrer ce $&%^$ de modal du coup pas de fond de couleur*/
+/* pas d'autre choix pour centrer le modal du coup pas de fond de couleur*/
 .modCustom {
 	margin-left: 30%;
 }
@@ -601,6 +601,83 @@
 	background-color: transparent;
 	color: white;
 }
+
+/* MODAL SETTINGS FG */
+
+.rangCust {
+	font-family: 'Titan One', sans-serif;
+	font-size: 16px;
+}
+
+.crochets {
+	font-family: 'Titan One', sans-serif;
+	font-size: 18px;
+}
+
+/* Styles pour le curseur de la plage (range) */
+.rangeCustom::-webkit-slider-thumb {
+    background-color: var(--bleu) !important;
+	border: 2px solid var(--bleu) !important; /* Ajout d'une bordure */
+    border-radius: 50% !important; /* Rendre le curseur circulaire */
+    height: 25px; /* Ajuster la hauteur du curseur */
+    width: 25px; /* Ajuster la largeur du curseur */
+}
+
+.rangeCustom::-moz-range-thumb {
+    background-color: var(--bleu) !important;
+	border: 2px solid var(--bleu) !important;
+    border-radius: 50% !important;
+    height: 20px;
+    width: 20px;
+}
+
+.rangeCustom::-ms-thumb {
+    background-color: var(--bleu) !important;
+	border: 2px solid var(--bleu) !important;
+    border-radius: 50% !important;
+    height: 20px;
+    width: 20px;
+}
+
+/* Styles pour la plage (track) */
+.rangeCustom::-webkit-slider-runnable-track {
+    background-color: var(--bleu) !important;
+	border-radius: 13px !important; /* Rendre les bords de la barre arrondis */
+    height: 13px; /* Ajuster la hauteur de la barre */
+}
+
+.rangeCustom::-moz-range-track {
+    background-color: var(--bleu) !important;
+	border-radius: 12px !important;
+    height: 12px;
+}
+
+.rangeCustom::-ms-track {
+    background-color: var(--bleu) !important;
+	border-radius: 12px !important;
+    height: 12px;
+}
+
+.rangeCustom::-ms-fill-lower,
+.rangeCustom::-ms-fill-upper {
+    background-color: var(--bleu) !important;
+	border-radius: 12px !important;
+    height: 12px;
+}
+
+/* SAVE BUTTON */
+
+.btn-register {
+	background-color: var(--bleu);
+	color: white;
+	border: solit 1px transparent !important;
+}
+.btn-register:hover {
+	border: solid 1px white;
+	background-color: none !important;
+	color: white;
+}
+
 
 /* NAV TAN FENETRE GAUCHE STAT */
 

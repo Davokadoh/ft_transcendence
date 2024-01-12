@@ -96,18 +96,18 @@ const profil = (
 					</p>
 					<p class="pseudoBlock d-flex align-items-end">Contact 2
 						<button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-						title="invite the contact" alt="Button to invite the contact"></button>
+							title="invite the contact" alt="Button to invite the contact"></button>
 						<button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
 							title="Block the contact" alt="Button to block the contact"></button>
 					</p>
 					<p class="pseudoBlock d-flex align-items-end">Contact 3
 						<button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-						title="invite the contact" alt="Button to invite the contact"></button>
+							title="invite the contact" alt="Button to invite the contact"></button>
 						<button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
 							title="Block the contact" alt="Button to block the contact"></button>
 					</p>
 				</div>
-
+	
 				<div class="modal-footer">
 					<button type="button" class="btn modalButton modalNightButton" data-dismiss="modal">Close</button>
 				</div>
@@ -206,89 +206,139 @@ const profil = (
 		</div>
 	</div>
 	
-		<!-- Modal Bootstrap FEATS FG -->
-		<div class="modal fade" data-backdrop="static" id="featsModal" tabindex="-1" role="dialog"
-			aria-labelledby="featsModalLabel" aria-hidden="true">
-			<div class="modal-dialog modCustom modal-dialog-centered" role="document">
-				<div class="modal-content custom-modal nightModalMod">
-					<div class="modal-header">
-						<h3 class="modal-title" id="statsModalLabel">FEATS</h3>
-						<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
-							<span aria-hidden="true">&times;</span></button>
-						</button>
-					</div>
+	<!-- Modal Bootstrap FEATS FG -->
+	<div class="modal fade" data-backdrop="static" id="featsModal" tabindex="-1" role="dialog"
+		aria-labelledby="featsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="statsModalLabel">FEATS</h3>
+					<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
+						<span aria-hidden="true">&times;</span></button>
+					</button>
+				</div>
 	
-					<div class="modal-body">
-						<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
-					</div>
+				<div class="modal-body">
+					<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
+				</div>
 	
-					<div class="modal-footer">
-						<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
-							aria-label="close">Close</button>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
+						aria-label="close">Close</button>
 				</div>
 			</div>
 		</div>
-
-
-		<!-- Modal Bootstrap MATCH FG -->
-		<div class="modal fade" data-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
-			aria-labelledby="matchModalLabel" aria-hidden="true">
-			<div class="modal-dialog modCustom modal-dialog-centered" role="document">
-				<div class="modal-content custom-modal nightModalMod">
-					<div class="modal-header">
-						<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
-						<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
-							<span aria-hidden="true">&times;</span></button>
-						</button>
-					</div>
+	</div>
 	
-					<div class="modal-body">
-						<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
-					</div>
 	
-					<div class="modal-footer">
-						<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
-							aria-label="close">Close</button>
-					</div>
+	<!-- Modal Bootstrap MATCH FG -->
+	<div class="modal fade" data-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
+		aria-labelledby="matchModalLabel" aria-hidden="true">
+		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
+					<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
+						<span aria-hidden="true">&times;</span></button>
+					</button>
+				</div>
+	
+				<div class="modal-body">
+					<!-- INFO CONCERNANT LES MATCH - CONTRE QUI ONT A JOUE LE PLUS SOUVENT PAR EXEMPLE -->
+				</div>
+	
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
+						aria-label="close">Close</button>
 				</div>
 			</div>
 		</div>
-
-
-		<!-- Modal Bootstrap SETTINGS FG -->
-		<div class="modal fade" data-backdrop="static" id="setModal" tabindex="-1" role="dialog"
-			aria-labelledby="setModalLabel" aria-hidden="true">
-			<div class="modal-dialog modCustom modal-dialog-centered" role="document">
-				<div class="modal-content custom-modal nightModalMod">
-					<div class="modal-header">
-						<h3 class="modal-title" id="setModalLabel">SETTINGS</h3>
-						<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
-							<span aria-hidden="true">&times;</span></button>
-						</button>
-					</div>
+	</div>
 	
-					<div class="modal-body">
-						<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
-					</div>
 	
-					<div class="modal-footer">
-						<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
-							aria-label="close">Close</button>
-					</div>
+	<!-- Modal Bootstrap SETTINGS FG -->
+	<div class="modal fade" data-backdrop="static" id="setModal" tabindex="-1" role="dialog" aria-labelledby="setModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="setModalLabel">SETTINGS</h3>
+					<button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close">
+						<span aria-hidden="true">&times;</span></button>
+					</button>
+				</div>
+	
+				<div class="modal-body">
+					<!-- Formulaire de paramètres -->
+					<form>
+						<!-- Paramètre 1 : Vitesse des paddles -->
+						<div class="form-group">
+							<label for="paddleSpeed">Paddles speed <span class="crochets">[</span><span class="rangCust" id="paddleSpeedValue"> 50 </span><span class="crochets">]</span></label>
+							<input type="range" class="form-control-range rangeCustom" id="paddleSpeed" value="50" min="1" max="100">
+						</div>
+	
+						<!-- Paramètre 2 : Vitesse de la balle -->
+						<div class="form-group">
+							<label for="ballSpeed">Ball speed <span class="crochets">[</span><span class="rangCust" id="ballSpeedValue"> 50 </span><span class="crochets">]</span></label>
+							<input type="range" class="form-control-range rangeCustom" id="ballSpeed" value="50" min="1" max="100">
+						</div>
+	
+						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
+						<div class="form-group">
+							<label for="paddleColor">Paddles color</label>
+							<input type="color" class="form-control" id="paddleColor">
+						</div>
+						<div class="form-group">
+							<label for="ballColor">Ball color</label>
+							<input type="color" class="form-control" id="ballColor">
+						</div>
+	
+						<!-- Paramètre 4 : Fond du jeu -->
+						<div class="form-group">
+							<label>Game background</label>
+							<select class="form-control" id="backgroundColor">
+								<option value="black">Black</option>
+								<option value="purple">Violet</option>
+								<option value="image1">Image 1</option>
+								<option value="image2">Image 2</option>
+							</select>
+						</div>
+	
+						<!-- Paramètre 5 : Accessibilité -->
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="highContrast">
+							<label class="form-check-label" for="highContrast">
+							Increase contrast</label>
+						</div>
+	
+						<!-- Paramètre 6 : 2FA -->
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="enable2FA">
+							<label class="form-check-label" for="enable2FA">Enable two-factor authentication
+								(2FA)</label>
+						</div>
+	
+						<button type="button" class="btn btn-register">Save</button>
+					</form>
+				</div>
+	
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"
+						aria-label="close">Close</button>
 				</div>
 			</div>
 		</div>
-
-		`
-);
-
-export default profil;
-
-
-/*
-Photo de profil de l'intra sur le site 42lwatch :
-<img tabindex="-1" alt=""
-	src="data:image/jpeg;base64,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"
-	aria-expanded="false" aria-haspopup="menu" id=":r2:"
-	class="inline-block relative object-cover object-center !rounded-full w-12 h-12 rounded-lg cursor-pointer">*/
+	</div>
+	
+	`
+	);
+	
+	export default profil;
+	
+	
+	/*
+	Photo de profil de l'intra sur le site 42lwatch :
+	<img tabindex="-1" alt=""
+		src="data:image/jpeg;base64,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"
+		aria-expanded="false" aria-haspopup="menu" id=":r2:"
+		class="inline-block relative object-cover object-center !rounded-full w-12 h-12 rounded-lg cursor-pointer">*/
