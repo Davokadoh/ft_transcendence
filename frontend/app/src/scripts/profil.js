@@ -19,7 +19,7 @@
 
 
 
-$('#myModal').on('shown.bs.modal', function () {
+$('#setModal').on('shown.bs.modal', function () {
 	$('#myInput').trigger('focus')
 })
 
@@ -28,32 +28,32 @@ console.log('Script Modal loaded successfully!');
 
 $(document).ready(function () {
 	// SCRIPT POUR SETTINGS VITESSE BALLE ET PADDLES
-// Mise à jour des valeurs affichées lorsque les curseurs sont modifiés
-document.getElementById('paddleSpeed').addEventListener('input', function () {
-	document.getElementById('paddleSpeedValue').textContent = this.value;
-});
+	// Mise à jour des valeurs affichées lorsque les curseurs sont modifiés
+	document.getElementById('paddleSpeed').addEventListener('input', function () {
+		document.getElementById('paddleSpeedValue').textContent = this.value;
+	});
 
-document.getElementById('ballSpeed').addEventListener('input', function () {
-	document.getElementById('ballSpeedValue').textContent = this.value;
-});
+	document.getElementById('ballSpeed').addEventListener('input', function () {
+		document.getElementById('ballSpeedValue').textContent = this.value;
+	});
 
-// ... Ajoutez des écouteurs pour d'autres paramètres ... 
+	// ...
 
-document.getElementById('saveButton').addEventListener('click', function() {
-    // Code de sauvegarde des paramètres
-    // ...
+	document.getElementById('saveButton').addEventListener('click', function () {
+		// Code de sauvegarde des paramètres
+		// ...
 
-    // Fermer la modal
-    $('#myModal').modal('hide');
-});
+		// Fermer la modal
+		$('#setModal').modal('hide');
+	});
 
-// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
-$('#myModal').on('hidden.bs.modal', function () {
-    // Remettre les valeurs par défaut
-    document.getElementById('paddleSpeed').value = 50;
-    document.getElementById('ballSpeed').value = 50;
-    // ... (restaurez d'autres paramètres au besoin)
-});
+	// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
+	$('#setModal').on('hidden.bs.modal', function () {
+		// Remettre les valeurs par défaut
+		document.getElementById('paddleSpeed').value = 50;
+		document.getElementById('ballSpeed').value = 50;
+		// ... (restaurez d'autres paramètres au besoin)
+	});
 
 	// Initialiser les info-bulles
 	var tooltips = new bootstrap.Tooltip(document.body, {

@@ -446,11 +446,6 @@
 	} */
 }
 
-/* pas d'autre choix pour centrer le modal du coup pas de fond de couleur*/
-.modCustom {
-	/* margin-left: 30%; */
-}
-
 .blockBtn {
 	background-image: url('../img/contacts/blockVert.png');
 	background-color: transparent;
@@ -464,10 +459,12 @@
 
 .blockBtn:hover {
 	background-image: url('../img/contacts/blockBC.png');
+	filter: none !important;
 }
 
 .blockBtn:active {
 	background-image: url('../img/contacts/unHappyVert.png');
+	filter: none;
 	/* filter: invert(1) brightness(100%) hue-rotate(360); */
 	width: 42px;
 	height: 42px;
@@ -496,9 +493,10 @@
 .night-mode .inviteContact {
 	background-image: url('../img/contacts/envoyeBC.png');
 }
-.night-mode .inviteContact:hover, .blockBtn:hover {
+.night-mode .inviteContact:hover {
 	filter: grayscale(70%) contrast(0);
 }
+
 .night-mode .inviteContact:active {
 	filter: none;
 	background-image: url('../img/contacts/sendBC.png');
@@ -507,9 +505,12 @@
 .night-mode .blockBtn {
 	background-image: url('../img/contacts/blockBC.png');
 }
+.night-mode .blockBtn:hover {
+	filter: grayscale(70%) contrast(0) !important;
+}
 .night-mode .blockBtn:active {
 	background-image: url('../img/contacts/unHappyBC.png');
-	filter: none;
+	filter: none !important;
 }
 
 .pseudoBlock {

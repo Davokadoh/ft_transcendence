@@ -76,7 +76,7 @@ const profil = (
 	</div>
 	
 	<!-- Modal Bootstrap Verena FD fenetre de droite bouton CONTACT -->
-	<div class="modal fade modCustom" data-backdrop="static" id="contactsModal" tabindex="-1" role="dialog"
+	<div class="modal fade" data-backdrop="static" id="contactsModal" tabindex="-1" role="dialog"
 		aria-labelledby="contactsModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content custom-modal nightModalMod">
@@ -116,7 +116,7 @@ const profil = (
 	</div>
 	
 	<!-- Modal Bootstrap FD fenetre de droite bouton BLOCKED -->
-	<div class="modal fade modCustom modal-dialog-centered" data-backdrop="static" id="modalBlocked"
+	<div class="modal fade modal-dialog-centered" data-backdrop="static" id="modalBlocked"
 		aria-labelledby="modal-blocked" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content custom-modal blockedModalCustom nightModalMod">
@@ -151,7 +151,7 @@ const profil = (
 	<!-- Modal Bootstrap STATISTICS FG -->
 	<div class="modal fade" data-backdrop="static" id="statsModal" tabindex="-1" role="dialog"
 		aria-labelledby="statsModalLabel" aria-hidden="true">
-		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content custom-modal nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title" id="statsModalLabel">STATISTICS</h3>
@@ -209,7 +209,7 @@ const profil = (
 	<!-- Modal Bootstrap FEATS FG -->
 	<div class="modal fade" data-backdrop="static" id="featsModal" tabindex="-1" role="dialog"
 		aria-labelledby="featsModalLabel" aria-hidden="true">
-		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content custom-modal nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title" id="statsModalLabel">FEATS</h3>
@@ -234,7 +234,7 @@ const profil = (
 	<!-- Modal Bootstrap MATCH FG -->
 	<div class="modal fade" data-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
 		aria-labelledby="matchModalLabel" aria-hidden="true">
-		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content custom-modal nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
@@ -259,7 +259,7 @@ const profil = (
 	<!-- Modal Bootstrap SETTINGS FG -->
 	<div class="modal fade" data-backdrop="static" id="setModal" tabindex="-1" role="dialog" aria-labelledby="setModalLabel"
 		aria-hidden="true">
-		<div class="modal-dialog modCustom modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content custom-modal nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title" id="setModalLabel">SETTINGS</h3>
@@ -271,7 +271,6 @@ const profil = (
 				<div class="modal-body">
 					<!-- Formulaire de paramètres -->
 					<form>
-						<!-- Paramètre 1 : Vitesse des paddles -->
 						<div class="form-group formGroupCustom ">
 							<label for="paddleSpeed">Paddles speed <span class="crochets">[</span><span class="rangCust" id="paddleSpeedValue"> 50 </span><span class="crochets">]</span></label>
 							<input type="range" class="form-control-range rangeCustom" id="paddleSpeed" value="50" min="1" max="100">
