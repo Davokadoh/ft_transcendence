@@ -321,11 +321,16 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	margin:auto;
+	--bs-modal-header-border-width: var(--bs-border-width); /* hauteur de la ligne de sep */
+	--bs-modal-header-border-color: var(--vert); /* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--vert); /* couleur de la ligne de sep basse */
+	--bs-modal-footer-border-width: var(--bs-border-width); /* hauteur de la ligne de sep basse*/
 }
 
 /* Ajoutez ces styles pour centrer le modal horizontalement */
 .modal-dialog {
-	margin: 0;
+	margin: auto;
 }
 
 /* Ajoutez ces styles pour centrer le contenu du modal verticalement */
@@ -333,6 +338,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin:auto;
 }
 
 /* Ajoutez ces styles pour ajuster la position du bouton de fermeture */
@@ -442,7 +448,7 @@
 
 /* pas d'autre choix pour centrer le modal du coup pas de fond de couleur*/
 .modCustom {
-	margin-left: 30%;
+	/* margin-left: 30%; */
 }
 
 .blockBtn {
@@ -462,7 +468,7 @@
 
 .blockBtn:active {
 	background-image: url('../img/contacts/unHappyVert.png');
-	filter: invert(1) brightness(100%) hue-rotate(360);
+	/* filter: invert(1) brightness(100%) hue-rotate(360); */
 	width: 42px;
 	height: 42px;
 }
@@ -575,6 +581,7 @@
 	padding-top: 0px;
 	padding-right: 14px;
 
+
 }
 
 .night-mode .modalCloseButton {
@@ -584,6 +591,7 @@
 .modalButton {
 	background-color: var(--vert);
 	color: var(--violet);
+	margin:auto;
 }
 
 .modalButton:hover {

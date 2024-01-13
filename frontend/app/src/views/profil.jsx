@@ -90,19 +90,19 @@ const profil = (
 					<!-- Contenu de la modale, ici la liste des contacts -->
 					<p class="pseudoBlock d-flex align-items-end"> Contact 1
 						<button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-							title="invite the contact" alt="Button to invite the contact"></button>
+							title="Invite the contact" alt="Button to invite the contact"></button>
 						<button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
 							title="Block the contact" alt="Button to block the contact"></button>
 					</p>
 					<p class="pseudoBlock d-flex align-items-end">Contact 2
 						<button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-							title="invite the contact" alt="Button to invite the contact"></button>
+							title="Invite the contact" alt="Button to invite the contact"></button>
 						<button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
 							title="Block the contact" alt="Button to block the contact"></button>
 					</p>
 					<p class="pseudoBlock d-flex align-items-end">Contact 3
 						<button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top"
-							title="invite the contact" alt="Button to invite the contact"></button>
+							title="Invite the contact" alt="Button to invite the contact"></button>
 						<button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top"
 							title="Block the contact" alt="Button to block the contact"></button>
 					</p>
