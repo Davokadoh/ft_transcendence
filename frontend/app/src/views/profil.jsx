@@ -219,8 +219,26 @@ const profil = (
 				</div>
 	
 				<div class="modal-body">
-					<!-- IMAGES ET TITRES DES ACCOPLISSEMENTS -->
-				</div>
+				<!-- IMAGES ET TITRES DES ACCOMPLISSEMENTS en grisé si pas debloqué -->
+				<p class="featModal d-flex align-items-end" title="Put 5pts on your opponent without taking a point">Osh 
+				<img class="featImg" src="./src/img/feats/5pts_pong1.png" alt="Put 5pts on your opponent without taking a point">
+				</p>
+				<p class="featModal d-flex align-items-end" title="Put 10pts on your opponent without taking a point">Merciless 
+				<img class="featImg" src="./src/img/feats/10pts_pong2.png" alt="Put 10pts on your opponent without taking a point">
+				</p>
+				<p class="featModal d-flex align-items-end" title="Bounce the ball 3 times before scoring the point">Stroke 
+				<img class="featImg" src="./src/img/feats/bounce_pong3.png" alt="Bounce the ball 3 times before scoring the point">
+				</p>
+				<p class="featModal d-flex align-items-end" title="Play with maximum ball and paddle speeds">Brisk 
+				<img class="featImg" src="./src/img/feats/speed_pong4.png" alt="Play with maximum ball and paddle speeds">
+				</p>
+				<p class="featModal d-flex align-items-end" title="Score the point on the serve">Service 
+				<img class="featImg" src="./src/img/feats/service_pong5.png" alt="Score the point on the serve">
+				</p>
+				<p class="featModal d-flex align-items-end" title="Complete 25 exchanges without losing the ball">Cooperate 
+				<img class="featImg" src="./src/img/feats/coop_pong6.png" alt="Complete 25 exchanges without losing the ball">
+				</p>
+			</div>
 	
 				<div class="modal-footer">
 					<button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal"

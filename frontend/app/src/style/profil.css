@@ -740,3 +740,17 @@
 	font-size: 36px;
 	font-family: 'Titan One', sans-serif;
 }
+
+/* NAV TAN FENETRE GAUCHE FEATS */
+
+.featModal {
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.featImg {
+	width: 52px;
+	height: auto;
+	margin-left: 15px;
+	filter: invert(1); /* si actif et si pas actif en gris et flou */
+}

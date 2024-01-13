@@ -133,15 +133,9 @@ header {
 }
 
 /* Style au clic */
-.ulLiA a:active {
-	color: var(--gris);
-	/* Couleur lors du clic */
-}
-
-/* Style au clic */
 .ulLiA a:focus {
 	color: var(--bleu) !important;
-	/* Couleur lors du clic */
+	/* Couleur apres le clic */
 }
 
 /* Style au clic en mode nuit*/
