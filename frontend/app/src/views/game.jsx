@@ -6,7 +6,9 @@ const game = (
 		<div class="col-12 col-md-6 styleBtn">
 			<button type="button" class="btn btn-dark ladButClass" id="ladder">TOURNAMENT</button> 
 			<br>
-			<button type="button" class="btn btn-dark quickButClass" id="ladder">QUICK PLAY</button>
+			<form action="/pong" methode="get">
+				<button type="submit" class="btn btn-dark quickButClass" id="ladder">QUICK PLAY</button>
+			</form>
 			</div>
 			<div class="col-12 col-md-6 inviteToGame">
 					<p class="text-center invitFriend">Invite a friend to play</p>

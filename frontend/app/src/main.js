@@ -18,6 +18,7 @@ import home from "./views/home"
 import game from "./views/game"
 import profil from "./views/profil"
 import chat from "./views/chat"
+import pong from "./views/pong"
 
 const routes = {
 	"/": {title: "Login", render: login},
@@ -25,6 +26,7 @@ const routes = {
 	"/game": {title: "Game", render: game},
 	"/profil": {title: "Profil", render: profil},
 	"/chat": {title: "Chat", render: chat},
+	"/pong": {title: "Pong", render: pong},
 };
 
 function router() {
