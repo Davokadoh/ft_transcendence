@@ -1,6 +1,7 @@
 const pong = (
-`
-    <div class="body-pong"> 
+    `
+    <div class="body-pong">
+    <p class="test">CouCou</p>
         <div class="pong-table">
             <div class="ball"></div>
             <div class="left-paddle"></div>
@@ -10,5 +11,5 @@ const pong = (
     </div>
 `
 );
-	
-    export default pong;
+
+export default pong;
