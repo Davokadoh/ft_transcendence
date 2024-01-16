@@ -1,11 +1,15 @@
 'use strict';
+
 var canvas;
 
+document.addEventListener('DOMContentLoaded', function () {
+    const canvas = document.getElementById('canvas');
+    if (!canvas) {
+        console.error('Canvas not found');
+        return;
+    }
 
-function draw() {
-    console.log("salut1");
-    var context = canvas.getContext('2d');
-    // Draw field
+    const context = canvas.getContext('2d');
     context.fillStyle = 'black';
     context.fillRect(0, 0, canvas.width, canvas.height);
     console.log("salut2");
@@ -15,13 +19,28 @@ function draw() {
     context.moveTo(canvas.width / 2, 0);
     context.lineTo(canvas.width / 2, canvas.height);
     context.stroke();
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM content loaded');
-    canvas = document.getElementById('canvas');
-    draw();
 });
+
+// function draw() {
+//     console.log("salut1");
+//     var context = canvas.getContext('2d');
+//     // Draw field
+//     context.fillStyle = 'black';
+//     context.fillRect(0, 0, canvas.width, canvas.height);
+//     console.log("salut2");
+//     // Draw middle line
+//     context.strokeStyle = 'white';
+//     context.beginPath();
+//     context.moveTo(canvas.width / 2, 0);
+//     context.lineTo(canvas.width / 2, canvas.height);
+//     context.stroke();
+// }
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     console.log('DOM content loaded');
+//     canvas = document.getElementById('canvas');
+//     draw();
+// });
 
 // script ne fonctionne pas
 // Sélectionnez les éléments HTML

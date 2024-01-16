@@ -1,14 +1,11 @@
 const pong = (
     `
-    <div>
-        <canvas id="canvas" width="640" height="480"></canvas>
-        <script src="/src/scripts/pong.js"></script>
-    </div>
-`
+    <div id="canvas-container"></div>
+    <script src="/src/scripts/pong-entry.js"></script>
+    `
 );
 
 export default pong;
-
 // code qui ne fonctionne pas avec le script
 
 {/* <div class="body-pong">
