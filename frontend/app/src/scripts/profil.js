@@ -26,35 +26,43 @@ $('#setModal').on('shown.bs.modal', function () {
 console.log('Script Modal loaded successfully!');
 
 
+// SCRIPT POUR SETTINGS VITESSE BALLE ET PADDLES
 $(document).ready(function () {
-	// SCRIPT POUR SETTINGS VITESSE BALLE ET PADDLES
-	// Mise à jour des valeurs affichées lorsque les curseurs sont modifiés
-	document.getElementById('paddleSpeed').addEventListener('input', function () {
-		document.getElementById('paddleSpeedValue').textContent = this.value;
-	});
-
-	document.getElementById('ballSpeed').addEventListener('input', function () {
-		document.getElementById('ballSpeedValue').textContent = this.value;
-	});
-
-	// ...
-
-	document.getElementById('saveButton').addEventListener('click', function () {
-		// Code de sauvegarde des paramètres
-		// ...
-
-		// Fermer la modal
-		$('#setModal').modal('hide');
-	});
-
-	// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
-	$('#setModal').on('hidden.bs.modal', function () {
-		// Remettre les valeurs par défaut
-		document.getElementById('paddleSpeed').value = 50;
-		document.getElementById('ballSpeed').value = 50;
-		// ... (restaurez d'autres paramètres au besoin)
-	});
-
+	    // Mise à jour des valeurs affichées lorsque les curseurs sont modifiés
+		$('#paddleSpeed').on('input', function () {
+			$('#paddleSpeedValue').text($(this).val());
+		});
+	
+		$('#ballSpeed').on('input', function () {
+			$('#ballSpeedValue').text($(this).val());
+		});
+	
+		console.log('Script Modal loaded successfully!');
+	
+		// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
+		$('#setModal').on('hidden.bs.modal', function () {
+			console.log('Script valeurs par defaut reset chargé avec succès !');
+			// Remettre les valeurs par défaut
+			$('#paddleSpeed, #ballSpeed').val(50);
+			// ... (restaurer ici d'autres paramètres au besoin)
+		});
+	
+		// Code pour sauvegarder les paramètres lorsqu'on clique sur le bouton "Save" ou "Close"
+		$('#saveButton, .modalCloseButton, .modalClose').on('click', function () {
+			console.log('Script save infos ou close sans save chargé avec succès !');
+			// Récupérer les valeurs modifiées depuis les champs de la modal
+			var paddleSpeedValue = $('#paddleSpeed').val();
+			var ballSpeedValue = $('#ballSpeed').val();
+			// ... (récupérer d'autres paramètres au besoin)
+	
+			// Code de sauvegarde des paramètres à ajouter ici
+			// Vous pouvez utiliser localStorage, sessionStorage, AJAX, etc.
+	
+			// Fermer la modal
+			$('#setModal').modal('hide');
+		});
+	
+		
 	// Initialiser les info-bulles
 	var tooltips = new bootstrap.Tooltip(document.body, {
 		selector: '[data-toggle="tooltip"]'

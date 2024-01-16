@@ -6,6 +6,7 @@
 	flex-wrap: wrap;
 	overflow: hidden;
 }
+
 /* container de gauche */
 
 .container_opt {
@@ -182,14 +183,14 @@
 	background-color: #87d300;
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	/* margin: 0 auto; Supprimez cette ligne */
+	/* margin: 0 auto; Supprimer cette ligne */
 	/* max-width: 400px; */
 	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
 	margin: 5% 0;
-	/* Ajustez la marge supérieure et inférieure si nécessaire */
+	/* Marge supérieure et inférieure ajuster si nécessaire */
 	text-align: left;
 }
 
@@ -242,12 +243,15 @@
 /* Media query for smaller screens */
 @media (max-width: 1160px) {
 	.flex-container {
-	  flex-direction: column; /* Stack containers vertically */
+		flex-direction: column;
+		/* Stack containers vertically */
 	}
 
 	/* Reset the margin for both containers to avoid overlapping */
-	.container_opt, .container_prof {
-	  margin: 10px; /* Adjust as needed */
+	.container_opt,
+	.container_prof {
+		margin: 10px;
+		/* Adjust as needed */
 	}
 }
 
@@ -321,16 +325,22 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	margin:auto;
-	--bs-modal-header-border-width: var(--bs-border-width); /* hauteur de la ligne de sep */
-	--bs-modal-header-border-color: var(--vert); /* couleur de la ligne de sep haute*/
-	--bs-modal-footer-border-color: var(--vert); /* couleur de la ligne de sep basse */
-	--bs-modal-footer-border-width: var(--bs-border-width); /* hauteur de la ligne de sep basse*/
+	margin: auto;
+	--bs-modal-header-border-width: var(--bs-border-width);
+	/* hauteur de la ligne de sep */
+	--bs-modal-header-border-color: var(--vert);
+	/* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--vert);
+	/* couleur de la ligne de sep basse */
+	--bs-modal-footer-border-width: var(--bs-border-width);
+	/* hauteur de la ligne de sep basse*/
 }
 
 .night-mode .modal {
-	--bs-modal-header-border-color: var(--gris); /* couleur de la ligne de sep haute*/
-	--bs-modal-footer-border-color: var(--gris); /* couleur de la ligne de sep basse */
+	--bs-modal-header-border-color: var(--gris);
+	/* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--gris);
+	/* couleur de la ligne de sep basse */
 }
 
 /* Ajoutez ces styles pour centrer le modal horizontalement */
@@ -343,7 +353,18 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin:auto;
+	margin: auto;
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #00BAB9D3;
+}
+
+.night-mode .overlay {
+	background: var(--gris);
 }
 
 /* Ajoutez ces styles pour ajuster la position du bouton de fermeture */
@@ -415,12 +436,12 @@
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */
-.input-group.custom-input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3),
-.input-group.custom-input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control,
-.input-group.custom-input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-select,
-.input-group.custom-input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
-    border-top-right-radius: none;
-    border-bottom-right-radius: none;
+.input-group.custom-input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
+.input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
+.input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select,
+.input-group.custom-input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+	border-top-right-radius: none;
+	border-bottom-right-radius: none;
 }
 
 
@@ -489,6 +510,7 @@
 .inviteContact:hover {
 	background-image: url('../img/contacts/envoyeBC.png');
 }
+
 .inviteContact:active {
 	background-image: url('../img/contacts/sendVert.png');
 	width: 40px;
@@ -498,6 +520,7 @@
 .night-mode .inviteContact {
 	background-image: url('../img/contacts/envoyeBC.png');
 }
+
 .night-mode .inviteContact:hover {
 	filter: grayscale(70%) contrast(0);
 }
@@ -510,9 +533,11 @@
 .night-mode .blockBtn {
 	background-image: url('../img/contacts/blockBC.png');
 }
+
 .night-mode .blockBtn:hover {
 	filter: grayscale(70%) contrast(0) !important;
 }
+
 .night-mode .blockBtn:active {
 	background-image: url('../img/contacts/unHappyBC.png');
 	filter: none !important;
@@ -559,9 +584,11 @@
 .night-mode .unblockBtn {
 	background-image: url('../img/debloquer_BC.png');
 }
+
 .night-mode .unblockBtn:hover {
 	filter: grayscale(70%) contrast(0);
 }
+
 .night-mode .unblockBtn:active {
 	filter: none;
 	background-image: url('../img/happyBC.png');
@@ -597,7 +624,7 @@
 .modalButton {
 	background-color: var(--vert);
 	color: var(--violet);
-	margin:auto;
+	margin: auto;
 }
 
 .modalButton:hover {
@@ -628,68 +655,111 @@
 	font-size: 18px;
 }
 
-/* Styles pour le curseur de la plage (range) */
-.rangeCustom::-webkit-slider-thumb {
-	margin-top: -2px; /* Ajuster la position verticale du curseur */
-	/* -webkit-appearance: none;
-    appearance: none;
-    width: 0;
-    height: 0; */
-	background: transparent !important;
-    background-color: var(--bleu) !important;
-    border: 2px solid var(--bleu) !important; /* Ajout d'une bordure */
-    border-radius: 50% !important; /* Rendre le curseur circulaire */
-    height: 15px; /* Ajuster la hauteur du curseur */
-    width: 15px; /* Ajuster la largeur du curseur */
-}
-
 /* Styles pour le curseur de la plage (range) - WebKit (Chrome, Safari) */
 .rangeCustom::-webkit-slider-thumb {
-    background-color: transparent; /* Rend le curseur transparent */
-    border: 2px solid var(--bleu); /* Ajout d'une bordure */
+	margin-top: -2px;
+	/* Ajuster la position verticale du curseur */
+	-webkit-appearance: none;
+    appearance: none;
+    /* width: 0; */
+    /* height: 0; */
+	background: transparent !important;
+	background-color: var(--bleu) !important;
+	border: 2px solid white !important;
+	/* Ajout d'une bordure */
+	border-radius: 50% !important;
+	/* Rendre le curseur circulaire */
+	height: 17px;
+	/* Ajuster la hauteur du curseur */
+	width: 17px;
+	/* Ajuster la largeur du curseur */
 }
 
 .rangeCustom::-moz-range-thumb {
-    background-color: var(--violet) !important;
-	border: 1px solid var(--violet) !important;
-    border-radius: 50% !important;
-    height: 15;
-    width: 15;
+	/* background-color: transparent; */
+    border: 2px solid white;
+	border-radius: 50% !important;
+	height: 15;
+	width: 15;
 }
 
 .rangeCustom::-ms-thumb {
-    background-color: var(--bleu) !important;
-	border: 2px solid var(--bleu) !important;
-    border-radius: 50% !important;
-    height: 20px;
-    width: 20px;
+	background-color: var(--bleu) !important;
+	border: 2px solid white !important;
+	border-radius: 50% !important;
+	height: 20px;
+	width: 20px;
 }
 
 /* Styles pour la plage (track) */
 .rangeCustom::-webkit-slider-runnable-track {
-    background-color: var(--bleu) !important;
-	border-radius: 13px !important; /* Rendre les bords de la barre arrondis */
-    height: 13px; /* Ajuster la hauteur de la barre */
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	/* Rendre les bords de la barre arrondis */
+	height: 13px;
+	/* Ajuster la hauteur de la barre */
 }
 
 .rangeCustom::-moz-range-track {
-    background-color: var(--bleu) !important;
+	background-color: var(--bleu) !important;
 	border-radius: 13px !important;
-    height: 13px;
+	height: 13px;
 }
 
 .rangeCustom::-ms-track {
-    background-color: var(--bleu) !important;
+	background-color: var(--bleu) !important;
 	border-radius: 13px !important;
-    height: 13px;
+	height: 13px;
 }
 
 .rangeCustom::-ms-fill-lower,
 .rangeCustom::-ms-fill-upper {
-    background-color: var(--bleu) !important;
+	background-color: var(--bleu) !important;
 	border-radius: 13px !important;
-    height: 13px;
+	height: 13px;
 }
+
+/* night mode */
+.night-mode .rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-webkit-slider-thumb {
+	background-color: var(--gris) !important;
+	/* Rend le curseur transparent */
+	border: 2px solid var(--gris);
+	/* Ajout d'une bordure */
+}
+
+.night-mode .rangeCustom::-moz-range-thumb {
+	/* background-color: var(--gris) !important; */
+	background-color: var(--gris) !important;
+	border: 2px solid white !important;
+}
+
+.night-mode .rangeCustom::-ms-thumb {
+	background-color: var(--gris) !important;
+	border: 2px solid white !important;
+}
+
+/* Styles pour couleur de la barre (track) */
+.night-mode .rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-moz-range-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode  .rangeCustom::-ms-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-ms-fill-lower,
+.night-mode .rangeCustom::-ms-fill-upper {
+	background-color: var(--gris) !important;
+}
+
 
 .formGroupCustom {
 	padding: 3px;
@@ -708,6 +778,7 @@
 	border: solit 1px transparent !important;
 	margin-top: 5px;
 }
+
 .btn-register:hover {
 	border: solid 1px white;
 	background-color: none !important;
@@ -725,9 +796,11 @@
 .night-mode .modNav {
 	color: var(--gris) !important;
 }
+
 .night-mode .modNav:focus {
 	color: black !important;
 }
+
 .night-mode .modNav:active {
 	color: white !important;
 }
@@ -752,5 +825,6 @@
 	width: 52px;
 	height: auto;
 	margin-left: 15px;
-	filter: invert(1); /* si actif et si pas actif en gris et flou */
+	filter: invert(1);
+	/* si actif et si pas actif en gris et flou */
 }
