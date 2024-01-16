@@ -1,0 +1,497 @@
+/* --- Profil --- */
+
+/* BOTH CONTAINER */
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
+}
+/* container de gauche */
+
+.container_opt {
+	margin-top: 100px;
+    margin-left: 300px; /* Ajustez la valeur de la marge selon vos besoins */
+	margin-bottom: 150px;
+}
+
+.container-option {
+	border-radius: 30px;
+	background-color: #9016B2;
+	padding: 40px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/* margin: 0 auto; Supprimez cette ligne */
+	/* max-width: 400px; */
+	width: 400px;
+	height: 300px;
+	font-family: 'Titan One', sans-serif;
+	color: #87d300;
+	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	text-align: left;
+}
+
+/* Style du bouton normal */
+.container-option button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: #87d300;
+	/* Fond vert */
+	color: #9016B2;
+	/* Texte violet */
+	transition: all 0.3s;
+	/* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 15px;
+	margin-top: 15px;
+}
+
+/* Style du bouton survolé */
+.container-option button:hover {
+	color: #ffffff;
+	/* Texte blanc au survol */
+	background-color: #87d300;
+	/* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.container-option button:active {
+	background-color: #87d300;
+	/* Fond vert au clic */
+	color: #9016B2;
+	/* Texte violet au clic */
+	border: none;
+	/* Pas de bordure au clic */
+	/* border: 2px solid transparent; Bordure transparente au clic */
+}
+
+/* Styles spécifiques pour le login-container en mode nuit */
+.night-mode .container-option{
+	background-color: black;
+	color: #fff;
+}
+
+
+.icon {
+	width: 44px;
+	height: auto;
+	margin-left: auto;
+	filter: invert(1);
+}
+
+.iconeS {
+	margin-left: 150px;
+}
+
+.iconeF {
+	margin-left: 190px;
+}
+
+.iconeM {
+	margin-left: 120px;
+}
+
+.iconeSt {
+	margin-left: 165px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.night-mode .container-option {
+		border: 3px solid white;
+	}
+}
+/* container de droite */
+
+/* CHANGER PHOTO DE PROFIL */
+.modImg {
+	background-image: url('../img/ajouter-une-image.png');
+	background-color: transparent !important;
+	color: transparent !important;
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border: none !important;
+	margin-left: 0px;
+}
+
+.modImg:hover {
+	background-color: transparent;
+	filter: contrast(175%) brightness(3%);
+	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
+  }
+
+  .modImg:active {
+	filter: drop-shadow(3px 3px var(--violet));
+  }
+
+  .nameID {
+	display: block;
+  }
+
+/* Style for the profile image */
+.profile-image {
+    width: 100px; /* Adjust the size as needed */
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.night-mode .modImg {
+	filter: invert(1); /* Pour passer  une image noir en blanc ! :) */
+}
+
+.night-mode .modImg:hover {
+	/* filter: grayscale(100%); */
+	filter: invert(70%);
+}
+
+.night-mode .profile-image {
+	filter: grayscale(100%);
+}
+
+/*  USER NAME */
+
+.username {
+	color: var(--bleu) !important;
+}
+
+.night-mode .username {
+	color: black !important;
+}
+
+/* Style for the profile section */
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.container_prof {
+	margin-top: 100px;
+	margin-right: 50px;
+    margin-left: 150px;
+}
+
+.container-profil {
+	border-radius: 30px;
+	background-color: #87d300;
+	padding: 40px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/* margin: 0 auto; Supprimez cette ligne */
+	/* max-width: 400px; */
+	width: 400px;
+	height: 300px;
+	font-family: 'Titan One', sans-serif;
+	color: #9016B2;
+	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	text-align: left;
+}
+
+.container-profil button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: #9016B2;
+	/* Fond vert */
+	color: #87d300;
+	/* Texte violet */
+	transition: all 0.3s;
+	/* Transition douce pour le survol et le clic */
+	font-family: 'Titan One', sans-serif;
+	font-size: 15px;
+	margin-top: 15px;
+}
+
+/* Style du bouton survolé */
+.container-profil button:hover {
+	color: #ffffff;
+	/* Texte blanc au survol */
+	background-color: #9016B2;
+	/* Fond vert au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.container-profil button:active {
+	background-color: #87d300;
+	/* Fond vert au clic */
+	color: #87d300;
+	/* Texte violet au clic */
+	border: none;
+	/* Pas de bordure au clic */
+	/* border: 2px solid transparent; Bordure transparente au clic */
+}
+
+/* Styles spécifiques pour le login-container en mode nuit */
+.night-mode .container-profil{
+	background-color: black;
+	color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+	.night-mode .container-profil {
+		border: 3px solid white;
+	}
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1160px) {
+	.flex-container {
+	  flex-direction: column; /* Stack containers vertically */
+	}
+
+	/* Reset the margin for both containers to avoid overlapping */
+	.container_opt, .container_prof {
+	  margin: 10px; /* Adjust as needed */
+	}
+}
+
+/* BOUTONS NIGHT MODE */
+/* Style du bouton normal */
+.night-mode .container-option button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: black;
+	/* Fond noir */
+	color: white;
+	/* Texte blanc */
+}
+
+.night-mode .container-profil button {
+	border: 2px solid #ffffff;
+	/* Bordure blanche */
+	background-color: black;
+	/* Fond noir */
+	color: white;
+	/* Texte blanc */
+}
+
+/* Style du bouton survolé */
+.night-mode .container-option button:hover {
+	color: black;
+	/* Texte blanc au survol */
+	background-color: white;
+	/* Fond noir au survol */
+	border-color: #ffffff;
+}
+
+.night-mode .container-profil button:hover {
+	color: black;
+	/* Texte blanc au survol */
+	background-color: white;
+	/* Fond noir au survol */
+	border-color: #ffffff;
+}
+
+/* Style du bouton cliqué */
+.night-mode .container-option button:active {
+	background-color: black;
+	/* Fond noir au clic */
+	color: white;
+	/* Texte blanc au clic */
+	border: none;
+}
+
+/* Style du bouton cliqué */
+.night-mode .container-profil button:active {
+	background-color: black;
+	/* Fond noir au clic */
+	color: white;
+	/* Texte blanc au clic */
+	border: none;
+}
+
+
+/* Ajoutez ces styles pour centrer le modal verticalement */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Ajoutez ces styles pour centrer le modal horizontalement */
+.modal-dialog {
+    margin: 0;
+}
+
+/* Ajoutez ces styles pour centrer le contenu du modal verticalement */
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ajoutez ces styles pour ajuster la position du bouton de fermeture */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* BARRE D'INFO */
+
+.container-info {
+	height: 93px;
+}
+
+.imgButton {
+	background-image: url('../img/ajouter-le-contact.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border: none;
+	margin-left: 0px;
+	/* align-items: start !important; */
+  }
+
+  .imgButton:hover {
+	background-color: transparent;
+	filter: contrast(175%) brightness(3%);
+	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
+  }
+
+.imgButton:active {
+	background-color: transparent !important;
+	filter: drop-shadow(3px 3px var(--violet));
+}
+
+  .night-mode .imgButton {
+	filter: invert(1);
+  }
+
+  .night-mode .imgButton:hover {
+	filter: invert(70%);
+  }
+  
+  .findFriend {
+	text-align: right !important;
+	margin-bottom: 5px; /* Ajuste la marge en bas du texte */
+  }
+  
+  .form-control {
+	margin: auto;
+	width: 100%;
+	margin-right: 0px;
+  }
+  
+  .input-group {
+	width: 300px;
+  }
+
+  .input-group-append {
+	width: 100px; /* Ajuste la largeur du bouton selon tes besoins */
+	/* align-items: start !important; */
+  }
+
+
+
+
+
+  /* CUSTOM MODALS */
+/* Modal Contact */
+
+/* Style personnalisé pour la modale du bouton contact FD*/
+.custom-modal {
+	background-color: var(--violet); /* Couleur de fond */
+	padding: 20px; /* Espacement intérieur */
+	border-radius: 20px; /* Coins arrondis */
+	font-family: 'Spoof', sans-serif;
+	color: #87d300;
+	
+	/* Fond personnalisé derrière la modale
+	&::before {
+		content: "";
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(0, 186, 185, 0.7);
+		z-index: -100;
+	} */
+}
+
+/* pas d'autre choix pour centrer ce $&%^$ de modal du coup pas de fond de couleur*/
+.modCustom {
+	margin-left: 30%;
+}
+/* Style personnalisé pour la modale du bouton blocked FD*/
+
+.blockedModalCustom {
+	width: 400px;
+	height: fit-content;
+}
+
+.unblockBtn {
+	background-image: url('../img/debloque.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 35px;
+	height: 35px;
+	border: none;
+	margin-left: 17px;
+	margin-bottom: 0px;
+}
+
+.unblockBtn:hover {
+ /* image couleur modifiee mardi */
+}
+
+  .unblockBtn:active {
+	background-image: url('../img/content.png');
+	filter: invert(1) brightness(100%) hue-rotate(360);
+  }
+
+  .night-mode .unblockBtn {
+	filter: contrast(0%) invert(1);
+  }
+
+.night-mode .nightModalMod {
+	background-color: black;
+	border: 2px solid white;
+	color: white;
+}
+
+.modal-title {
+	font-family: 'Titan One', sans-serif;
+}
+
+/* creer des boutons pour ces modes et integrer les variables aux boutons */
+.modalCloseButton {
+	background-color: transparent;
+	color:#87d300;
+	border: none;
+	font-family: 'Tahoma', sans-serif;
+	font-size: 34px;
+	padding-top: 0px;
+	padding-right: 14px;
+	
+}
+
+.night-mode .modalCloseButton {
+	color: white;
+}
+
+.modalButton {
+	background-color: var(--vert);
+	color: var(--violet);
+}
+
+.modalButton:hover {
+	/* background-color: rgba(135, 211, 0, 0.8); */
+	border: solid 1px var(--vert);
+}
+
+.night-mode .modalNightButton {
+	background-color: white;
+	color: black;
+}
+
+.night-mode .modalNightButton:hover {
+	border: solid 1px white;
+	background-color: transparent;
+	color: white;
+}
