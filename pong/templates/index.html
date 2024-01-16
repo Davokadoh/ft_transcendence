@@ -42,18 +42,13 @@
 			<nav class="navbar justify-content-center fluid-container">
 				<div class="ulLiA">
 					<div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
-						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-							aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
-							onclick="toggleNavbar()">
-							<span class="navbar-toggler-icon"></span>
-						</button>
 						<div class="logo-container">
-							<a class="logoLink" href="/home" data-link>
-								<div class="logo">
+							<div class="logo">
+								<a class="logoLink" href="/home" data-link>
 									<img src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image"
-										alt="logo des Pong-Chos" width="120" height="120">
-								</div>
-							</a>
+										alt="logo des Pong-Chos" width="120" height="120" data-link>
+								</a>
+							</div>
 						</div>
 						<ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse"
 							id="navbarNav">
@@ -93,7 +88,6 @@
 	</banner>
 
 	<div id="app">
-		<div></div>
 	</div>
 	<script type="module" src="{% static 'js/main.js' %}"></script>
 

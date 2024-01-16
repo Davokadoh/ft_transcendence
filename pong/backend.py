@@ -1,12 +1,14 @@
-from django.urls import reverse
-from ..pong.models import User
+from .models import User
 from django.shortcuts import redirect
 from django.contrib.auth.backends import BaseBackend
 import requests
 import os
+from dotenv import load_dotenv
 
 
 class CustomAuthenticationBackend(BaseBackend):
+    load_dotenv()
+
     def authenticate(request):
         if request.user.is_authenticated:
             return redirect("/home")
