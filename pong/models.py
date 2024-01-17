@@ -17,9 +17,6 @@ class User(AbstractBaseUser):
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
     USERNAME_FIELD = 'username'
-    
-    # firstname = models.CharField(max_length=255)
-    # lastname = models.CharField(max_length=255)
 
     # def get_games_won(self):
     #     return Game.objects.filter("winners".contains(self)).count()
