@@ -28,7 +28,10 @@ class CustomAuthenticationBackend(BaseBackend):
         code = request.GET.get("code", "")
         state = request.GET.get("state", "")
         response = requests.post(
-            os.getenv("OAUTH_URL") + "/oauth/access_token",
+            "{}{}".format(
+                os.getenv("OAUTH_URL"),
+                "/oauth/access_token",
+            ),
             data={
                 "grant_type": "authorization_code",
                 "client_id": os.getenv("OAUTH_ID"),
