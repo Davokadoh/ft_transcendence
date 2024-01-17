@@ -1,19 +1,15 @@
 function router() {
-	if (location.pathname === '/') {
-		fetch('/home')
-			.then(response => response.text())
-			.then(text => {
-				document.querySelector('#app').innerHTML = text;
-			});
-	} else {
-		fetch(location.pathname)
-			.then(response => response.text(), _ => {
-				window.location = "accounts/login";
-			})
-			.then(text => {
-				document.querySelector('#app').innerHTML = text;
-			});
-	}
+	const target = (location.pathname == "/") ? "/home" : location.pathname;
+	fetch(target)
+		.then(response => {
+			if (response.redirected && target != "/home") {
+				history.pushState("", "", response.url);
+			}
+			return response.text();
+		})
+		.then(html => {
+			document.querySelector('#app').innerHTML = html;
+		});
 }
 
 window.addEventListener("click", e => {
