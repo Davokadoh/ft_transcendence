@@ -4,7 +4,8 @@
 			<div class="col-12 col-md-12">
 				<div class="login-container">
 					<h1>Log in</h1>
-					<form action="http://localhost:8000/login" method="get">
+					<form action="http://localhost:8000/accounts/login/" method="post">
+						{% csrf_token %}
 						<button type="submit" class="btn bg-vert">Connexion</button>
 					</form>
 				</div>

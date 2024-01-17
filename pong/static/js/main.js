@@ -1,19 +1,16 @@
 function router() {
 	if (location.pathname === '/') {
 		fetch('/home')
-			.then(response => response.text(), _ => {
-				window.location = "accounts/login";
-			})
+			.then(response => response.text())
 			.then(text => {
 				document.querySelector('#app').innerHTML = text;
 			});
-		} else {
-			fetch(location.pathname)
+	} else {
+		fetch(location.pathname)
 			.then(response => response.text(), _ => {
 				window.location = "accounts/login";
 			})
 			.then(text => {
-				console.log(text);
 				document.querySelector('#app').innerHTML = text;
 			});
 	}
