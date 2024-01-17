@@ -100,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = "pong.backend.py"
+AUTH_USER_MODEL = "pong.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

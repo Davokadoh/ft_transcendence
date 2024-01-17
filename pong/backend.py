@@ -55,14 +55,15 @@ class CustomAuthenticationBackend(BaseBackend):
         try:
             user = User.objects.get(username=response.json()["login"])
         except User.DoesNotExist:
-            user = User.objects.create_user(response.json())
+            user = User.objects.create_user(username=response.json()["login"])
 
-        user.access_token.refresh(access_token)
+        user.access_token = access_token
 
         return user
 
-    def get_user(self, request, **kwargs):
-        if True:
+    def get_user(self, user_id):
+        try:
             return User.objects.first()
-        else:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
             return None
