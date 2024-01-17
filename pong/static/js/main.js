@@ -1,6 +1,9 @@
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
-	fetch(target)
+	const access_token = localStorage.getItem("access_token");
+	console.log(access_token);
+	const headers = { "Authorization": access_token };
+	fetch(target, { headers })
 		.then(response => {
 			if (response.redirected && target != "/home") {
 				history.pushState("", "", response.url);
