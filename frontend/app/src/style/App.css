@@ -21,6 +21,8 @@ body {
 	align-items: center;
 	vertical-align: middle;
 	min-height: 100vh;
+	overflow-x: hidden; /* Barre de defilement gauche droite*/
+	/* overflow-y: hidden; Barre de defilement haut bas*/
 	padding-bottom: 100px; /* Remplacez 100px par la hauteur de votre footer */
 	/* overflow-y: auto; */
 }
