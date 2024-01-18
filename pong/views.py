@@ -1,8 +1,9 @@
 from django.http import Http404
-from .backend import CustomAuthenticationBackend
-from .models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.contrib.auth import login
+from .backend import CustomAuthenticationBackend
+from .models import User
 from dotenv import load_dotenv
 import requests
 import os
@@ -13,9 +14,7 @@ def index(request):
 
 
 def loginview(request):
-    print(request.headers)
     token = request.headers.get("Authorization")
-    print("AUUUUUUUUUUUUUUUTH " + (token if token is not None else "NOPE"))
     if request.user.is_authenticated:
         redirect("/home")
     if request.method == "GET":
@@ -31,7 +30,7 @@ def loginview(request):
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("OAUTH_URL"),
                 os.getenv("OAUTH_ID"),
-                "http://localhost:8000/accounts/callback",
+                "http://localhost:8000/accounts/callback/",
                 "public",
                 123,  # state
             )
@@ -42,13 +41,13 @@ def callback(request):
     code = request.GET.get("code")
     state = request.GET.get("state")
     response = requests.post(
-        "{}{}".format(os.getenv("OAUTH_URL"), "/oauth/access_token"),
+        "{}{}".format(os.getenv("OAUTH_URL"), "/oauth/access_token/"),
         data={
             "grant_type": "authorization_code",
             "client_id": os.getenv("OAUTH_ID"),
             "client_secret": os.getenv("OAUTH_SECRET"),
             "code": code,
-            "redirect_uri": "http://localhost:8000/accounts/callback",
+            "redirect_uri": "http://localhost:8000/accounts/callback/",
             "state": state,
         },
         headers={"Accept": "application/json"},
@@ -64,10 +63,12 @@ def callback(request):
     try:
         user = User.objects.get(username=response.json()["login"])
     except User.DoesNotExist:
-        user = User(username=response.json()["login"])
+        user = User.objects.create_user(username=response.json()["login"])
+        print("USER CREATED")
         user.save()
 
     user.access_token = access_token
+    login(request, user)
     return render(request, "callback.html", {"access_token": access_token})
 
 

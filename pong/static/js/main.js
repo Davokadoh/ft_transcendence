@@ -1,7 +1,7 @@
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
 	const access_token = localStorage.getItem("access_token");
-	console.log(access_token);
+	console.log("Access_token:" + access_token);
 	const headers = { "Authorization": access_token };
 	fetch(target, { headers })
 		.then(response => {
@@ -12,6 +12,10 @@ function router() {
 		})
 		.then(html => {
 			document.querySelector('#app').innerHTML = html;
+			// window.document.dispatchEvent(new Event("DOMContentLoaded", {
+			// 	bubbles: true,
+			// 	cancelable: true
+			// }));
 		});
 }
 
@@ -23,4 +27,11 @@ window.addEventListener("click", e => {
 	}
 });
 window.addEventListener("popstate", router());
-window.addEventListener("DOMContentLoaded", router());
+window.addEventListener("DOMContentLoaded", () => {
+	const container = document.getElementById('container');
+	if (!container) {
+		console.log("Error!");
+	} else {
+		console.log("YEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAH!");
+	}
+});
