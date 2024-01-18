@@ -48,10 +48,10 @@
 	font-family: 'Spoof';
 	src: url('/app/src/fonts/Spoof/Spoof-Bold.eot');
 	src: local('Spoof Bold'), local('Spoof-Bold'),
-		url('/app/src/fonts/Spoof/Spoof-Bold.eot?#iefix') format('embedded-opentype'),
-		url('/app/src/fonts/Spoof/Spoof-Bold.woff2') format('woff2'),
-		url('/app/src/fonts/Spoof/Spoof-Bold.woff') format('woff'),
-		url('/app/src/fonts/Spoof/Spoof-Bold.ttf') format('truetype');
+		url('/app/src/fonts/Spoof/Spoof-Bold.eot?#iefix') format('embedded-opentype');
+		/* url('/app/src/fonts/Spoof/Spoof-Bold.woff2') format('woff2'); */
+		/* url('/app/src/fonts/Spoof/Spoof-Bold.woff') format('woff'), */
+		/* url('/app/src/fonts/Spoof/Spoof-Bold.ttf') format('truetype'); */
 	font-weight: bold;
 	font-style: normal;
 }
@@ -94,7 +94,7 @@
 :root {
 	--gris: rgba(200, 196, 196, 0.906);
 	--vert: #87D300; /* Définition de la variable --vert avec la couleur verte */
-	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */  
-	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */  
+	--bleu: #00BAB9; /* Définition de la variable --bleu avec la couleur turquoise */
+	--violet: #9016B2; /* Définition de la variable --bleu avec la couleur violet */
 	--degrade-color: linear-gradient(to left, var(--vert), var(--bleu), #9016B2); /* Définition de la variable --degrade-couleur avec un dégradé de couleur */
 }
