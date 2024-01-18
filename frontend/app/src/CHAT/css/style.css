@@ -127,7 +127,6 @@ body {
 .friend-drawer {
   padding: 10px 15px;
   display: flex;
-  vertical-align: baseline;
   background: #fff;
   transition: 0.3s ease;
 
@@ -160,13 +159,15 @@ body {
       color: #fff;
     }
 
-    .icon-hidden {
+    .i-down {
       opacity: 1;
+      font-size: 15px;
+      margin-left: 11px;
       transition: opacity 0.3s ease-in-out;
     }
   }
 
-  .icon-hidden {
+  .i-down {
     opacity: 0;
   }
 }
@@ -227,23 +228,24 @@ body {
   /*margin-top: 19px;*/
   align-items: center;
 
-  input {
+  .inputCustom {
     margin: 0 15px;
     padding: 6px 8px;
     border: none;
     border-radius: 6px;
     width: 85%;
-    height: 65%;
+    height: 40px;
+    line-height: 40px;
     color: rgb(100, 96, 96);
-
+    
     &:focus {
       outline-color: pink;
     }
 
-    &::placeholder {
-      color: pink;
+    /*&::placeholder {
+      color: red;
       font-weight: 400;
-    }
+    }*/
   }
 
   i {
@@ -255,10 +257,11 @@ body {
       color: #74b9ff;
       cursor: pointer;
     }
-    /*margin-left: 10px;*/
-    /*
-    &:last-of-type {
-      margin-left: 10px;
-    }*/
+  }
+  .i-send {
+    transform: rotate(45deg);
   }
 }
+
+/* Votre propre feuille de style */
+/* Assurez-vous que votre feuille de style est liée après la feuille de style externe */
