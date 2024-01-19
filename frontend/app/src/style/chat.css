@@ -9,25 +9,25 @@ body-msg {
 }
 
 .container-fluid {
-    .row-nest1 {
+    .row-trayLeft {
         background-color: #000;
     }
-    .row-nest2 {
+    .row-searchContact {
         background-color: green;
     }
-    .row-nest3 {
-        height: calc(100vh - 117px);
-        background-color: gray;
+    .row-chatChannel {
+        height: calc(100vh - 116px);
+        background-color: rgb(153, 146, 146);
     }
-    .row-nest-r1 {
+    .row-trayRight {
         background-color: blue;
         height: 10vh;
     }
-    .row-nest-r2 {
-        background-color: none;
+    .row-chatPanel {
+        background-color: transparent;
         height: 80vh;
     }
-    .row-nest-r3 {
+    .row-chatBox {
         background-color: green;
         height: 10vh;
     }
@@ -135,12 +135,13 @@ i {
         width: 70%;
 
         h6 {
-        margin-top: 6px;
-        margin-bottom: 0;
+            color: rgb(26, 25, 25);
+            margin-top: 6px;
+            margin-bottom: 0;
         }
 
         p {
-        margin: 0;
+            margin: 0;
         }
     }
 
@@ -181,7 +182,7 @@ width: 60%;
 .chat-bubble {
     padding: 10px 14px;
     background: #eee;
-    margin: 10px 30px;
+    margin: 20px 30px;
     border-radius: 9px;
     position: relative;
     animation: fadeIn 1s ease-in;
@@ -199,6 +200,7 @@ width: 60%;
 }
 .chat-bubble--left {
 
+    color: rgb(26, 25, 25);
     &::after {
         left: 0;
         border-right-color: #eee;

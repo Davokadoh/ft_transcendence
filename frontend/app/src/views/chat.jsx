@@ -6,7 +6,7 @@ const chat = (
     <!-- start col-md-4 -->
     <div class="col-md-4 border-end">
       <!-- nested row1 -->
-      <div class="row row-nest1 g-0"> 
+      <div class="row row-trayLeft g-0"> 
         <div class="col-md-12">
           <div class="settings-tray settings-tray--left d-flex align-items-center">
             <img class="profile-image" src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg" alt="Profile image">
@@ -32,7 +32,7 @@ const chat = (
       </div>
       
       <!-- nested row2 -->
-      <div class="row row-nest2 g-0"> 
+      <div class="row row-searchContact g-0"> 
         <div class="col-md-12 g-0">
           <div class="search-box">
             <div class="input-wrapper">
@@ -44,9 +44,10 @@ const chat = (
       </div>
     
       <!-- nested row3 -->
-      <div class="row row-nest3 g-0"> 
+      <div class="row row-chatChannel g-0"> 
         <div class="col-md-12">
-          <div>
+
+          <div className="message">
             <div class="friend-drawer friend-drawer--onhover">
               <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image">
               <div class="text">
@@ -68,6 +69,12 @@ const chat = (
               </div>
             </div>
           </div>
+
+          <div className="channel">
+            <h6>TEST CHANNEL</>
+          </div>
+
+
         </div>
       </div>
       
@@ -77,7 +84,7 @@ const chat = (
     <!-- start col-md-8 -->
     <div class="col-md-8">
       <!-- nested row1 -->
-      <div class="row row-nest-r1 g-0">
+      <div class="row row-trayRight g-0">
         <div class="col-md-12">
           <div class="settings-tray settings-tray--right d-flex align-items-center">
             <img class="profile-image" src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend Image" data-toggle="tooltip" title="Detail du profil">
@@ -104,7 +111,7 @@ const chat = (
       </div>
       
       <!-- nested row2 -->
-      <div class="row row-nest-r2 g-0">
+      <div class="row row-chatPanel g-0">
         <div class="col-md-12">
           
           <!-- start chat panel -->
@@ -134,7 +141,7 @@ const chat = (
       </div>
       
       <!-- nested row3 -->
-      <div class="row row-nest-r3 g-0">
+      <div class="row row-chatBox g-0">
         <div class="col-md-12">
           <!-- message bar -->
           <div class="chat-box d-flex align-items-center justify-content-center">
