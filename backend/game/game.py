@@ -3,6 +3,7 @@ import random
 class PongGame:
     def __init__(self):
         self.players = {}  # Utiliser un dictionnaire vide pour stocker les positions des joueurs
+        self.player_names = {}
         self.ball = {'x': 0, 'y': 0, 'speed_x': 1, 'speed_y': 1}  # Position et vitesse de la balle
         self.field_width = 800
         self.field_height = 600
@@ -10,7 +11,7 @@ class PongGame:
         self.paddle_height = 100
 
         # Initialiser les positions des joueurs et de la balle
-        self.reset_game()
+        # self.reset_game()
 
     def reset_game(self):
         # Réinitialiser les positions des joueurs et de la balle
@@ -19,20 +20,22 @@ class PongGame:
 
     def update_position(self, player_id, direction):
         # Mettre à jour la position du joueur
-
-        if player_id not in self.players:
+        if player_id not in self.player_names:
+            # Si le player_id est nouveau, associez-le automatiquement à un joueur existant ou créez un nouveau joueur
+            if 'player1' not in self.player_names.values():
+                self.player_names[player_id] = 'player1'
+            elif 'player2' not in self.player_names.values():
+                self.player_names[player_id] = 'player2'
             # Ajoutez le joueur avec une position initiale (par exemple, au milieu de l'écran)
-            self.players[player_id] = self.field_height // 2
-        
+            self.players[self.player_names[player_id]] = self.field_height // 2
+
         print("position player:", player_id)
-        print("direction:", direction)
         if player_id in self.players:
             if direction == 'up':
-                print("up")
-                self.players[player_id] -= 10  # Ajustez la valeur selon votre besoin
+                self.players[player_id] = max(self.players[player_id] - 10, 0)  # Ajustez la valeur selon votre besoin
             elif direction == 'down':
-                print("down")
-                self.players[player_id] += 10  # Ajustez la valeur selon votre besoin
+                self.players[player_id] = min(self.players[player_id] + 10, self.field_height - self.paddle_height)
+        print("Updated player positions:", self.players)
 
         # Mettre à jour la position de la balle
         self.ball['x'] += self.ball['speed_x']

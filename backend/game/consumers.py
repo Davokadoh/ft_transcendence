@@ -79,7 +79,9 @@ class PongConsumer(AsyncWebsocketConsumer):
         # Ajoutez votre logique pour traiter la pression de touche
         # Par exemple, déplacez la raquette en fonction de la touche
         #print('Key pressed:', key)
-        #print('player:', player_id)
+        print('player:', player_id)
+        # player_id = self.scope['user'].username
+        # print(player_id)  # Utilisez la méthode appropriée pour obtenir le player_id
         if key == 'arrowup' or key == 'w':
             self.game.update_position(player_id, 'up')
         elif key == 'arrowdown' or key == 's':
