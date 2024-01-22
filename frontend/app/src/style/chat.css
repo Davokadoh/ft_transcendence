@@ -10,26 +10,26 @@ body-msg {
 
 .container-fluid {
     .row-trayLeft {
+        height: 70px;
         background-color: #000;
     }
-    .row-searchContact {
-        background-color: green;
-    }
     .row-chatChannel {
-        height: calc(100vh - 116px);
+        height: calc(100vh - 70px);
         background-color: rgb(153, 146, 146);
     }
     .row-trayRight {
+        height: 70px;
         background-color: blue;
-        height: 10vh;
+        
     }
     .row-chatPanel {
+        overflow-y: auto;
+        height: calc(100vh - 140px);
         background-color: transparent;
-        height: 80vh;
     }
     .row-chatBox {
         background-color: green;
-        height: 10vh;
+        height: 70px;
     }
 }
 
@@ -86,7 +86,7 @@ i {
     }*/
 }
 
-.search-box {
+.search {
     background: white;
     /*margin: 10px auto;*/
     padding: 10px 13px;
@@ -119,70 +119,90 @@ i {
     }
 }
 
+.chat {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 33.2%;
+    transform: translate(-100%);
+    .friend-drawer {
+        padding: 10px 15px;
+        display: flex;
+        background: #fff;
+        transition: 0.3s ease;
 
+        .text {
+            margin-left: 12px;
+            width: 70%;
 
+            h6 {
+                color: rgb(26, 25, 25);
+                margin-top: 6px;
+                margin-bottom: 0;
+            }
 
-
-
-.friend-drawer {
-    padding: 10px 15px;
-    display: flex;
-    background: #fff;
-    transition: 0.3s ease;
-
-    .text {
-        margin-left: 12px;
-        width: 70%;
-
-        h6 {
-            color: rgb(26, 25, 25);
-            margin-top: 6px;
-            margin-bottom: 0;
+            p {
+                margin: 0;
+            }
         }
 
-        p {
-            margin: 0;
+        .time-msg {
+                color: gray;
         }
     }
 
-    .time-msg {
-            color: gray;
-    }
-}
+    .friend-drawer--onhover {
 
-.friend-drawer--onhover {
+        &:hover {
+            background-color: #74b9ff;
+            cursor: pointer;
 
-    &:hover {
-        background-color: #74b9ff;
-        cursor: pointer;
+            p, h6, .time-msg {
+            color: #fff;
+            }
 
-        p, h6, .time-msg {
-        color: #fff;
+            .i-down {
+            opacity: 1;
+            font-size: 15px;
+            margin-left: 11px;
+            transition: opacity 0.3s ease-in-out;
+            }
         }
 
         .i-down {
-        opacity: 1;
-        font-size: 15px;
-        margin-left: 11px;
-        transition: opacity 0.3s ease-in-out;
+            opacity: 0;
         }
     }
-
-    .i-down {
-        opacity: 0;
-    }
+}
+.chat.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
+}
+.channel {
+    opacity: 0;
+    transform: translate(-100%);
+    visibility: hidden;
+    position: absolute;
+    /*adjust display absolute*/
+    width: 33.2%;
+}
+.channel.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
 }
 
 /*hr {
 margin: 5px auto;
 width: 60%;
 }*/
-
-
 .chat-bubble {
     padding: 10px 14px;
     background: #eee;
-    margin: 20px 30px;
+    margin: 10px 30px;
     border-radius: 9px;
     position: relative;
     animation: fadeIn 1s ease-in;
@@ -264,3 +284,4 @@ width: 60%;
         transform: rotate(45deg);
     }
 }
+

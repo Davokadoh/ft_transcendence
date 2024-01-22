@@ -19,6 +19,8 @@ import game from "./views/game"
 import profil from "./views/profil"
 import chat from "./views/chat"
 
+import { handleChatEvents } from "./scripts/chat.js"
+
 const routes = {
 	"/": {title: "Login", render: login},
 	"/home": {title: "Login", render: home},
@@ -33,6 +35,11 @@ function router() {
 	if (view) {
 		document.title = view.title;
 		app.innerHTML = view.render;
+
+		if (location.pathname === "/chat") {
+			handleChatEvents();
+		}
+
 	} else {
 		history.replaceState("", "", "/");
         router();

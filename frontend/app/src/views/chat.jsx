@@ -5,15 +5,17 @@ const chat = (
     
     <!-- start col-md-4 -->
     <div class="col-md-4 border-end">
+    
       <!-- nested row1 -->
       <div class="row row-trayLeft g-0"> 
         <div class="col-md-12">
+          
           <div class="settings-tray settings-tray--left d-flex align-items-center">
             <img class="profile-image" src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg" alt="Profile image">
             <span class="icons ms-auto">
-              <i class="bi bi-chat-left-quote" data-toggle="tooltip" title="Chat"></i>
-              <i class="bi bi-broadcast" data-toggle="tooltip" title="Channel"></i>
-              <i class="bi bi-three-dots-vertical" 
+              <i class="i-chat bi-chat-left-quote" id="chat-id" data-toggle="tooltip" title="Chat"></i>
+              <i class="i-channel bi-broadcast" id="idChannel" data-toggle="tooltip" title="Channel"></i>
+              <i class="i-menu bi-three-dots-vertical" 
                data-toggle="tooltip" 
                title="Menu"
                id="menuButtonLeft"
@@ -32,22 +34,16 @@ const chat = (
       </div>
       
       <!-- nested row2 -->
-      <div class="row row-searchContact g-0"> 
-        <div class="col-md-12 g-0">
-          <div class="search-box">
-            <div class="input-wrapper">
-              <i class="search bi-search-heart"></i>
-              <input type="text" placeholder="Search here">
-            </div>
-          </div>
-        </div>
-      </div>
-    
-      <!-- nested row3 -->
       <div class="row row-chatChannel g-0"> 
         <div class="col-md-12">
 
-          <div className="message">
+          <div class="chat">
+            <div class="search search--chatContact">
+              <div class="input-wrapper">
+                <i class="search bi-search-heart"></i>
+                <input type="text" placeholder="Search contact here">
+              </div>
+            </div>
             <div class="friend-drawer friend-drawer--onhover">
               <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image">
               <div class="text">
@@ -70,7 +66,13 @@ const chat = (
             </div>
           </div>
 
-          <div className="channel">
+          <div class="channel">
+            <div class="search search--channel">
+              <div class="input-wrapper">
+                <i class="search bi-search-heart"></i>
+                <input type="text" placeholder="Search channel here">
+              </div>
+            </div>
             <h6>TEST CHANNEL</>
           </div>
 
@@ -117,7 +119,8 @@ const chat = (
           <!-- start chat panel -->
           <div class="chat-panel">
             
-            <div class="row g-0"> <!--msg from friend-->
+            <!--msg from friend-->
+            <div class="row g-0"> 
               <div class="col-md-3 d-flex">
                 <div class="chat-bubble chat-bubble--left">
                   Hello cat!
@@ -125,14 +128,15 @@ const chat = (
               </div>
             </div>
             
-            <!--msg from me -->
+            <!--msg from me 
             <div class="row g-0"> 
-              <div class="col-md-3 offset-md-9">
+              <div class="col-md-3 offset-md-9 d-flex">
                 <div class="chat-bubble chat-bubble--blue chat-bubble--right">
-                  wsup!
+                  TEST MESSAGE!
                 </div>
               </div>
             </div>
+            -->
     
           </div> 
           <!-- chat panel close -->
@@ -145,9 +149,9 @@ const chat = (
         <div class="col-md-12">
           <!-- message bar -->
           <div class="chat-box d-flex align-items-center justify-content-center">
-            <!-- <i class="i-emoji bi-emoji-sunglasses" id="emoji_id"></i> -->
-            <input class="inputCustom" id="input_id"/>
-            <i class="i-send bi-send"></i>
+            <!-- <i class="i-emoji bi-emoji-sunglasses" id="emoji-id"></i> -->
+            <input class="inputCustom" id="input-id"/>
+            <i class="i-send bi-send" id="send-id"></i>
           </div>
           <!-- close message bar -->
         </div>
@@ -159,4 +163,5 @@ const chat = (
 </div>
 `
 );
+
 export default chat;
