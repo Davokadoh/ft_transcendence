@@ -18,7 +18,7 @@ class User(AbstractBaseUser):
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
     USERNAME_FIELD = "username"
-    
+
     objects = UserManager()
 
     # def get_games_won(self):
@@ -30,6 +30,9 @@ class User(AbstractBaseUser):
 
 class Team(models.Model):
     Users = models.ManyToManyField(User)
+
+    def add_player(self, player_id):
+        self.Users.add(player_id)
 
     @receiver(pre_delete, sender=User)
     def pre_delete_User_in_team(sender, instance, created, **kwargs):
@@ -57,6 +60,13 @@ class Game(models.Model):
         null=True,
         blank=True,
     )
+
+    def add_team(self):
+        new_team = Team.objects.create()
+        self.teams.add(new_team)
+
+    def add_player(self, player_id):
+        self.teams.first().add_player(player_id)
 
     @receiver(pre_delete, sender=Team)
     def pre_delete_team_in_game(sender, instance, created, **kwargs):
@@ -94,14 +104,14 @@ class Tournament(models.Model):
         for i in range(0, len(teams), 2):
             self.games[i // 2].add_teams(teams[i], teams[i + 1])
 
-    @receiver(post_save, sender=Game)
-    def listen_to_games(self, sender, instance, **kwargs):
-        if instance.status == "finished":
-            for round_games in self.games:
-                if instance in round_games:
-                    round_index = self.games.index(round_games)
-                    game_index = round_games.index(instance)
-                    if round_index < len(self.games) - 1:  # if not the final round
-                        next_game = self.games[round_index + 1][game_index // 2]
-                        next_game.add_team(instance.winner)
-                    break
+    # @receiver(post_save, sender=Game)
+    # def listen_to_games(self, sender, instance, **kwargs):
+    #     if instance.status == "finished":
+    #         for round_games in self.games:
+    #             if instance in round_games:
+    #                 round_index = self.games.index(round_games)
+    #                 game_index = round_games.index(instance)
+    #                 if round_index < len(self.games) - 1:  # if not the final round
+    #                     next_game = self.games[round_index + 1][game_index // 2]
+    #                     next_game.add_team(instance.winner)
+    #                 break

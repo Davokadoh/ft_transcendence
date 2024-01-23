@@ -7,6 +7,9 @@ urlpatterns = [
     path("accounts/callback/", views.callback, name="callback"),
     path("accounts/profil/", views.profil, name="profil"),
     path("home/", views.home, name="home"),
-    path("game/", views.game, name="game"),
     path("chat/", views.chat, name="chat"),
+    path("play/", views.play, name="play"),
+    path("lobby/", views.new_lobby),
+    path("lobby/<int:game_id>/", views.lobby),
+    path("game/<int:game_id>/", views.game),
 ]

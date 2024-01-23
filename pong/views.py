@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib.auth import login
 from .backend import CustomAuthenticationBackend
-from .models import User
+from .models import User, Game
 from dotenv import load_dotenv
 import requests
 import os
@@ -77,7 +77,33 @@ def home(request):
 
 
 @login_required
-def game(request):
+def play(request):
+    return render(request, "play.html")
+
+
+@login_required
+def new_lobby(request):
+    game = Game.objects.create()
+    game.add_team()
+    game.add_player(request.user)
+    return redirect("/lobby/" + str(game.id))
+
+
+@login_required
+def lobby(request, game_id):
+    game = Game.objects.get(pk=game_id)
+    context = {"game_id": game_id}
+    if request.method == "GET":
+        return render(request, "lobby.html", context)
+    elif request.method == "POST":
+        added_player = request.POST.get("player")
+        if added_player is not None:
+            game.add_player(added_player)
+
+
+@login_required
+def game(request, game_id):
+    game = Game.objects.get(pk=game_id)
     return render(request, "game.html")
 
 
