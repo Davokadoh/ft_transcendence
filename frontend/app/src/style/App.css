@@ -21,6 +21,8 @@ body {
 	align-items: center;
 	vertical-align: middle;
 	min-height: 100vh;
+	overflow-x: hidden; /* Barre de defilement gauche droite*/
+	/* overflow-y: hidden; Barre de defilement haut bas*/
 	padding-bottom: 100px; /* Remplacez 100px par la hauteur de votre footer */
 	/* overflow-y: auto; */
 }
@@ -133,15 +135,9 @@ header {
 }
 
 /* Style au clic */
-.ulLiA a:active {
-	color: var(--gris);
-	/* Couleur lors du clic */
-}
-
-/* Style au clic */
 .ulLiA a:focus {
 	color: var(--bleu) !important;
-	/* Couleur lors du clic */
+	/* Couleur apres le clic */
 }
 
 /* Style au clic en mode nuit*/
