@@ -4,7 +4,7 @@ const game = (
 <div class="container">
 	<div class="row gy-4">
 		<div class="col-12 col-md-6 styleBtn">
-			<button type="button" class="btn btn-dark ladButClass" id="ladder">TOURNAMENT</button> 
+			<button type="button" class="btn btn-dark ladButClass" id="ladder">TOURNAMENT</button>
 			<br>
 			<form action="/pong" methode="get">
 				<button type="submit" class="btn btn-dark quickButClass" id="ladder">QUICK PLAY</button>
@@ -31,8 +31,8 @@ const game = (
 		<div class="col-lg-6">
 		  <div class="scrolling-text-container">
 		  <img src="./src/img/balle.png" alt="Scrolling Image" class="custom-image-spacing">		  </div>
-		 <br> 
-		 <br> 
+		 <br>
+		 <br>
 		  </div>
 		</div>
 	  </div>

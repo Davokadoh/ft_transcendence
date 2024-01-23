@@ -25,7 +25,6 @@ $('#setModal').on('shown.bs.modal', function () {
 
 console.log('Script Modal loaded successfully!');
 
-
 // SCRIPT POUR SETTINGS VITESSE BALLE ET PADDLES
 $(document).ready(function () {
 	    // Mise à jour des valeurs affichées lorsque les curseurs sont modifiés

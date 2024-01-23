@@ -1,4 +1,4 @@
-.body-pong {
+#body-pong {
     color: black;
     margin: 0;
     display: flex;
@@ -16,14 +16,14 @@
     border: 2px solid #fff;
 }
 
-.ball,
-.left-paddle,
-.right-paddle {
+#ball,
+#left-paddle,
+#right-paddle {
     position: absolute;
     background-color: #fff;
 }
 
-.ball {
+#ball {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -32,19 +32,19 @@
     transform: translate(-50%, -50%);
 }
 
-.left-paddle,
-.right-paddle {
+#left-paddle,
+#right-paddle {
     width: 10px;
     height: 80px;
     top: 50%;
     transform: translate(0, -50%);
 }
 
-.left-paddle {
+#left-paddle {
     left: 0;
 }
 
-.right-paddle {
+#right-paddle {
     right: 0;
 }
 

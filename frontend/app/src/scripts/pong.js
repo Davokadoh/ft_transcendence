@@ -1,9 +1,20 @@
+// const $pong = $('#body-pong');
+// const $leftPaddle = $('#left-paddle');
+
+// console.log($pong);
+
+// $pong.mousemove(function(evt){
+//     const top = evt.pageY;
+//     $leftPaddle.css({
+//         top: `${top}px`
+//     });
+// });
+
+
 'use strict';
 
-var canvas;
-
 document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('canvas-container');
     if (!canvas) {
         console.error('Canvas not found');
         return;

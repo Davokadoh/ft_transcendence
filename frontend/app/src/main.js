@@ -21,12 +21,12 @@ import chat from "./views/chat"
 import pong from "./views/pong"
 
 const routes = {
-	"/": {title: "Login", render: login},
-	"/home": {title: "Login", render: home},
-	"/game": {title: "Game", render: game},
-	"/profil": {title: "Profil", render: profil},
-	"/chat": {title: "Chat", render: chat},
-	"/pong": {title: "Pong", render: pong},
+	"/": { title: "Login", render: login },
+	"/home": { title: "Login", render: home },
+	"/game": { title: "Game", render: game },
+	"/profil": { title: "Profil", render: profil },
+	"/chat": { title: "Chat", render: chat },
+	"/pong": { title: "Pong", render: pong },
 };
 
 function router() {
@@ -34,19 +34,30 @@ function router() {
 
 	if (view) {
 		document.title = view.title;
-		app.innerHTML = view.render;
+		document.querySelector('#app').innerHTML = view.render;
+		window.document.dispatchEvent(new Event("DOMContentLoaded", {
+			bubbles: true,
+			cancelable:true
+		}));
 	} else {
 		history.replaceState("", "", "/");
-        router();
+		router();
 	}
 }
 
 window.addEventListener("click", e => {
-    if (e.target.matches("[data-link]")) {
-        e.preventDefault();
-        history.pushState("", "", e.target.href);
-        router();
-    }
+	if (e.target.matches("[data-link]")) {
+		e.preventDefault();
+		history.pushState("", "", e.target.href);
+		router();
+	}
 });
 window.addEventListener("popstate", router);
-window.addEventListener("DOMContentLoaded", router);
+window.addEventListener("DOMContentLoaded", () => {
+	console.log("Coucou");
+	const canvasContainer = document.getElementById('canvas-container');
+	if (!canvasContainer) {
+		console.error('Containers not found');
+	}
+});
+
