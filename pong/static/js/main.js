@@ -7,7 +7,7 @@ function router() {
 	const headers = { "Authorization": access_token };
 	fetch(target, { headers })
 		.then(response => {
-			if (response.redirected && target != "/home") {
+			if (response.redirected) {
 				history.pushState(null, null, response.url);
 			}
 			return response.text();
@@ -26,6 +26,7 @@ function router() {
 window.addEventListener("popstate", router);
 
 window.addEventListener("DOMContentLoaded", () => {
+	router();
 	document.getElementById("start").addEventListener("click", () => {
 		StartGame();
 	});

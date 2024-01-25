@@ -72,6 +72,7 @@ def callback(request):
     return render(request, "callback.html", {"access_token": access_token})
 
 
+@login_required
 def home(request):
     return render(request, "home.html")
 
