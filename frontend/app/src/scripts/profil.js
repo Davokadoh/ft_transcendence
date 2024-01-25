@@ -27,6 +27,7 @@ console.log('Script Modal loaded successfully!');
 
 // SCRIPT POUR SETTINGS VITESSE BALLE ET PADDLES
 $(document).ready(function () {
+	// console.log('Script paddle speed loaded successfully!');
 	    // Mise à jour des valeurs affichées lorsque les curseurs sont modifiés
 		$('#paddleSpeed').on('input', function () {
 			$('#paddleSpeedValue').text($(this).val());
@@ -36,7 +37,7 @@ $(document).ready(function () {
 			$('#ballSpeedValue').text($(this).val());
 		});
 	
-		console.log('Script Modal loaded successfully!');
+		// console.log('Script ball speed loaded successfully!');
 	
 		// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
 		$('#setModal').on('hidden.bs.modal', function () {
@@ -102,10 +103,10 @@ $(document).ready(function () {
 		}
 
 	});
-});
+
 
 // Placer ce code à la fin de : profil.js pour enregistrer l image et le nom d utilisateur
-$(document).ready(function () {
+// $(document).ready(function () {
 	// Charger les données sauvegardées
 	const savedUsername = localStorage.getItem('username');
 	const savedImage = localStorage.getItem('image');

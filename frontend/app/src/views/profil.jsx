@@ -26,14 +26,13 @@ const profil = (
 			</div>
 		</div>
 	
-		<!-- Container DROITE IMAGE et PSEUDO + btn contact-->
 		<div class="col-md-6 mx-auto">
 			<div class="container_prof">
 				<div class="container-profil">
 					<form>
 						<!-- Add the image and username section -->
 						<div class="profile-section">
-							<img id="profileImage" src="" alt="Profile Image" class="profile-image">
+							<img id="profileImage" src="" alt="Profile Image" class="profile-image-set">
 							<div>
 								<button type="button" class="btn bg-vert modImg" id="modifyImageButton">Modifier
 									Image</button>
@@ -43,9 +42,9 @@ const profil = (
 								<input class="username" type="text" id="username" value="John Doe">
 							</div>
 						</div>
-						<button type="button" class="btn bg-vert" data-toggle="modal"
+						<button type="button" class="btn bg-vert ajust-btn" data-toggle="modal"
 							data-target="#contactsModal">Contacts</button> <br>
-						<button type="button" class="btn bg-vert" data-toggle="modal"
+						<button type="button" class="btn bg-vert ajust-btn" data-toggle="modal"
 							data-target="#modalBlocked">Blocked</button> <br>
 					</form>
 				</div>

@@ -132,7 +132,7 @@
 }
 
 /* Style for the profile image */
-.profile-image {
+.profile-image-set {
 	width: 100px;
 	/* Adjust the size as needed */
 	height: 100px;
@@ -150,7 +150,7 @@
 	filter: invert(70%);
 }
 
-.night-mode .profile-image {
+.night-mode .profile-image-set {
 	filter: grayscale(100%);
 }
 
@@ -226,6 +226,11 @@
 	border: none;
 	/* Pas de bordure au clic */
 	/* border: 2px solid transparent; Bordure transparente au clic */
+}
+
+.ajust-btn {
+	margin-top: 10px !important;
+	align-items: start
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */
