@@ -17,7 +17,7 @@
 //     }
 // });
 
-
+import $ from 'jquery';
 
 $('#setModal').on('shown.bs.modal', function () {
 	$('#myInput').trigger('focus')

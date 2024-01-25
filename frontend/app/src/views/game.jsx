@@ -6,7 +6,8 @@ const game = (
 		<div class="col-12 col-md-6 styleBtn">
 			<button type="button" class="btn btn-dark ladButClass" id="ladder">TOURNAMENT</button>
 			<br>
-			<form action="/pong" methode="get">
+
+			<form action="/pong" method="get">
 				<button type="submit" class="btn btn-dark quickButClass" id="ladder">QUICK PLAY</button>
 			</form>
 			</div>

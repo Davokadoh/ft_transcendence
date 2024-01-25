@@ -4,3 +4,5 @@
 // 		return window.location.pathname === path;
 // 	}
 // });
+
+import $ from 'jquery';
