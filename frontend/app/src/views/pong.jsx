@@ -2,7 +2,9 @@
 const pong = (
 `
     <div id="canvas-container">
+    coucou
         <canvas id="pong-canvas" width="800" height="600"></canvas>
+        salut
     </div>
 `
 );

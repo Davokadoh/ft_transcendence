@@ -17,7 +17,7 @@
 //     }
 // });
 
-import $ from 'jquery';
+// import $ from 'jquery'; fait tout PT ne pas inclure
 
 $('#setModal').on('shown.bs.modal', function () {
 	$('#myInput').trigger('focus')
