@@ -9,6 +9,7 @@ urlpatterns = [
     path("home/", views.home, name="home"),
     path("chat/", views.chat, name="chat"),
     path("play/", views.play, name="play"),
+    path("profil/", views.profil, name="profil"),
     path("lobby/", views.new_lobby),
     path("lobby/<int:game_id>/", views.lobby),
     path("game/<int:game_id>/", views.game),

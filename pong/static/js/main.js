@@ -14,10 +14,6 @@ function router() {
 		})
 		.then(html => {
 			document.querySelector("#app").innerHTML = html;
-			window.document.dispatchEvent(new Event("DOMContentLoaded", {
-				bubbles: true,
-				cancelable: true
-			}));
 		});
 };
 

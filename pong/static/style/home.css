@@ -2,7 +2,8 @@
 
 .container_hl {
 	margin-top: 100px;
-    margin-left: 300px; /* Ajustez la valeur de la marge selon vos besoins */
+	margin-left: 300px;
+	/* Ajustez la valeur de la marge selon vos besoins */
 	margin-bottom: 150px;
 }
 
@@ -17,28 +18,32 @@
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
-	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	margin: 5% 0;
+	/* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
 }
 
 /* Media query for smaller screens */
 @media (max-width: 1160px) {
 	.flex-container {
-	  flex-direction: column; /* Stack containers vertically */
+		flex-direction: column;
+		/* Stack containers vertically */
 	}
 
 	/* Reset the margin for both containers to avoid overlapping */
-	.container_homeLeft, .container_homeR {
-	  margin: 10px; /* Adjust as needed */
+	.container_homeLeft,
+	.container_homeR {
+		margin: 10px;
+		/* Adjust as needed */
 	}
 }
 
 .game-btn {
 	margin-top: 15px;
 	margin-left: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
+	background: none;
+	border: none;
+	cursor: pointer;
 }
 
 .game-img {
@@ -47,13 +52,16 @@
 }
 
 .game-btn:hover .game-img {
-    transform: scaleY(-1); /* Inversion horizontale de l'image au survol */
+	transform: scaleY(-1);
+	/* Inversion horizontale de l'image au survol */
 }
 
 .container_hr {
 	margin-top: 100px;
-	margin-left: 150px; /* espace entre les rectangles */
-	margin-right: 50; /* Ajuster la valeur de la marge selon besoins */
+	margin-left: 150px;
+	/* espace entre les rectangles */
+	margin-right: 50;
+	/* Ajuster la valeur de la marge selon besoins */
 }
 
 .container_homeR {
@@ -67,7 +75,8 @@
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
-	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	margin: 5% 0;
+	/* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
 }
 
@@ -76,7 +85,7 @@
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */
-.night-mode .container_homeLeft{
+.night-mode .container_homeLeft {
 	background-color: black;
 	color: white;
 }
@@ -87,7 +96,7 @@
 	}
 }
 
-.night-mode .container_homeR{
+.night-mode .container_homeR {
 	background-color: black;
 	color: white;
 }
@@ -99,27 +108,30 @@
 }
 
 .chat-btn {
-    margin-top: 50px;
-    margin-left: 70px;
-    display: flex; /* Utilisez display: flex; pour activer le modèle de boîte flexible */
-    justify-content: center; /* Centre horizontalement */
-    align-items: center; /* Centre verticalement */
-    background: none;
-    border: none;
-    cursor: pointer;
+	margin-top: 50px;
+	margin-left: 70px;
+	display: flex;
+	/* Utilisez display: flex; pour activer le modèle de boîte flexible */
+	justify-content: center;
+	/* Centre horizontalement */
+	align-items: center;
+	/* Centre verticalement */
+	background: none;
+	border: none;
+	cursor: pointer;
 }
 
 .bulles-img {
-    width: 100%;
-    transition: transform 0.3s;
+	width: 100%;
+	transition: transform 0.3s;
 }
 
 .chat-btn:hover .bulles-img {
-    transform: scaleX(-1);
+	transform: scaleX(-1);
 }
 
 /* mode sombre */
 
 .night-mode .chat-btn .bulles-img {
-    filter: invert(1);
+	filter: invert(1);
 }

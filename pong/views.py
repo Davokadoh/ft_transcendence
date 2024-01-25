@@ -81,6 +81,10 @@ def home(request):
 def play(request):
     return render(request, "play.html")
 
+@login_required
+def profil(request):
+    return render(request, "profil.html")
+
 
 @login_required
 def new_lobby(request):

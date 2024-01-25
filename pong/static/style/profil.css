@@ -6,11 +6,13 @@
 	flex-wrap: wrap;
 	overflow: hidden;
 }
+
 /* container de gauche */
 
 .container_opt {
 	margin-top: 100px;
-    margin-left: 300px; /* Ajustez la valeur de la marge selon vos besoins */
+	margin-left: 300px;
+	/* Ajustez la valeur de la marge selon vos besoins */
 	margin-bottom: 150px;
 }
 
@@ -25,7 +27,8 @@
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
-	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	margin: 5% 0;
+	/* Ajustez la marge supérieure et inférieure si nécessaire */
 	text-align: left;
 }
 
@@ -65,7 +68,7 @@
 }
 
 /* Styles spécifiques pour le login-container en mode nuit */
-.night-mode .container-option{
+.night-mode .container-option {
 	background-color: black;
 	color: #fff;
 }
@@ -99,6 +102,7 @@
 		border: 3px solid white;
 	}
 }
+
 /* container de droite */
 
 /* CHANGER PHOTO DE PROFIL */
@@ -117,26 +121,28 @@
 	background-color: transparent;
 	filter: contrast(175%) brightness(3%);
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
-  }
+}
 
-  .modImg:active {
+.modImg:active {
 	filter: drop-shadow(3px 3px var(--violet));
-  }
+}
 
-  .nameID {
+.nameID {
 	display: block;
-  }
+}
 
 /* Style for the profile image */
-.profile-image {
-    width: 100px; /* Adjust the size as needed */
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 10px;
+.profile-image-set {
+	width: 100px;
+	/* Adjust the size as needed */
+	height: 100px;
+	border-radius: 50%;
+	margin-right: 10px;
 }
 
 .night-mode .modImg {
-	filter: invert(1); /* Pour passer  une image noir en blanc ! :) */
+	filter: invert(1);
+	/* Pour passer  une image noir en blanc ! :) */
 }
 
 .night-mode .modImg:hover {
@@ -144,7 +150,7 @@
 	filter: invert(70%);
 }
 
-.night-mode .profile-image {
+.night-mode .profile-image-set {
 	filter: grayscale(100%);
 }
 
@@ -152,6 +158,7 @@
 
 .username {
 	color: var(--bleu) !important;
+	width: 210px;
 }
 
 .night-mode .username {
@@ -160,15 +167,15 @@
 
 /* Style for the profile section */
 .profile-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
 .container_prof {
 	margin-top: 100px;
 	margin-right: 50px;
-    margin-left: 150px;
+	margin-left: 150px;
 }
 
 .container-profil {
@@ -176,13 +183,14 @@
 	background-color: #87d300;
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	/* margin: 0 auto; Supprimez cette ligne */
+	/* margin: 0 auto; Supprimer cette ligne */
 	/* max-width: 400px; */
 	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
-	margin: 5% 0; /* Ajustez la marge supérieure et inférieure si nécessaire */
+	margin: 5% 0;
+	/* Marge supérieure et inférieure ajuster si nécessaire */
 	text-align: left;
 }
 
@@ -220,8 +228,13 @@
 	/* border: 2px solid transparent; Bordure transparente au clic */
 }
 
+.ajust-btn {
+	margin-top: 10px !important;
+	align-items: start
+}
+
 /* Styles spécifiques pour le login-container en mode nuit */
-.night-mode .container-profil{
+.night-mode .container-profil {
 	background-color: black;
 	color: #fff;
 }
@@ -235,12 +248,22 @@
 /* Media query for smaller screens */
 @media (max-width: 1160px) {
 	.flex-container {
-	  flex-direction: column; /* Stack containers vertically */
+		flex-direction: column;
+		/* Stack containers vertically */
 	}
 
 	/* Reset the margin for both containers to avoid overlapping */
-	.container_opt, .container_prof {
-	  margin: 10px; /* Adjust as needed */
+	.container_opt,
+	.container_prof {
+		margin: 10px;
+		/* Adjust as needed */
+	}
+}
+
+@media (max-width: 990px) {
+	.miniMode {
+		margin-top: 0px;
+		margin-bottom: 25px;
 	}
 }
 
@@ -302,32 +325,60 @@
 
 /* Ajoutez ces styles pour centrer le modal verticalement */
 .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin: auto;
+	--bs-modal-header-border-width: var(--bs-border-width);
+	/* hauteur de la ligne de sep */
+	--bs-modal-header-border-color: var(--vert);
+	/* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--vert);
+	/* couleur de la ligne de sep basse */
+	--bs-modal-footer-border-width: var(--bs-border-width);
+	/* hauteur de la ligne de sep basse*/
+}
+
+.night-mode .modal {
+	--bs-modal-header-border-color: var(--gris);
+	/* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--gris);
+	/* couleur de la ligne de sep basse */
 }
 
 /* Ajoutez ces styles pour centrer le modal horizontalement */
 .modal-dialog {
-    margin: 0;
+	margin: auto;
 }
 
 /* Ajoutez ces styles pour centrer le contenu du modal verticalement */
 .modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: auto;
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #00BAB9D3;
+}
+
+.night-mode .overlay {
+	background: var(--gris);
 }
 
 /* Ajoutez ces styles pour ajuster la position du bouton de fermeture */
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
 }
 
 /* BARRE D'INFO */
@@ -345,62 +396,74 @@
 	border: none;
 	margin-left: 0px;
 	/* align-items: start !important; */
-  }
+}
 
-  .imgButton:hover {
+.imgButton:hover {
 	background-color: transparent;
 	filter: contrast(175%) brightness(3%);
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
-  }
+}
 
 .imgButton:active {
 	background-color: transparent !important;
 	filter: drop-shadow(3px 3px var(--violet));
 }
 
-  .night-mode .imgButton {
+.night-mode .imgButton {
 	filter: invert(1);
-  }
+}
 
-  .night-mode .imgButton:hover {
+.night-mode .imgButton:hover {
 	filter: invert(70%);
-  }
-  
-  .findFriend {
+}
+
+.findFriend {
 	text-align: right !important;
-	margin-bottom: 5px; /* Ajuste la marge en bas du texte */
-  }
-  
-  .form-control {
+	margin-bottom: 5px;
+	/* Ajuste la marge en bas du texte */
+}
+
+.form-control {
 	margin: auto;
 	width: 100%;
 	margin-right: 0px;
-  }
-  
-  .input-group {
+	border-radius: var(--bs-border-radius) !important;
+}
+
+.input-group-custom {
 	width: 300px;
-  }
+}
 
-  .input-group-append {
-	width: 100px; /* Ajuste la largeur du bouton selon tes besoins */
+.input-group-append {
+	width: 100px;
+	/* Ajuste la largeur du bouton selon tes besoins */
 	/* align-items: start !important; */
-  }
+}
+
+/*  Pour avoir les bords de droite du formulaire arrondis */
+.input-group.custom-input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
+.input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
+.input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select,
+.input-group.custom-input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+	border-top-right-radius: none;
+	border-bottom-right-radius: none;
+}
 
 
-
-
-
-  /* CUSTOM MODALS */
+/* CUSTOM MODALS */
 /* Modal Contact */
 
 /* Style personnalisé pour la modale du bouton contact FD*/
 .custom-modal {
-	background-color: var(--violet); /* Couleur de fond */
-	padding: 20px; /* Espacement intérieur */
-	border-radius: 20px; /* Coins arrondis */
+	background-color: var(--violet);
+	/* Couleur de fond */
+	padding: 20px;
+	/* Espacement intérieur */
+	border-radius: 20px;
+	/* Coins arrondis */
 	font-family: 'Spoof', sans-serif;
 	color: #87d300;
-	
+
 	/* Fond personnalisé derrière la modale
 	&::before {
 		content: "";
@@ -414,40 +477,127 @@
 	} */
 }
 
-/* pas d'autre choix pour centrer ce $&%^$ de modal du coup pas de fond de couleur*/
-.modCustom {
-	margin-left: 30%;
+.blockBtn {
+	background-image: url('../img/contacts/blockVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 41px;
+	height: 42px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
 }
-/* Style personnalisé pour la modale du bouton blocked FD*/
+
+.blockBtn:hover {
+	background-image: url('../img/contacts/blockBC.png');
+	filter: none !important;
+}
+
+.blockBtn:active {
+	background-image: url('../img/contacts/unHappyVert.png');
+	filter: none;
+	/* filter: invert(1) brightness(100%) hue-rotate(360); */
+	width: 42px;
+	height: 42px;
+}
+
+.inviteContact {
+	background-image: url('../img/contacts/envoyeVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 40px;
+	height: 40px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
+}
+
+.inviteContact:hover {
+	background-image: url('../img/contacts/envoyeBC.png');
+}
+
+.inviteContact:active {
+	background-image: url('../img/contacts/sendVert.png');
+	width: 40px;
+	height: 40px;
+}
+
+.night-mode .inviteContact {
+	background-image: url('../img/contacts/envoyeBC.png');
+}
+
+.night-mode .inviteContact:hover {
+	filter: grayscale(70%) contrast(0);
+}
+
+.night-mode .inviteContact:active {
+	filter: none;
+	background-image: url('../img/contacts/sendBC.png');
+}
+
+.night-mode .blockBtn {
+	background-image: url('../img/contacts/blockBC.png');
+}
+
+.night-mode .blockBtn:hover {
+	filter: grayscale(70%) contrast(0) !important;
+}
+
+.night-mode .blockBtn:active {
+	background-image: url('../img/contacts/unHappyBC.png');
+	filter: none !important;
+}
+
+.pseudoBlock {
+	font-family: 'Spooft', sans-serif;
+	font-size: 21px;
+}
+
+/* MODAL BLOCKED*/
 
 .blockedModalCustom {
 	width: 400px;
 	height: fit-content;
 }
 
+.pseudoBlock {
+	font-family: 'Spooft', sans-serif;
+}
+
 .unblockBtn {
-	background-image: url('../img/debloque.png');
+	background-image: url('../img/debloquerVert.png');
 	background-color: transparent;
 	background-size: cover;
-	width: 35px;
-	height: 35px;
+	width: 41px;
+	height: 40px;
 	border: none;
-	margin-left: 17px;
-	margin-bottom: 0px;
+	margin-left: 12px;
+	margin-bottom: auto;
 }
 
 .unblockBtn:hover {
- /* image couleur modifiee mardi */
+	background-image: url('../img/debloquer_BC.png');
 }
 
-  .unblockBtn:active {
-	background-image: url('../img/content.png');
+.unblockBtn:active {
+	background-image: url('../img/happyVert.png');
 	filter: invert(1) brightness(100%) hue-rotate(360);
-  }
+	width: 38px;
+	height: 40px;
+}
 
-  .night-mode .unblockBtn {
-	filter: contrast(0%) invert(1);
-  }
+.night-mode .unblockBtn {
+	background-image: url('../img/debloquer_BC.png');
+}
+
+.night-mode .unblockBtn:hover {
+	filter: grayscale(70%) contrast(0);
+}
+
+.night-mode .unblockBtn:active {
+	filter: none;
+	background-image: url('../img/happyBC.png');
+}
 
 .night-mode .nightModalMod {
 	background-color: black;
@@ -462,13 +612,14 @@
 /* creer des boutons pour ces modes et integrer les variables aux boutons */
 .modalCloseButton {
 	background-color: transparent;
-	color:#87d300;
+	color: #87d300;
 	border: none;
 	font-family: 'Tahoma', sans-serif;
 	font-size: 34px;
 	padding-top: 0px;
 	padding-right: 14px;
-	
+
+
 }
 
 .night-mode .modalCloseButton {
@@ -478,6 +629,7 @@
 .modalButton {
 	background-color: var(--vert);
 	color: var(--violet);
+	margin: auto;
 }
 
 .modalButton:hover {
@@ -494,4 +646,190 @@
 	border: solid 1px white;
 	background-color: transparent;
 	color: white;
+}
+
+/* MODAL SETTINGS FG */
+
+.rangCust {
+	font-family: 'Titan One', sans-serif;
+	font-size: 16px;
+}
+
+.crochets {
+	font-family: 'Titan One', sans-serif;
+	font-size: 18px;
+}
+
+/* Styles pour le curseur de la plage (range) - WebKit (Chrome, Safari) */
+.rangeCustom::-webkit-slider-thumb {
+	margin-top: -2px;
+	/* Ajuster la position verticale du curseur */
+	-webkit-appearance: none;
+	appearance: none;
+	/* width: 0; */
+	/* height: 0; */
+	background: transparent !important;
+	background-color: var(--bleu) !important;
+	border: 2px solid white !important;
+	/* Ajout d'une bordure */
+	border-radius: 50% !important;
+	/* Rendre le curseur circulaire */
+	height: 17px;
+	/* Ajuster la hauteur du curseur */
+	width: 17px;
+	/* Ajuster la largeur du curseur */
+}
+
+.rangeCustom::-moz-range-thumb {
+	/* background-color: transparent; */
+	border: 2px solid white;
+	border-radius: 50% !important;
+	height: 15;
+	width: 15;
+}
+
+.rangeCustom::-ms-thumb {
+	background-color: var(--bleu) !important;
+	border: 2px solid white !important;
+	border-radius: 50% !important;
+	height: 20px;
+	width: 20px;
+}
+
+/* Styles pour la plage (track) */
+.rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	/* Rendre les bords de la barre arrondis */
+	height: 13px;
+	/* Ajuster la hauteur de la barre */
+}
+
+.rangeCustom::-moz-range-track {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	height: 13px;
+}
+
+.rangeCustom::-ms-track {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	height: 13px;
+}
+
+.rangeCustom::-ms-fill-lower,
+.rangeCustom::-ms-fill-upper {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	height: 13px;
+}
+
+/* night mode */
+.night-mode .rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-webkit-slider-thumb {
+	background-color: var(--gris) !important;
+	/* Rend le curseur transparent */
+	border: 2px solid var(--gris);
+	/* Ajout d'une bordure */
+}
+
+.night-mode .rangeCustom::-moz-range-thumb {
+	/* background-color: var(--gris) !important; */
+	background-color: var(--gris) !important;
+	border: 2px solid white !important;
+}
+
+.night-mode .rangeCustom::-ms-thumb {
+	background-color: var(--gris) !important;
+	border: 2px solid white !important;
+}
+
+/* Styles pour couleur de la barre (track) */
+.night-mode .rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-moz-range-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-ms-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-ms-fill-lower,
+.night-mode .rangeCustom::-ms-fill-upper {
+	background-color: var(--gris) !important;
+}
+
+
+.formGroupCustom {
+	padding: 3px;
+}
+
+.formCheckCustom {
+	padding-top: 3px;
+	/* padding-bottom: 3px; */
+}
+
+/* SAVE BUTTON */
+
+.btn-register {
+	background-color: var(--bleu);
+	color: white;
+	border: solit 1px transparent !important;
+	margin-top: 5px;
+}
+
+.btn-register:hover {
+	border: solid 1px white;
+	background-color: none !important;
+	color: white;
+}
+
+
+/* NAV TAN FENETRE GAUCHE STAT */
+
+.modNav {
+	color: #87d300 !important;
+	font-size: 21px;
+}
+
+.night-mode .modNav {
+	color: var(--gris) !important;
+}
+
+.night-mode .modNav:focus {
+	color: black !important;
+}
+
+.night-mode .modNav:active {
+	color: white !important;
+}
+
+
+.tabCust {
+	margin-top: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 36px;
+	font-family: 'Titan One', sans-serif;
+}
+
+/* NAV TAN FENETRE GAUCHE FEATS */
+
+.featModal {
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.featImg {
+	width: 52px;
+	height: auto;
+	margin-left: 15px;
+	filter: invert(1);
+	/* si actif et si pas actif en gris et flou */
 }
