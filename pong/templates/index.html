@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'style/App.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'style/chat.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'style/game.css' %}" />
@@ -17,60 +17,60 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style/stylesheet.css' %}" />
 
     <script>
-      function toggleNavbar() {
-        console.log('Toggle Navbar function called')
-      
+			function toggleNavbar() {
+				console.log('Toggle Navbar function called')
+				
         const navbarToggler = document.querySelector('.navbar-toggler')
         const navbarNav = document.querySelector('#navbarNav')
-      
+				
         const isOpen = navbarNav.classList.contains('show')
-      
+				
         if (isOpen) {
-          navbarToggler.classList.remove('active')
+					navbarToggler.classList.remove('active')
         } else {
-          navbarToggler.classList.add('active')
+					navbarToggler.classList.add('active')
         }
       }
     </script>
   </head>
-
+	
   <body>
     <banner class="">
-      <div class="lineUnderNav">
+			<div class="lineUnderNav">
         <nav class="navbar justify-content-center fluid-container">
-          <div class="ulLiA">
-            <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
-              <div class="logo-container">
+					<div class="ulLiA">
+						<div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
+							<div class="logo-container">
                 <div class="logo">
-                  <a class="logoLink" href="/home" data-link><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
+									<a class="logoLink" href="/home/" data-link><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
                 </div>
               </div>
               <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
-                <li class="nav-item">
-                  <a class="nav-link" href="/home" data-link>HOME</a>
+								<li class="nav-item">
+									<a class="nav-link" href="/home/" data-link>HOME</a>
                 </li>
                 <li class="sep">|</li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/play" data-link>PLAY</a>
+									<a class="nav-link" href="/play/" data-link>PLAY</a>
                 </li>
                 <li class="sep">|</li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/chat" data-link>CHAT</a>
+									<a class="nav-link" href="/chat/" data-link>CHAT</a>
                 </li>
                 <li class="sep">|</li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/profil" data-link>PROFIL</a>
+									<a class="nav-link" href="/profil/" data-link>PROFIL</a>
                 </li>
               </ul>
               <div class="toggle-container">
-                <input type="checkbox" id="toggle-switch" />
+								<input type="checkbox" id="toggle-switch" />
                 <label class="toggle-label" for="toggle-switch">
-                  <div class="icon-container">
-                    <img class="PING_BW" src="{% static 'img/OKPING_B.png' %}" alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
+									<div class="icon-container">
+										<img class="PING_BW" src="{% static 'img/OKPING_B.png' %}" alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
                   </div>
                   <div class="separator"></div>
                   <div class="icon-container">
-                    <img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}" alt="Icône de ping-pong en couleur" height="50px" width="auto" />
+										<img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}" alt="Icône de ping-pong en couleur" height="50px" width="auto" />
                   </div>
                 </label>
               </div>
@@ -79,15 +79,16 @@
         </nav>
       </div>
     </banner>
-
+		
     <div id="app"></div>
-    <script type="module" src="{% static 'js/main.js' %}"></script>
-
+		<script defer type="module" src="{% static 'js/game.js' %}"></script>
+		<script defer type="module" src="{% static 'js/main.js' %}"></script>
+		
     <footer class="text-white py-1 mt-4">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <p>@2023LesPong-Chos42</p>
+				<div class="row">
+					<div class="col-lg-6">
+						<p>@2023LesPong-Chos42</p>
           </div>
           <div class="col-lg-6 logAlign">
             <button class="btn btn-link logout" onclick="logout()">Log Out</button>
@@ -96,4 +97,4 @@
       </div>
     </footer>
   </body>
-</html>
+	</html>

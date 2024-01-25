@@ -1,3 +1,5 @@
+import { StartGame } from "./game.js";
+
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
 	const access_token = localStorage.getItem("access_token");
@@ -6,32 +8,33 @@ function router() {
 	fetch(target, { headers })
 		.then(response => {
 			if (response.redirected && target != "/home") {
-				history.pushState("", "", response.url);
+				history.pushState(null, null, response.url);
 			}
 			return response.text();
 		})
 		.then(html => {
-			document.querySelector('#app').innerHTML = html;
-			// window.document.dispatchEvent(new Event("DOMContentLoaded", {
-			// 	bubbles: true,
-			// 	cancelable: true
-			// }));
+			document.querySelector("#app").innerHTML = html;
+			window.document.dispatchEvent(new Event("DOMContentLoaded", {
+				bubbles: true,
+				cancelable: true
+			}));
 		});
-}
+};
+
+
+
+window.addEventListener("popstate", router);
+
+window.addEventListener("DOMContentLoaded", () => {
+	document.getElementById("start").addEventListener("click", () => {
+		StartGame();
+	});
+});
 
 window.addEventListener("click", e => {
 	if (e.target.matches("[data-link]")) {
 		e.preventDefault();
-		history.pushState("", "", e.target.href);
+		history.pushState(null, null, e.target.href);
 		router();
-	}
-});
-window.addEventListener("popstate", router());
-window.addEventListener("DOMContentLoaded", () => {
-	const container = document.getElementById('container');
-	if (!container) {
-		console.log("Error!");
-	} else {
-		console.log("YEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAH!");
 	}
 });
