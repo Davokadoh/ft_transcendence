@@ -1,0 +1,6 @@
+  intra:
+    client: "u-s4t2ud-ddafc0bbde557999e10e005c18e702f1bc856a56a055ab9d2095b75cee428be4" #UID
+    secret: "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" #SECRET
+    uri: "https://localhost:5173/home"
+    endpoint: "https://api.intra.42.fr/v2"
+    scopes: ""
