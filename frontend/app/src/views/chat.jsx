@@ -22,7 +22,7 @@ const chat = (
                data-bs-toggle="dropdown"
                aria-expanded="false">
               </i>
-               <ul class="dropdown-menu" aria-labelledby="menuButtonLeft">
+              <ul class="dropdown-menu" aria-labelledby="menuButtonLeft">
                 <li><a class="dropdown-item" href="#">Action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -37,20 +37,38 @@ const chat = (
       <div class="row row-chatChannel g-0"> 
         <div class="col-md-12">
 
-          <div class="chat">
+          <div class="chat visible">
+            
             <div class="search search--chatContact">
               <div class="input-wrapper">
                 <i class="search bi-search-heart"></i>
-                <input type="text" placeholder="Search contact here">
+                <input type="text" id="search" 
+                  placeholder="Search contact here"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                </input>
+                <ul class="dropdown-menu" aria-labelledby="search">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>        
               </div>
             </div>
-            <div class="friend-drawer friend-drawer--onhover">
+
+            <div class="list-contact friend --onhover d-flex border-top invisible-y" id="listContact" style="position:absolute;">
+              <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image">
+              <div class="text">
+                <h6>Wanted Cat</h6>
+              </div>
+            </div>
+
+            <div class="conversation friend --onhover d-flex visible-x" id="msgId">
               <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image">
               <div class="text">
                 <h6>Wanted Cat</h6>
                 <p class="text-muted">Hey, you're arrested </p>
               </div>
-              <div class="d-flex flex-column">
+              <div class="d-flex flex-column ms-auto">
                 <span class="time-msg small">13:21</span>
                 <i class="i-down bi-chevron-down"
                  id="menuDownLeft"
@@ -58,12 +76,13 @@ const chat = (
                  aria-expanded="false">
                 </i>
                 <ul class="dropdown-menu" aria-labelledby="menuDownLeft">
-                 <li><a class="dropdown-item" href="#">Supprimer la discussion</a></li>
-                 <li><a class="dropdown-item" href="#">Marquer comme non lue</a></li>
-                 <li><a class="dropdown-item" href="#">Bloquer</a></li>
+                 <li><button class="dropdown-item" type="button">Supprimer la discussion</button></li>
+                 <li><button class="dropdown-item" type="button">Marquer comme non lue</button></li>
+                 <li><button class="dropdown-item" type="button">Bloquer</button></li>
                 </ul>
               </div>
             </div>
+
           </div>
 
           <div class="channel">

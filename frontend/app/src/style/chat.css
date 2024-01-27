@@ -94,11 +94,11 @@ i {
     .input-wrapper {
         background: #eee;
         border-radius: 40px;
-        
         i {
             color: gray;
             vertical-align: middle;
             margin-left: 7px;
+            background-color: transparent;
         }
         
         input {
@@ -108,8 +108,9 @@ i {
             background: #eee;
 
             &::placeholder {
-                color: pink;
+                color: purple;
                 font-weight: 400;
+                opacity: 0.5;
             }
 
             &:focus {
@@ -119,17 +120,17 @@ i {
     }
 }
 
+
 .chat {
-    opacity: 0;
-    visibility: hidden;
+    
     position: absolute;
-    width: 33.2%;
-    transform: translate(-100%);
-    .friend-drawer {
+    width: 33.2%; 
+    
+    .friend {
         padding: 10px 15px;
-        display: flex;
+        /*display: flex;*/
         background: #fff;
-        transition: 0.3s ease;
+
 
         .text {
             margin-left: 12px;
@@ -145,13 +146,13 @@ i {
                 margin: 0;
             }
         }
-
         .time-msg {
                 color: gray;
         }
+    
     }
 
-    .friend-drawer--onhover {
+    .--onhover {
 
         &:hover {
             background-color: #74b9ff;
@@ -174,12 +175,36 @@ i {
         }
     }
 }
-.chat.is-visible {
+
+.list-contact {
+    width: 100%;
+}
+.conversation {
+    width: 100%;
+}
+.invisible-x {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-100%);
+}
+.visible-x {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
     transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
 }
+.invisible-y {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10%);
+}
+.visible-y {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
+}
+
 .channel {
     opacity: 0;
     transform: translate(-100%);
@@ -188,7 +213,7 @@ i {
     /*adjust display absolute*/
     width: 33.2%;
 }
-.channel.is-visible {
+.channel.visible {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
@@ -261,7 +286,7 @@ width: 60%;
         color: rgb(100, 96, 96);
         
         &:focus {
-        outline-color: pink;
+            outline-color: rgb(161, 13, 161);
         }
 
         /*&::placeholder {
