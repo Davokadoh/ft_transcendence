@@ -37,22 +37,38 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style/profil.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'style/stylesheet.css' %}" />
 
-    <script>
-			function toggleNavbar() {
-				console.log('Toggle Navbar function called')
-				
-        const navbarToggler = document.querySelector('.navbar-toggler')
-        const navbarNav = document.querySelector('#navbarNav')
-				
-        const isOpen = navbarNav.classList.contains('show')
-				
-        if (isOpen) {
-					navbarToggler.classList.remove('active')
-        } else {
-					navbarToggler.classList.add('active')
-        }
+  <!-- SCRIPT BOUTON NB/COLOR -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('night mode function called');
+      const toggleSwitch = document.getElementById('toggle-switch');
+
+      toggleSwitch.addEventListener('change', function () {
+        document.body.classList.toggle('night-mode', toggleSwitch.checked);
+      });
+    });
+  </script>
+
+  <!-- SCRIPT BOUTON MENU -->
+  <script>
+    function toggleNavbar() {
+      console.log('Toggle Navbar function called');
+
+      const navbarToggler = document.querySelector('.navbar-toggler');
+      const navbarNav = document.querySelector('#navbarNav');
+
+      // Vérifie si le menu est ouvert
+      const isOpen = navbarNav.classList.contains('show');
+
+      // Si le menu est ouvert, retire la classe active du bouton
+      if (isOpen) {
+        navbarToggler.classList.remove('active');
+      } else {
+        // Si le menu est fermé, ajoute la classe active au bouton
+        navbarToggler.classList.add('active');
       }
-    </script>
+    }
+  </script>
   </head>
 	
   <body>
