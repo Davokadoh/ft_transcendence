@@ -1,121 +1,51 @@
-/* page HOME */
-
-.container_hl {
-	margin-top: 100px;
-	margin-left: 300px;
-	/* Ajustez la valeur de la marge selon vos besoins */
-	margin-bottom: 150px;
-}
-
 .container_homeLeft {
 	border-radius: 30px;
 	background-color: #9016B2;
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	/* margin: 0 auto; Supprimez cette ligne */
-	/* max-width: 400px; */
 	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
 	margin: 5% 0;
-	/* Ajustez la marge supérieure et inférieure si nécessaire */
-	text-align: left;
-}
-
-/* Media query for smaller screens */
-@media (max-width: 1160px) {
-	.flex-container {
-		flex-direction: column;
-		/* Stack containers vertically */
-	}
-
-	/* Reset the margin for both containers to avoid overlapping */
-	.container_homeLeft,
-	.container_homeR {
-		margin: 10px;
-		/* Adjust as needed */
-	}
 }
 
 .game-btn {
-	margin-top: 15px;
-	margin-left: 12px;
+	margin: auto;
 	background: none;
 	border: none;
 	cursor: pointer;
 }
 
 .game-img {
-	width: 100%;
 	transition: transform 0.3s;
+	max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    margin: auto;
+	position: relative;
+	vertical-align: middle;
 }
 
 .game-btn:hover .game-img {
 	transform: scaleY(-1);
-	/* Inversion horizontale de l'image au survol */
 }
 
-.container_hr {
-	margin-top: 100px;
-	margin-left: 150px;
-	/* espace entre les rectangles */
-	margin-right: 50;
-	/* Ajuster la valeur de la marge selon besoins */
-}
-
-.container_homeR {
+.container_homeRight {
 	border-radius: 30px;
 	background-color: #87d300;
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	/* margin: 0 auto; Supprimez cette ligne */
-	/* max-width: 400px; */
 	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
 	margin: 5% 0;
-	/* Ajustez la marge supérieure et inférieure si nécessaire */
-	text-align: left;
-}
-
-.container-info {
-	margin-bottom: 50px;
-}
-
-/* Styles spécifiques pour le login-container en mode nuit */
-.night-mode .container_homeLeft {
-	background-color: black;
-	color: white;
-}
-
-@media (prefers-color-scheme: dark) {
-	.night-mode .container_homeLeft {
-		border: 3px solid white;
-	}
-}
-
-.night-mode .container_homeR {
-	background-color: black;
-	color: white;
-}
-
-@media (prefers-color-scheme: dark) {
-	.night-mode .container_homeR {
-		border: 3px solid white;
-	}
 }
 
 .chat-btn {
-	margin-top: 50px;
-	margin-left: 70px;
-	display: flex;
-	/* Utilisez display: flex; pour activer le modèle de boîte flexible */
-	justify-content: center;
-	/* Centre horizontalement */
-	align-items: center;
-	/* Centre verticalement */
+	margin: auto;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -130,7 +60,58 @@
 	transform: scaleX(-1);
 }
 
-/* mode sombre */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container-info {
+	margin-bottom: 50px;
+}
+
+/* Styles spécifiques pour le login-container en mode nuit */
+.night-mode .container_homeLeft {
+	background-color: black;
+	color: white;
+}
+
+@media (max-width: 1160px) {
+	.flex-container {
+		flex-direction: column;
+	}
+
+	.container_homeLeft,
+	.container_homeRight {
+		margin: 10px;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.night-mode .container_homeLeft {
+		border: 3px solid white;
+	}
+}
+
+.night-mode .container_homeRight {
+	background-color: black;
+	color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+	.night-mode .container_homeRight {
+		border: 3px solid white;
+	}
+}
 
 .night-mode .chat-btn .bulles-img {
 	filter: invert(1);
