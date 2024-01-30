@@ -8,9 +8,8 @@ from dotenv import load_dotenv
 import requests
 import os
 
-
-def index(request):
-    return render(request, "index.html")
+def index(request, page_name=None):
+    return render(request, "index.html", page_name)
 
 
 def loginview(request):
@@ -72,18 +71,28 @@ def callback(request):
     return render(request, "callback.html", {"access_token": access_token})
 
 
-@login_required
 def home(request):
-    return render(request, "home.html")
+    return index(request, {"page_name": "home.html"})
+
+
+@login_required
+def page(request, page_name):
+    return render(request, page_name + ".html")
 
 
 @login_required
 def play(request):
-    return render(request, "play.html")
+    return index(request, {"page_name": "play.html"})
+
 
 @login_required
 def profil(request):
-    return render(request, "profil.html")
+    return index(request, {"page_name": "profil.html"})
+
+
+@login_required
+def chat(request):
+    return index(request, {"page_name": "chat.html"})
 
 
 @login_required
@@ -110,13 +119,3 @@ def lobby(request, game_id):
 def game(request, game_id):
     game = Game.objects.get(pk=game_id)
     return render(request, "game.html")
-
-
-@login_required
-def chat(request):
-    return render(request, "chat.html")
-
-
-@login_required
-def profil(request):
-    return render(request, "profil.html")
