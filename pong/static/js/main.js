@@ -3,12 +3,11 @@ import { StartGame } from "./game.js";
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
 	const access_token = localStorage.getItem("access_token");
-	console.log("Access_token:" + access_token);
-	const headers = { "Authorization": access_token };
-	fetch(target, { headers })
+	console.log("/page" + target);
+	fetch("/page" + target, { "Authorization": access_token })
 		.then(response => {
 			if (response.redirected) {
-				history.pushState(null, null, response.url);
+				history.pushState(null, null, response.url.replace("/page", ""));
 			}
 			return response.text();
 		})
@@ -17,16 +16,9 @@ function router() {
 		});
 };
 
-
-
 window.addEventListener("popstate", router);
 
-window.addEventListener("DOMContentLoaded", () => {
-	router();
-	document.getElementById("start").addEventListener("click", () => {
-		StartGame();
-	});
-});
+window.addEventListener("DOMContentLoaded", router);
 
 window.addEventListener("click", e => {
 	if (e.target.matches("[data-link]")) {

@@ -101,7 +101,11 @@
       </div>
     </banner>
 		
-    <div id="app"></div>
+    <div id="app">
+			{% if page_name %}
+				{% include page_name %}
+			{% endif %}
+		</div>
 		<script defer type="module" src="{% static 'js/game.js' %}"></script>
 		<script defer type="module" src="{% static 'js/play.js' %}"></script>
 		<script defer type="module" src="{% static 'js/main.js' %}"></script>
