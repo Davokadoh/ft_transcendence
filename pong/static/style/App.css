@@ -373,48 +373,6 @@ footer {
 	color: white !important;
 }
 
-/* Bouton Jour/Nuit */
-.toggle-container {
-	position: fixed;
-	top: 14px;
-	right: 20px;
-	margin: 10px;
-	margin-right: 50px;
-	margin-top: 33px;
-	padding: 10px;
-	/* display: flex; */
-	/* align-items: center; */
-	z-index: 1000;
-}
-
-.toggle-label {
-	background: transparent;
-	border-radius: 20px;
-	border: 2px solid;
-	border-color: #9016B2;
-	padding: 5px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	overflow: hidden;
-	width: 150px;
-}
-
-.icon-container {
-	flex: 1;
-	text-align: center;
-	transition: background 0.3s;
-}
-
-.separator {
-	width: 2px;
-	height: 30px;
-	/* Ajustez la hauteur selon vos besoins */
-	background: linear-gradient(to bottom, var(--violet), var(--vert));
-	/* Utilise couleurs de dégradé */
-	margin: 5px;
-}
-
 #toggle-switch {
 	display: none;
 }
@@ -671,7 +629,7 @@ body.night-mode footer {
 
 	/* Bouton Jour/Nuit */
 	.toggle-container {
-		position: fixed;
+		position: relative;
 		top: 21px;
 		right: 10px;
 		margin: 5px;
@@ -729,7 +687,7 @@ body.night-mode footer {
 
 	/* Bouton Jour/Nuit */
 	.toggle-container {
-		position: fixed;
+		position: relative;
 		top: 21px;
 		right: 215px;
 		margin: 5px;
@@ -789,7 +747,7 @@ body.night-mode footer {
 
 	/* Bouton Jour/Nuit */
 	.toggle-container {
-		position: fixed;
+		position: relative;
 		top: 21px;
 		right: 20px;
 		margin: 5px;
@@ -872,7 +830,7 @@ body.night-mode footer {
 
 	/* Bouton Jour/Nuit */
 	.toggle-container {
-		position: fixed;
+		position: relative;
 		top: 14px;
 		right: 20px;
 		margin: 10px;
