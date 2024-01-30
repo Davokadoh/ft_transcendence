@@ -25,6 +25,22 @@ function router() {
 window.addEventListener("StartGameEvent", () => {
 	document.getElementById("start").addEventListener("click", () => {
 		console.log("TEST");
+		party ={
+			player: {
+				y: canvas.height / 2 - playerHeight / 2
+			},
+
+			computer: {
+				y: canvas.height / 2 - playerHeight / 2
+			},
+
+			ball: {
+				x: canvas.width / 2,
+				y: canvas.height / 2,
+				r: 5
+			}
+
+		}
 		StartGame();
 	});
 });
