@@ -14,24 +14,29 @@ function router() {
 		})
 		.then(html => {
 			document.querySelector("#app").innerHTML = html;
+			document.dispatchEvent(new Event("StartGameEvent", {
+				bubbles: true,
+				cancelable: true
+			}));
 		});
 };
 
 
-
-window.addEventListener("popstate", router);
-
-window.addEventListener("DOMContentLoaded", () => {
-	router();
+window.addEventListener("StartGameEvent", () => {
 	document.getElementById("start").addEventListener("click", () => {
+		console.log("TEST");
 		StartGame();
 	});
 });
 
-window.addEventListener("click", e => {
-	if (e.target.matches("[data-link]")) {
-		e.preventDefault();
-		history.pushState(null, null, e.target.href);
-		router();
-	}
-});
+window.addEventListener("popstate", router);
+
+window.addEventListener("DOMContentLoaded", router);
+
+	window.addEventListener("click", e => {
+		if (e.target.matches("[data-link]")) {
+			e.preventDefault();
+			history.pushState(null, null, e.target.href);
+			router();
+		}
+	});
