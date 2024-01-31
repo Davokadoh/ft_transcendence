@@ -42,45 +42,49 @@ const chat = (
             <div class="search search--chatContact">
               <div class="input-wrapper">
                 <i class="search bi-search-heart"></i>
-                <input type="text" id="search" 
+                <input type="text" id="searchContact" 
                   placeholder="Search contact here"
+                  data-search>
+                </input>
+              </div>
+            </div>
+
+            <div class="list-contact invisible-y"
+              id="listContact" list-contact-container>
+            <template list-contact-template>
+              <div class="contact friend --onhover border-top d-flex align-items-center" id="contactId">
+                <img src="" 
+                  alt="Friend photo"
+                  class="profile-image"
+                  data-image>
+                <div class="text" data-name></div>
+              </div>
+            </template>
+            </div>
+
+            <div class="conversation-list visible-x" id="conversationListId">
+            <template conversation-template>
+              <div class="conversation friend --onhover d-flex" id="msgId">
+                <img src="" alt="Friend photo" class="profile-image" data-image>
+                <div class="text" data-text>
+                  <h6>Wanted Cat</h6>
+                  <p class="text-muted">Hey, you're arrested </p>
+                </div>
+                <div class="d-flex flex-column ms-auto">
+                  <span class="time-msg small">13:21</span>
+                  <i class="i-down bi-chevron-down"
+                  id="menuDownLeft"
                   data-bs-toggle="dropdown"
                   aria-expanded="false">
-                </input>
-                <ul class="dropdown-menu" aria-labelledby="search">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>        
+                  </i>
+                  <ul class="dropdown-menu" aria-labelledby="menuDownLeft">
+                  <li><button class="dropdown-item" type="button">Supprimer la discussion</button></li>
+                  <li><button class="dropdown-item" type="button">Marquer comme non lue</button></li>
+                  <li><button class="dropdown-item" type="button">Bloquer</button></li>
+                  </ul>
+                </div>
               </div>
-            </div>
-
-            <div class="list-contact friend --onhover d-flex border-top invisible-y" id="listContact" style="position:absolute;">
-              <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image">
-              <div class="text">
-                <h6>Wanted Cat</h6>
-              </div>
-            </div>
-
-            <div class="conversation friend --onhover d-flex visible-x" id="msgId">
-              <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image">
-              <div class="text">
-                <h6>Wanted Cat</h6>
-                <p class="text-muted">Hey, you're arrested </p>
-              </div>
-              <div class="d-flex flex-column ms-auto">
-                <span class="time-msg small">13:21</span>
-                <i class="i-down bi-chevron-down"
-                 id="menuDownLeft"
-                 data-bs-toggle="dropdown"
-                 aria-expanded="false">
-                </i>
-                <ul class="dropdown-menu" aria-labelledby="menuDownLeft">
-                 <li><button class="dropdown-item" type="button">Supprimer la discussion</button></li>
-                 <li><button class="dropdown-item" type="button">Marquer comme non lue</button></li>
-                 <li><button class="dropdown-item" type="button">Bloquer</button></li>
-                </ul>
-              </div>
+            </template>
             </div>
 
           </div>
@@ -104,70 +108,18 @@ const chat = (
     
     <!-- start col-md-8 -->
     <div class="col-md-8">
-      <!-- nested row1 -->
-      <div class="row row-trayRight g-0">
-        <div class="col-md-12">
-          <div class="settings-tray settings-tray--right d-flex align-items-center">
-            <img class="profile-image" src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend Image" data-toggle="tooltip" title="Detail du profil">
-            <div class="text">
-              <h6>Wanted Cat</h6>
-            </div>
-            
-            <span class="dropdown ms-auto">
-              <i class="bi bi-three-dots-vertical" 
-                data-toggle="tooltip" 
-                title="Menu"
-                id="menuButtonRight"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-              </i>
-              <ul class="dropdown-menu" aria-labelledby="menuButtonRight">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </span>
-          </div>  
-        </div>
-      </div>
       
-      <!-- nested row2 -->
-      <div class="row row-chatPanel g-0">
-        <div class="col-md-12">
-          
-          <!-- start chat panel -->
-          <div class="chat-panel">
-            
-            <!--msg from friend-->
-            <div class="row g-0"> 
-              <div class="col-md-3 d-flex">
-                <div class="chat-bubble chat-bubble--left">
-                  Hello cat!
-                </div>
-              </div>
-            </div>
-            
-            <!--msg from me 
-            <div class="row g-0"> 
-              <div class="col-md-3 offset-md-9 d-flex">
-                <div class="chat-bubble chat-bubble--blue chat-bubble--right">
-                  TEST MESSAGE!
-                </div>
-              </div>
-            </div>
-            -->
-    
-          </div> 
-          <!-- chat panel close -->
+      <!--display principal first session-->
+      <div class="panel-principal col-md-12 g-0" id="panelPrincipalId"></div>
 
-        </div>
-      </div>
-      
+      <div class="conversation-history" data-conversation-history></div> 
+      <!-- close conversation-history -->
+
       <!-- nested row3 -->
       <div class="row row-chatBox g-0">
         <div class="col-md-12">
           <!-- message bar -->
-          <div class="chat-box d-flex align-items-center justify-content-center">
+          <div class="chat-box d-flex align-items-center justify-content-center hide" id="chatBoxId">
             <!-- <i class="i-emoji bi-emoji-sunglasses" id="emoji-id"></i> -->
             <input class="inputCustom" id="input-id"/>
             <i class="i-send bi-send" id="send-id"></i>

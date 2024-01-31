@@ -36,9 +36,9 @@ function router() {
 		document.title = view.title;
 		app.innerHTML = view.render;
 
-		if (location.pathname === "/chat") {
+		/*if (location.pathname === "/chat") {
 			chatModule.handleChatEvents();
-		}
+		}*/
 
 	} else {
 		history.replaceState("", "", "/");

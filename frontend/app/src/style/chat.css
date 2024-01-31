@@ -28,7 +28,7 @@ body-msg {
         background-color: transparent;
     }
     .row-chatBox {
-        background-color: green;
+        background-color: transparent;
         height: 70px;
     }
 }
@@ -177,10 +177,34 @@ i {
 }
 
 .list-contact {
+    position: absolute;
     width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .contact {
+        .text {
+            color: black;
+            font-weight: 500;
+        }
+    }
 }
-.conversation {
-    width: 100%;
+
+.conversation-list {
+    max-height: calc(100vh - 116px);
+    overflow-y: auto;
+    
+    .conversation {
+        
+        width: 100%;
+    }
+}
+
+.hide {
+    display: none !important;
+}
+.active {
+    display: block;
 }
 .invisible-x {
     opacity: 0;
@@ -203,6 +227,11 @@ i {
     visibility: visible;
     transform: translateY(0);
     transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
+}
+
+.panel-principal {
+    background-color: white; 
+    height: 100%;
 }
 
 .channel {
