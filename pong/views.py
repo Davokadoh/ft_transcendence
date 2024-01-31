@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST #VF
 from django.shortcuts import redirect, render
 from django.contrib.auth import login
 from django.http import JsonResponse #ajoute par VF pour username
@@ -38,6 +39,7 @@ def loginview(request):
             )
             return redirect(auth_url)
         
+
 #ajoute par VF pour username profil DEBUT
 def get_username(request):
     if request.method == 'GET':
@@ -47,6 +49,21 @@ def get_username(request):
     else:
         return JsonResponse({'error': 'Invalid request method'})
 #ajoute par VF pour username profil FIN
+
+@require_POST
+@csrf_exempt
+def update_username(request):
+    if request.method == 'POST':
+        new_username = request.POST.get('new_username')
+        if new_username:
+            # Met à jour le nom d'utilisateur en base de données
+            request.user.username = new_username
+            request.user.save()
+            return JsonResponse({'message': 'Username updated successfully'})
+        else:
+            return JsonResponse({'error': 'New username is required'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 def callback(request):

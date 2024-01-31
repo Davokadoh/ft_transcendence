@@ -14,6 +14,7 @@ urlpatterns = [
     path("profil/", views.profil, name="profil"),
     # path("profil/username", User.get_username),
     path('profil/username', get_username, name='username'), # ajoute par VF username recup
+    path('profil/update-username/', views.update_username, name='update_username'),
     path("lobby/", views.new_lobby),
     path("lobby/<int:game_id>/", views.lobby),
     path("game/<int:game_id>/", views.game),

@@ -117,24 +117,34 @@ window.addEventListener("profilEvent", () => {
 		}
 	});
 
-	// Fonction pour gérer la modification du nom d'utilisateur
+	// Fonction pour récupérer le jeton CSRF depuis les cookies
+	function getCookie(name) {
+		const value = `; ${document.cookie}`;
+		const parts = value.split(`; ${name}=`);
+		if (parts.length === 2) return parts.pop().split(';').shift();
+	}
+	
+	// Fonction pour gérer la modification du nom d'utilisateur avec le bouton
 	var usernameInput = document.getElementById('username');
 
-	usernameInput.addEventListener('blur', function () {
+	document.getElementById('modifyUsernameButton').addEventListener('click', function () {
 		const newUsername = usernameInput.value.trim();
-		if (newUsername !== '') {
-			// Vous pouvez envoyer newUsername à votre serveur ou API pour la mise à jour
-			console.log('Nouveau nom d\'utilisateur :', newUsername);
-			// Sauvegarder le nom d'utilisateur dans le stockage local
-			localStorage.setItem('username', newUsername);
-		} else {
-			// Réinitialisez la valeur si elle est vide
-			console.log('Script profil username empty loaded successfully!');
-			fetch("/profil/username")
-				.then(response => response.json())
-				.then(data => {
-					usernameInput.value = data.username;
-				});
-		}
+
+		fetch("/profil/update-username/", {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'X-CSRFToken': getCookie('csrftoken'),
+			},
+			body: `new_username=${newUsername}`,
+		})
+			.then(response => response.json())
+			.then(data => {
+				console.log(data.message);
+				// Mettre à jour l'affichage côté client si nécessaire
+			})
+			.catch(error => {
+				console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
+			});
 	});
 });

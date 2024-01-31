@@ -130,6 +130,14 @@
 .nameID {
 	display: block;
 }
+/* CHANGER USERNAME PROFIL */
+.modUser {
+	background-image: url('../img/cocher.png');
+	margin-left: 200px !important;
+	width: 30px;
+	height: 30px;
+	align-items: end !important;
+}
 
 /* Style for the profile image */
 .profile-image-set {
