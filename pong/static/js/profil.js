@@ -71,26 +71,7 @@ window.addEventListener("profilEvent", () => {
 		statsModalClose();
 	});
 
-	// Charger les données sauvegardées
-	console.log('Script profil username loaded successfully!');
-	fetch("/profil/username")
-		.then(response => response.json())
-		.then(data => {
-			var savedUsername = data.username;
-			var savedImage = localStorage.getItem('image');
 
-			// Mettre à jour l'image et le nom d'utilisateur si sauvegardés
-			var usernameInput = document.getElementById('username');
-			var profileImage = document.getElementById('profileImage');
-
-			if (savedUsername) {
-				usernameInput.value = savedUsername;
-			}
-
-			if (savedImage) {
-				profileImage.src = savedImage;
-			}
-		});
 
 	// Fonction pour gérer le téléchargement d'image
 	var modifyImageButton = document.getElementById('modifyImageButton');
@@ -123,7 +104,7 @@ window.addEventListener("profilEvent", () => {
 		const parts = value.split(`; ${name}=`);
 		if (parts.length === 2) return parts.pop().split(';').shift();
 	}
-	
+
 	// Fonction pour gérer la modification du nom d'utilisateur avec le bouton
 	var usernameInput = document.getElementById('username');
 
@@ -141,10 +122,46 @@ window.addEventListener("profilEvent", () => {
 			.then(response => response.json())
 			.then(data => {
 				console.log(data.message);
-				// Mettre à jour l'affichage côté client si nécessaire
+
+				// Sauvegarder le nouveau nom d'utilisateur dans le stockage local
+				localStorage.setItem('savedUsername', newUsername);
+
+				// Met à jour le champ du formulaire avec le nouveau nom d'utilisateur
+				usernameInput.value = newUsername;
+				// Ajoute la classe indiquant que le nom d'utilisateur a été mis à jour côté client
+				usernameInput.classList.add('username-updated');
 			})
 			.catch(error => {
 				console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
 			});
 	});
+
+// Charger les données sauvegardées
+console.log('Script profil username loaded successfully!');
+fetch("/profil/username")
+    .then(response => response.json())
+    .then(data => {
+        var savedUsername = localStorage.getItem('savedUsername');
+        var savedImage = localStorage.getItem('image');
+
+        // Mettre à jour l'image et le nom d'utilisateur si sauvegardés
+        var profileImage = document.getElementById('profileImage');
+        var defaultUsername = data.username; // Récupérer le nom d'utilisateur par défaut depuis la réponse du serveur
+
+        if (savedUsername && !usernameInput.classList.contains('username-updated')) {
+            // Mettre à jour le nom d'utilisateur sauvegardé
+            usernameInput.value = savedUsername;
+        } else if (defaultUsername) {
+            // Utiliser le nom d'utilisateur par défaut si aucun nom d'utilisateur n'est sauvegardé
+            usernameInput.value = defaultUsername;
+        }
+
+        if (savedImage) {
+            profileImage.src = savedImage;
+        }
+    });
+
+
+
+
 });
