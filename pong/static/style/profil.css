@@ -131,6 +131,29 @@
 	display: block;
 }
 
+/* Styles pour aligner verticalement le label et le champ d'entrée */
+.aligthisfs {
+    display: relative;
+    flex-direction: column;
+    align-items: right;
+}
+
+/* Ajoutez des marges ou des styles supplémentaires selon vos besoins */
+label.nameID,
+input.username,
+button#modifyUsernameButton {
+    margin-top: 10px;
+}
+
+/* CHANGER USERNAME PROFIL */
+.modUser {
+	background-image: url('../img/cocher.png');
+	margin-left: 200px !important;
+	width: 30px;
+	height: 30px;
+	align-items: end !important;
+}
+
 /* Style for the profile image */
 .profile-image-set {
 	width: 100px;

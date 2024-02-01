@@ -7,7 +7,7 @@ $('#loadNewPageBtn').click(function() {
         url: '/game',
         type: 'GET',
         success: function(data) {
-            // Remplacez le contenu de la section spécifique avec le contenu de la nouvelle page
+            // Remplace le contenu de la section spécifique avec le contenu de la nouvelle page
             $('#app').html(data);
             window.document.dispatchEvent(new Event("DOMContentLoaded", {
                 bubbles: true,

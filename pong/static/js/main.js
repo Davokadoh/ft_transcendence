@@ -13,6 +13,10 @@ function router() {
 		})
 		.then(html => {
 			document.querySelector("#app").innerHTML = html;
+			document.dispatchEvent(new Event("profilEvent", {
+				bubbles: true,
+				cancelable: true
+			}));
 		});
 };
 
