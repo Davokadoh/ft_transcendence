@@ -72,10 +72,10 @@ window.addEventListener("profilEvent", () => {
 
 	// Fonction pour récupérer l'image de profil par défaut
 	function getDefaultProfileImage() {
-		fetch("/profil/user-profile-picture/")
+		fetch("/get_user_image/${login}/") // pas en local
 			.then(response => response.json())
 			.then(data => {
-				const profilImg = data.profil_image;
+				const profilImg = data.image.link;
 
 				// Mettre à jour l'image de profil si elle est disponible
 				if (profilImg) {
@@ -97,6 +97,7 @@ window.addEventListener("profilEvent", () => {
 			})
 			.catch(error => {
 				console.error('Erreur lors de la récupération de l\'image par défaut :', error);
+				console.log("profilImg: ", profilImg);
 			});
 	}
 
