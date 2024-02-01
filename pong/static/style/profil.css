@@ -131,6 +131,12 @@
 	display: block;
 }
 
+.custom-div-align {
+	width: 250px;
+	height: fit-content;
+	display: inline;
+}
+
 /* Styles pour aligner verticalement le label et le champ d'entrée */
 .aligthisfs {
     display: relative;
@@ -148,10 +154,10 @@ button#modifyUsernameButton {
 /* CHANGER USERNAME PROFIL */
 .modUser {
 	background-image: url('../img/cocher.png');
-	margin-left: 200px !important;
+	margin-left: 150px !important;
 	width: 30px;
 	height: 30px;
-	align-items: end !important;
+	/* align-items: end !important; */
 }
 
 /* Style for the profile image */
@@ -181,7 +187,8 @@ button#modifyUsernameButton {
 
 .username {
 	color: var(--bleu) !important;
-	width: 210px;
+	/* width: 210px; */
+	width: 200px;
 }
 
 .night-mode .username {
@@ -252,7 +259,8 @@ button#modifyUsernameButton {
 }
 
 .ajust-btn {
-	margin-top: 10px !important;
+	margin-top: 20px !important;
+	margin-right: 50px !important;
 	align-items: start
 }
 

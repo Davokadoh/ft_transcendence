@@ -124,9 +124,8 @@ header {
 	/* Ajoute une transition de couleur */
 }
 
-.ulLiA .logo-container .logo {
-	margin-right: 100px;
-	margin-left: 0px;
+.logo-container {
+	text-align: end;
 }
 
 .sep {
@@ -379,13 +378,15 @@ footer {
 
 /* Bouton Jour/Nuit */
 .toggle-container {
-	position: fixed;
+	/* position: fixed; */
+	position: relative;
 	/* top: 14px; */
 	right: 20px;
 	margin: 10px;
-	margin-left: 150px;
+	/* margin-left: 150px; */
 	margin-right: 40px;
 	margin-top: 18px;
+	margin-bottom: 20px;
 	padding: 10px;
 	/* display: flex; */
 	/* align-items: center; */
