@@ -1,4 +1,6 @@
 import { StartGame } from "./game.js";
+// import { logout_user } from "./index.js";
+
 
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;

@@ -162,6 +162,4 @@ fetch("/profil/username")
     });
 
 
-
-
 });
