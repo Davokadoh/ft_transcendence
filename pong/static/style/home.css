@@ -8,24 +8,17 @@
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
 	margin: 5% 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .game-btn {
-	margin: auto;
-	background: none;
-	border: none;
 	cursor: pointer;
 }
 
 .game-img {
 	transition: transform 0.3s;
-	max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    margin: auto;
-	position: relative;
-	vertical-align: middle;
 }
 
 .game-btn:hover .game-img {
@@ -42,6 +35,9 @@
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
 	margin: 5% 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .chat-btn {
