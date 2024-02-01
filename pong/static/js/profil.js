@@ -65,13 +65,46 @@ window.addEventListener("profilEvent", () => {
 		// ... (récupérer d'autres paramètres au besoin)
 
 		// Code de sauvegarde des paramètres à ajouter ici
-		// Vous pouvez utiliser localStorage, sessionStorage, AJAX, etc.
 
 		// Fermer la modal
 		statsModalClose();
 	});
 
+	// Fonction pour récupérer l'image de profil par défaut
+	function getDefaultProfileImage() {
+		fetch("/profil/user-profile-picture/")
+			.then(response => response.json())
+			.then(data => {
+				const profilImg = data.profil_image;
 
+				// Mettre à jour l'image de profil si elle est disponible
+				if (profilImg) {
+					const profileImage = document.getElementById('profileImage');
+					profileImage.src = profilImg;
+
+					// Sauvegarde l'image par défaut dans le stockage local
+					localStorage.setItem('defaultImage', profilImg);
+				}
+				else {
+					// Charge une autre image de profil par défaut le cas écheant
+					const defaultImageURL = "/static/img/image-defaut.png";
+					const profileImage = document.getElementById('profileImage');
+					profileImage.src = defaultImageURL;
+
+					// Sauvegarde l'image par défaut alternative dans le stockage local
+					localStorage.setItem('defaultImage', defaultImageURL);
+				}
+			})
+			.catch(error => {
+				console.error('Erreur lors de la récupération de l\'image par défaut :', error);
+			});
+	}
+
+	// Charger l'image par défaut si elle n'a pas déjà été chargée
+	const savedDefaultImage = localStorage.getItem('defaultImage');
+	if (!savedDefaultImage) {
+		getDefaultProfileImage();
+	}
 
 	// Fonction pour gérer le téléchargement d'image
 	var modifyImageButton = document.getElementById('modifyImageButton');
@@ -136,30 +169,30 @@ window.addEventListener("profilEvent", () => {
 			});
 	});
 
-// Charger les données sauvegardées
-console.log('Script profil username loaded successfully!');
-fetch("/profil/username")
-    .then(response => response.json())
-    .then(data => {
-        var savedUsername = localStorage.getItem('savedUsername');
-        var savedImage = localStorage.getItem('image');
+	// Charger les données sauvegardées
+	console.log('Script profil username loaded successfully!');
+	fetch("/profil/username")
+		.then(response => response.json())
+		.then(data => {
+			var savedUsername = localStorage.getItem('savedUsername');
+			var savedImage = localStorage.getItem('image');
 
-        // Mettre à jour l'image et le nom d'utilisateur si sauvegardés
-        var profileImage = document.getElementById('profileImage');
-        var defaultUsername = data.username; // Récupérer le nom d'utilisateur par défaut depuis la réponse du serveur
+			// Mettre à jour l'image et le nom d'utilisateur si sauvegardés
+			var profileImage = document.getElementById('profileImage');
+			var defaultUsername = data.username; // Récupérer le nom d'utilisateur par défaut depuis la réponse du serveur
 
-        if (savedUsername && !usernameInput.classList.contains('username-updated')) {
-            // Mettre à jour le nom d'utilisateur sauvegardé
-            usernameInput.value = savedUsername;
-        } else if (defaultUsername) {
-            // Utiliser le nom d'utilisateur par défaut si aucun nom d'utilisateur n'est sauvegardé
-            usernameInput.value = defaultUsername;
-        }
+			if (savedUsername && !usernameInput.classList.contains('username-updated')) {
+				// Mettre à jour le nom d'utilisateur sauvegardé
+				usernameInput.value = savedUsername;
+			} else if (defaultUsername) {
+				// Utiliser le nom d'utilisateur par défaut si aucun nom d'utilisateur n'est sauvegardé
+				usernameInput.value = defaultUsername;
+			}
 
-        if (savedImage) {
-            profileImage.src = savedImage;
-        }
-    });
+			if (savedImage) {
+				profileImage.src = savedImage;
+			}
+		});
 
 
 });

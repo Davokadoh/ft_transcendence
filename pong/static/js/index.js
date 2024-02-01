@@ -16,7 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('index.js fonction getCookies lu ok');
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-
+    
+	// window.addEventListener('click', function (logout_user) {
+	// 	if (logout_user.target === logout_user) {
+	// 		logout_user();
+	// 	}
+    
     window.logout_user = function() {
         console.log('index.js fonction logout_user lu ok');
         fetch("accounts/logout/", {
