@@ -1,48 +1,65 @@
 {% load static %}
 <script defer type="module" src="{% static 'js/profil.js' %}"></script>
 <!-- Container GAUCHE btns options et stat -->
-<div class="row gy-4 justify-content-center flex-container">
-  <div class="col-md-6 mx-auto">
-    <div class="container_opt">
-      <div class="container-option">
-        <form>
-          <button type="button" class="btn bg-vert" data-toggle="modal" id="statsBtn" data-target="#statsModal">Statistics</button>
-          <img src="{% static 'img/stat/statistique.png' %}" alt="Statistics Icon" class="icon iconeS" />
-          <br />
-          <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#featsModal">Feats</button>
-          <img src="{% static 'img/stat/feats.png' %}" alt="Feats Icon" class="icon iconeF" />
-          <br />
-          <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#matchModal">Match History</button>
-          <img src="{% static 'img/stat/historique.png' %}" alt="Match History Icon" class="icon iconeM" />
-          <br />
-          <button type="button" class="btn bg-vert" data-toggle="modal" data-target="#setModal">Settings</button>
-          <img src="{% static 'img/stat/reglages.png' %}" alt="Settings Icon" class="icon iconeSt" />
-        </form>
+<div class="container text-center">
+  <div class="row justify-content-around">
+    <div class="container-option">
+      <div class="row align-items-center justify-content-between">
+        <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#statsModal">Statistics</button>
+        <img src="{% static 'img/stat/statistique.png' %}" alt="Statistics Icon" class="col-2 img-fluid icon" />
+      </div>
+      <br />
+      <div class="row align-items-center justify-content-between">
+        <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#featsModal">Feats</button>
+        <img src="{% static 'img/stat/feats.png' %}" alt="Feats Icon" class="col-2 img-fluid icon" />
+      </div>
+      <br />
+      <div class="row align-items-center justify-content-between">
+        <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#matchModal">Match History</button>
+        <img src="{% static 'img/stat/historique.png' %}" alt="Match History Icon" class="col-2 img-fluid icon" />
+      </div>
+      <br />
+      <div class="row align-items-center justify-content-between">
+        <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#setModal">Settings</button>
+        <img src="{% static 'img/stat/reglages.png' %}" alt="Settings Icon" class="col-2 img-fluid icon" />
       </div>
     </div>
-  </div>
 
-  <div class="col-md-6 mx-auto">
-    <div class="container_prof">
-      <div class="container-profil">
-        <form>
-          <!-- Add the image and username section -->
-          <div class="profile-section">
-            <img id="profileImage" src="" alt="Profile Image" class="profile-image-set" />
-            <div>
-              <button type="button" class="btn bg-vert modImg" id="modifyImageButton">Modifier Image</button>
-              <input type="file" accept="image/*" id="imageInput" style="display: none;" />
-              <br />
-              <label class="nameID" for="username">Nom:</label>
-              <div class="aligthisfs">
-                <button type="button" class="btn bg-vert modImg modUser" id="modifyUsernameButton">Change Username</button>
-                <input class="username" type="text" id="username" value="" />
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn bg-vert ajust-btn" data-toggle="modal" data-target="#contactsModal">Contacts</button> <br />
-          <button type="button" class="btn bg-vert ajust-btn" data-toggle="modal" data-target="#modalBlocked">Blocked</button> <br />
-        </form>
+    <div class="container-profil">
+      <div class="profile-pic">
+        <label class="-label" for="file">
+          <span class="glyphicon glyphicon-camera"></span>
+          <span>Change Image</span>
+        </label>
+        <input id="profil-picture" type="file" onchange="loadFile(event)" />
+        {% comment %} <img src="{% static 'img/ajouter-une-image.png' %}" id="output" width="200" /> {% endcomment %}
+        <img src="https://cdn.pixabay.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
+      </div>
+
+      {% comment %} <form action="" class="row align-items-center justify-content-between">
+        <img id="profilePicture" class="col-2" src="" alt="Profile Picture" />
+        <input id="imageInput" type="file" accept="image/*" style="display: none;" />
+        <button id="modifyImageButton" class="col-2 btn bg-vert modImg" type="button"></button>
+      </form> {% endcomment %}
+
+      <br />
+
+      <form action="/profil/username/" method="post" class="row align-items-center justify-content-between">
+        {% csrf_token %}
+        <label class="col-2 col-form-label col-form-label-sm" for="username">Name</label>
+        <div class="col-7">
+					<input id="username" class="form-control form-control-sm" type="text" placeholder="{% static "request.user.username" %}}" />
+				</div>
+        {% comment %} <input class="col-2 btn bg-vert" type="image" id="modifyUsernameButton" alt="ChangeUsername" src="{% static 'img/cocher.png' %}" /> {% endcomment %}
+        <button id="modifyUsernameButton" class="col-2 btn bg-vert" type="submit">✓</button>
+      </form>
+
+      <br />
+
+      <div class="row justify-content-between">
+        <button type="button" class="col btn bg-vert" data-bs-toggle="modal" data-bs-target="#contactsModal">Contacts</button>
+        <br />
+        <button type="button" class="col btn bg-vert" data-bs-toggle="modal" data-bs-target="#modalBlocked">Blocked</button>
       </div>
     </div>
   </div>
@@ -70,90 +87,90 @@
 </div>
 
 <!-- Modal Bootstrap Verena FD fenetre de droite bouton CONTACT -->
-<div class="modal fade overlay" data-backdrop="static" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
+<div class="modal fade overlay" data-bs-backdrop="static" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content custom-modal nightModalMod">
       <div class="modal-header">
         <h3 class="modal-title" id="contactsModalLabel">Contacts</h3>
-        <button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <!-- Contenu de la modale, ici la liste des contacts -->
         <p class="pseudoBlock d-flex align-items-end">
           Contact 1
-          <button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Invite the contact" alt="Button to invite the contact"></button>
-          <button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Block the contact" alt="Button to block the contact"></button>
+          <button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Invite the contact" alt="Button to invite the contact"></button>
+          <button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Block the contact" alt="Button to block the contact"></button>
         </p>
         <p class="pseudoBlock d-flex align-items-end">
           Contact 2
-          <button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Invite the contact" alt="Button to invite the contact"></button>
-          <button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Block the contact" alt="Button to block the contact"></button>
+          <button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Invite the contact" alt="Button to invite the contact"></button>
+          <button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Block the contact" alt="Button to block the contact"></button>
         </p>
         <p class="pseudoBlock d-flex align-items-end">
           Contact 3
-          <button class="inviteContact" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Invite the contact" alt="Button to invite the contact"></button>
-          <button class="blockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Block the contact" alt="Button to block the contact"></button>
+          <button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Invite the contact" alt="Button to invite the contact"></button>
+          <button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Block the contact" alt="Button to block the contact"></button>
         </p>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn modalButton modalNightButton" data-dismiss="modal">Close</button>
+        <button type="button" class="btn modalButton modalNightButton" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal Bootstrap FD fenetre de droite bouton BLOCKED -->
-<div class="modal fade modal-dialog-centered overlay" data-backdrop="static" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
+<div class="modal fade modal-dialog-centered overlay" data-bs-backdrop="static" id="modalBlocked" aria-labelledby="modal-blocked" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content custom-modal blockedModalCustom nightModalMod">
       <div class="modal-header">
         <h3 class="modal-title">Blocked contact</h3>
-        <button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <p class="pseudoBlock d-flex align-items-end">
           Pseudo 1 blocked
-          <button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
+          <button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
         </p>
         <p class="pseudoBlock d-flex align-items-end">
           Pseudo 2 blocked
-          <button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
+          <button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
         </p>
         <p class="pseudoBlock d-flex align-items-end">
           Pseudo 3 blocked
-          <button class="unblockBtn" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
+          <button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Unblock the contact" alt="Button to unblock the contact"></button>
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
+        <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">Close</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal Bootstrap STATISTICS FG -->
-<div class="modal fade overlay" data-backdrop="static" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
+<div class="modal fade overlay" data-bs-backdrop="static" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content custom-modal nightModalMod">
       <div class="modal-header">
         <h3 class="modal-title" id="statsModalLabel">STATISTICS</h3>
-        <button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <!-- Onglets -->
         <ul class="nav nav-tabs navCustom" id="myTabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <a class="nav-link modNav active" id="onglet1-tab" data-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
+            <a class="nav-link modNav active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link modNav" id="onglet2-tab" data-toggle="tab" href="#onglet2" role="tab" aria-controls="onglet2" aria-selected="false">Win</a>
+            <a class="nav-link modNav" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab" aria-controls="onglet2" aria-selected="false">Win</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link modNav" id="onglet3-tab" data-toggle="tab" href="#onglet3" role="tab" aria-controls="onglet3" aria-selected="false">Match</a>
+            <a class="nav-link modNav" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab" aria-controls="onglet3" aria-selected="false">Match</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link modNav" id="onglet4-tab" data-toggle="tab" href="#onglet4" role="tab" aria-controls="onglet4" aria-selected="false">Ratio</a>
+            <a class="nav-link modNav" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab" aria-controls="onglet4" aria-selected="false">Ratio</a>
           </li>
         </ul>
 
@@ -173,7 +190,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
+          <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">Close</button>
         </div>
       </div>
     </div>
@@ -181,12 +198,12 @@
 </div>
 
 <!-- Modal Bootstrap FEATS FG -->
-<div class="modal fade overlay" data-backdrop="static" id="featsModal" tabindex="-1" role="dialog" aria-labelledby="featsModalLabel" aria-hidden="true">
+<div class="modal fade overlay" data-bs-backdrop="static" id="featsModal" tabindex="-1" role="dialog" aria-labelledby="featsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content custom-modal nightModalMod">
       <div class="modal-header">
         <h3 class="modal-title" id="statsModalLabel">FEATS</h3>
-        <button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div class="modal-body">
@@ -218,19 +235,19 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
+        <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">Close</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal Bootstrap MATCH FG -->
-<div class="modal fade overlay" data-backdrop="static" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="matchModalLabel" aria-hidden="true">
+<div class="modal fade overlay" data-bs-backdrop="static" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="matchModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content custom-modal nightModalMod">
       <div class="modal-header">
         <h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
-        <button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div class="modal-body">
@@ -238,19 +255,19 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
+        <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">Close</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal Bootstrap SETTINGS FG -->
-<div class="modal fade overlay" data-backdrop="static" id="setModal" tabindex="-1" role="dialog" aria-labelledby="setModalLabel" aria-hidden="true">
+<div class="modal fade overlay" data-bs-backdrop="static" id="setModal" tabindex="-1" role="dialog" aria-labelledby="setModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content custom-modal nightModalMod">
       <div class="modal-header">
         <h3 class="modal-title" id="setModalLabel">SETTINGS</h3>
-        <button type="button" class="close modalCloseButton" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div class="modal-body">
@@ -305,7 +322,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn bg-vert modalButton modalNightButton" data-dismiss="modal" aria-label="close">Close</button>
+        <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">Close</button>
       </div>
     </div>
   </div>

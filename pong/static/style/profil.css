@@ -1,100 +1,46 @@
-/* --- Profil --- */
-
-/* BOTH CONTAINER */
-.flex-container {
-	display: flex;
-	flex-wrap: wrap;
-	overflow: hidden;
-}
-
-/* container de gauche */
-
-.container_opt {
-	margin-top: 100px;
-	margin-left: 300px;
-	/* Ajustez la valeur de la marge selon vos besoins */
-	margin-bottom: 150px;
-}
-
 .container-option {
 	border-radius: 30px;
 	background-color: #9016B2;
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	/* margin: 0 auto; Supprimez cette ligne */
-	/* max-width: 400px; */
 	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #87d300;
 	margin: 5% 0;
-	/* Ajustez la marge supérieure et inférieure si nécessaire */
-	text-align: left;
+	justify-content: left;
+	align-items: left;
 }
 
-/* Style du bouton normal */
 .container-option button {
 	border: 2px solid #ffffff;
-	/* Bordure blanche */
 	background-color: #87d300;
-	/* Fond vert */
 	color: #9016B2;
-	/* Texte violet */
 	transition: all 0.3s;
-	/* Transition douce pour le survol et le clic */
 	font-family: 'Titan One', sans-serif;
 	font-size: 15px;
-	margin-top: 15px;
+	width: auto;
 }
 
-/* Style du bouton survolé */
 .container-option button:hover {
 	color: #ffffff;
-	/* Texte blanc au survol */
 	background-color: #87d300;
-	/* Fond vert au survol */
 	border-color: #ffffff;
 }
 
-/* Style du bouton cliqué */
 .container-option button:active {
 	background-color: #87d300;
-	/* Fond vert au clic */
 	color: #9016B2;
-	/* Texte violet au clic */
 	border: none;
-	/* Pas de bordure au clic */
-	/* border: 2px solid transparent; Bordure transparente au clic */
 }
 
-/* Styles spécifiques pour le login-container en mode nuit */
 .night-mode .container-option {
 	background-color: black;
 	color: #fff;
 }
 
-
 .icon {
-	width: 44px;
-	height: auto;
-	margin-left: auto;
 	filter: invert(1);
-}
-
-.iconeS {
-	margin-left: 150px;
-}
-
-.iconeF {
-	margin-left: 190px;
-}
-
-.iconeM {
-	margin-left: 120px;
-}
-
-.iconeSt {
-	margin-left: 165px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -103,18 +49,12 @@
 	}
 }
 
-/* container de droite */
-
-/* CHANGER PHOTO DE PROFIL */
 .modImg {
 	background-image: url('../img/ajouter-une-image.png');
 	background-color: transparent !important;
 	color: transparent !important;
 	background-size: cover;
-	width: 50px;
-	height: 50px;
 	border: none !important;
-	margin-left: 0px;
 }
 
 .modImg:hover {
@@ -127,22 +67,11 @@
 	filter: drop-shadow(3px 3px var(--violet));
 }
 
-.nameID {
-	display: block;
-}
-
 /* Styles pour aligner verticalement le label et le champ d'entrée */
 .aligthisfs {
-    display: relative;
-    flex-direction: column;
-    align-items: right;
-}
-
-/* Ajoutez des marges ou des styles supplémentaires selon vos besoins */
-label.nameID,
-input.username,
-button#modifyUsernameButton {
-    margin-top: 10px;
+	display: relative;
+	flex-direction: column;
+	align-items: right;
 }
 
 /* CHANGER USERNAME PROFIL */
@@ -156,11 +85,10 @@ button#modifyUsernameButton {
 
 /* Style for the profile image */
 .profile-image-set {
-	width: 100px;
-	/* Adjust the size as needed */
+	/* width: 100px;
 	height: 100px;
+	margin-right: 10px; */
 	border-radius: 50%;
-	margin-right: 10px;
 }
 
 .night-mode .modImg {
@@ -177,78 +105,38 @@ button#modifyUsernameButton {
 	filter: grayscale(100%);
 }
 
-/*  USER NAME */
-
-.username {
-	color: var(--bleu) !important;
-	width: 210px;
-}
-
-.night-mode .username {
-	color: black !important;
-}
-
-/* Style for the profile section */
-.profile-section {
-	display: flex;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.container_prof {
-	margin-top: 100px;
-	margin-right: 50px;
-	margin-left: 150px;
-}
-
 .container-profil {
 	border-radius: 30px;
 	background-color: #87d300;
 	padding: 40px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	/* margin: 0 auto; Supprimer cette ligne */
-	/* max-width: 400px; */
 	width: 400px;
 	height: 300px;
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
 	margin: 5% 0;
-	/* Marge supérieure et inférieure ajuster si nécessaire */
-	text-align: left;
 }
 
 .container-profil button {
 	border: 2px solid #ffffff;
-	/* Bordure blanche */
 	background-color: #9016B2;
-	/* Fond vert */
 	color: #87d300;
-	/* Texte violet */
 	transition: all 0.3s;
-	/* Transition douce pour le survol et le clic */
 	font-family: 'Titan One', sans-serif;
 	font-size: 15px;
-	margin-top: 15px;
+	width: fit-content;
 }
 
-/* Style du bouton survolé */
 .container-profil button:hover {
 	color: #ffffff;
-	/* Texte blanc au survol */
 	background-color: #9016B2;
-	/* Fond vert au survol */
 	border-color: #ffffff;
 }
 
-/* Style du bouton cliqué */
 .container-profil button:active {
 	background-color: #87d300;
-	/* Fond vert au clic */
 	color: #87d300;
-	/* Texte violet au clic */
 	border: none;
-	/* Pas de bordure au clic */
-	/* border: 2px solid transparent; Bordure transparente au clic */
 }
 
 .ajust-btn {
@@ -256,7 +144,6 @@ button#modifyUsernameButton {
 	align-items: start
 }
 
-/* Styles spécifiques pour le login-container en mode nuit */
 .night-mode .container-profil {
 	background-color: black;
 	color: #fff;
@@ -268,18 +155,14 @@ button#modifyUsernameButton {
 	}
 }
 
-/* Media query for smaller screens */
 @media (max-width: 1160px) {
 	.flex-container {
 		flex-direction: column;
-		/* Stack containers vertically */
 	}
 
-	/* Reset the margin for both containers to avoid overlapping */
 	.container_opt,
 	.container_prof {
 		margin: 10px;
-		/* Adjust as needed */
 	}
 }
 
@@ -290,63 +173,42 @@ button#modifyUsernameButton {
 	}
 }
 
-/* BOUTONS NIGHT MODE */
-/* Style du bouton normal */
 .night-mode .container-option button {
 	border: 2px solid #ffffff;
-	/* Bordure blanche */
 	background-color: black;
-	/* Fond noir */
 	color: white;
-	/* Texte blanc */
 }
 
 .night-mode .container-profil button {
 	border: 2px solid #ffffff;
-	/* Bordure blanche */
 	background-color: black;
-	/* Fond noir */
 	color: white;
-	/* Texte blanc */
 }
 
-/* Style du bouton survolé */
 .night-mode .container-option button:hover {
 	color: black;
-	/* Texte blanc au survol */
 	background-color: white;
-	/* Fond noir au survol */
 	border-color: #ffffff;
 }
 
 .night-mode .container-profil button:hover {
 	color: black;
-	/* Texte blanc au survol */
 	background-color: white;
-	/* Fond noir au survol */
 	border-color: #ffffff;
 }
 
-/* Style du bouton cliqué */
 .night-mode .container-option button:active {
 	background-color: black;
-	/* Fond noir au clic */
 	color: white;
-	/* Texte blanc au clic */
 	border: none;
 }
 
-/* Style du bouton cliqué */
 .night-mode .container-profil button:active {
 	background-color: black;
-	/* Fond noir au clic */
 	color: white;
-	/* Texte blanc au clic */
 	border: none;
 }
 
-
-/* Ajoutez ces styles pour centrer le modal verticalement */
 .modal {
 	display: none;
 	position: fixed;
@@ -408,6 +270,10 @@ button#modifyUsernameButton {
 
 .container-info {
 	height: 93px;
+}
+
+#modifyUsernameButton {
+	object-fit: contain;
 }
 
 .imgButton {

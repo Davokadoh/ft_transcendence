@@ -3,7 +3,6 @@ import { StartGame } from "./game.js";
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
 	const access_token = localStorage.getItem("access_token");
-	console.log("/page" + target);
 	fetch("/page" + target, { "Authorization": access_token })
 		.then(response => {
 			if (response.redirected) {
