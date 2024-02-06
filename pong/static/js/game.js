@@ -55,9 +55,10 @@ export function StartGame() {
 	ctx.fillRect(0, play.player.y, playerWidth, playerHeight);
 	ctx.moveTo(canvas.width - playerWidth, 0);
 	ctx.fillRect(canvas.width - playerWidth, play.computer.y, playerWidth, playerHeight);
-
+	ctx.fill();
+	
 	ctx.beginPath();
-	ctx.fillStyle = '#87d30';
+	ctx.fillStyle = '#87d300';
 	ctx.arc(play.ball.x, play.ball.y, play.ball.r, 0, Math.PI * 2, false);
 	ctx.fill();
 
