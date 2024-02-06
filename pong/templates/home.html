@@ -4,22 +4,21 @@
 		<div class="col-md-6 mx-auto">
 			<div class="container_hl">
 				<div class="container_homeLeft">
-					<form action="/play" method="get">
+					<!-- <form action="/play" method="get">
 						<button type="submit" class="game-btn">
 							<img class="game-img" src="{% static 'img/game.png' %}" alt="Image du game" />
-						</button>
-					</form>
+						</button> -->
+					<!-- </form> -->
+					<a class="game-btn" href="/play"><img class="game-img" src="{% static 'img/game.png' %}"
+						alt="Image du game" /></a>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-6 mx-auto">
 			<div class="container_hr">
 				<div class="container_homeR">
-					<form action="/chat" method="get">
-						<button type="submit" class="chat-btn">
-							<img class="bulles-img" src="{% static 'img/Bulles.png' %}" alt="Image des bulles" />
-						</button>
-					</form>
+					<a class="chat-btn" href="/chat"><img class="bulles-img" src="{% static 'img/Bulles.png' %}"
+						alt="Image des bulles" /></a>
 				</div>
 			</div>
 		</div>
