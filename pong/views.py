@@ -14,68 +14,9 @@ def index(request, page_name=None):
     return render(request, "index.html", page_name)
 
 
-def loginview(request):
-    token = request.headers.get("Authorization")
-    if request.user.is_authenticated:
-        redirect("/home")
-    if request.method == "GET":
-        return render(request, "login.html")
-    elif request.method == "POST":
-        user = CustomAuthenticationBackend.authenticate(request, token)
-        if user is not None:
-            next = request.POST.get("next")
-            return redirect("/home" if next is None else next)
-        else:
-            load_dotenv()
-            state = os.urandom(42)
-            auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
-                os.getenv("OAUTH_URL"),
-                os.getenv("OAUTH_ID"),
-                "http://localhost:8000/accounts/callback/",
-                "public",
-                123,  # state
-            )
-            return redirect(auth_url)
-
-
-def callback(request):
-    code = request.GET.get("code")
-    state = request.GET.get("state")
-    response = requests.post(
-        "{}{}".format(os.getenv("OAUTH_URL"), "/oauth/access_token/"),
-        data={
-            "grant_type": "authorization_code",
-            "client_id": os.getenv("OAUTH_ID"),
-            "client_secret": os.getenv("OAUTH_SECRET"),
-            "code": code,
-            "redirect_uri": "http://localhost:8000/accounts/callback/",
-            "state": state,
-        },
-        headers={"Accept": "application/json"},
-    )
-    if not response.ok:
-        raise Http404("Status code is: " + response.status_code)
-    access_token = response.json()["access_token"]
-    response = requests.get(
-        os.getenv("OAUTH_USER_URL"),
-        headers={"Authorization": "Bearer " + access_token},
-    )
-
-    try:
-        user = User.objects.get(username=response.json()["login"])
-    except User.DoesNotExist:
-        user = User.objects.create_user(username=response.json()["login"])
-        print("USER CREATED")
-        user.save()
-
-    user.access_token = access_token
-    login(request, user)
-    return render(request, "callback.html", {"access_token": access_token})
-
-
 def home(request):
-    return index(request, {"page_name": "home.html"})
-    return render(request, "home.html", context=)
+    return render(request, "home.html", {"template": "ajax.html" if request.is_ajax else "index.html"})
+    # return index(request, {"page_name": "home.html"})
 
 
 @login_required
@@ -139,3 +80,62 @@ def username(request):
             return JsonResponse({"error": "New username is required"}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+def loginview(request):
+    token = request.headers.get("Authorization")
+    if request.user.is_authenticated:
+        redirect("/home")
+    if request.method == "GET":
+        return render(request, "login.html")
+    elif request.method == "POST":
+        user = CustomAuthenticationBackend.authenticate(request, token)
+        if user is not None:
+            next = request.POST.get("next")
+            return redirect("/home" if next is None else next)
+        else:
+            load_dotenv()
+            state = os.urandom(42)
+            auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
+                os.getenv("OAUTH_URL"),
+                os.getenv("OAUTH_ID"),
+                "http://localhost:8000/accounts/callback/",
+                "public",
+                123,  # state
+            )
+            return redirect(auth_url)
+
+
+def callback(request):
+    code = request.GET.get("code")
+    state = request.GET.get("state")
+    response = requests.post(
+        "{}{}".format(os.getenv("OAUTH_URL"), "/oauth/access_token/"),
+        data={
+            "grant_type": "authorization_code",
+            "client_id": os.getenv("OAUTH_ID"),
+            "client_secret": os.getenv("OAUTH_SECRET"),
+            "code": code,
+            "redirect_uri": "http://localhost:8000/accounts/callback/",
+            "state": state,
+        },
+        headers={"Accept": "application/json"},
+    )
+    if not response.ok:
+        raise Http404("Status code is: " + response.status_code)
+    access_token = response.json()["access_token"]
+    response = requests.get(
+        os.getenv("OAUTH_USER_URL"),
+        headers={"Authorization": "Bearer " + access_token},
+    )
+
+    try:
+        user = User.objects.get(username=response.json()["login"])
+    except User.DoesNotExist:
+        user = User.objects.create_user(username=response.json()["login"])
+        print("USER CREATED")
+        user.save()
+
+    user.access_token = access_token
+    login(request, user)
+    return render(request, "callback.html", {"access_token": access_token})
