@@ -6,7 +6,6 @@ urlpatterns = [
     path("accounts/login/", views.loginview, name="loginview"),
     path("accounts/callback/", views.callback, name="callback"),
     path("accounts/profil/", views.profil, name="profil"),
-	path("page/<str:page_name>/", views.page),
     path("home/", views.home, name="home"),
     path("chat/", views.chat, name="chat"),
     path("play/", views.play, name="play"),

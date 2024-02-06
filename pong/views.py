@@ -9,34 +9,42 @@ from dotenv import load_dotenv
 import requests
 import os
 
+access_token = 0
 
 def index(request, page_name=None):
     return render(request, "index.html", page_name)
 
 
-def home(request):
-    return render(request, "home.html", {"template": "ajax.html" if request.is_ajax else "index.html"})
-    # return index(request, {"page_name": "home.html"})
-
-
 @login_required
-def page(request, page_name):
-    return render(request, page_name + ".html")
+def home(request):
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "home.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
 
 
 @login_required
 def play(request):
-    return index(request, {"page_name": "play.html"})
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "play.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
 
 
 @login_required
 def profil(request):
-    return index(request, {"page_name": "profil.html"})
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
 
 
 @login_required
 def chat(request):
-    return index(request, {"page_name": "chat.html"})
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
 
 
 @login_required
@@ -49,11 +57,17 @@ def lobby(request, game_id=None):
         return redirect(lobby, game.pk)
     game = Game.objects.get(pk=game_id)
     if request.method == "GET":
-        return index(request, {"page_name": "lobby.html", "game_id": game_id})
+        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        return render(
+            request,
+            "lobby.html",
+            {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
+        )
     elif request.method == "POST":
         added_player = request.POST.get("player")
         if added_player is not None:
             game.add_player(added_player)
+            # return todo
 
 
 @login_required
@@ -63,7 +77,12 @@ def game(request, game_id=None):
     game = Game.objects.get(pk=game_id)
     if game is None:
         return redirect(home)
-    return index(request, {"page_name": "game.html", "game_id": game_id})
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request,
+        "game.html",
+        {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
+    )
 
 
 @login_required
@@ -87,7 +106,12 @@ def loginview(request):
     if request.user.is_authenticated:
         redirect("/home")
     if request.method == "GET":
-        return render(request, "login.html")
+        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        return render(
+            request,
+            "login.html",
+            {"template": "ajax.html" if ajax else "index.html"},
+        )
     elif request.method == "POST":
         user = CustomAuthenticationBackend.authenticate(request, token)
         if user is not None:
@@ -124,6 +148,7 @@ def callback(request):
     if not response.ok:
         raise Http404("Status code is: " + response.status_code)
     access_token = response.json()["access_token"]
+
     response = requests.get(
         os.getenv("OAUTH_USER_URL"),
         headers={"Authorization": "Bearer " + access_token},

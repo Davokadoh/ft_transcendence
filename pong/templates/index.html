@@ -95,7 +95,7 @@
 		</div>
 	</banner>
 
-	<div id="app"></div>
+	{% block content %}<div id="app"></div>{% endblock  %}
 	<script defer type="module" src="{% static 'js/game.js' %}"></script>
 	<script defer type="module" src="{% static 'js/play.js' %}"></script>
 	<script defer type="module" src="{% static 'js/main.js' %}"></script>

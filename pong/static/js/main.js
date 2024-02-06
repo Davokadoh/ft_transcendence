@@ -11,12 +11,18 @@ window.addEventListener("click", e => {
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
 	const access_token = localStorage.getItem("access_token");
-	fetch("/page" + target, { "Authorization": access_token })
+	fetch(target, {
+		headers: {
+			"Authorization": access_token,
+			"X-Requested-With": "XMLHttpRequest",
+		},
+	})
 		.then(response => {
 			if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
 			return response.text();
 		})
 		.then(html => {
+			console.log(html);
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(html, "text/html");
 			document.title = doc.title;
@@ -43,3 +49,8 @@ function movePlayer(e) {
 	if (e.code == "KeyW" || e.code == "ArrowUp") gameSocket.send("up");
 	else if (e.code == "KeyS" || e.code == "ArrowDown") gameSocket.send("down");
 }
+
+
+
+
+player1
