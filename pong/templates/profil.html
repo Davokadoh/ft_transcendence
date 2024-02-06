@@ -1,7 +1,8 @@
 {% load static %}
 <script defer type="module" src="{% static 'js/profil.js' %}"></script>
 <!-- Container GAUCHE btns options et stat -->
-<div class="container text-center">
+{% block title %}<title>PROFIL</title>{% endblock %}
+<div id="app" class="container text-center">
   <div class="row justify-content-around">
     <div class="container-option">
       <div class="row align-items-center justify-content-between">

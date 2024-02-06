@@ -1,33 +1,27 @@
 {% load static %}
-<div class="container">
-  <div class="row gy-4">
-    <div class="col-12 col-md-6 styleBtn">
-      <a class="nav-link btn btn-dark ladButClass" href="/tournament/" id="ladder" data-link>TOURNAMENT</a>
-      <br />
-      <a class="nav-link btn btn-dark quickButClass" href="/lobby/" id="ladder" data-link>QUICK PLAY</a>
-    </div>
-    <div class="col-12 col-md-6 inviteToGame">
-      <p class="text-center invitFriend">Invite a friend to play</p>
-      <input type="text" class="form-control" placeholder="Enter a username" aria-label="Username" aria-describedby="basic-addon1" />
-      <button type="button" class="btn btn-dark inviteButClass" id="ladder">INVITE</button>
-      <p class="joinFriends">FRIEND(S) WHO HAS JOINED :</p>
-      <p class="onlineFriend">pseudo1</p>
-      <p class="onlineFriend">pseudo2</p>
-      <p class="onlineFriend">pseudo3</p>
+{% block title %}<title>PLAY</title>{% endblock %}
+<div id="app">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-12 col-md-6 styleBtn">
+        <a class="nav-link btn btn-dark ladButClass" href="/tournament/" id="tournament" data-link>TOURNAMENT</a>
+        <br />
+        <a class="nav-link btn btn-dark quickButClass" href="/lobby/{{ game_id }}" id="ladder" data-link>QUICK PLAY</a>
+      </div>
     </div>
   </div>
-</div>
-<br />
-<br />
-<br />
-<div class="container-fluid">
-  <div class="row justify-content-center align-items-center">
-    <div class="col-lg-6">
-      <div class="scrolling-text-container">
-        <img src="{% static 'img/balle.png' %}" alt="Scrolling Image" class="custom-image-spacing" />
+  <br />
+  <br />
+  <br />
+  <div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-lg-6">
+        <div class="scrolling-text-container">
+          <img src="{% static 'img/balle.png' %}" alt="Scrolling Image" class="custom-image-spacing" />
+        </div>
+        <br />
+        <br />
       </div>
-      <br />
-      <br />
     </div>
   </div>
 </div>

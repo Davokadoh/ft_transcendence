@@ -1,5 +1,7 @@
 {% load static %}
-<div id="container" class="container">
-	<canvas id="game"></canvas>
-  <button id="start">Start</button>
+{% block title %}<title>GAME #{{game_id}}</title>{% endblock %}
+<div id="app">
+  <div id="container" class="container">
+    <canvas id="board"></canvas>
+  </div>
 </div>

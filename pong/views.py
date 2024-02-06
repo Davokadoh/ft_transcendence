@@ -38,22 +38,6 @@ def loginview(request):
             return redirect(auth_url)
 
 
-@login_required
-def username(request):
-    if request.method == "GET":
-        return JsonResponse({"username": request.user.username})
-    elif request.method == "POST":
-        new_username = request.POST.get("new_username")
-        if new_username:
-            request.user.username = new_username
-            request.user.save()
-            return JsonResponse({"message": "Username updated successfully"})
-        else:
-            return JsonResponse({"error": "New username is required"}, status=400)
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=405)
-
-
 def callback(request):
     code = request.GET.get("code")
     state = request.GET.get("state")
@@ -91,6 +75,7 @@ def callback(request):
 
 def home(request):
     return index(request, {"page_name": "home.html"})
+    return render(request, "home.html", context=)
 
 
 @login_required
@@ -114,19 +99,16 @@ def chat(request):
 
 
 @login_required
-def new_lobby(request):
-    game = Game.objects.create()
-    game.add_team()
-    game.add_player(request.user)
-    return redirect("/lobby/" + str(game.id))
-
-
-@login_required
-def lobby(request, game_id):
+def lobby(request, game_id=None):
+    if game_id is None:
+        game = Game.objects.create()
+        game.add_team()
+        game.add_player(request.user)
+        print("Game nbr: " + str(game.pk))
+        return redirect(lobby, game.pk)
     game = Game.objects.get(pk=game_id)
-    context = {"game_id": game_id}
     if request.method == "GET":
-        return render(request, "lobby.html", context)
+        return index(request, {"page_name": "lobby.html", "game_id": game_id})
     elif request.method == "POST":
         added_player = request.POST.get("player")
         if added_player is not None:
@@ -134,6 +116,26 @@ def lobby(request, game_id):
 
 
 @login_required
-def game(request, game_id):
+def game(request, game_id=None):
+    if game_id is None:
+        return redirect(home)
     game = Game.objects.get(pk=game_id)
-    return render(request, "game.html")
+    if game is None:
+        return redirect(home)
+    return index(request, {"page_name": "game.html", "game_id": game_id})
+
+
+@login_required
+def username(request):
+    if request.method == "GET":
+        return JsonResponse({"username": request.user.username})
+    elif request.method == "POST":
+        new_username = request.POST.get("new_username")
+        if new_username:
+            request.user.username = new_username
+            request.user.save()
+            return JsonResponse({"message": "Username updated successfully"})
+        else:
+            return JsonResponse({"error": "New username is required"}, status=400)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
