@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.logout_user = function () {
         console.log('index.js fonction logout_user lu ok');
-        fetch("accounts/logout/", {
+        fetch("http://localhost:8000/accounts/logout/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => {
                 if (response.ok) {
                     // Redirige vers la page de connexion après la déconnexion
-                    // window.location.href = "/accounts/login/";
-                    window.location.href = "/accounts/logout/";
+                    window.location.href = "/accounts/login/";
+                    // window.location.href = "/accounts/logout/";
                 } else {
                     console.error('Erreur lors de la déconnexion');
                 }
