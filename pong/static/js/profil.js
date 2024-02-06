@@ -70,67 +70,6 @@ window.addEventListener("profilEvent", () => {
 		statsModalClose();
 	});
 
-	// Fonction pour récupérer l'image de profil par défaut
-	function getDefaultProfileImage() {
-		fetch("/get_user_image/${login}/") // pas en local
-			.then(response => response.json())
-			.then(data => {
-				const profilImg = data.image.link;
-
-				// Mettre à jour l'image de profil si elle est disponible
-				if (profilImg) {
-					const profileImage = document.getElementById('profileImage');
-					profileImage.src = profilImg;
-
-					// Sauvegarde l'image par défaut dans le stockage local
-					localStorage.setItem('defaultImage', profilImg);
-				}
-				else {
-					// Charge une autre image de profil par défaut le cas écheant
-					const defaultImageURL = "/static/img/image-defaut.png";
-					const profileImage = document.getElementById('profileImage');
-					profileImage.src = defaultImageURL;
-
-					// Sauvegarde l'image par défaut alternative dans le stockage local
-					localStorage.setItem('defaultImage', defaultImageURL);
-				}
-			})
-			.catch(error => {
-				console.error('Erreur lors de la récupération de l\'image par défaut :', error);
-				console.log("profilImg: ", profilImg);
-			});
-	}
-
-	// Charger l'image par défaut si elle n'a pas déjà été chargée
-	const savedDefaultImage = localStorage.getItem('defaultImage');
-	if (!savedDefaultImage) {
-		getDefaultProfileImage();
-	}
-
-	// Fonction pour gérer le téléchargement d'image
-	var modifyImageButton = document.getElementById('modifyImageButton');
-	var imageInput = document.getElementById('imageInput');
-
-	modifyImageButton.addEventListener('click', function () {
-		imageInput.click();
-	});
-
-	imageInput.addEventListener('change', function (event) {
-		const fileInput = event.target;
-		const profileImage = document.getElementById('profileImage');
-
-		const file = fileInput.files[0];
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = function (e) {
-				const imageData = e.target.result;
-				profileImage.src = imageData;
-				// Sauvegarder l'image dans le stockage local
-				localStorage.setItem('image', imageData);
-			};
-			reader.readAsDataURL(file);
-		}
-	});
 
 	// Fonction pour récupérer le jeton CSRF depuis les cookies
 	function getCookie(name) {
@@ -196,4 +135,68 @@ window.addEventListener("profilEvent", () => {
 		});
 
 
+
+	// Fonction pour récupérer l'image de profil par défaut
+	function getDefaultProfileImage() {
+		// fetch("/get_user_image/" + usernameInput.value) // pas en local
+		fetch("/get_user_image/" + "vferraro") // pas en local
+			.then(response => response.json())
+			.then(data => {
+				console.log("data:", data);
+				const profilImg = data[image][link];
+
+				// Mettre à jour l'image de profil i elle est disponible
+				if (profilImg) {
+					const profileImage = document.getElementById('profileImage');
+					profileImage.src = profilImg;
+
+					// Sauvegarde l'image par défaut dans le stockage local
+					localStorage.setItem('defaultImage', profilImg);
+				}
+				else {
+					// Charge une autre image de profil par défaut le cas écheant
+					const defaultImageURL = "/static/img/image-defaut.png";
+					const profileImage = document.getElementById('profileImage');
+					profileImage.src = defaultImageURL;
+
+					// Sauvegarde l'image par défaut alternative dans le stockage local
+					localStorage.setItem('defaultImage', defaultImageURL);
+				}
+			})
+			.catch(error => {
+				console.error('Erreur lors de la récupération de l\'image par défaut :', error);
+				console.log("profilImg: ", profilImg);
+			});
+	}
+
+	// Charger l'image par défaut si elle n'a pas déjà été chargée
+	const savedDefaultImage = localStorage.getItem('defaultImage');
+	if (!savedDefaultImage) {
+		getDefaultProfileImage();
+	}
+
+	// Fonction pour gérer le téléchargement d'image
+	var modifyImageButton = document.getElementById('modifyImageButton');
+	var imageInput = document.getElementById('imageInput');
+
+	modifyImageButton.addEventListener('click', function () {
+		imageInput.click();
+	});
+
+	imageInput.addEventListener('change', function (event) {
+		const fileInput = event.target;
+		const profileImage = document.getElementById('profileImage');
+
+		const file = fileInput.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				const imageData = e.target.result;
+				profileImage.src = imageData;
+				// Sauvegarder l'image dans le stockage local
+				localStorage.setItem('image', imageData);
+			};
+			reader.readAsDataURL(file);
+		}
+	});
 });
