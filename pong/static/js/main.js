@@ -20,9 +20,19 @@ function router() {
 				bubbles: true,
 				cancelable: true
 			}));
+			document.dispatchEvent(new Event("StartGameEvent", {
+				bubbles: true,
+				cancelable: true
+			}));
 		});
 };
 
+// window.addEventListener("StartGameEvent", () => {
+// 	document.getElementById("start").addEventListener("click", () => {
+// 		console.log("TEST");
+// 		StartGame();
+// 	});
+// });
 
 
 window.addEventListener("popstate", router);
