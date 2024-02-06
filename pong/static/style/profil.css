@@ -426,6 +426,7 @@ button#modifyUsernameButton {
 	height: 50px;
 	border: none;
 	margin-left: 0px;
+	z-index: 0 !important;
 	/* align-items: start !important; */
 }
 
@@ -448,10 +449,11 @@ button#modifyUsernameButton {
 	filter: invert(70%);
 }
 
+
 .findFriend {
-	text-align: right !important;
-	margin-bottom: 5px;
-	/* Ajuste la marge en bas du texte */
+	justify-content: end !important;
+	align-items: end !important;
+	text-align: end !important;
 }
 
 .form-control {
@@ -467,8 +469,7 @@ button#modifyUsernameButton {
 
 .input-group-append {
 	width: 100px;
-	/* Ajuste la largeur du bouton selon tes besoins */
-	/* align-items: start !important; */
+	overflow: auto;
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */
