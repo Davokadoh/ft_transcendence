@@ -2,6 +2,7 @@
 
 $(document).ready( ()=> {
 
+   
     //--------handle toogle-------------
     //let isVisibleChat = false;
     //let isVisibleChannel = false;
@@ -59,6 +60,7 @@ $(document).ready( ()=> {
 
     $(document).on("click", "#menuDownLeftId", function(e) {
         e.stopPropagation();
+        //zIndexDropdown();
         const contactName = $(this).closest(".conversation").find("[data-text] h6").text();
     
         // Check if the click occurred on Delete
@@ -95,6 +97,17 @@ $(document).ready( ()=> {
             }
         }
     });
+
+    function zIndexDropdown () {
+        console.log("function zindex!!!!!!");
+        var zIndexNumber = 1000;
+        
+        $('#msgId').css('zIndex', zIndexNumber);
+    
+        $('#msgId .dropdown .dropdown-menu').css('zIndex', zIndexNumber - 10);
+    
+        zIndexNumber -= 10;
+    }
 
     function blockContact(contactName, bool) {
 
@@ -199,6 +212,7 @@ $(document).ready( ()=> {
         name.textContent = obj.name;
         img.src = obj.imgSrc;
         conversationList.append(tpl);
+        console.log(conversationList.innerHTML)
         //tant que aucune message ne sera envoyer en enregistre pas la conversation
         updateMapChat(name.textContent, tpl);
         createChatPanel(obj);
@@ -226,11 +240,40 @@ $(document).ready( ()=> {
         //console.log("template: ", conversationHistory.innerHTML);
         console.log("===Create ChatPanel===");
     }
-    //function selectConversation(name) {}
+    
+    /*--------------toggle chat & channel-------------*/
+    let isVisibleChat = true;
+    let isVisibleChannel = false;
+    //print chat discussion
+    document.getElementById("i-chatId").addEventListener("click", () => {
+        console.log("CLICK ON CHAT");
+        if (isVisibleChannel) {
+            $("#channelId").removeClass("visible-x").addClass("invisible-x");
+            isVisibleChannel = false;
+        }
+        if (isVisibleChat)
+            return;
+        isVisibleChat = true;
+        $("#chatId").removeClass("invisible-x").addClass("visible-x");
+    });
+    
+    //print channel
+    document.getElementById("i-channelId").addEventListener("click", () => {
+        console.log("CLICK ON CHANNEL");
+        if (isVisibleChat) {
+            $("#chatId").removeClass("visible-x").addClass("invisible-x");
+            isVisibleChat = false;
+        }
+        if (isVisibleChannel)
+            return;
+        $("#channelId").removeClass("invisible-x").addClass("visible-x");
+        isVisibleChannel = true;
+    });
+
 
     // Function to find a conversation by name
     function findConversation(name) {
-       return mapConversationList.has(name);
+        return mapConversationList.has(name);
     }
 
     function saveChatHistory(contactName) {
@@ -246,6 +289,7 @@ $(document).ready( ()=> {
         mapConversationList.set(contactName, element);
         console.log("===mapChatList updated!===")
     }
+
     function updateMapChannel() {
         mapChatChannelList.set("channel", document.querySelector(".channel-list"));
         console.log("===mapChannelList updated!===")
@@ -258,6 +302,79 @@ $(document).ready( ()=> {
             - block contact
     */
    //function removeConversation() {}
+
+
+   /*----------------Manage Channel---------------*/
+   
+   //handle click upload picture
+    $("#camId").on("click", ()=> {
+        console.log("Click on icon camera");
+        $("#inputFileId").click();
+    });
+
+    //Load and resize photo before insert
+    document.getElementById("inputFileId").onchange = function(e) {
+        resizeImage(e.target.files[0]);
+    }
+
+    function resizeImage(imgFile) {
+        if (imgFile) {
+            let reader = new FileReader();
+            reader.readAsDataURL(imgFile);
+    
+            reader.onload = (e) => {
+                var img = document.createElement("img");
+                img.src = e.target.result;
+    
+                // Create your canvas
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext("2d");
+    
+                // Handle image onload event
+                img.onload = () => {
+                    var MAX_WIDTH = 200;
+                    var MAX_HEIGHT = 200;
+                    var width = img.width;
+                    var height = img.height;
+    
+                    // Add the resizing logic
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+    
+                    // Specify the resizing result
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+    
+                    // Check if the canvas is still valid before drawing on it
+                    
+                    let newurl = canvas.toDataURL(imgFile.type, 90);
+                    document.getElementById("imageUploadedId").src = newurl;
+                    console.log(document.getElementById("imageUploadedId").src);
+                };
+            };
+        }
+    }
+
+    //Handle Enter input name
+    $("#nameInputId").on("keypress", (e)=> {
+        if (e.key === "Enter" && e.target.value) {
+            console.log("string");
+            //create class channel and save it on the list channel
+            //and create the channel box with
+            //toggle display list
+        }
+    })
+
 });
 
 
@@ -299,32 +416,7 @@ export function handleChatEvents() {
     
     
     
-    //print chat discussion
-    document.getElementById("chat-id").addEventListener("click", () => {
-        console.log("CLICK ON CHAT");
-        if (isVisibleChannel) {
-            channelInst.classList.remove('visible-x');
-            isVisibleChannel = false;
-        }
-        if (isVisibleChat)
-            return;
-        chatInst.classList.toggle('visible-x');
-        isVisibleChat = true;
-    });
     
-    //print channel
-    document.getElementById("idChannel").addEventListener("click", () => {
-        console.log("CLICK ON CHANNEL");
-        if (isVisibleChat) {
-            chatInst.classList.remove('is-visible');
-            isVisibleChat = false;
-        }
-        if (isVisibleChannel)
-            return;
-        channelInst.classList.toggle('is-visible');
-        isVisibleChannel = true;
-    });
-
     //-------------handle message-----------------
     document.getElementById("send-id").addEventListener("click", sendMessage);
     document.getElementById("input-id").addEventListener("keypress", sendMessage);

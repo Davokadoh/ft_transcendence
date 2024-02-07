@@ -4,7 +4,7 @@ const chat = (
   <div class="row g-0">
     
     <!-- start col-md-4 -->
-    <div class="col-md-4 border-end">
+    <div class="col-md-4">
     
       <!-- nested row1 -->
       <div class="row row-trayLeft g-0"> 
@@ -13,8 +13,8 @@ const chat = (
           <div class="settings-tray settings-tray--left d-flex align-items-center">
             <img class="profile-image" src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg" alt="Profile image">
             <span class="icons ms-auto">
-              <i class="i-chat bi-chat-left-quote" id="chat-id" data-toggle="tooltip" title="Chat"></i>
-              <i class="i-channel bi-broadcast" id="idChannel" data-toggle="tooltip" title="Channel"></i>
+              <i class="i-chat bi-chat-left-quote" id="i-chatId" data-toggle="tooltip" title="Chat"></i>
+              <i class="i-channel bi-broadcast" id="i-channelId" data-toggle="tooltip" title="Channel"></i>
               <i class="i-menu bi-three-dots-vertical" 
                data-toggle="tooltip" 
                title="Menu"
@@ -35,11 +35,11 @@ const chat = (
       
       <!-- nested row2 -->
       <div class="row row-chatChannel g-0"> 
-        <div class="col-md-12 border-end">
+        <div class="col-md-12">
 
-          <div class="chat visible">
+          <div class="chat" id="chatId">
             
-            <div class="search search--chatContact">
+            <div class="search" id="searchContactId">
               <div class="input-wrapper">
                 <i class="search bi-search-heart"></i>
                 <input type="text" id="searchContact" 
@@ -49,10 +49,9 @@ const chat = (
               </div>
             </div>
 
-            <div class="list-contact invisible-y"
-              id="listContact" list-contact-container>
+            <div class="list-contact invisible-y" id="listContact" list-contact-container>
             <template list-contact-template>
-              <div class="contact friend --onhover border-top d-flex align-items-center" id="contactId">
+              <div class="contact --onhover friend border-top d-flex align-items-center" id="contactId">
                 <img src="" 
                   alt="Friend photo"
                   class="profile-image"
@@ -67,14 +66,42 @@ const chat = (
 
           </div>
 
-          <div class="channel">
-            <div class="search search--channel">
+          <div class="channel invisible-x" id="channelId">
+            <div class="search" id="seachChannelId">
               <div class="input-wrapper">
                 <i class="search bi-search-heart"></i>
                 <input type="text" placeholder="Search channel here">
               </div>
             </div>
-            <h6>TEST CHANNEL</>
+            <div class="add-channel d-flex justify-content-center align-items-center" id="addChannelId">
+              <i class="i-add bi-patch-plus-fill" id="i-addId" type="button"></i>
+            </div>
+
+            <div class="channel-list --onhover d-flex flex-column" id="channelListId">
+              <img src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg" alt="Friend photo" class="profile-image-channel" data-image>
+              <h6>Wanted Cat</h6>
+            </div>
+            <div class="channel-list --onhover d-flex flex-column" id="channelListId">
+              <img src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg" alt="Friend photo" class="profile-image-channel" data-image>
+              <h6>Wanted Cat</h6>
+            </div>
+
+            <div class="home-channel hide d-flex flex-column align-items-center">
+              <i class="i-home-channel bi-broadcast"></i>
+              
+              <i class="cam bi-camera-fill" id="camId"></i>
+              <input type="file" accept="image/jpg, image/jpeg, image/png" id="inputFileId">
+              
+              <div class="circle" id="circleId">
+                <img id="imageUploadedId" src="put image here">
+              </div>
+
+              <div class="form__group field">
+                <input type="input" class="form__field" placeholder="Channel name" name="name" id='nameInputId' required />
+                <label for="nameInputId" class="form__label">Channel name</label>
+              </div>
+            
+            </div>
           </div>
 
 

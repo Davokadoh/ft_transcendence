@@ -3,25 +3,22 @@
 <!-- conversations list -->
 <template conversation-template>
     <div class="conversation friend --onhover d-flex" id="msgId">
-      <img src="" alt="Friend photo" class="profile-image" data-image>
-      <div class="text" data-text>
-        <h6>Wanted Cat</h6>
-        <p class="text-muted">Hey, you're arrested </p>
-      </div>
-      <div class="d-flex flex-column ms-auto">
-        <span class="time-msg small">13:21</span>
-        <i class="i-down bi-chevron-down"
-        id="menuDownLeftId"
-        data-bs-toggle="dropdown"
-        aria-expanded="false">
-            <ul class="dropdown-menu" aria-labelledby="menuDownLeftId">
-            <li><button class="dropdown-item" type="button" id="delId">Delete</button></li>
-            <li><button class="dropdown-item" type="button" id="unreadId">Mark unread</button></li>
-            <li><button class="dropdown-item" type="button" id="blockUnblockId">Block contact</button></li>
+        <img src="" alt="Friend photo" class="profile-image" data-image>
+        <div class="text" data-text>
+            <h6>Wanted Cat</h6>
+            <p class="text-muted">Hey, you're arrested </p>
+        </div>
+        <div class="dropdown ms-auto" id="dropmenuId">
+            <span class="time-msg small">13:21</span>
+            <i class="i-down bi-chevron-down" id="menuDownLeftId" data-bs-toggle="dropdown" 
+                aria-expanded="false">
+            </i>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><button class="dropdown-item" type="button" id="delId">Delete</button></li>
+                <li><button class="dropdown-item" type="button" id="unreadId">Mark unread</button></li>
+                <li><button class="dropdown-item" type="button" id="blockUnblockId">Block contact</button></li>
             </ul>
-        </i>
-        
-      </div>
+        </div>
     </div>
 </template>
 
