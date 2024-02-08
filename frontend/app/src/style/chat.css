@@ -163,17 +163,20 @@ body-msg {
 
 
     .conversation-list {
-        /*overflow: auto;*/
+        overflow: auto;
         height: calc(100vh - 116px);
         
         .conversation {
+
             position: relative;
             overflow: visible;
             width: 100%;
+            z-index: 0;
             
             .dropdown {
-
                 .dropdown-menu {
+                    z-index: 1000 !important;
+
                     overflow: visible;
                     position:absolute;
                 }
