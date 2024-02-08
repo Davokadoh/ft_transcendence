@@ -1,14 +1,21 @@
 
-#canvas {
-	color: black;
-	margin: 0;
-	display: flex;
+#container-game {
+	margin: 0 auto;
+	/* width: 1200px;
+	height: 800px; */
 	justify-content: center;
 	align-items: center;
 	/* height: 100vh; */
 	background-color: #000;
 }
 
+.p{
+	text-align: center;
+}
+
+#start{
+	margin:auto;
+}
 /* .pong-table {
 	position: relative;
 	width: 800px;
