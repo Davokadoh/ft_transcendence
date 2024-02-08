@@ -175,7 +175,11 @@ def callback(request):
     except User.DoesNotExist:
         user = User.objects.create_user(username=response.json()["login"])
         print("USER CREATED")
-        user.profilPictureUrl = response.json()["image"]["link"]
+        try:
+            user.profilPictureUrl = response.json()["image"]["link"]
+        except KeyError:
+            user.profilPictureUrl = "https://github.com/{}.png".format(user.username)
+        #"https://assets.justinmind.com/wp-content/uploads/2018/11/Lorem-Ipsum-alternatives.png"
         print("PP set to: " + user.profilPictureUrl)
         user.save()
 
