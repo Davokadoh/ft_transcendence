@@ -1,4 +1,6 @@
 import { StartGame } from "./game.js";
+import { profil } from "./profil.js";
+import { chat } from "./chat.js";
 // import { logout_user } from "./index.js";
 
 
@@ -16,10 +18,8 @@ function router() {
 		})
 		.then(html => {
 			document.querySelector("#app").innerHTML = html;
-			document.dispatchEvent(new Event("profilEvent", {
-				bubbles: true,
-				cancelable: true
-			}));
+			if (target.startsWith("/profil")) profil();
+			else if (target.startsWith("/chat")) chat();
 		});
 };
 

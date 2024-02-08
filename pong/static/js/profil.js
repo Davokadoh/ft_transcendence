@@ -1,4 +1,4 @@
-window.addEventListener("profilEvent", () => {
+export function profil() {
 
 	// Code pour ouvrir la modal
 	console.log('Script modal profil loaded successfully!');
@@ -144,6 +144,7 @@ window.addEventListener("profilEvent", () => {
 			.then(data => {
 				console.log("data:", data);
 				const profilImg = data[image][link];
+				// const profilImg = data.url;
 
 				// Mettre à jour l'image de profil i elle est disponible
 				if (profilImg) {
@@ -199,4 +200,4 @@ window.addEventListener("profilEvent", () => {
 			reader.readAsDataURL(file);
 		}
 	});
-});
+}
