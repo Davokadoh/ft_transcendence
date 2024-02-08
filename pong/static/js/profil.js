@@ -83,6 +83,7 @@ export function profil() {
 		});
 	});
 
+
 	fetch("/accounts/profil/username")
 		.then(response => response.json())
 		.then(data => {

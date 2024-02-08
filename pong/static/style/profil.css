@@ -69,6 +69,16 @@
 	filter: drop-shadow(3px 3px var(--violet));
 }
 
+.nameID {
+	display: block;
+}
+
+.custom-div-align {
+	width: 250px;
+	height: fit-content;
+	display: inline;
+}
+
 /* Styles pour aligner verticalement le label et le champ d'entrée */
 .aligthisfs {
 	display: relative;
@@ -79,10 +89,10 @@
 /* CHANGER USERNAME PROFIL */
 .modUser {
 	background-image: url('../img/cocher.png');
-	margin-left: 200px !important;
+	margin-left: 150px !important;
 	width: 30px;
 	height: 30px;
-	align-items: end !important;
+	/* align-items: end !important; */
 }
 
 /* Style for the profile image */
@@ -105,6 +115,31 @@
 
 .night-mode .profile-image-set {
 	filter: grayscale(100%);
+}
+
+/*  USER NAME */
+
+.username {
+	color: var(--bleu) !important;
+	/* width: 210px; */
+	width: 200px;
+}
+
+.night-mode .username {
+	color: black !important;
+}
+
+/* Style for the profile section */
+.profile-section {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.container_prof {
+	margin-top: 100px;
+	margin-right: 50px;
+	margin-left: 150px;
 }
 
 .container-profil {
@@ -142,7 +177,8 @@
 }
 
 .ajust-btn {
-	margin-top: 10px !important;
+	margin-top: 20px !important;
+	margin-right: 50px !important;
 	align-items: start
 }
 
@@ -286,6 +322,7 @@
 	height: 50px;
 	border: none;
 	margin-left: 0px;
+	z-index: 0 !important;
 	/* align-items: start !important; */
 }
 
@@ -308,10 +345,11 @@
 	filter: invert(70%);
 }
 
+
 .findFriend {
-	text-align: right !important;
-	margin-bottom: 5px;
-	/* Ajuste la marge en bas du texte */
+	justify-content: end !important;
+	align-items: end !important;
+	text-align: end !important;
 }
 
 .form-control {
@@ -327,8 +365,7 @@
 
 .input-group-append {
 	width: 100px;
-	/* Ajuste la largeur du bouton selon tes besoins */
-	/* align-items: start !important; */
+	overflow: auto;
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */
