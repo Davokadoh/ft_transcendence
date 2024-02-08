@@ -101,6 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = ['pong.backend.CustomAuthenticationBackend']
 AUTH_USER_MODEL = "pong.User"
+CSRF_USE_SESSIONS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

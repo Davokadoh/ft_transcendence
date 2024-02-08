@@ -1,5 +1,14 @@
+{% extends template %}
 {% load static %}
-<div id="container" class="container">
-	<canvas id="game"></canvas>
-  <button id="start">Start</button>
-</div>
+
+{% block title %}
+  <title>GAME #{{ game_id }}</title>
+{% endblock %}
+
+{% block content %}
+  <div id="app">
+    <div id="container" class="container">
+      <canvas id="board"></canvas>
+    </div>
+  </div>
+{% endblock %}

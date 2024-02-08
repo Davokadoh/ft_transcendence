@@ -11,6 +11,7 @@ class User(AbstractBaseUser):
     access_token = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    profilPictureUrl = models.CharField(max_length=255)
     groups = models.CharField(max_length=255)
     user_permissions = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
