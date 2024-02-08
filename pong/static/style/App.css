@@ -87,20 +87,24 @@ header {
 .ulLiA {
 	font-size: 35px;
 	display: inline-block;
-	/* justify-content: center; */
-	justify-content: left;
+	justify-content: center;
+	margin: auto;
+	/* width: 20px; */
+	/* justify-content: left; */
 	align-items: center;
 	/* float: right; */
 	/* width:100px; */
 	/* background-color:#6495ED; */
 	color: var(--violet);
 	/* text-decoration:none; */
-	text-align: left;
+	/* text-align: center; */
 	padding: 3px;
 	/* border:2px solid; */
 	/*pour avoir un effet "outset" avec IE :*/
 	/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
 }
+
+
 
 .ulLiA li {
 	margin-right: 15px;
@@ -120,9 +124,8 @@ header {
 	/* Ajoute une transition de couleur */
 }
 
-.ulLiA .logo-container .logo {
-	margin-right: 100px;
-	margin-left: 0px;
+.logo-container {
+	text-align: end;
 }
 
 .sep {
@@ -375,12 +378,15 @@ footer {
 
 /* Bouton Jour/Nuit */
 .toggle-container {
-	position: fixed;
-	top: 14px;
+	/* position: fixed; */
+	position: relative;
+	/* top: 14px; */
 	right: 20px;
 	margin: 10px;
-	margin-right: 50px;
-	margin-top: 33px;
+	/* margin-left: 150px; */
+	margin-right: 40px;
+	margin-top: 18px;
+	margin-bottom: 20px;
 	padding: 10px;
 	/* display: flex; */
 	/* align-items: center; */
@@ -388,7 +394,7 @@ footer {
 }
 
 .toggle-label {
-	background: transparent;
+	background: white;
 	border-radius: 20px;
 	border: 2px solid;
 	border-color: #9016B2;
@@ -643,321 +649,4 @@ body.night-mode footer {
 		/* couleur de la ligne de sep sous navbar */
 	}
 
-}
-
-/* Media query pour les petits écrans */
-@media (max-width: 768px) {
-	.navbar .ulLiA a {
-		font-size: 20px;
-		/* taille de police pour les petits écrans */
-		letter-spacing: 1px;
-		/* Ajuster l'espacement des lettres pour les petits écrans */
-		word-spacing: 2px;
-		/* Ajuster l'espacement des mots pour les petits écrans */
-	}
-
-	.sep {
-		font-size: 19px;
-		/* taille des separateurs */
-	}
-
-	.ulLiA li {
-		margin-right: 5px;
-		/* Ajoute une marge à droite pour créer un espace entre les éléments */
-		margin-left: 5px;
-		/* Ajoute une marge à gauche pour créer un espace entre les éléments */
-		margin-top: 5;
-	}
-
-	/* Bouton Jour/Nuit */
-	.toggle-container {
-		position: fixed;
-		top: 21px;
-		right: 10px;
-		margin: 5px;
-		margin-right: 45px;
-		margin-top: 36px;
-		padding: 5px;
-		display: flex;
-		align-items: center;
-		z-index: 1000;
-	}
-
-	.toggle-label {
-		background: transparent;
-		border-radius: 20px;
-		border: 2px solid;
-		border-color: #9016B2;
-		padding: 2px;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		overflow: hidden;
-		width: 100px;
-		height: 50px;
-	}
-
-	.icon-container {
-		flex: 1;
-		text-align: center;
-		transition: background 0.3s;
-	}
-
-	.icon-container .PING_BW {
-		width: 25px;
-		height: auto;
-	}
-
-	.icon-container .PONG_COL {
-		width: 33px;
-		height: auto;
-	}
-
-	.separator {
-		width: 1px;
-		height: 20px;
-		/* Ajustez la hauteur selon vos besoins */
-		background: linear-gradient(to bottom, var(--violet), var(--vert));
-		/* Utilise couleurs de dégradé */
-		margin: 3px;
-		align-items: center;
-	}
-}
-
-/* media queries pour ajuster le style en fonction de la taille de l'écran si besoin*/
-@media (min-width: 992px) {
-
-	/* Bouton Jour/Nuit */
-	.toggle-container {
-		position: fixed;
-		top: 21px;
-		right: 215px;
-		margin: 5px;
-		margin-right: 45px;
-		margin-top: 36px;
-		padding: 5px;
-		display: flex;
-		align-items: center;
-		z-index: 1000;
-	}
-
-	.toggle-label {
-		background: transparent;
-		border-radius: 20px;
-		border: 2px solid;
-		border-color: #9016B2;
-		padding: 2px;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		overflow: hidden;
-		width: 126px;
-		height: 65px;
-	}
-
-	.icon-container {
-		flex: 1;
-		text-align: center;
-		transition: background 0.3s;
-	}
-
-	.icon-container .PING_BW {
-		width: 42px;
-		height: auto;
-	}
-
-	.icon-container .PONG_COL {
-		width: 56px;
-		height: auto;
-	}
-
-	.separator {
-		width: 1px;
-		height: 20px;
-		/* Ajustez la hauteur selon vos besoins */
-		background: linear-gradient(to bottom, var(--violet), var(--vert));
-		/* Utilise couleurs de dégradé */
-		margin: 3px;
-		align-items: center;
-	}
-}
-
-@media (min-width: 991px) {
-	.logo {
-		width: 0px;
-	}
-
-	/* Bouton Jour/Nuit */
-	.toggle-container {
-		position: fixed;
-		top: 21px;
-		right: 20px;
-		margin: 5px;
-		margin-right: 0px;
-		margin-top: 36px;
-		padding: 5px;
-		display: flex;
-		align-items: center;
-		z-index: 1000;
-	}
-
-	.toggle-label {
-		background: transparent;
-		border-radius: 20px;
-		border: 2px solid;
-		border-color: #9016B2;
-		padding: 2px;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		overflow: hidden;
-		width: 126px;
-		height: 65px;
-	}
-
-	.icon-container {
-		flex: 1;
-		text-align: center;
-		transition: background 0.3s;
-	}
-
-	.icon-container .PING_BW {
-		width: 42px;
-		height: auto;
-	}
-
-	.icon-container .PONG_COL {
-		width: 56px;
-		height: auto;
-	}
-
-	.separator {
-		width: 3px;
-		height: 28px;
-		/* Ajustez la hauteur selon vos besoins */
-		background: linear-gradient(to bottom, var(--violet), var(--vert));
-		/* Utilise couleurs de dégradé */
-		margin: 3px;
-		align-items: center;
-	}
-
-	.navbar .ulLiA a {
-		font-size: 25px;
-		/* taille de police pour les petits écrans */
-		letter-spacing: 0px;
-		/* Ajuster l'espacement des lettres pour les petits écrans */
-		word-spacing: 0px;
-		/* Ajuster l'espacement des mots pour les petits écrans */
-
-	}
-
-	.sep {
-		font-size: 25px;
-		/* taille des separateurs */
-	}
-
-	.ulLiA li {
-		margin-right: 15px;
-		/* Ajoute une marge à droite pour créer un espace entre les éléments */
-		margin-left: 15px;
-		/* Ajoute une marge à gauche pour créer un espace entre les éléments */
-		margin-top: 0px;
-	}
-}
-
-@media (min-width: 1300px) {
-	.logo {
-		width: 0px;
-	}
-
-	/* Bouton Jour/Nuit */
-	.toggle-container {
-		position: fixed;
-		top: 14px;
-		right: 20px;
-		margin: 10px;
-		margin-right: 50px;
-		margin-top: 33px;
-		padding: 10px;
-		/* display: flex; */
-		/* align-items: center; */
-		z-index: 1000;
-	}
-
-	.toggle-label {
-		background: transparent;
-		border-radius: 20px;
-		border: 2px solid;
-		border-color: #9016B2;
-		padding: 5px;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		overflow: hidden;
-		width: 150px;
-	}
-
-	.icon-container {
-		flex: 1;
-		text-align: center;
-		transition: background 0.3s;
-	}
-
-	.icon-container .PING_BW {
-		width: 43px;
-		height: auto;
-	}
-
-	.icon-container .PONG_COL {
-		width: 50x;
-		height: auto;
-	}
-
-	.separator {
-		width: 2px;
-		height: 30px;
-		/* Ajustez la hauteur selon vos besoins */
-		background: linear-gradient(to bottom, var(--violet), var(--vert));
-		/* Utilise couleurs de dégradé */
-		margin: 5px;
-	}
-
-	.ulLiA {
-		display: inline-block;
-		/* justify-content: center; */
-		justify-content: left;
-		align-items: center;
-		/* float: right; */
-		/* width:100px; */
-		/* background-color:#6495ED; */
-		color: var(--violet);
-		/* text-decoration:none; */
-		text-align: left;
-		padding: 3px;
-		/* border:2px solid; */
-		/*pour avoir un effet "outset" avec IE :*/
-		/* border-color:#DCDCDC #696969 #696969 #DCDCDC; */
-	}
-
-	.navbar .ulLiA a {
-		color: #9016B2;
-		/* Couleur de base */
-		text-decoration: none;
-		/* Supprime la soulignement des liens */
-		transition: color 0.3s;
-		/* Ajoute une transition de couleur */
-		font-size: 35px;
-	}
-
-	.ulLiA li {
-		margin-right: 15px;
-		/* Ajoute une marge à droite pour créer un espace entre les éléments */
-		margin-left: 15px;
-		/* Ajoute une marge à gauche pour créer un espace entre les éléments */
-		margin-bottom: 0;
-	}
-
-	.sep {
-		font-size: 35px;
-	}
 }

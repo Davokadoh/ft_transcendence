@@ -11,6 +11,7 @@ class User(AbstractBaseUser):
     access_token = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    profilPictureUrl = models.CharField(max_length=255)
     groups = models.CharField(max_length=255)
     user_permissions = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
@@ -20,6 +21,9 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "username"
 
     objects = UserManager()
+
+    def get_username(self):
+        return self.username()
 
     # def get_games_won(self):
     #     return Game.objects.filter("winners".contains(self)).count()
@@ -76,13 +80,15 @@ class Game(models.Model):
 
 
 class Tournament(models.Model):
-    teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
+    teams = models.ManyToManyField(
+        Team, related_name="joined_tournaments", blank=True)
     max_teams = models.PositiveIntegerField()
     status = "open"
 
     def register_team(self, team):
         if self.status != "open":
-            raise Exception("Can't add team to tournament: registration is closed")
+            raise Exception(
+                "Can't add team to tournament: registration is closed")
         if self.teams.count() >= self.max_teams:
             raise Exception("Can't add team to tournament: tournament is full")
         self.teams.add(team)

@@ -1,126 +1,133 @@
-// script.js
+export function profil() {
 
-// var statsBtn = document.getElementById('statsBtn');
-// var modal = document.getElementById('statsModal');
+	// var statsBtn = document.getElementById('statsBtn');
+	// var modal = document.getElementById('statsModal');
+	// statsBtn.addEventListener('click', function () { modal.style.display = 'block'; });
+	// function statsModalClose() { modal.style.display = 'none'; }
+	// window.addEventListener('click', function (event) { if (event.target === modal) statsModalClose(); });
 
-// statsBtn.addEventListener('click', function() {
-//     modal.style.display = 'block';
-// });
+	var paddleSpeedInput = document.getElementById('paddleSpeed');
+	var paddleSpeedValue = document.getElementById('paddleSpeedValue');
+	paddleSpeedInput.oninput = function () { paddleSpeedValue.innerHTML = this.value; }
 
-// function statsModalClose() {
-//     modal.style.display = 'none';
-// }
+	var ballSpeedInput = document.getElementById('ballSpeed');
+	var ballSpeedValue = document.getElementById('ballSpeedValue');
+	ballSpeedInput.oninput = function () { ballSpeedValue.innerHTML = this.value; }
 
-// window.addEventListener('click', function(event) {
-//     if (event.target === modal) {
-//         statsModalClose();
-//     }
-// });
-
-// import $ from 'jquery'; fait tout PT ne pas inclure
-
-$('#setModal').on('shown.bs.modal', function () {
-	$('#myInput').trigger('focus')
-})
-
-console.log('Script Modal loaded successfully!');
-
-// SCRIPT POUR SETTINGS VITESSE BALLE ET PADDLES
-$(document).ready(function () {
-	// console.log('Script paddle speed loaded successfully!');
-	// Mise à jour des valeurs affichées lorsque les curseurs sont modifiés
-	$('#paddleSpeed').on('input', function () {
-		$('#paddleSpeedValue').text($(this).val());
+	var settingsForm = document.getElementById('settingsForm');
+	var settingsModal = document.getElementById('settingsModal');
+	settingsModal.addEventListener('hidden.bs.modal', function () {
+		settingsForm.reset();
+		var event = new Event('input');
+		paddleSpeedInput.dispatchEvent(event);
+		ballSpeedInput.dispatchEvent(event);
 	});
 
-	$('#ballSpeed').on('input', function () {
-		$('#ballSpeedValue').text($(this).val());
-	});
-
-	console.log('Script ball speed loaded successfully!');
-
-	// // Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde ne fonctionne pas BE?
-	// $('#setModal').on('hidden.bs.modal', function () {
-	// 	console.log('Script valeurs par defaut reset chargé avec succès !');
-	// 	// Remettre les valeurs par défaut
-	// 	$('#paddleSpeed, #ballSpeed').val(50);
-	// 	// ... (restaurer ici d'autres paramètres au besoin)
-	// });
-
-	// Code pour restaurer les valeurs par défaut si la modal est fermée sans sauvegarde
-	$('#setModal').on('hidden.bs.modal', function () {
-		console.log('Script valeurs par defaut reset chargé avec succès !');
-		// Remettre les valeurs par défaut
-		$('#paddleSpeed, #ballSpeed').val(50);
-		$('#paddleSpeedValue, #ballSpeedValue').text('50'); // Mettre à jour les valeurs affichées
-		// ... (restaurer ici d'autres paramètres au besoin)
-	});
-
-	// Code pour sauvegarder les paramètres lorsqu'on clique sur le bouton "Save" ou "Close"
-	$('#saveButton, .modalCloseButton, .modalClose').on('click', function () {
-		console.log('Script save infos ou close sans save chargé avec succès !');
-		// Récupérer les valeurs modifiées depuis les champs de la modal
-		var paddleSpeedValue = $('#paddleSpeed').val();
-		var ballSpeedValue = $('#ballSpeed').val();
-		// ... (récupérer d'autres paramètres au besoin)
-
-		// Code de sauvegarde des paramètres à ajouter ici
-		// Vous pouvez utiliser localStorage, sessionStorage, AJAX, etc.
-
-		// Fermer la modal
-		$('#setModal').modal('hide');
-	});
-
-
-	// Placer ce code à la fin de : profil.js pour enregistrer l image et le nom d utilisateur
-	// $(document).ready(function () {
-	// Charger les données sauvegardées
-	const savedUsername = localStorage.getItem('username');
-	const savedImage = localStorage.getItem('image');
-
-	// Mettre à jour l'image et le nom d'utilisateur si sauvegardés
-	if (savedUsername) {
-		$('#username').val(savedUsername);
+	var saveButton = document.getElementById('saveButton');
+	saveButton.onclick = function () {
+		var paddleSpeedValue = paddleSpeedInput.value;
+		var ballSpeedValue = ballSpeedInput.value;
+		statsModalClose();
 	}
 
-	if (savedImage) {
-		$('#profileImage').attr('src', savedImage);
+	const profilPictureInput = document.getElementById('profil-picture-input');
+	const profilPictureForm = document.getElementById('profil-picture-form');
+	const profilPicture = document.getElementById('profil-picture');
+
+	profilPicture.onclick = function () {
+		profilPictureInput.click();
 	}
 
-	// Fonction pour gérer le téléchargement d'image
-	$('#modifyImageButton').on('click', function () {
-		$('#imageInput').click();
+	profilPictureInput.onchange = function (event) {
+		profilPicture.src = URL.createObjectURL(event.target.files[0]);
+		profilPictureForm.requestSubmit();
+	};
+
+	profilPictureForm.onsubmit = function (event) {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const url = new URL(form.action);
+		const formData = new FormData(form);
+		fetch(url, {
+			method: form.method,
+			body: formData,
+			mode: 'same-origin',
+		}).then(response => response.json()).then(data => {
+			console.log("message: " + data.message);
+		});
+	}
+
+
+	var usernameInput = document.getElementById('username');
+	function postUsername(newUsername) { newUsername = newUsername.trim(); }
+
+	document.getElementById('modifyUsernameButton').addEventListener('click', function () {
+		const newUsername = usernameInput.value.trim();
+
+		fetch("/accounts/profil/update-username/", {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'X-CSRFToken': getCookie('csrftoken'),
+			},
+			body: `new_username=${newUsername}`,
+		}).then(response => response.json()).then(data => {
+			console.log(data.message);
+
+			localStorage.setItem('savedUsername', newUsername);
+
+			usernameInput.value = newUsername;
+			usernameInput.classList.add('username-updated');
+		}).catch(error => {
+			console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
+		});
 	});
 
-	$('#imageInput').on('change', function (event) {
-		const fileInput = event.target;
-		const profileImage = $('#profileImage');
 
-		const file = fileInput.files[0];
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = function (e) {
-				const imageData = e.target.result;
-				profileImage.attr('src', imageData);
-				// Sauvegarder l'image dans le stockage local
-				localStorage.setItem('image', imageData);
-			};
-			reader.readAsDataURL(file);
-		}
-	});
+	fetch("/accounts/profil/username")
+		.then(response => response.json())
+		.then(data => {
+			var savedUsername = localStorage.getItem('savedUsername');
+			var savedImage = localStorage.getItem('image');
 
-	// Fonction pour gérer la modification du nom d'utilisateur
-	$('#username').on('blur', function () {
-		const usernameInput = $('#username');
-		const newUsername = usernameInput.val().trim();
-		if (newUsername !== '') {
-			// Vous pouvez envoyer newUsername à votre serveur ou API pour la mise à jour
-			console.log('Nouveau nom d\'utilisateur :', newUsername);
-			// Sauvegarder le nom d'utilisateur dans le stockage local
-			localStorage.setItem('username', newUsername);
-		} else {
-			// Réinitialisez la valeur si elle est vide
-			usernameInput.val('John Doe');
-		}
-	});
-});
+			// var profileImage = document.getElementById('profileImage');
+			var defaultUsername = data.username;
+
+			if (savedUsername && !usernameInput.classList.contains('username-updated')) usernameInput.value = savedUsername;
+			else if (defaultUsername) usernameInput.value = defaultUsername;
+
+			// if (savedImage) profileImage.src = savedImage;
+		});
+
+	function getDefaultProfileImage() {
+		// fetch("/get_user_image/" + usernameInput.value) // pas en local
+		fetch("/get_user_image/" + "vferraro") // pas en local
+			.then(response => response.json())
+			.then(data => {
+				console.log("data:", data);
+				const profilImg = data[image][link];
+
+				// Mettre à jour l'image de profil i elle est disponible
+				if (profilImg) {
+					const profileImage = document.getElementById('profileImage');
+					profileImage.src = profilImg;
+
+					// Sauvegarde l'image par défaut dans le stockage local
+					localStorage.setItem('defaultImage', profilImg);
+				}
+				else {
+					// Charge une autre image de profil par défaut le cas écheant
+					const defaultImageURL = "/static/img/image-defaut.png";
+					const profileImage = document.getElementById('profileImage');
+					profileImage.src = defaultImageURL;
+
+					// Sauvegarde l'image par défaut alternative dans le stockage local
+					localStorage.setItem('defaultImage', defaultImageURL);
+				}
+			})
+			.catch(error => {
+				console.error('Erreur lors de la récupération de l\'image par défaut :', error);
+				console.log("profilImg: ", profilImg);
+			});
+	}
+};
