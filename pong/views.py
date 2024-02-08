@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from .backend import CustomAuthenticationBackend
 from .models import User, Game
@@ -10,6 +10,15 @@ import requests
 import os
 
 access_token = 0
+
+
+@login_required
+def profilPicture(request):
+    if request.method == "POST":
+        return JsonResponse({"foo": "bar"})
+    else:
+        return request.user.profilPicture
+
 
 def index(request, page_name=None):
     return render(request, "index.html", page_name)
@@ -101,6 +110,12 @@ def username(request):
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
+@login_required
+def logoutview(request):
+    logout(request)
+    return loginview(request)
+
+
 def loginview(request):
     token = request.headers.get("Authorization")
     if request.user.is_authenticated:
@@ -123,7 +138,7 @@ def loginview(request):
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("OAUTH_URL"),
                 os.getenv("OAUTH_ID"),
-                "http://localhost:8000/accounts/callback/",
+                requests.utils.quote("http://localhost:8000/accounts/callback/"),
                 "public",
                 123,  # state
             )
@@ -134,7 +149,7 @@ def callback(request):
     code = request.GET.get("code")
     state = request.GET.get("state")
     response = requests.post(
-        "{}{}".format(os.getenv("OAUTH_URL"), "/oauth/access_token/"),
+        "{}{}".format(os.getenv("OAUTH_URL"), os.getenv("OAUTH_TOKEN_URL")),
         data={
             "grant_type": "authorization_code",
             "client_id": os.getenv("OAUTH_ID"),

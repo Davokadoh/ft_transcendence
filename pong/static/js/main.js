@@ -1,3 +1,6 @@
+import { profil } from "./profil.js";
+import { startGame } from "./game.js"
+
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("click", e => {
@@ -10,47 +13,17 @@ window.addEventListener("click", e => {
 
 function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
-	const access_token = localStorage.getItem("access_token");
 	fetch(target, {
-		headers: {
-			"Authorization": access_token,
-			"X-Requested-With": "XMLHttpRequest",
-		},
-	})
-		.then(response => {
-			if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
-			return response.text();
-		})
-		.then(html => {
-			console.log(html);
-			var parser = new DOMParser();
-			var doc = parser.parseFromString(html, "text/html");
-			document.title = doc.title;
-			document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
-			if (target.startsWith("/game")) startGame(parseInt(target.split("/")[-1]));
-		});
+		headers: { "X-Requested-With": "XMLHttpRequest", },
+	}).then(response => {
+		if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
+		return response.text();
+	}).then(html => {
+		var parser = new DOMParser();
+		var doc = parser.parseFromString(html, "text/html");
+		document.title = doc.title;
+		document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
+		if (target.startsWith("/game")) startGame(parseInt(target.split("/")[-1]));
+		else if (target.startsWith("/profil")) profil();
+	});
 };
-
-function startGame(gameId) {
-	gameSocket = new WebSocket("ws://localhost/game/" + gameId);
-	const canvas = document.getElementById("board");
-	const ctx = canvas.getContext("2d");
-	ctx.fillRect(20, 20, 150, 100);
-	requestAnimationFrame(update);
-	document.addEventListener("keyup", movePlayer);
-
-	gameSocket.onmessage = (event) => {
-		console.log(event.data);
-		updateState(event.data);
-	};
-};
-
-function movePlayer(e) {
-	if (e.code == "KeyW" || e.code == "ArrowUp") gameSocket.send("up");
-	else if (e.code == "KeyS" || e.code == "ArrowDown") gameSocket.send("down");
-}
-
-
-
-
-player1

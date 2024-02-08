@@ -1,121 +1,114 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %}
+      <title>LES PONG-CHOS</title>
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/App.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/chat.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/play.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/game.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/home.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/profil.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style/stylesheet.css' %}" />
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	{% block title %}<title>LES PONG-CHOS</title>{% endblock %}
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/App.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/chat.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/play.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/game.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/home.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/profil.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'style/stylesheet.css' %}" />
+    <!-- SCRIPT BOUTON NB/COLOR -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log('night mode function called')
+        const toggleSwitch = document.getElementById('toggle-switch')
+        toggleSwitch.addEventListener('change', function () {
+          document.body.classList.toggle('night-mode', toggleSwitch.checked)
+        })
+      })
+    </script>
 
-	<!-- SCRIPT BOUTON NB/COLOR -->
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			console.log('night mode function called')
-			const toggleSwitch = document.getElementById('toggle-switch')
-			toggleSwitch.addEventListener('change', function () {
-				document.body.classList.toggle('night-mode', toggleSwitch.checked)
-			})
-		})
-	</script>
+    <!-- SCRIPT BOUTON MENU -->
+    <script>
+      function toggleNavbar() {
+        console.log('Toggle Navbar function called')
+        const navbarToggler = document.querySelector('.navbar-toggler')
+        const navbarNav = document.querySelector('#navbarNav')
+        const isOpen = navbarNav.classList.contains('show')
+        if (isOpen) {
+          navbarToggler.classList.remove('active')
+        } else {
+          navbarToggler.classList.add('active')
+        }
+      }
+    </script>
+  </head>
 
-	<!-- SCRIPT BOUTON MENU -->
-	<script>
-		function toggleNavbar() {
-			console.log('Toggle Navbar function called')
-			const navbarToggler = document.querySelector('.navbar-toggler')
-			const navbarNav = document.querySelector('#navbarNav')
-			const isOpen = navbarNav.classList.contains('show')
-			if (isOpen) {
-				navbarToggler.classList.remove('active')
-			} else {
-				navbarToggler.classList.add('active')
-			}
-		}
-	</script>
-</head>
+  <body>
+    <banner class="">
+      <div class="lineUnderNav">
+        <nav class="navbar justify-content-center fluid-container">
+          <div class="ulLiA">
+            <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
+              <div class="logo-container">
+                <div class="logo">
+                  <a class="logoLink" href="/home/" data-link><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
+                </div>
+              </div>
+              <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/" data-link>HOME</a>
+                </li>
+                <li class="sep">|</li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/play/" data-link>PLAY</a>
+                </li>
+                <li class="sep">|</li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/chat/" data-link>CHAT</a>
+                </li>
+                <li class="sep">|</li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/profil/" data-link>PROFIL</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="toggle-container">
+            <input type="checkbox" id="toggle-switch" />
+            <label class="toggle-label" for="toggle-switch">
+              <div class="icon-container">
+                <img class="PING_BW" src="{% static 'img/OKPING_B.png' %}" alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
+              </div>
+              <div class="separator"></div>
+              <div class="icon-container">
+                <img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}" alt="Icône de ping-pong en couleur" height="50px" width="auto" />
+              </div>
+            </label>
+          </div>
+        </nav>
+      </div>
+    </banner>
 
-<body>
-	<banner class="">
-		<div class="lineUnderNav">
-			<nav class="navbar justify-content-center fluid-container">
-				<div class="ulLiA">
-					<div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
-						<div class="logo-container">
-							<div class="logo">
-								<a class="logoLink" href="/home/" data-link><img
-										src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image"
-										alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
-							</div>
-						</div>
-						<ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse"
-							id="navbarNav">
-							<li class="nav-item">
-								<a class="nav-link" href="/home/" data-link>HOME</a>
-							</li>
-							<li class="sep">|</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/play/" data-link>PLAY</a>
-							</li>
-							<li class="sep">|</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/chat/" data-link>CHAT</a>
-							</li>
-							<li class="sep">|</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/profil/" data-link>PROFIL</a>
-							</li>
-						</ul>
-						<!-- c etaut la -->
-					</div>
-				</div>
-				<div class="toggle-container">
-					<input type="checkbox" id="toggle-switch" />
-					<label class="toggle-label" for="toggle-switch">
-						<div class="icon-container">
-							<img class="PING_BW" src="{% static 'img/OKPING_B.png' %}"
-								alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
-						</div>
-						<div class="separator"></div>
-						<div class="icon-container">
-							<img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}"
-								alt="Icône de ping-pong en couleur" height="50px" width="auto" />
-						</div>
-					</label>
-				</div>
-			</nav>
-		</div>
-	</banner>
+    {% block content %}
+      <div id="app"></div>
+    {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script defer type="module" src="{% static 'js/main.js' %}"></script>
+    <script defer type="module" src="{% static 'js/game.js' %}"></script>
+    <script defer type="module" src="{% static 'js/profil.js' %}"></script>
 
-	{% block content %}<div id="app"></div>{% endblock  %}
-	<script defer type="module" src="{% static 'js/game.js' %}"></script>
-	<script defer type="module" src="{% static 'js/play.js' %}"></script>
-	<script defer type="module" src="{% static 'js/main.js' %}"></script>
-	<script defer type="module" src="{% static 'js/profil.js' %}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-		crossorigin="anonymous"></script>
-
-	<footer class="text-white py-1 mt-4">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<p>@2023LesPong-Chos42</p>
-				</div>
-				<div class="col-lg-6 logAlign">
-					<button class="btn btn-link logout" onclick="logout()">Log Out</button>
-				</div>
-			</div>
-		</div>
-	</footer>
-</body>
-
+    <footer class="text-white py-1 mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <p>@2023LesPong-Chos42</p>
+          </div>
+          <div class="col-lg-6 logAlign">
+            <a class="btn btn-link logout" href="/accounts/logout/" data-link>Log Out</a>
+            {% comment %} <button class="btn btn-link logout" onclick="logout()">Log Out</button> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
