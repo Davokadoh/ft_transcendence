@@ -47,14 +47,12 @@
     <banner class="">
       <div class="lineUnderNav">
         <nav class="navbar justify-content-center fluid-container">
-          <div class="ulLiA">
+          <div class="ulLiA row justify-content-around custom-line">
             <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
-              <div class="logo-container">
-                <div class="logo">
-                  <a class="logoLink" href="/home/" data-link><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
-                </div>
+              <div class="logo-container col-2">
+                <a class="logoLink" href="/home/" data-link><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}" class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
               </div>
-              <ul class="nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
+              <ul class="col-10 nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
                 <li class="nav-item">
                   <a class="nav-link" href="/home/" data-link>HOME</a>
                 </li>
@@ -71,19 +69,20 @@
                   <a class="nav-link" href="/profil/" data-link>PROFIL</a>
                 </li>
               </ul>
+
+              <div class="toggle-container col-2">
+                <input type="checkbox" id="toggle-switch" />
+                <label class="toggle-label" for="toggle-switch">
+                  <div class="icon-container">
+                    <img class="PING_BW" src="{% static 'img/OKPING_B.png' %}" alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
+                  </div>
+                  <div class="separator"></div>
+                  <div class="icon-container">
+                    <img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}" alt="Icône de ping-pong en couleur" height="50px" width="auto" />
+                  </div>
+                </label>
+              </div>
             </div>
-          </div>
-          <div class="toggle-container">
-            <input type="checkbox" id="toggle-switch" />
-            <label class="toggle-label" for="toggle-switch">
-              <div class="icon-container">
-                <img class="PING_BW" src="{% static 'img/OKPING_B.png' %}" alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
-              </div>
-              <div class="separator"></div>
-              <div class="icon-container">
-                <img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}" alt="Icône de ping-pong en couleur" height="50px" width="auto" />
-              </div>
-            </label>
           </div>
         </nav>
       </div>
@@ -101,7 +100,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
-            <p>@2023LesPong-Chos42</p>
+            <p>@2024LesPong-Chos42</p>
           </div>
           <div class="col-lg-6 logAlign">
             <a class="btn btn-link logout" href="/accounts/logout/" data-link>Log Out</a>
