@@ -17,7 +17,7 @@ def profilPicture(request):
     if request.method == "POST":
         return JsonResponse({"foo": "bar"})
     else:
-        return request.user.profilPicture
+        return request.user.profilPictureUrl
 
 
 def index(request, page_name=None):
@@ -42,6 +42,7 @@ def play(request):
 
 @login_required
 def profil(request):
+    print("URL: " + request.user.profilPictureUrl)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
@@ -174,6 +175,8 @@ def callback(request):
     except User.DoesNotExist:
         user = User.objects.create_user(username=response.json()["login"])
         print("USER CREATED")
+        user.profilPictureUrl = response.json()["image"]["link"]
+        print("PP set to: " + user.profilPictureUrl)
         user.save()
 
     user.access_token = access_token
