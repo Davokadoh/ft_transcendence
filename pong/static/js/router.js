@@ -1,18 +1,8 @@
-import { profil } from "./profil.js";
-import { startGame } from "./game.js"
 import { chat } from "./chat.js";
+import { profil } from "./profil.js";
+import { startGame } from "./game.js";
 
-window.addEventListener("popstate", router);
-window.addEventListener("DOMContentLoaded", router);
-window.addEventListener("click", e => {
-	if (e.target.matches("[data-link]")) {
-		e.preventDefault();
-		history.pushState(null, null, e.target.href);
-		router();
-	}
-});
-
-function router() {
+export function router() {
 	const target = (location.pathname == "/") ? "/home" : location.pathname;
 	fetch(target, {
 		headers: { "X-Requested-With": "XMLHttpRequest", },
@@ -24,6 +14,7 @@ function router() {
 		var doc = parser.parseFromString(html, "text/html");
 		document.title = doc.title;
 		document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
+		document.dispatchEvent(new Event("DOMContentLoaded"));
 		if (target.startsWith("/game")) startGame(parseInt(target.split("/")[-1]));
 		else if (target.startsWith("/profil")) profil();
 		else if (target.startsWith("/chat")) chat();
