@@ -1,4 +1,18 @@
-/* ANCIENNEMENT PONG.CSS */
+#container-game {
+	margin: auto;
+	/* width: 1200px;
+	height: 800px; */
+	justify-content: center;
+	align-items: center;
+	/* height: 100vh; */
+	background-color: #000;
+}
+
+
+
+
+
+/* ANCIENNEMENT PONG.CSS
 
 #body-pong {
 	color: black;
@@ -53,4 +67,4 @@
 .test {
 	color: white;
 	font-size: 34px;
-}
+} */
