@@ -1,5 +1,5 @@
 export function startGame(gameId) {
-	gameSocket = new WebSocket("ws://localhost/game/" + gameId);
+	// const socket = new WebSocket(`ws://${window.location.host}/game/${gameId}/ws/`);
 	const canvas = document.getElementById("board");
 	const ctx = canvas.getContext("2d");
 	ctx.fillRect(20, 20, 150, 100);
