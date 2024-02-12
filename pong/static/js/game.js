@@ -1,119 +1,163 @@
-export function startGame(gameId) {
-	//gameSocket = new WebSocket("ws://localhost/game/" + gameId);
-	const canvas = document.getElementById("board");
-	const ctx = canvas.getContext("2d");
-	var game;
-	const playerHeight = 100;
-	const playerWidth = 5;
+var canvas;
+var game;
+var anim;
 
-	game = {
-		player: {
-			y:canvas.height / 2 - playerHeight / 2,
-		},
+const playerHeight = 100;
+const playerWidth = 5;
+const MAX_SPEED = 12;
 
-		computer: {
-			y: canvas.height / 2 - playerHeight / 2, 
-		},
+function draw() {
+    var cxt = canvas.getContext('2d');
 
-		ball:{
-			x: canvas.width / 2,
-			y: canvas.height / 2,
-			r: 5,
-			speed: {
-				x: 2,
-				y: 2,
-			}
-		},
-	};
-	
-	// Mouse move event
-	// canvas.addEventListener('mousemove', playerMove);
+    // Draw field
+    cxt.fillStyle = 'black';
+    cxt.fillRect(0, 0, canvas.width, canvas.height);
 
-	// Mouse click event
-	// document.querySelector('#start-game').addEventListener('click', playGame);
-	// document.querySelector('#stop-game').addEventListener('click', stop);
-	// Draw board
-	ctx.fillStyle = 'black';
-	ctx.fillRect(20, 20, canvas.width, canvas.height);
-	
-	
-	// Draw middle line
-	
-	ctx.strokeStyle = 'white';
-	ctx.beginPath();
-	ctx.moveTo(canvas.width / 2, 0);
-	ctx.lineTo(canvas.width / 2, canvas.height);
-	ctx.stroke();
-	
-	// Draw players
-	
-	ctx.fillStyle = 'white';
-	ctx.fillRect(20, game.player.y, playerWidth, playerHeight); // 20 en ref au 20 de marge mis dans la creation du board
-	ctx.moveTo(canvas.width - playerWidth, 0);
-	ctx.fillRect(canvas.width - playerWidth, game.computer.y, playerWidth, playerHeight);
-	ctx.fill();
-	
-	// Draw ball
-	
-	ctx.beginPath();
-	ctx.fillStyle = '#87d300';
-	ctx.arc(game.ball.x, game.ball.y, game.ball.r, 0, Math.PI * 2, false);
-	ctx.fill();
-	
-	// requestAnimationFrame(update);
-	// document.addEventListener("keyup", movePlayer);
-	
-	// gameSocket.onmessage = (event) => {
-	// 	console.log(event.data);
-	// 	updateState(event.data);
-	//};
+    // Draw middle line
+    cxt.strokeStyle = 'white';
+    cxt.beginPath();
+    cxt.moveTo(canvas.width / 2, 0);
+    cxt.lineTo(canvas.width / 2, canvas.height);
+    cxt.stroke();
 
-	playGame();
+    // Draw players
+    cxt.fillStyle = 'white';
+    cxt.fillRect(0, game.player.y, playerWidth, playerHeight);
+    cxt.fillRect(canvas.width - playerWidth, game.computer.y, playerWidth, playerHeight);
 
-	console.log("end startgame function");
-};
+    // Draw ball
+    cxt.beginPath();
+    cxt.fillStyle = 'white';
+    cxt.arc(game.ball.x, game.ball.y, game.ball.r, 0, Math.PI * 2, false);
+    cxt.fill();
+}
 
-// function movePlayer(e) {
-// 	if (e.code == "KeyW" || e.code == "ArrowUp") gameSocket.send("up");
-// 	else if (e.code == "KeyS" || e.code == "ArrowDown") gameSocket.send("down");
-// };
+function changeDirection(playerPosition) {
+    var impact = game.ball.y - playerPosition - playerHeight / 2;
+    var ratio = 100 / (playerHeight / 2);
 
-export function playGame() {
+    // Get a value between 0 and 10
+    game.ball.speed.y = Math.round(impact * ratio / 10);
+}
 
-	console.log("playeGame fonction");
+function playerMove(event) {
+    // Get the mouse location in the canvas
+    var canvasLocation = canvas.getBoundingClientRect();
+    var mouseLocation = event.clientY - canvasLocation.y;
 
-	  // Nettoyer le canvas
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (mouseLocation < playerHeight / 2) {
+        game.player.y = 0;
+    } else if (mouseLocation > canvas.height - playerHeight / 2) {
+        game.player.y = canvas.height - playerHeight;
+    } else {
+        game.player.y = mouseLocation - playerHeight / 2;
+    }
+}
 
-	game.ball.x += game.ball.speed.x;
+function computerMove() {
+    game.computer.y += game.ball.speed.y * game.computer.speedRatio;
+}
+
+function collide(player) {
+    // The player does not hit the ball
+    if (game.ball.y < player.y || game.ball.y > player.y + playerHeight) {
+        reset();
+
+        // Update score
+        if (player == game.player) {
+            game.computer.score++;
+            document.querySelector('#computer-score').textContent = game.computer.score;
+        } else {
+            game.player.score++;
+            document.querySelector('#player-score').textContent = game.player.score;
+        }
+    } else {
+        // Change direction
+        game.ball.speed.x *= -1;
+        changeDirection(player.y);
+
+        // Increase speed if it has not reached max speed
+        if (Math.abs(game.ball.speed.x) < MAX_SPEED) {
+            game.ball.speed.x *= 1.2;
+        }
+    }
+}
+
+function ballMove() {
+    // Rebounds on top and bottom
+    if (game.ball.y > canvas.height || game.ball.y < 0) {
+        game.ball.speed.y *= -1;
+    }
+
+    if (game.ball.x > canvas.width - playerWidth) {
+        collide(game.computer);
+    } else if (game.ball.x < playerWidth) {
+        collide(game.player);
+    }
+
+    game.ball.x += game.ball.speed.x;
     game.ball.y += game.ball.speed.y;
+}
 
-	// Dessinez à nouveau tous les éléments
-	ctx.fillStyle = 'black';
-	ctx.fillRect(20, 20, canvas.width, canvas.height);
-  
-	ctx.strokeStyle = 'white';
-	ctx.beginPath();
-	ctx.moveTo(canvas.width / 2, 0);
-	ctx.lineTo(canvas.width / 2, canvas.height);
-	ctx.stroke();
-  
-	ctx.fillStyle = 'white';
-	ctx.fillRect(20, game.player.y, playerWidth, playerHeight);
-	ctx.moveTo(canvas.width - playerWidth, 0);
-	ctx.fillRect(canvas.width - playerWidth, game.computer.y, playerWidth, playerHeight);
-	ctx.fill();
-  
-	ctx.beginPath();
-	ctx.fillStyle = '#87d300';
-	ctx.arc(game.ball.x, game.ball.y, game.ball.r, 0, Math.PI * 2, false);
-	ctx.fill();
-  
-	// Continuer avec la prochaine trame
-	requestAnimationFrame(playGame);
+function play() {
+    draw();
+
+    computerMove();
+    ballMove();
+
+    anim = requestAnimationFrame(play);
+}
+
+function reset() {
+    // Set ball and players to the center
+    game.ball.x = canvas.width / 2;
+    game.ball.y = canvas.height / 2;
+    game.player.y = canvas.height / 2 - playerHeight / 2;
+    game.computer.y = canvas.height / 2 - playerHeight / 2;
+
+    // Reset speed
+    game.ball.speed.x = 3;
+    game.ball.speed.y = Math.random() * 3;
+}
+
+function stop() {
+    cancelAnimationFrame(anim);
+
+    reset();
+
+    // Init score
+    game.computer.score = 0;
+    game.player.score = 0;
+
+    document.querySelector('#computer-score').textContent = game.computer.score;
+    document.querySelector('#player-score').textContent = game.player.score;
+
+    draw();
+}
+
+export function startGame() {
+    canvas = document.getElementById('board');
+    game = {
+        player: {
+            score: 0
+        },
+        computer: {
+            score: 0,
+            speedRatio: 0.75
+        },
+        ball: {
+            r: 5,
+            speed: {}
+        }
+    };
+
+    reset();
+
+    // Mouse move event
+    canvas.addEventListener('mousemove', playerMove);
+
+    // Mouse click event
+    document.querySelector('#start-game').addEventListener('click', play);
+    document.querySelector('#stop-game').addEventListener('click', stop);
+
 };
-    // startGame();
-	//playGame();
-//     requestAnimationFrame(playGame);
-// };
-
