@@ -37,7 +37,7 @@
                 <img src="{% static 'img/ajouter-une-image.png' %}" id="profil-picture" class="col-12" />
               {% endif %}
               {% csrf_token %}
-              <input id="profil-picture-input" type="file" class="form-control" />
+              <input id="profil-picture-input" type="file" name="profil_picture" class="form-control" />
             </form>
             <form action="/accounts/profil/username/" method="post" class="col-8">
               {% csrf_token %}

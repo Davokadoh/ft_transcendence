@@ -8,6 +8,8 @@ from .models import User, Game
 from dotenv import load_dotenv
 import requests
 import os
+from django.conf import settings
+from pathlib import Path
 
 access_token = 0
 
@@ -15,9 +17,31 @@ access_token = 0
 @login_required
 def profilPicture(request):
     if request.method == "POST":
+        uploaded_file = request.FILES.get("profil_picture")
+        print("salut ", uploaded_file)
+        if uploaded_file:
+            user = request.user
+            user.profilPictureUrl = f"accounts/profil/picture/{uploaded_file.name}"
+            print("coucou ", user.profilPictureUrl)
+            user.save()
+            save_picture(uploaded_file)
         return JsonResponse({"foo": "bar"})
     else:
         return request.user.profilPictureUrl
+
+
+def save_picture(uploaded_file):
+    destination_directory = settings.MEDIA_ROOT
+    os.makedirs(destination_directory, exist_ok=True)
+    destination_path = os.path.join(destination_directory, uploaded_file.name)
+
+    print("ddfldfsfd ", destination_path)
+
+    with open(destination_path, "wb") as destination:
+        for chunk in uploaded_file.chunks():
+            destination.write(chunk)
+
+    return destination_path #pas obliger
 
 
 def index(request, page_name=None):
@@ -179,7 +203,7 @@ def callback(request):
             user.profilPictureUrl = response.json()["image"]["link"]
         except KeyError:
             user.profilPictureUrl = "https://github.com/{}.png".format(user.username)
-        #"https://assets.justinmind.com/wp-content/uploads/2018/11/Lorem-Ipsum-alternatives.png"
+        # "https://assets.justinmind.com/wp-content/uploads/2018/11/Lorem-Ipsum-alternatives.png"
         print("PP set to: " + user.profilPictureUrl)
         user.save()
 
