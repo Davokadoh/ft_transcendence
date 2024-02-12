@@ -4,6 +4,7 @@ var anim;
 
 const playerHeight = 100;
 const playerWidth = 5;
+
 const MAX_SPEED = 12;
 
 function draw() {

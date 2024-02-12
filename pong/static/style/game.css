@@ -8,6 +8,12 @@
 	background-color: #000;
 }
 
+#start-game,
+#stop-game{
+	background-color: var(--violet);
+	color: var(--vert);
+	border-radius: 20px;
+}
 
 
 
