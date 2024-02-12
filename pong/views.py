@@ -21,7 +21,7 @@ def profilPicture(request):
         print("salut ", uploaded_file)
         if uploaded_file:
             user = request.user
-            user.profilPictureUrl = f"accounts/profil/picture/{uploaded_file.name}"
+            user.profilPictureUrl = f"{settings.MEDIA_URL}{uploaded_file.name}"
             print("coucou ", user.profilPictureUrl)
             user.save()
             save_picture(uploaded_file)
@@ -32,7 +32,7 @@ def profilPicture(request):
 
 def save_picture(uploaded_file):
     destination_directory = settings.MEDIA_ROOT
-    os.makedirs(destination_directory, exist_ok=True)
+    os.makedirs(destination_directory, mode=0o755, exist_ok=True)
     destination_path = os.path.join(destination_directory, uploaded_file.name)
 
     print("ddfldfsfd ", destination_path)
