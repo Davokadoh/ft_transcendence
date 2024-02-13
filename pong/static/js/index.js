@@ -1,15 +1,27 @@
 // index.js update
 
-// < !--SCRIPT BOUTON NB / COLOR-- >
+export function index() {
 
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('night mode function called');
-        const toggleSwitch = document.getElementById('toggle-switch');
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('night mode function called')
+    const toggleSwitch = document.getElementById('toggle-switch');
+    const nightModeOn = document.getElementById('nightModeOn');
+    const nightModeOff = document.getElementById('nightModeOff');
 
-        toggleSwitch.addEventListener('change', function () {
-            document.body.classList.toggle('night-mode', toggleSwitch.checked);
-        });
+    nightModeOn.addEventListener('click', function () {
+        if (!toggleSwitch.checked) { // Vérifie si le mode nuit n'est pas déjà activé
+            toggleSwitch.checked = true; // Active le mode nuit
+            document.body.classList.add('night-mode'); // Ajoute la classe night-mode au body
+        }
     });
+
+    nightModeOff.addEventListener('click', function () {
+        if (toggleSwitch.checked) { // Vérifie si le mode nuit est activé
+            toggleSwitch.checked = false; // Désactive le mode nuit
+            document.body.classList.remove('night-mode'); // Supprime la classe night-mode du body
+        }
+    });
+});
 
 
 // < !--SCRIPT BOUTON MENU-- >
@@ -76,3 +88,5 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     };
 });
+
+}
