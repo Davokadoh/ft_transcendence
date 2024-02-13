@@ -40,7 +40,7 @@
         if (!toggleSwitch.checked) {
             toggleSwitch.checked = false;
             document.body.classList.add('night-mode');
-            separator.style.backgroundColor = 'black'; // Change la couleur de la ligne de séparation
+            separator.style.background = 'black'; // Change la couleur de la ligne de séparation
             toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour activer le mode nuit
         }
     });
@@ -49,7 +49,7 @@
         if (toggleSwitch.checked) {
             toggleSwitch.checked = true;
             document.body.classList.remove('night-mode');
-            separator.style.backgroundColor = ''; // Change la couleur de la ligne de séparation
+            separator.style.background = ''; // Change la couleur de la ligne de séparation
             toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour désactiver le mode nuit
         }
     });

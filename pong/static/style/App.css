@@ -476,9 +476,9 @@ footer {
 	background-color: white;
 }*/
 
-#toggle-switch:checked+.toggle-label .separator {
+/* #toggle-switch:checked+.toggle-label .separator {
 	background: black;
-}
+} */
 
 
 /* Styles pour le mode nuit */
