@@ -10,19 +10,24 @@ import requests
 import os
 from django.conf import settings
 from pathlib import Path
+from django.http import FileResponse
 
 access_token = 0
 
 
 @login_required
 def profilPicture(request):
+    print("request: ", request)
     if request.method == "POST":
         uploaded_file = request.FILES.get("profil_picture")
-        print("salut ", uploaded_file)
         if uploaded_file:
             user = request.user
+            path = user.profilPictureUrl
+            base_dir = str(settings.BASE_DIR)
+            absolutPath = base_dir + path
+            if os.path.exists(absolutPath):
+                os.remove(absolutPath)
             user.profilPictureUrl = f"{settings.MEDIA_URL}{uploaded_file.name}"
-            print("coucou ", user.profilPictureUrl)
             user.save()
             save_picture(uploaded_file)
         return JsonResponse({"foo": "bar"})
@@ -34,14 +39,10 @@ def save_picture(uploaded_file):
     destination_directory = settings.MEDIA_ROOT
     os.makedirs(destination_directory, mode=0o755, exist_ok=True)
     destination_path = os.path.join(destination_directory, uploaded_file.name)
-
-    print("ddfldfsfd ", destination_path)
-
     with open(destination_path, "wb") as destination:
         for chunk in uploaded_file.chunks():
             destination.write(chunk)
-
-    return destination_path #pas obliger
+    return destination_path  # pas obliger
 
 
 def index(request, page_name=None):
