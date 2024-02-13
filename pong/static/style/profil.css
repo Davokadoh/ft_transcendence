@@ -4,8 +4,6 @@
 
 .profile-image-set {
 	border-radius: 10%;
-	/* height: 120px;
-	width: auto; */
 }
 
 .sepLigne {
@@ -15,7 +13,21 @@
     margin: 20px auto; /* Marge top et bottom et auto pour aligner au centre */
     border-radius: 5px; /* Bords arrondis */
 	opacity: 0.8; /* Opacité complète */
+	animation: moveLine 5s infinite alternate; /* Animation de la ligne */
 
+
+}
+
+@keyframes moveLine {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateY(10px); /* Ajustez la distance de déplacement selon vos besoins */
+    }
 }
 
 .container-option {

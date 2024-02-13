@@ -130,4 +130,12 @@ export function profil() {
 				console.log("profilImg: ", profilImg);
 			});
 	}
+
+	const modifyImageButton = document.getElementById('modifyImageButton');
+
+	modifyImageButton.onclick = function () {
+		// Mettez ici le code que vous souhaitez exécuter lorsque le bouton est cliqué
+		console.log("Le bouton a été cliqué !");
+		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
+	};
 };
