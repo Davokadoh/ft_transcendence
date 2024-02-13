@@ -2,6 +2,22 @@
 	display: none;
 }
 
+.profile-image-set {
+	border-radius: 10%;
+	/* height: 120px;
+	width: auto; */
+}
+
+.sepLigne {
+    border: none; /* Supprime la bordure par défaut */
+    height: 3px; /* Épaisseur de la ligne */
+    background-color: white; /* Couleur de fond de la ligne */
+    margin: 20px auto; /* Marge top et bottom et auto pour aligner au centre */
+    border-radius: 5px; /* Bords arrondis */
+	opacity: 0.8; /* Opacité complète */
+
+}
+
 .container-option {
 	border-radius: 30px;
 	background-color: #9016B2;

@@ -30,11 +30,11 @@
 
         <div class="container container-profil d-flex flex-column align-items justify-content-between">
           <div class="row align-items-center justify-content-between">
-            <form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col profile-image-set">
+            <form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col profile-image-set justify-content-start">
               {% if request.user.profilPictureUrl is not None %}
-                <img src="{{ request.user.profilPictureUrl }}" id="profil-picture" class="col-12" />
+                <img src="{{ request.user.profilPictureUrl }}" id="profil-picture" class="col-12 col profile-image-set" />
               {% else %}
-                <img src="{% static 'img/profil/image-defaut.png' %}" id="profil-picture" class="col-12" />
+                <img src="{% static 'img/profil/image-defaut.png' %}" id="profil-picture" class="col-12 " />
               {% endif %}
               {% csrf_token %}
               <input id="profil-picture-input" type="file" class="form-control" />
@@ -52,12 +52,12 @@
                 {% comment %} <input class="col-2 btn bg-vert" type="image" id="modifyUsernameButton" alt="ChangeUsername" src="{% static 'img/cocher.png' %}" /> {% endcomment %}
                 <div class="justify-content-start">
                 <button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image" style="width: 35px; height: auto; filter: invert(1);"></button>
-                  <input type="file" accept="image/*" id="imageInput" style="display: none;">
+                  <input type="file" accept="image/*" id="imageInput" style="display: none; border-radius: 20%;">
                 </div>
               </div>
             </form>
           </div>
-
+          <HR class="sepLigne" ALIGN=CENTER>
           <div class="row align-items-center justify-content-around">
             <button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal" data-bs-target="#contactsModal">Contacts</button>
             <br />
