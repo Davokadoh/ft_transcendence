@@ -30,7 +30,7 @@
 
         <div class="container container-profil d-flex flex-column align-items justify-content-between">
           <div class="row align-items-center justify-content-between">
-            <form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col profile-image-set justify-content-start">
+            <form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col justify-content-start">
               {% if request.user.profilPictureUrl is not None %}
                 <img src="{{ request.user.profilPictureUrl }}" id="profil-picture" class="col-12 col profile-image-set" />
               {% else %}
