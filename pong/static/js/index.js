@@ -1,6 +1,5 @@
 import { router } from "./router.js";
 
-document.addEventListener("popstate", router);
 document.onpopstate = router;
 document.firstElementChild.onclick = function (event) {
 	const target = event.target;
@@ -10,8 +9,6 @@ document.firstElementChild.onclick = function (event) {
 		router();
 		event.preventDefault();
 		event.stopPropagation();
-	} else {
-		console.log("HAS NO DATA-LINK")
 	}
 };
 

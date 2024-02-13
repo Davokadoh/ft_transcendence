@@ -1,15 +1,32 @@
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from .backend import CustomAuthenticationBackend
-from .models import User, Game
+from .models import User, Team, Game
+from .forms import UsernameForm
 from dotenv import load_dotenv
 import requests
 import os
 
-access_token = 0
+
+@login_required
+def username(request):
+    if request.method == "GET":
+        return JsonResponse({"username": request.user.username})
+    elif request.method == "POST":
+        form = UsernameForm(request.POST, instance=request.user)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            # request.user.username = form.cleaned_data["username"]
+            # request.user.save()
+            return JsonResponse({"message": "Username updated successfully"})
+        else:
+            return JsonResponse({"error": "New username is required"}, status=400)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 @login_required
@@ -42,10 +59,12 @@ def play(request):
 
 @login_required
 def profil(request):
-    print("URL: " + request.user.profilPictureUrl)
+    form = UsernameForm(instance=request.user)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
+        request,
+        "profil.html",
+        {"template": "ajax.html" if ajax else "index.html", "form": form},
     )
 
 
@@ -61,23 +80,31 @@ def chat(request):
 def lobby(request, game_id=None):
     if game_id is None:
         game = Game.objects.create()
-        game.add_team()
-        game.add_player(request.user)
-        print("Game nbr: " + str(game.pk))
+        team = game.add_team()
+        game.add_player(team, request.user)
+        print("Added User {} to Team {} in Game {}".format(request.user, team, game.pk))
         return redirect(lobby, game.pk)
-    game = Game.objects.get(pk=game_id)
+    game = get_object_or_404(Game, pk=game_id)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
-        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
             request,
             "lobby.html",
             {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
         )
     elif request.method == "POST":
-        added_player = request.POST.get("player")
-        if added_player is not None:
-            game.add_player(added_player)
-            # return todo
+        try:
+            game.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
+            return render(
+                request,
+                "lobby.html",
+                {
+                    "template": "ajax.html" if ajax else "index.html",
+                    "game_id": game_id,
+                    "error_message": "Missing valid team name or user name",
+                },
+            )
 
 
 @login_required
@@ -95,23 +122,6 @@ def game(request, game_id=None):
     )
 
 
-@login_required
-def username(request):
-    if request.method == "GET":
-        return JsonResponse({"username": request.user.username})
-    elif request.method == "POST":
-        new_username = request.POST.get("new_username")
-        if new_username:
-            request.user.username = new_username
-            request.user.save()
-            return JsonResponse({"message": "Username updated successfully"})
-        else:
-            return JsonResponse({"error": "New username is required"}, status=400)
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=405)
-
-
-@login_required
 def logoutview(request):
     logout(request)
     return loginview(request)
@@ -179,7 +189,7 @@ def callback(request):
             user.profilPictureUrl = response.json()["image"]["link"]
         except KeyError:
             user.profilPictureUrl = "https://github.com/{}.png".format(user.username)
-        #"https://assets.justinmind.com/wp-content/uploads/2018/11/Lorem-Ipsum-alternatives.png"
+        # "https://assets.justinmind.com/wp-content/uploads/2018/11/Lorem-Ipsum-alternatives.png"
         print("PP set to: " + user.profilPictureUrl)
         user.save()
 

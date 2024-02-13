@@ -1,17 +1,21 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
-from django.db.models.signals import pre_delete, post_save
+from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 import random
+from channels.layers import get_channel_layer
+from .player import Player
+from .ball import Ball
 
 
 class User(AbstractBaseUser):
-    username = models.CharField(max_length=255, primary_key=True)
+    login = models.CharField(max_length=255, primary_key=True)
+    username = models.CharField(max_length=255, unique=True, default=login)
     access_token = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    profilPictureUrl = models.CharField(max_length=255)
+    profilPictureUrl = models.URLField(max_length=255)
     groups = models.CharField(max_length=255)
     user_permissions = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
@@ -23,13 +27,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     def get_username(self):
-        return self.username()
-
-    # def get_games_won(self):
-    #     return Game.objects.filter("winners".contains(self)).count()
-
-    # def get_games_lost(self):
-    #     return Game.objects.exclude("winners".contains(self)).count()
+        return self.username
 
 
 class Team(models.Model):
@@ -80,15 +78,13 @@ class Game(models.Model):
 
 
 class Tournament(models.Model):
-    teams = models.ManyToManyField(
-        Team, related_name="joined_tournaments", blank=True)
+    teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
     max_teams = models.PositiveIntegerField()
     status = "open"
 
     def register_team(self, team):
         if self.status != "open":
-            raise Exception(
-                "Can't add team to tournament: registration is closed")
+            raise Exception("Can't add team to tournament: registration is closed")
         if self.teams.count() >= self.max_teams:
             raise Exception("Can't add team to tournament: tournament is full")
         self.teams.add(team)

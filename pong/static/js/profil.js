@@ -1,11 +1,4 @@
 export function profil() {
-
-	// var statsBtn = document.getElementById('statsBtn');
-	// var modal = document.getElementById('statsModal');
-	// statsBtn.addEventListener('click', function () { modal.style.display = 'block'; });
-	// function statsModalClose() { modal.style.display = 'none'; }
-	// window.addEventListener('click', function (event) { if (event.target === modal) statsModalClose(); });
-
 	var paddleSpeedInput = document.getElementById('paddleSpeed');
 	var paddleSpeedValue = document.getElementById('paddleSpeedValue');
 	paddleSpeedInput.oninput = function () { paddleSpeedValue.innerHTML = this.value; }
@@ -57,23 +50,26 @@ export function profil() {
 		});
 	}
 
+	const usernameInput = document.getElementById('username');
+	const usernameForm = document.getElementById('username-form');
+	const usernameButton = document.getElementById('modifyUsernameButton');
 
-	var usernameInput = document.getElementById('username');
-	function postUsername(newUsername) { newUsername = newUsername.trim(); }
+	usernameButton.onclick = function (event) {
+		event.preventDefault();
+		usernameForm.requestSubmit();
+	}
 
-	document.getElementById('modifyUsernameButton').addEventListener('click', function () {
-		const newUsername = usernameInput.value.trim();
-
-		fetch("/accounts/profil/update-username/", {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'X-CSRFToken': getCookie('csrftoken'),
-			},
-			body: `new_username=${newUsername}`,
+	usernameForm.onsubmit = function (event) {
+		event.preventDefault();
+		const form = usernameForm;
+		const url = new URL(form.action);
+		const formData = new FormData(form);
+		fetch(url, {
+			method: form.method,
+			body: formData,
+			mode: 'same-origin',
 		}).then(response => response.json()).then(data => {
-			console.log(data.message);
-
+			console.log("message: " + data.message);
 			localStorage.setItem('savedUsername', newUsername);
 
 			usernameInput.value = newUsername;
@@ -81,7 +77,7 @@ export function profil() {
 		}).catch(error => {
 			console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
 		});
-	});
+	}
 
 
 	fetch("/accounts/profil/username")
