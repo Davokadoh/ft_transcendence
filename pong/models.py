@@ -19,6 +19,8 @@ class User(AbstractBaseUser):
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
     USERNAME_FIELD = "username"
+    
+    friends = models.ManyToManyField("self")
 
     objects = UserManager()
 

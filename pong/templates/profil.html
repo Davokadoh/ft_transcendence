@@ -30,11 +30,11 @@
 
         <div class="container container-profil d-flex flex-column align-items justify-content-between">
           <div class="row align-items-center justify-content-between">
-            <form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col">
+            <form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col profile-image-set">
               {% if request.user.profilPictureUrl is not None %}
                 <img src="{{ request.user.profilPictureUrl }}" id="profil-picture" class="col-12" />
               {% else %}
-                <img src="{% static 'img/ajouter-une-image.png' %}" id="profil-picture" class="col-12" />
+                <img src="{% static 'img/profil/image-defaut.png' %}" id="profil-picture" class="col-12" />
               {% endif %}
               {% csrf_token %}
               <input id="profil-picture-input" type="file" class="form-control" />
@@ -52,10 +52,10 @@
             </form>
           </div>
 
-          <div class="row align-items-center justify-content-between">
-            <button type="button" class="col btn bg-vert" data-bs-toggle="modal" data-bs-target="#contactsModal">Contacts</button>
+          <div class="row align-items-center justify-content-around">
+            <button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal" data-bs-target="#contactsModal">Contacts</button>
             <br />
-            <button type="button" class="col btn bg-vert" data-bs-toggle="modal" data-bs-target="#modalBlocked">Blocked</button>
+            <button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal" data-bs-target="#modalBlocked">Blocked</button>
           </div>
         </div>
       </div>
