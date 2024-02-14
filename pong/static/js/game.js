@@ -30,7 +30,7 @@ function initializeGame() {
     gameHeight = gameBoard.height;
     player1Score = 0;
     player2Score = 0;
-    paddle1 = { width: 25, height: 100, x: 0, y: 0 };
+    paddle1 = { width: 25, height: 100, x: 5, y: 0 };
     paddle2 = { width: 25, height: 100, x: gameWidth - 25, y: gameHeight - 100 };
     gameRunning = false;
     ballSpeed = 1;
@@ -185,8 +185,9 @@ function startGame() {
         gameRunning = true;
         createBall();
         draw();
-        document.getElementById("gameBoard").focus(); // Assurez-vous que le canevas a le focus
-        document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+        // document.getElementById("gameBoard").focus(); // Assurez-vous que le canevas a le focus
+        // document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+        document.addEventListener("keydown", changeDirection);
     }
 }
 
