@@ -19,7 +19,7 @@ const paddleBorder = "white";
 const ballColor = "white";
 const ballBorderColor = "white";
 const ballRadius = 12.5;
-const paddleSpeed = 10;
+const paddleSpeed = 12;
 let gameRunning = false;
 
 function initializeGame() {
@@ -30,8 +30,8 @@ function initializeGame() {
     gameHeight = gameBoard.height;
     player1Score = 0;
     player2Score = 0;
-    paddle1 = { width: 25, height: 100, x: 5, y: 0 };
-    paddle2 = { width: 25, height: 100, x: gameWidth - 25, y: gameHeight - 100 };
+    paddle1 = { width: 25, height: 100, x: 10, y: 5 };
+    paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 105 };
     gameRunning = false;
     ballSpeed = 1;
     ballX = gameWidth / 2;
@@ -43,6 +43,8 @@ function initializeGame() {
 
 document.getElementById("start-game").addEventListener("click", startGame);
 document.getElementById("stop-game").addEventListener("click", stopGame);
+document.getElementById("reset-game").addEventListener("click", resetGame);
+
 
 function draw() {
     if (!gameRunning) {
@@ -147,6 +149,11 @@ function changeDirection(event) {
     const paddle2Up = 38;
     const paddle2Down = 40;
 
+    if (keyPressed === paddle2Down) {
+        // Empêcher le défilement de la page vers le bas lors de l'appui sur la flèche vers le bas
+        event.preventDefault();
+    }
+
     switch (keyPressed) {
         case paddle1Up:
             if (paddle1.y > 0) {
@@ -184,10 +191,14 @@ function startGame() {
     if (!gameRunning) {
         gameRunning = true;
         createBall();
-        draw();
+        // draw();
         // document.getElementById("gameBoard").focus(); // Assurez-vous que le canevas a le focus
         // document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-        document.addEventListener("keydown", changeDirection);
+        // document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+        document.getElementById("gameBoard").focus(); // Donner le focus au canevas
+        draw();
+        document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+    
     }
 }
 

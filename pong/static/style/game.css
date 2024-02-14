@@ -9,7 +9,8 @@
 }
 
 #start-game,
-#stop-game {
+#stop-game,
+#reset-game {
     background-color: var(--violet);
     color: var(--vert);
     border-radius: 20px;

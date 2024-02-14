@@ -19,11 +19,12 @@
   <div id="app" class="d-flex flex-column align-items-center justify-content-center">
     <div id="scoreText">0 : 0</div>
     <div id="boardGame" class="gameContainer">
-        <canvas id="gameBoard" width="800" height="650" tabindex="0"></canvas>
+        <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
     </div>
     <div class="mt-3"> <!-- Utilisation de la classe 'mt-3' pour une marge en haut -->
         <button id="start-game" class="btn btn-primary">Démarrer</button>
         <button id="stop-game" class="btn btn-danger">Arrêter</button>
+        <button id="reset-game" class="btn btn-danger">Reset</button>
     </div>
 </div>
 {% endblock %}
