@@ -1,0 +1,16 @@
+#container-game {
+	margin: auto;
+	/* width: 1200px;
+	height: 800px; */
+	justify-content: center;
+	align-items: center;
+	/* height: 100vh; */
+	background-color: #000;
+}
+
+#start-game,
+#stop-game{
+	background-color: var(--violet);
+	color: var(--vert);
+	border-radius: 20px;
+}

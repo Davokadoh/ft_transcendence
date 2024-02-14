@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from .backend import CustomAuthenticationBackend
-from .models import User, Game
+from .models import User, Game, Tournament
 from dotenv import load_dotenv
 import requests
 import os
@@ -94,12 +94,49 @@ def game(request, game_id=None):
         {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
     )
 
+@login_required
+def lobby_tour(request, tournament_id=None):
+    if tournament_id is None:
+        tournament = Tournament.objects.create()
+        tournament.add_team()
+        tournament.add_player(request.user)
+        print("Tournament nbr: " + str(tournament.pk))
+        return redirect(lobby_tour, tournament.pk)
+    tournament = Tournament.objects.get(pk=tournament_id)
+    if request.method == "GET":
+        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        return render(
+            request,
+            "lobby_tour.html",
+            {"template": "ajax.html" if ajax else "index.html", "tournament_id": tournament_id},
+        )
+    elif request.method == "POST":
+        added_player = request.POST.get("player")
+        if added_player is not None:
+            tournament.add_player(added_player)
+            # return todo
+
+
+@login_required
+def tournament(request, tournament_id=None):
+    if tournament_id is None:
+        return redirect(home)
+    tournament = Game.objects.get(pk=tournament_id)
+    if tournament is None:
+        return redirect(home)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request,
+        "tournament.html",
+        {"template": "ajax.html" if ajax else "index.html", "tournament_id": tournament_id},
+    )
 
 @login_required
 def username(request):
     if request.method == "GET":
         return JsonResponse({"username": request.user.username})
     elif request.method == "POST":
+        print(request.POST)
         new_username = request.POST.get("new_username")
         if new_username:
             request.user.username = new_username

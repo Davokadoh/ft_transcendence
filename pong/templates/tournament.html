@@ -7,14 +7,13 @@
 
 {% block content %}
   <div id="app">
-      <div id="scoreText"> 0 : 0 </div>
-      <!-- <p>Joueur 1 : <em id="player-score">0</em> - Joueur 2 : <em id="computer-score">0</em></p> -->
+      <p>Joueur 1 : <em id="player-score">0</em> - Joueur 2 : <em id="computer-score">0</em></p>
       <div>
         <button id="start-game">Démarrer</button>
         <button id="stop-game">Arrêter</button>
       </div>
-    <div id="gameContainer" class="gameContainer">
-      <canvas id="gameBoard" width="800" height="650" tabindex="0"></canvas>
+    <div id="container-board" class="container-board">
+      <canvas id="board" width="1200" height="800"></canvas>
     </div>
   </div>
 {% endblock %}
