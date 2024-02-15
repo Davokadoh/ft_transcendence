@@ -70,6 +70,10 @@
 	margin-top: 15px !important;
 }
 
+.scrollBall {
+	margin-top: 40px;
+}
+
 /* MODE NUIT */
 .night-mode .ladButClass,
 .night-mode .quickButClass {
@@ -211,7 +215,7 @@
 
 .scrolling-image-container {
 	white-space: nowrap;
-	/* animation: scrollText 30s linear infinite; */
+	animation: scrollText 30s linear infinite;
 	/* Ajuster la durée selon préférences */
 	/* overflow: hidden; */
 	position: relative;
