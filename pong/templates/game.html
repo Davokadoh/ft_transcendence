@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block title %}
-  <title>GAME #{{ game_id }}</title>
+<title>GAME #{{ game_id }}</title>
 {% endblock %}
 
 {% block content %}
-  <!-- <div id="app" class="d-flex flex-column align-items-center justify-content-center">
+<!-- <div id="app" class="d-flex flex-column align-items-center justify-content-center">
     <div id="scoreText">0 : 0</div>
     <div id="boardGame" class="gameContainer">
         <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
@@ -17,22 +17,24 @@
         <button id="reset-game" class="btn btn-danger">Reset</button>
     </div>
 </div> -->
-<div id="app" class="container-fluid d-flex flex-row">
-  <div class="col-md-4 d-flex align-items-center justify-content-center">
-    <div class="d-flex flex-column align-items-center">
-      <button id="start-game" class="btn btn-primary mb-2">Démarrer</button>
-      <button id="stop-game" class="btn btn-danger mb-2">Arrêter</button>
-      <button id="reset-game" class="btn btn-danger">Reset</button>
+<div id="app">
+  <div class="container-fluid d-flex flex-row">
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <div class="d-flex flex-column align-items-center">
+        <button id="start-game" class="btn btn-primary mb-2">Démarrer</button>
+        <button id="stop-game" class="btn btn-danger mb-2">Arrêter</button>
+        <button id="reset-game" class="btn btn-danger">Reset</button>
+      </div>
     </div>
-  </div>
-  <div class="col-md-4 d-flex align-items-center justify-content-center mt-3">
-    <div id="boardGame" class="gameContainer">
-      <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
+    <div class="col-md-4 d-flex align-items-center justify-content-center mt-3">
+      <div id="boardGame" class="gameContainer">
+        <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
+      </div>
     </div>
-  </div>
-  <div class="col-md-4 d-flex align-items-center justify-content-center">
-    <div id="scoreText" class="text-center">0 : 0</div>
-  </div>
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <div id="scoreText" class="text-center">0 : 0</div>
+    </div>
+  </div>  
 </div>
 
 {% endblock %}
