@@ -187,7 +187,7 @@ function resetGame() {
     updateScore();
 }
 
-export function startGame() {
+function startGame() {
     if (!gameRunning) {
         gameRunning = true;
         createBall();

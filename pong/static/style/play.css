@@ -260,7 +260,7 @@
 	width: 15%;
 	height: auto;
 	/* animation: bounce 2s infinite */
-	animation: roll 6s linear infinite;
+	animation: roll 4s linear infinite;
 }
 
 /* MODE SOMBRE ET MODE NUIT */
@@ -284,10 +284,6 @@
 	overflow: hidden;
 	position: relative;
 	margin-bottom: 0px;
-}
-
-.custom-image-spacing {
-	animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
