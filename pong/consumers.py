@@ -29,9 +29,9 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
         elif content["type"] == "PAUSE":
             if self.pauseLeft > 0:
                 self.pauseLeft -= 1
-                self.game.pause(self.scope["user"])
+                await self.game.pause(self.scope["user"])
             else:
-                self.send_json({"type": "pause_refused"})
+                await self.send_json({"type": "pause_refused"})
 
     async def ready(self):
         self.player.status = True
@@ -50,3 +50,6 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
             self.player.move("UP")
         elif key == "arrowdown" or key == "s":
             self.player.move("DOWN")
+
+    async def game_pause(self, content):
+        await self.send_json(content)
