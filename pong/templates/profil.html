@@ -36,20 +36,23 @@
 
 			<div class="container container-profil d-flex flex-column align-items justify-content-between">
 				<div class="row align-items-center justify-content-between">
-					<form id="profil-picture-form" action="/accounts/profil/picture/" method="post" class="col">
-						{% if request.user.profilPictureUrl is not None %}
-						<img src="{{ request.user.profilPictureUrl }}" id="profil-picture" class="col-12" />
-						{% else %}
-						<img src="{% static 'img/ajouter-une-image.png' %}" id="profil-picture" class="col-12" />
-						{% endif %}
+					<form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
+						enctype="multipart/form-data" class="col">
+						<img src="{{ profil_picture_url }}" id="profil-picture" class="col-12" />
 						{% csrf_token %}
-						<input id="profil-picture-input" type="file" class="form-control" />
+						{% for field in profil_picture_form %}
+						<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
+						{{ field }}
+						{% endfor %}
 					</form>
 					<form id="username-form" action="/accounts/profil/username/" method="post" class="col-8">
 						{% csrf_token %}
 						<div class="row align-items-center justify-content-between">
 							<div class="col">
-								{{ form }}
+								{% for field in username_form %}
+								<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
+								{{ field }}
+								{% endfor %}
 							</div>
 							<button id="modifyUsernameButton" class="col-2 btn bg-vert" type="submit">✓</button>
 						</div>
