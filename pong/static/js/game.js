@@ -7,14 +7,13 @@ export function startGame(gameId) {
 	document.addEventListener("keyup", test);
 
 	socket.onmessage = (event) => {
-		console.log(event.data);
+		console.log("Rcvd: " + event.data);
 		// updateState(event.data);
 	};
 
 	function test() {
 		console.log("PAUSE");
 		let myObj = { type: "PAUSE" };
-		console.log(myObj);
 		socket.send(JSON.stringify(myObj));
 	};
 };
