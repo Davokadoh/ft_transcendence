@@ -41,9 +41,8 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                     </i>
                     <ul class="dropdown-menu" aria-labelledby="menuButtonRight">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Invitation</a></li>
+                        <li><a class="dropdown-item" href="#">Block contact</a></li>
                     </ul>
                 </span>
             </div>
@@ -51,34 +50,11 @@
     </div>
 
     <!-- nested row2 -->
-    <div class="row row-chatPanel g-0">
+    <div class="row row-chatPanel g-0" id="rowChatPanel">
         <div class="col-md-12">
 
             <!-- start chat panel -->
-            <div class="chat-panel" data-chat-panel>
-
-                <!--msg from friend-->
-                <div class="row g-0">
-                    <div class="col-md-3 d-flex">
-                        <div class="chat-bubble hide" id="msgByOtherId">
-                        </div>
-                    </div>
-                </div>
-
-                <!--msg from me 
-                <div class="row g-0"> 
-                    <div class="col-md-3 offset-md-9 d-flex" id="msgByMeId">
-                        <div class="chat-bubble chat-bubble--blue chat-bubble--right">
-                            TEST MESSAGE!
-                        </div>
-                    </div>
-                </div>
-                -->
-
-            </div>
-            <!-- chat panel close -->
-
-
+            <div class="chat-panel" id="chatPanelId"></div>
 
         </div>
 

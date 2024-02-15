@@ -20,6 +20,14 @@ export function chat() {
     const contactSelect = document.querySelector("[data-contact]");
     let users = [];
 
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + 'conversation'
+        + '/'
+    );
+
 
     //create list contact
     //index, name, img
@@ -50,7 +58,7 @@ export function chat() {
 
                     //visibleAllContact();
                     if (findConversation(contactName)) {
-                        selectConversation(contactName, "chat");
+                        selectConversation(contactName);
                     } else {
                         const obj = {
                             name: contactName,
@@ -99,18 +107,27 @@ export function chat() {
         if (e.currentTarget.getElementById("searchContact").contains(e.target))
             search_contact();
         else if (contactExist) {
-            const conversations = document.querySelectorAll(".conversation");
-            conversations.forEach(conversation => {
-                conversation.addEventListener("click", (e) => {
-                    e.stopImmediatePropagation();
-                    console.log("**TIME**");
-                    handle_conversation(e);
+
+            if (e.currentTarget.getElementById("send-id").contains(e.target))
+                sendByMe(e);
+            else {
+                const conversations = document.querySelectorAll(".conversation");
+                conversations.forEach(conversation => {
+                    conversation.addEventListener("click", (e) => {
+                        e.stopImmediatePropagation();
+                        handle_conversation(e);
+                    });
                 });
-            });
+            }
         }
+
     });
 
-    /*------function chat----------*/
+    //event keypress
+    document.addEventListener("keypress", (e) => {
+        if (e.currentTarget.getElementById("input-id").contains(e.target))
+            sendByMe(e);
+    });
 
     function refresh_display() {
         //hide list contact if actif
@@ -141,21 +158,18 @@ export function chat() {
         });
     }
 
-    function blockContact(contactName, bool) {
-        const chatBoxElement = (activeChatPanel === contactName) ? document.getElementById('chatBoxId') : mapChatHistory.get(contactName).querySelector("#chatBoxId");
-        chatBoxElement.classList.toggle("disabled", bool);
-    }
-
-
-
     function handle_conversation(event) {
 
         //dropdown
         if (event.currentTarget.querySelector(".dropdown .i-down").contains(event.target)) {
             console.log("click on dropdown: ", event.target.closest(".conversation"));
             console.log("on i-down: ", event.currentTarget.querySelector(".dropdown .i-down"));
-            // Adjust z-index
-            zIndexDropdown(event.currentTarget);
+
+            var displayingDrop = document.getElementById("menuDownLeftId").nextElementSibling;
+
+            //just adjust zindex when drop displaying
+            if (displayingDrop.classList.contains("show"))
+                zIndexDropdown(event.currentTarget);
 
             //close dropdown if the cursor leave
             event.currentTarget.querySelector(".dropdown, .dropdown .dropdown-menu")
@@ -168,7 +182,7 @@ export function chat() {
         else {
             const contactName = event.currentTarget.querySelector(".text h6").textContent;
             console.log("click on conversation: ", contactName);
-            selectConversation(contactName, "chat");
+            selectConversation(contactName);
         }
     }
 
@@ -215,8 +229,10 @@ export function chat() {
                 }
                 mapChatHistory.delete(contactName);
                 mapConversationList.delete(contactName);
-                if (mapConversationList.size === 0)
+                if (mapConversationList.size === 0) {
                     activeChatPanel = null;
+                    contactExist = false;
+                }
             } else if (e.target.id === "blockUnblockId") {
                 const blockUnblockElement = e.target;
                 if (blockUnblockElement.textContent === "Block contact") {
@@ -232,6 +248,11 @@ export function chat() {
         });
     }
 
+    function blockContact(contactName, bool) {
+        const chatBoxElement = (activeChatPanel === contactName) ? document.getElementById('chatBoxId') : mapChatHistory.get(contactName).querySelector("#chatBoxId");
+        chatBoxElement.classList.toggle("disabled", bool);
+    }
+
     function closeDropdown(myDropdown) {
         const dropdown = new bootstrap.Dropdown(myDropdown);
         dropdown.hide();
@@ -242,11 +263,10 @@ export function chat() {
         console.log(`select: ${contactName}`);
         console.log(`active chat: ${activeChatPanel}`);
 
+        updateChatHistory(activeChatPanel);
 
         const htmlactiveChatPanel = document.querySelector(".conversation-history");
         htmlactiveChatPanel.innerHTML = mapChatHistory.get(contactName).innerHTML;
-
-        updateChatHistory(activeChatPanel);
 
         activeChatPanel = contactName;
 
@@ -260,12 +280,9 @@ export function chat() {
         });
     }
 
-
-
     function createConversation(obj) {
         const conversationList = document.getElementById("conversationListId");
         const tpl = templateConversation.content.cloneNode(true);
-        //zIndexDropdown(tpl.querySelector(".conversation"));
         //set id conversation
         tpl.querySelector(".conversation").id = obj.name;
         const name = tpl.querySelector("[data-text] h6");
@@ -316,322 +333,72 @@ export function chat() {
         console.log("===mapChatList updated!===");
     }
 
-
-    document.getElementById("camId").addEventListener("click", function () {
-        console.log("Click on icon camera");
-        document.getElementById("inputFileId").click();
-    });
-
-    document.getElementById("inputFileId").onchange = function (e) {
-        resizeImage(e.target.files[0]);
-    };
-
-    function resizeImage(imgFile) {
-        if (imgFile) {
-            let reader = new FileReader();
-            reader.readAsDataURL(imgFile);
-
-            reader.onload = function (e) {
-                var img = document.createElement("img");
-                img.src = e.target.result;
-
-                var canvas = document.createElement("canvas");
-                var ctx = canvas.getContext("2d");
-
-                img.onload = function () {
-                    var MAX_WIDTH = 200;
-                    var MAX_HEIGHT = 200;
-                    var width = img.width;
-                    var height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-                    } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    let newurl = canvas.toDataURL(imgFile.type, 90);
-                    document.getElementById("imageUploadedId").src = newurl;
-                    console.log(document.getElementById("imageUploadedId").src);
-                };
-            };
-        }
-    }
-
-    document.getElementById("nameInputId").addEventListener("keypress", function (e) {
-        if (e.key === "Enter" && e.target.value) {
-            console.log("string");
-            //create class channel and save it on the list channel
-            //and create the channel box with
-            //toggle display list
-        }
-    });
-}
-
-
-
-
-
-/*-------------temp ---------------*/
-/*import { xyz50 } from "culori";
-import * as sock from "socket.io-client"
-
-const socket = sock.io('http://localhost:3000');
-socket.on('chat', (msg) => {
-    bubbleChatReceived(msg);
-});
-
-$('')
-
-export function handleChatEvents() {
-
-    //createListContact();
-
-
-
-    document.body.addEventListener('click', () => {
-        console.log(isVisibleList);
-        if (isVisibleList === true) {
-            document.getElementById('listContact').classList.toggle('visible-y');
-            isVisibleList = false;
-        }
-    });
-
-
-        else if (isVisibleList) {
-            document.querySelector('html').addEventListener('click', () => {
-                console.log("im here");
-                document.getElementById('listContact').classList.replace('visible-y', 'invisible-y');
-            });
-        }
-    });
-
-
-
-
-
     //-------------handle message-----------------
-    document.getElementById("send-id").addEventListener("click", sendMessage);
-    document.getElementById("input-id").addEventListener("keypress", sendMessage);
+    function sendByMe(event) {
 
+        console.log("Click from input chat: ", event.type);
+        const inputField = document.getElementById("input-id");
+        if ((event.type === "click" || event.key === "Enter") && inputField.value) {
 
-}
+            console.log(`message sent: ${inputField.value}`);
 
+            //test websocket
+            chatSocket.send(JSON.stringify({
+                'message': inputField.value
+            }));
 
-function sendByMe(event) {
-
-    const inputField = document.getElementById("input-id");
-    if (event.type === "click" || event.type === "keypress" && event.key === "Enter") {
-        if (inputField.value) {
-            bubbleChatSent(inputField.value);
-            socket.emit('chat message', inputField.value);
-            //just for test
+            //just for test receive and send 
+            event.key === "Enter" ? createBubbleChat(inputField.value, "send") : createBubbleChat(inputField.value, "receive");
+            //socket.emit('chat message', inputField.value);
             //bubbleChatReceived(inputField.value);
             inputField.value = "";
         }
     }
-}
 
-function send(value) {
+    function createBubbleChat(value, status) {
 
-    //take class parent
-    const chatPanel = document.querySelector(".chat-panel");
-    if (chatPanel)
-        console.log(parent);
+        console.log("BUBBLE CHAT SENT => FUNCTION");
+        //take class
+        const chatPanel = document.getElementById("chatPanelId");
+        const element = document.createElement("div");
 
-    //chat bubble
-    const chatBubble = document.createElement('div');
-    chatBubble.className = 'chat-bubble chat-bubble--left';
-    chatBubble.textContent = value;
-    //column
-    const col = document.createElement('div');
-    col.className = 'col-md-3 d-flex';
-    col.appendChild(chatBubble);
-    //create element row
-    const row = document.createElement('div');
-    row.className = 'row g-0';
-    row.appendChild(col);
-    //append the all
-    chatPanel.appendChild(row);
+        if (status === "send") {
+            element.className = "row g-0";
+            element.innerHTML = `
+        <div class="col-md-3 offset-md-9 d-flex">
+            <div class="chat-bubble chat-bubble--blue chat-bubble--right ms-auto" id="msgByMeId">
+                ${value}
+            </div>
+        </div>`;
+            chatPanel.append(element);
+        }
+        else if (status === "receive") {
+            element.className = "row g-0";
+            element.innerHTML = `
+                <!--msg from friend-->
+                <div class="col-md-3 d-flex">
+                    <div class="chat-bubble chat-bubble--left" id="msgByOtherId">
+                        ${value}
+                    </div>
+                </div>`;
+            chatPanel.append(element);
+        }
+        scrollUp(document.getElementById("rowChatPanel"));
+    }
 
-
-    scrollToBottom(document.querySelector('.row-chatPanel'));
-}
-
-function bubbleChatSent(value) {
-    //take class parent
-    const chatPanel = document.querySelector(".chat-panel");
-    if (chatPanel)
-        console.log(parent);
-
-    //chat bubble
-    const chatBubble = document.createElement('div');
-    chatBubble.className = 'chat-bubble chat-bubble--blue chat-bubble--right ms-auto';
-    chatBubble.textContent = value;
-    //column
-    const col = document.createElement('div');
-    col.className = 'col-md-3 offset-md-9 d-flex';
-    col.appendChild(chatBubble);
-    //create element row
-    const row = document.createElement('div');
-    row.className = 'row g-0';
-    row.appendChild(col);
-
-    //append the all
-    chatPanel.appendChild(row);
-
-
-    scrollToBottom(document.querySelector('.row-chatPanel'));
-}
-
-//ever display the last msg when scroll is using
-function scrollToBottom(elementTarget) {
-    elementTarget.scrollTop = elementTarget.scrollHeight;
-}
-
-function updateContact(image, name) {
-    const el = document.createElement('div');
-    el.setAttribute('class', 'friend --onhover d-flex border-top');
-    el.innerHTML = `
-        <img src="${image}" alt="Friend photo" class="profile-image">
-        <h6>${name}</h6>
-    `;
-    return el;
-}
-
-function createListContact() {
-    var n = 3;
-    const imageSrc = "https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg";
-    const name = "Username";
-    const listClass = document.getElementById('listContact');
-
-    while (n-- > 0) {
-        // Créer un nouvel élément contact
-        const newContact = updateContact(imageSrc, name);
-        listClass.appendChild(newContact);
-        // Ajouter le nouvel élément contact après le dernier élément de la liste
-        //listClass.insertAdjacentElement('beforeend', newContact);
+    function scrollUp(element) {
+        if (element.scrollHeight > element.clientHeight) {
+            // Définissez la valeur de scrollTop sur la hauteur totale de l'élément scrollable
+            element.scrollTop = element.scrollHeight;
+        }
     }
 }
 
 
 
 
-function showListContact() {
-
-}*/
-// export function handleChatEvents() {
-
-// 	//handle toogle
-// 	let isVisibleChat = false;
-// 	let isVisibleChannel = false;
-// 	const chatInst = document.querySelector(".chat");
-// 	const channelInst = document.querySelector(".channel");
-// 	document.getElementById("chat-id").addEventListener("click", () => {
-// 		console.log("CLICK ON CHAT");
-// 		if (isVisibleChannel) {
-// 			channelInst.classList.remove('is-visible');
-// 			isVisibleChannel = false;
-// 		}
-// 		if (isVisibleChat)
-// 			return;
-// 		chatInst.classList.toggle('is-visible');
-// 		isVisibleChat = true;
-// 	});
-
-// 	document.getElementById("idChannel").addEventListener("click", () => {
-// 		console.log("CLICK ON CHANNEL");
-// 		if (isVisibleChat) {
-// 			chatInst.classList.remove('is-visible');
-// 			isVisibleChat = false;
-// 		}
-// 		if (isVisibleChannel)
-// 			return;
-// 		channelInst.classList.toggle('is-visible');
-// 		isVisibleChannel = true;
-// 	});
-
-// 	//handle message
-// 	document.getElementById("send-id").addEventListener("click", sendMessage);
-// 	document.getElementById("input-id").addEventListener("keypress", sendMessage);
-// }
 
 
-// function sendMessage(event) {
-
-// 	const inputField = document.getElementById("input-id");
-// 	if (event.type === "click" || event.type === "keypress" && event.key === "Enter") {
-// 		if (inputField.value) {
-// 			bubbleChatSent(inputField.value);
-// 			//just for test
-// 			bubbleChatReceived(inputField.value);
-// 			inputField.value = "";
-// 		}
-// 	}
-// }
-
-// function bubbleChatReceived(value) {
-
-// 	//take class parent
-// 	const chatPanel = document.querySelector(".chat-panel");
-// 	if (chatPanel)
-// 		console.log(parent);
-
-// 	//chat bubble
-// 	const chatBubble = document.createElement('div');
-// 	chatBubble.className = 'chat-bubble chat-bubble--left';
-// 	chatBubble.textContent = value;
-// 	//column
-// 	const col = document.createElement('div');
-// 	col.className = 'col-md-3 d-flex';
-// 	col.appendChild(chatBubble);
-// 	//create element row
-// 	const row = document.createElement('div');
-// 	row.className = 'row g-0';
-// 	row.appendChild(col);
-// 	//append the all
-// 	chatPanel.appendChild(row);
 
 
-// 	scrollToBottom(document.querySelector('.row-chatPanel'));
-// }
 
-// function bubbleChatSent(value) {
-// 	//take class parent
-// 	const chatPanel = document.querySelector(".chat-panel");
-// 	if (chatPanel)
-// 		console.log(parent);
-
-// 	//chat bubble
-// 	const chatBubble = document.createElement('div');
-// 	chatBubble.className = 'chat-bubble chat-bubble--blue chat-bubble--right ms-auto';
-// 	chatBubble.textContent = value;
-// 	//column
-// 	const col = document.createElement('div');
-// 	col.className = 'col-md-3 offset-md-9 d-flex';
-// 	col.appendChild(chatBubble);
-// 	//create element row
-// 	const row = document.createElement('div');
-// 	row.className = 'row g-0';
-// 	row.appendChild(col);
-// 	//append the all
-// 	chatPanel.appendChild(row);
-
-
-// 	scrollToBottom(document.querySelector('.row-chatPanel'));
-// }
-
-// //ever display the last msg when scroll is using
-// function scrollToBottom(elementTarget) {
-// 	elementTarget.scrollTop = elementTarget.scrollHeight;
-// }
