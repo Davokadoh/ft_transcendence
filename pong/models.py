@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.db.models.signals import pre_delete
@@ -90,8 +91,8 @@ class Game(models.Model):
     # balls = list[Ball]
     ball = Ball(field["width"] / 2, field["height"] / 2)
 
-    def send(self, content):
-        get_channel_layer().group_send("game_{}".format(self.pk), content)
+    async def send(self, content):
+        await get_channel_layer().group_send("game_{}".format(self.pk), content)
 
     def play(self):
         if all(self.players.ready):
@@ -108,11 +109,11 @@ class Game(models.Model):
             player.y = self.field["height"] / 2
         self.ball.position = self.field["width"] / 2, self.field["height"] / 2
 
-    def pause(self, player):
+    async def pause(self, src):
         self.status = Status.PAUSE
-        self.send({"type": "game_status", "status": self.status})
-        for player in self.players:
-            player.ready = False
+        await self.send({"type": "game_pause", "by_player": src.username})
+        # for player in self.players:
+        #     player.ready = False
 
     def score(self, team):
         team.score += 1
