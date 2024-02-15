@@ -20,9 +20,19 @@
 }
 
 
-.ladButClass,
+.ladButClass {
+	margin-top: 120px;
+	font-size: 50px;
+	background-color: var(--violet);
+	color: var(--vert);
+	border-radius: 20px;
+	height: 150px;
+	width: 400px;
+	border: none;
+}
+
 .quickButClass {
-	margin-top: 65px;
+	margin-top: 60px;
 	font-size: 50px;
 	background-color: var(--violet);
 	color: var(--vert);
