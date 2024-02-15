@@ -26,6 +26,6 @@ function router() {
 		document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
 		if (target.startsWith("/game")) startGame(parseInt(target.split("/")[-1]));
 		else if (target.startsWith("/profil")) profil();
-    else if (target.startsWith("/chat")) chat();
+		else if (target.startsWith("/chat")) chat();
 	});
 };
