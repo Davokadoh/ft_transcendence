@@ -1,6 +1,6 @@
 // index.js update
 import { profil } from "./profil.js";
-// import { startGame } from "./game.js"
+import { startGame } from "./game.js";
 import { chat } from "./chat.js";
 
 window.addEventListener("popstate", router);
@@ -25,8 +25,8 @@ function router() {
         var doc = parser.parseFromString(html, "text/html");
         document.title = doc.title;
         document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
-        // if (target.startsWith("/game")) startGame(parseInt(target.split("/")[-1]));
-        if (target.startsWith("/profil")) profil();
+        if (target.startsWith("/game")) startGame(parseInt(target.split("/")[-1]));
+        else if (target.startsWith("/profil")) profil();
         else if (target.startsWith("/chat")) chat();
     });
 };
