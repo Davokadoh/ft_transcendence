@@ -149,7 +149,7 @@ function changeDirection(event) {
     const paddle2Up = 38;
     const paddle2Down = 40;
 
-    if (keyPressed === paddle2Down) {
+    if (keyPressed === paddle2Down || keyPressed === paddle2Up) {
         // Empêcher le défilement de la page vers le bas lors de l'appui sur la flèche vers le bas
         event.preventDefault();
     }
