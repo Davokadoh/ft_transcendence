@@ -410,8 +410,10 @@
 }
 
 .input-group-append {
-	width: 100px;
+	/* width: 300px; */
+	margin-left: 35px !important;
 	overflow: auto;
+
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */

@@ -24,6 +24,12 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    # game settings
+    paddle_speed = models.IntegerField(default=12)
+    ball_speed = models.IntegerField(default=0)
+    paddle_color = models.CharField(max_length=50, blank=True)
+    # game_img = models.ImageField(upload_to='game_images/', null=True, blank=True)
+
     def get_username(self):
         return self.username()
 
