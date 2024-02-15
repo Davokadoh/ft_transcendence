@@ -21,30 +21,30 @@
 
 
 .ladButClass {
-	margin-top: 50px;
+	margin-top: 58px;
 	margin-left: 28px;
 	font-family: 'Titan One', sans-serif;
 	/* margin: 5% 0; */
-	padding-top: 35px;
+	padding-top: 25px;
 	font-size: 50px;
 	background-color: var(--violet);
 	color: var(--vert);
 	border-radius: 30px;
-	height: 150px;
+	height: 125px;
 	width: 400px;
 	border: none;
 }
 
 .quickButClass {
-	margin-top: 50px;
+	margin-top: 52px;
 	margin-left: 28px;
-	padding-top: 35px;
+	padding-top: 25px;
 	font-size: 50px;
 	background-color: var(--violet);
 	font-family: 'Titan One', sans-serif;
 	color: var(--vert);
 	border-radius: 30px;
-	height: 150px;
+	height: 125px;
 	width: 400px;
 	border: none;
 }
@@ -59,6 +59,15 @@
 .quickButClass:active {
 	background-color: var(--bleu) !important;
 	color: var(--violet) !important;
+}
+
+.formCust {
+	width: 80% !important;
+	height: 35px !important;
+	align-content: start !important;
+	justify-content: start !important;
+	margin: 0 !important;
+	margin-top: 15px !important;
 }
 
 /* MODE NUIT */
@@ -93,7 +102,7 @@
 	background-color: var(--vert);
 	color: var(--violet);
 	border-radius: 30px;
-	height: 370px;
+	height: 300px;
 	width: 400px;
 	align-self: flex-start;
 	/* Aligner le bord supérieur avec le bouton */
@@ -103,16 +112,19 @@
 }
 
 .invitFriend {
-	margin-top: 25px;
-	margin-bottom: 50px;
+	margin-top: 30px;
+	margin-bottom: 15px;
+	font-size: 30px;
 }
 
 .joinFriends {
-	padding-top: 10px;
+	/* padding-top: 10px; */
 	font-size: 21px;
 	margin-top: 10px;
 	margin-bottom: 0px;
 }
+
+.onlineFriendBox {}
 
 .onlineFriend {
 	/* font-family: var(--bs-body-font-family); */
@@ -120,12 +132,14 @@
 	font-weight: bold;
 	font-size: 18px;
 	margin: 0px;
-	margin-top: 0px;
-	/* display: inline-block; les aligne sur une seule ligne*/
+	margin-bottom: 30px;
+	margin-top: 3px;
+	display: inline-block;
 	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 5px;
 	color: var(--bleu);
 	/* border-radius: 60%; */
-	text-align: center;
+	text-align: top;
 }
 
 .night-mode .onlineFriend {
