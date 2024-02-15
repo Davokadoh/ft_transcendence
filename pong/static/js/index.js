@@ -1,35 +1,84 @@
 // index.js update
+import { profil } from "./profil.js";
+import { game } from "./game.js";
+import { chat } from "./chat.js";
+
+window.addEventListener("popstate", router);
+window.addEventListener("DOMContentLoaded", router);
+window.addEventListener("click", e => {
+	if (e.target.matches("[data-link]")) {
+		e.preventDefault();
+		history.pushState(null, null, e.target.href);
+		router();
+	}
+});
+
+function router() {
+	const target = (location.pathname == "/") ? "/home" : location.pathname;
+	fetch(target, {
+		headers: { "X-Requested-With": "XMLHttpRequest", }
+	}).then(response => {
+		if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
+		return response.text();
+	}).then(html => {
+		var parser = new DOMParser();
+		var doc = parser.parseFromString(html, "text/html");
+		document.title = doc.title;
+		document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
+		if (target.startsWith("/game")) game();
+		else if (target.startsWith("/profil")) profil();
+		else if (target.startsWith("/chat")) chat();
+	});
+};
+
+console.log('index called');
+
 
 // < !--SCRIPT BOUTON NB / COLOR-- >
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleSwitch = document.getElementById('toggle-switch');
+    const nightModeOn = document.getElementById('nightModeOn');
+    const nightModeOff = document.getElementById('nightModeOff');
+    const separator = document.querySelector('.separator');
 
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('night mode function called');
-        const toggleSwitch = document.getElementById('toggle-switch');
-
-        toggleSwitch.addEventListener('change', function () {
-            document.body.classList.toggle('night-mode', toggleSwitch.checked);
-        });
+    nightModeOn.addEventListener('click', function () {
+        if (!toggleSwitch.checked) {
+            toggleSwitch.checked = false;
+            document.body.classList.add('night-mode');
+            separator.style.background = 'black'; // Change la couleur de la ligne de séparation
+            toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour activer le mode nuit
+        }
     });
+
+    nightModeOff.addEventListener('click', function () {
+        if (toggleSwitch.checked) {
+            toggleSwitch.checked = true;
+            document.body.classList.remove('night-mode');
+            separator.style.background = ''; // Change la couleur de la ligne de séparation
+            toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour désactiver le mode nuit
+        }
+    });
+});
 
 
 // < !--SCRIPT BOUTON MENU-- >
-    function toggleNavbar() {
-        console.log('Toggle Navbar function called');
+function toggleNavbar() {
+    console.log('Toggle Navbar function called');
 
-        const navbarToggler = document.querySelector('.navbar-toggler');
-        const navbarNav = document.querySelector('#navbarNav');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarNav = document.querySelector('#navbarNav');
 
-        // Vérifie si le menu est ouvert
-        const isOpen = navbarNav.classList.contains('show');
+    // Vérifie si le menu est ouvert
+    const isOpen = navbarNav.classList.contains('show');
 
-        // Si le menu est ouvert, retire la classe active du bouton
-        if (isOpen) {
-            navbarToggler.classList.remove('active');
-        } else {
-            // Si le menu est fermé, ajoute la classe active au bouton
-            navbarToggler.classList.add('active');
-        }
+    // Si le menu est ouvert, retire la classe active du bouton
+    if (isOpen) {
+        navbarToggler.classList.remove('active');
+    } else {
+        // Si le menu est fermé, ajoute la classe active au bouton
+        navbarToggler.classList.add('active');
     }
+}
 // Fonction pour récupérer le jeton CSRF depuis les cookies
 function getCookie(name) {
     const value = `; ${document.cookie}`;
