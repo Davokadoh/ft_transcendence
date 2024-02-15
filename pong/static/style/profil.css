@@ -406,14 +406,19 @@
 }
 
 .input-group-custom {
-	width: 300px;
+	width: 350px;
 }
 
 .input-group-append {
 	/* width: 300px; */
-	margin-left: 35px !important;
+	margin-left: 15px !important;
 	overflow: auto;
 
+}
+
+.btnCustomProfil {
+	font-size: 20px;
+	z-index: 2 !important;
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */
