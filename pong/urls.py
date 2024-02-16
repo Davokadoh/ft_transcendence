@@ -15,6 +15,7 @@ urlpatterns = [
     path("accounts/profil/username/", views.username),
     path("home/", views.home),
     path("chat/", views.chat),
+    path("chat/chat-tmp/", views.chat),
     path("play/", views.play),
     path("profil/", views.profil),
     path("lobby/", views.lobby),

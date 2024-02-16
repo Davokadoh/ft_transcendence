@@ -88,9 +88,12 @@ def profilPicture(request):
 @login_required
 def chat(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    return render(
-        request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
-    )
+    if request.path == "/chat/chat-tmp/":
+        return render(request, "chat-tmp.html")
+    else:
+        return render(
+            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+        )
 
 
 @login_required

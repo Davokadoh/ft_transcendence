@@ -1,92 +1,84 @@
 {% extends template %}
 {% load static %}
+{% block title %}<title>CHAT</title>{% endblock %}
+<div id="app" class="container-fluid px-0 mx-0">
+	<div class="row g-0">
 
-{% block title %}
-  <title>CHAT</title>
-{% endblock %}
+		<!-- start col-md-4 -->
+		<div class="col-md-4">
 
-{% block content %}
-  <div id="app" class="container-fluid">
-    <div class="container-chat">
-      <div class="row g-0 vh-100 row-cols-2">
-        <!-- start col-md-4 -->
-        <div class="col-md-4 border-end">
-          <div class="settings-tray">
-            <img class="profile-image" src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg" alt="Profile image" />
-            <span class="settings-tray--right float-end">
-              <i class="material-symbols-outlined">cached</i>
-              <i class="material-symbols-outlined">message</i>
-              <i class="material-symbols-outlined">Groups</i>
-              <i class="material-symbols-outlined">menu</i>
-            </span>
-          </div>
+			<!-- nested row1 -->
+			<div class="row row-trayLeft g-0">
 
-          <div class="search-box">
-            <div class="input-wrapper">
-              <i class="material-symbols-outlined">search</i>
-              <input type="text" placeholder="Search here" />
-            </div>
-          </div>
+				<div class="col-md-12">
 
-          <div>
-            <div class="friend-drawer friend-drawer--onhover">
-              <img src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend photo" class="profile-image" />
-              <div class="text">
-                <h6>Wanted Cat</h6>
-                <p class="text-muted">Hey, you're arrested</p>
-              </div>
-              <span class="time-msg small">13:21</span>
-              <i class="material-symbols-outlined icon-hidden">keyboard_arrow_down</i>
-            </div>
-          </div>
-        </div>
-        <!-- col-md-4 close -->
+					<div class="settings-tray settings-tray--left d-flex align-items-center">
+						<img class="profile-image"
+							src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg"
+							alt="Profile image">
+						<span class="icons ms-auto">
+							<i class="i-menu bi-three-dots-vertical" data-toggle="tooltip" title="Menu"
+								id="menuButtonLeft" data-bs-toggle="dropdown" aria-expanded="false">
+							</i>
+							<ul class="dropdown-menu" aria-labelledby="menuButtonLeft">
+								<li><a class="dropdown-item" href="#">Action</a></li>
+								<li><a class="dropdown-item" href="#">Another action</a></li>
+								<li><a class="dropdown-item" href="#">Something else here</a></li>
+							</ul>
 
-        <!-- start col-md-8 -->
-        <div class="col-md-8 d-flex flex-column justify-content-between">
-          <div class="settings-tray">
-            <div class="friend-drawer no-gutters friend-drawer--grey">
-              <img class="profile-image" src="https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg" alt="Friend Image" />
-              <div class="text">
-                <h6>Wanted Cat</h6>
-                <p>Just test status msg blabalabla...</p>
-              </div>
-              <span class="float-end">
-                <i class="material-symbols-outlined">search</i>
-                <i class="material-symbols-outlined">menu</i>
-              </span>
-            </div>
-          </div>
+						</span>
+					</div>
+				</div>
+			</div>
 
-          <!-- start chat panel -->
-          <div class="chat-panel">
-            <div class="row g-0">
-              <!-- msg from friend -->
-              <div class="col-md-3">
-                <div class="chat-bubble chat-bubble--left">Hello cat!</div>
-              </div>
-            </div>
+			<!-- nested row2 -->
+			<div class="row row-chatChannel g-0">
+				<div class="col-md-12">
 
-            <div class="row g-0">
-              <!-- msg from me -->
-              <div class="col-md-3 offset-md-9">
-                <div class="chat-bubble chat-bubble--blue chat-bubble--right">wsup!</div>
-              </div>
-            </div>
-          </div>
-          <!-- chat panel close -->
+					<div class="chat" id="chatId">
 
-          <!-- message bar -->
-          <div class="chat-box-tray">
-            <i class="material-symbols-outlined">sentiment_stressed</i>
-            <input type="text" placeholder="Type your message..." />
-            <i class="material-symbols-outlined">mic</i>
-            <i class="material-symbols-outlined">send</i>
-          </div>
-          <!-- close message bar -->
-        </div>
-        <!-- col-md-8 close -->
-      </div>
-    </div>
-  </div>
-{% endblock %}
+						<div class="search" id="searchContactId">
+							<div class="input-wrapper">
+								<i class="search bi-search-heart"></i>
+								<input type="text" id="searchContact" placeholder="Search contact here" data-search>
+								</input>
+							</div>
+						</div>
+
+						<div class="list-contact invisible-y" id="listContact" list-contact-container>
+							<template list-contact-template>
+								<div class="contact friend --onhover border-top d-flex align-items-center"
+									id="contactId">
+									<img src="" alt="Friend photo" class="profile-image" data-image>
+									<div class="text" data-name></div>
+								</div>
+							</template>
+						</div>
+
+
+						<div class="conversation-list visible-x" id="conversationListId"></div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<!-- col-md-4 close -->
+
+		<!-- start col-md-8 -->
+		<div class="col-md-8">
+
+			<!--first panel display-->
+			<div class="panel-principal col-md-12" id="panelPrincipalId">
+			</div>
+
+			<!-- conversation-history -->
+			<div class="conversation-history" id="conversationHistoryId" data-conversation-history>
+			</div>
+
+		</div>
+		<!-- col-md-8 close -->
+
+	</div>
+</div>

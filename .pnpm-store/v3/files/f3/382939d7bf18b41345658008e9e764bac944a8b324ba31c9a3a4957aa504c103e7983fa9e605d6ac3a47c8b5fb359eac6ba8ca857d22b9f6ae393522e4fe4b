@@ -1,0 +1,11 @@
+'use strict';
+
+var a=t=>typeof t=="boolean"?`${t}`:t===0?"0":t,l=t=>!t||typeof t!="object"||Object.keys(t).length===0,u=(t,e)=>JSON.stringify(t)===JSON.stringify(e);function i(t,e){t.forEach(function(n){Array.isArray(n)?i(n,e):e.push(n);});}function y(t){let e=[];return i(t,e),e}var x=(...t)=>y(t).filter(Boolean),p=(t,e)=>{let n={},c=Object.keys(t),f=Object.keys(e);for(let o of c)if(f.includes(o)){let r=t[o],s=e[o];typeof r=="object"&&typeof s=="object"?n[o]=p(r,s):n[o]=s+" "+r;}else n[o]=t[o];for(let o of f)c.includes(o)||(n[o]=e[o]);return n},g=t=>!t||typeof t!="string"?t:t.replace(/\s+/g," ").trim();
+
+exports.falsyToString = a;
+exports.flatArray = y;
+exports.flatMergeArrays = x;
+exports.isEmptyObject = l;
+exports.isEqual = u;
+exports.mergeObjects = p;
+exports.removeExtraSpaces = g;
