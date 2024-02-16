@@ -1,6 +1,8 @@
 import { router } from "./router.js";
 
-const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+export const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+
+router();
 document.onpopstate = router;
 document.firstElementChild.onclick = function (event) {
 	const target = event.target;
