@@ -8,7 +8,6 @@ export function startGame(gameId) {
 
 	socket.onmessage = (event) => {
 		console.log("Rcvd: " + event.data);
-		// updateState(event.data);
 	};
 
 	function test() {

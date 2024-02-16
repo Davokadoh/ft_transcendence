@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
-    chats = models.ForeignKey("self", null=True, through="Chat")
+    chats = models.ManyToManyField("self", null=True, through="Chat")
     USERNAME_FIELD = "username"
 
     objects = UserManager()
@@ -60,11 +60,13 @@ class Message(models.model):
     message = models.TextField(null=False, blank=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
+
 class Chat(models.model):
     messages = models.ForeignKey(Message, on_delete=models.CASCADE)
 
     async def send(self, content):
         await get_channel_layer().group_send("room_{}".format(self.pk), content)
+
 
 class GameTeam(models.Model):
     team = models.ForeignKey("Team", on_delete=models.CASCADE)
