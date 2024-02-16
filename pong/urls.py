@@ -1,8 +1,12 @@
+from django.views.generic.base import RedirectView
+from django.conf.urls.static import static
+from django.conf import settings
 from django.urls import path
 from . import views
 
 urlpatterns = [
     path("", views.index),
+	path('favicon.ico', RedirectView.as_view(url=static('favicon.ico'))),
     path("accounts/login/", views.loginview),
     path("accounts/callback/", views.callback),
     path("accounts/logout/", views.logoutview),
@@ -18,3 +22,5 @@ urlpatterns = [
     path("lobby/<int:game_id>/", views.lobby),
     path("game/<int:game_id>/", views.game),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

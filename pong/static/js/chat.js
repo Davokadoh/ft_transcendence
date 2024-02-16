@@ -14,11 +14,11 @@ export function chat() {
     let templateConversation = document.createElement('template');
     let contactBlocked = [];
 
-    const dataListContact = document.querySelector("[list-contact-template]");
-    const listContactContainer = document.querySelector("[list-contact-container]");
-    const searchInput = document.querySelector("[data-search]");
-    const contactSelect = document.querySelector("[data-contact]");
-    let users = [];
+	// const dataListContact = document.querySelector("[list-contact-template]");
+	// const listContactContainer = document.querySelector("[list-contact-container]");
+	// const searchInput = document.querySelector("[data-search]");
+	// const contactSelect = document.querySelector("[data-contact]");
+	// let users = [];
 
     const chatSocket = new WebSocket(
         'ws://'
@@ -299,16 +299,16 @@ export function chat() {
         if (activeChatPanel)
             updateChatHistory(activeChatPanel);
 
-        const conversationHistory = document.querySelector(".conversation-history");
-        //update chatPanel, just keep the template child
-        conversationHistory.innerHTML = "";
+	// 	const conversationHistory = document.querySelector(".conversation-history");
+	// 	//update chatPanel, just keep the template child
+	// 	conversationHistory.innerHTML = "";
 
-        const tpl = templateConversationHistory.content.cloneNode(true);
-        const settingsTray = tpl.querySelector(".settings-tray");
-        const img = settingsTray.querySelector("[data-image]");
-        const name = settingsTray.querySelector("[data-text] h6");
-        img.src = obj.imgSrc;
-        name.textContent = obj.name;
+	// 	const tpl = templateConversationHistory.content.cloneNode(true);
+	// 	const settingsTray = tpl.querySelector(".settings-tray");
+	// 	const img = settingsTray.querySelector("[data-image]");
+	// 	const name = settingsTray.querySelector("[data-text] h6");
+	// 	img.src = obj.imgSrc;
+	// 	name.textContent = obj.name;
 
         conversationHistory.append(tpl);
         activeChatPanel = obj.name;

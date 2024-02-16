@@ -15,20 +15,25 @@ from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 from channels.sessions import SessionMiddlewareStack
 
-from pong.routing import websocket_urlpatterns
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ftt.settings")
-# Initialize Django ASGI application early to ensure the AppRegistry
-# is populated before importing code that may import ORM models.
-django_asgi_app = get_asgi_application()
+from django.urls import re_path
 
-application = ProtocolTypeRouter(
-    {
-        "http": django_asgi_app,
-        "websocket": AllowedHostsOriginValidator(
-            AuthMiddlewareStack(
-                SessionMiddlewareStack(URLRouter(websocket_urlpatterns))
-            )
-        ),
-    }
-)
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
+from channels.security.websocket import AllowedHostsOriginValidator
+
+from pong import consumers
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ftt.settings')
+application = ProtocolTypeRouter({
+	"http": get_asgi_application(),
+    "websocket": AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter([
+                re_path(r'game/(?P<game_id>\d+)/ws/$', consumers.PlayerConsumer.as_asgi()),
+				# path("game/<int:game_id>/ws", consumers.PlayerConsumer.as_asgi()),
+            ])
+        )
+    ),
+
+})
