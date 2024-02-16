@@ -418,7 +418,7 @@
 
 .btnCustomProfil {
 	font-size: 20px;
-	z-index: 2 !important;
+	z-index: 0 !important;
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */

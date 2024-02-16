@@ -57,6 +57,32 @@ export function profil() {
 		});
 	}
 
+	// // settings
+	//     // Ajoutez l'écouteur d'événement pour le formulaire
+	// 	const settingsForm = document.getElementById('settingsForm');
+	// 	settingsForm.addEventListener('submit', function(event) {
+	// 		event.preventDefault();
+	// 		const paddleSpeed = document.getElementById('paddleSpeed').value;
+	// 		fetch('/profil', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/x-www-form-urlencoded',
+	// 				'X-CSRFToken': getCookie('csrftoken'),
+	// 			},
+	// 			body: `paddle_speed=${paddleSpeed}`,
+	// 		})
+	// 		.then(response => {
+	// 			if (response.ok) {
+	// 				// Gérer la réponse en cas de succès si nécessaire
+	// 			} else {
+	// 				console.error('Erreur lors de la soumission du formulaire');
+	// 			}
+	// 		})
+	// 		.catch(error => {
+	// 			console.error('Erreur lors de la soumission du formulaire :', error);
+	// 		});
+	// 	});
+
 
 	var usernameInput = document.getElementById('username');
 	function postUsername(newUsername) { newUsername = newUsername.trim(); }
@@ -134,7 +160,6 @@ export function profil() {
 	const modifyImageButton = document.getElementById('modifyImageButton');
 
 	modifyImageButton.onclick = function () {
-		// Mettez ici le code que vous souhaitez exécuter lorsque le bouton est cliqué
 		console.log("Le bouton a été cliqué !");
 		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
 	};
