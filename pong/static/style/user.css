@@ -5,28 +5,32 @@
 	overflow: hidden;
 	border-top-left-radius: 30px;
 	border-bottom-left-radius: 30px;
-  }
-  
-  .container-right-user {
+}
+
+.container-right-user {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	padding: 20px;
-  }
-  
-  /* Style pour la vidéo en arrière-plan */
-  .videoCustom {
+}
+
+/* Style pour la vidéo en arrière-plan */
+.videoCustom {
 	border-radius: 5%;
-  }
-  
-  /* Style pour le contenu du container de droite */
-  .container-profile-info-user {
+}
+
+.night-mode .videoCustom {
+	filter: grayscale(100%);
+}
+
+/* Style pour le contenu du container de droite */
+.container-profile-info-user {
 	text-align: center;
 	margin-bottom: 20px;
-  }
-  
+}
+
 .usernameUser {
 	font-size: 32px;
 }
@@ -53,12 +57,15 @@
 	margin-top: 10px;
 	text-align: center;
 	margin-bottom: 10px;
-	font-size: 18px;
+	font-size: 21px;
 	font-family: 'Titan One', sans-serif;
 }
 
 .userStat {
-	margin-top: 340px !important;
-	margin-bottom: 16px;
-	margin-left: 15px;
+	margin-top: 14px;
+	justify-content: center;
+}
+
+.userStatTab {
+	margin-bottom: 10px;
 }

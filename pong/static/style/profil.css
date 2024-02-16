@@ -413,6 +413,10 @@
 	z-index: 0 !important;
 }
 
+.night-mode .btnCustomProfil {
+	filter: grayscale(100%);
+}
+
 /*  Pour avoir les bords de droite du formulaire arrondis */
 .input-group.custom-input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
 .input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
