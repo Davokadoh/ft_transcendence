@@ -334,6 +334,13 @@ export function chat() {
     }
 
     //-------------handle message-----------------
+
+    chatSocket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        console.log("===received message:===", data.message);
+        //$('#chatMessages').append('<li>' + data.message + '</li>');
+    };
+
     function sendByMe(event) {
 
         console.log("Click from input chat: ", event.type);

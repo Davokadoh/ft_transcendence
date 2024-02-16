@@ -71,6 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ftt.wsgi.application"
 ASGI_APPLICATION = "ftt.asgi.application"
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
 
 # Database
