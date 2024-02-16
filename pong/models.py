@@ -44,7 +44,7 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
-    chats = models.ManyToManyField("self", null=True, through="Chat")
+    messages = models.ManyToManyField("self", null=True, through="Message")
     USERNAME_FIELD = "username"
 
     objects = UserManager()
@@ -54,7 +54,6 @@ class User(AbstractBaseUser):
 
 
 class Message(models.Model):
-    chat = models.ForeignKey("Chat", on_delete=models.CASCADE)
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
     )
