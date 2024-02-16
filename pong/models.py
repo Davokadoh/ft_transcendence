@@ -54,14 +54,14 @@ class User(AbstractBaseUser):
         return self.username
 
 
-class Message(models.model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="sender")
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="receiver")
     message = models.TextField(null=False, blank=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
 
-class Chat(models.model):
+class Chat(models.Model):
     messages = models.ForeignKey(Message, on_delete=models.CASCADE)
 
     async def send(self, content):
