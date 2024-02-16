@@ -2,7 +2,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import Game, Status
 
 
-class PlayerConsumer(AsyncJsonWebsocketConsumer):
+class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.pauseLeft = 1
