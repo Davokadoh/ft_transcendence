@@ -141,14 +141,6 @@
 	/* align-items: end !important; */
 }
 
-/* Style for the profile image */
-.profile-image-set {
-	/* width: 100px;
-	height: 100px;
-	margin-right: 10px; */
-	/* border-radius: 50%; */
-}
-
 .night-mode .modImg {
 	filter: invert(1);
 	/* Pour passer  une image noir en blanc ! :) */

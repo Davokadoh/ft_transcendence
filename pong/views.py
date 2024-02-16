@@ -48,6 +48,14 @@ def profil(request):
         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
     )
 
+@login_required
+def user(request):
+    print("URL: " + request.user.profilPictureUrl)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "user.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
+
 # def profil(request):
 #     print("URL: " + request.user.profilPictureUrl)
 #     user_profile, created = User.objects.get_or_create(user=request.user)

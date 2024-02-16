@@ -2,30 +2,15 @@
 {% load static %}
 
 {% block title %}
-  <title>PROFIL</title>
+  <title>USER</title>
 {% endblock %}
 
 {% block content %}
   <div id="app">
     <div class="container text-center">
       <div class="row justify-content-around">
-        <div class="container container-option d-flex flex-column align-items justify-content-between">
-          <div class="row align-items-center justify-content-between">
-            <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#statsModal" id="statsBtn">Statistics</button>
-            <img src="{% static 'img/stat/statistique.png' %}" alt="Statistics Icon" class="col-2 img-fluid icon" />
-          </div>
-          <div class="row align-items-center justify-content-between">
-            <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#featsModal">Feats</button>
-            <img src="{% static 'img/stat/feats.png' %}" alt="Feats Icon" class="col-2 img-fluid icon" />
-          </div>
-          <div class="row align-items-center justify-content-between">
-            <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#matchModal">Match History</button>
-            <img src="{% static 'img/stat/historique.png' %}" alt="Match History Icon" class="col-2 img-fluid icon" />
-          </div>
-          <div class="row align-items-center justify-content-between">
-            <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
-            <img src="{% static 'img/stat/reglages.png' %}" alt="Settings Icon" class="col-2 img-fluid icon" />
-          </div>
+        <div class="container container-option d-flex flex-column">
+          <iframe class="col videoCustom" width="auto" height="auto" src="https://www.youtube.com/embed/jxSvjnuBeRM?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <div class="container container-profil d-flex flex-column align-items justify-content-between">
@@ -41,27 +26,61 @@
             </form>
             <form action="/accounts/profil/username/" method="post" class="col-8">
               {% csrf_token %}
-              {% comment %} <label class="visually-hidden col-form-label col-form-label-sm" for="username">Name</label> {% endcomment %}
-              <div class="row align-items-center justify-content-between">
+              <!-- {% comment %} <label class="visually-hidden col-form-label col-form-label-sm" for="username">Name</label> {% endcomment %} -->
                 <div class="col">
-                  <input id="username" class="form-control form-control-sm" type="text" placeholder="{{ request.user.username }}" />
+                  <span class="usernameUser" id="username">{{ request.user.username }}</span>
                 </div>
 
-                
-                <button id="modifyUsernameButton" class="col-2 btn bg-vert" type="submit">✓</button>
-                {% comment %} <input class="col-2 btn bg-vert" type="image" id="modifyUsernameButton" alt="ChangeUsername" src="{% static 'img/cocher.png' %}" /> {% endcomment %}
-                <div class="justify-content-start">
-                <button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image" style="width: 28px; height: auto; filter: invert(1);"></button>
-                  <input type="file" accept="image/*" id="imageInput" style="display: none; border-radius: 20%;">
-                </div>
-              </div>
+                <!-- <button id="modifyUsernameButton" class="col-2 btn bg-vert" type="submit">✓</button> -->
+                <!-- {% comment %} <input class="col-2 btn bg-vert" type="image" id="modifyUsernameButton" alt="ChangeUsername" src="{% static 'img/cocher.png' %}" /> {% endcomment %} -->
+                <!-- <div class="justify-content-start"> -->
+                <!-- <button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image" style="width: 28px; height: auto; filter: invert(1);"></button> -->
+                  <!-- <input type="file" accept="image/*" id="imageInput" style="display: none; border-radius: 20%;"> -->
+                <!-- </div> -->
             </form>
           </div>
-          <HR class="sepLigne" ALIGN=CENTER>
+
+          <!-- <div class="row align-items-center justify-content-between">
+            <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#statsModal" id="statsBtn">Statistics</button>
+            <img src="{% static 'img/stat/statistique.png' %}" alt="Statistics Icon" class="col-2 img-fluid icon" />
+          </div> -->
+
+          <!-- Onglets -->
+          <ul class="nav nav-tabs" id="myTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link modNavUser active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link modNavUser" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab" aria-controls="onglet2" aria-selected="false">Win</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link modNavUser" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab" aria-controls="onglet3" aria-selected="false">Match</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link modNavUser" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab" aria-controls="onglet4" aria-selected="false">Ratio</a>
+            </li>
+          </ul>
+
+          <!-- Contenu des onglets -->
+          <div class="tab-content">
+            <div class="tab-pane fade show active tabCustUser" id="onglet1" role="tabpanel" aria-labelledby="onglet1-tab">
+              6/10 <!-- (rang par rapport aux amis) -->
+            </div>
+            <div class="tab-pane fade tabCustUser" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
+              306 <!-- (Nbr de victoires) -->
+            </div>
+            <div class="tab-pane fade tabCustUser" id="onglet3" role="tabpanel" aria-labelledby="onglet3-tab">
+              612 <!-- (Nbr de match) -->
+            </div>
+            <div class="tab-pane fade tabCustUser" id="onglet4" role="tabpanel" aria-labelledby="onglet4-tab">
+              50% <!-- (ratio Nbr de victoires sur nbr de match) -->
+            </div>
+          </div>
+
           <div class="row align-items-center justify-content-around">
-            <button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal" data-bs-target="#contactsModal">Contacts</button>
+            <button type="button" class="col-lg-6 btn bg-vert" data-bs-target="#addFriend">Friend request</button>
             <br />
-            <button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal" data-bs-target="#modalBlocked">Blocked</button>
+            <button type="button" class="col-lg-6 btn bg-vert" data-bs-target="#BlockFriend">Remove friend</button>
           </div>
         </div>
       </div>
@@ -162,7 +181,7 @@
           </div>
           <div class="modal-body">
             <!-- Onglets -->
-            <ul class="nav nav-tabs navCustom" id="myTabs" role="tablist">
+            <ul class="nav nav-tabs navCustom userStat" id="myTabs" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link modNav active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1" role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
               </li>
@@ -179,21 +198,18 @@
 
             <!-- Contenu des onglets -->
             <div class="tab-content">
-              <div class="tab-pane fade show active tabCust" id="onglet1" role="tabpanel" aria-labelledby="onglet1-tab">
+              <div class="tab-pane fade show active tabCustUser" id="onglet1" role="tabpanel" aria-labelledby="onglet1-tab">
                 6/10 <!-- (rang par rapport aux amis) -->
               </div>
-              <div class="tab-pane fade tabCust" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
+              <div class="tab-pane fade tabCustUser" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
                 306 <!-- (Nbr de victoires) -->
               </div>
-              <div class="tab-pane fade tabCust" id="onglet3" role="tabpanel" aria-labelledby="onglet3-tab">
+              <div class="tab-pane fade tabCustUser" id="onglet3" role="tabpanel" aria-labelledby="onglet3-tab">
                 612 <!-- (Nbr de match) -->
               </div>
-              <div class="tab-pane fade tabCust" id="onglet4" role="tabpanel" aria-labelledby="onglet4-tab">
+              <div class="tab-pane fade tabCustUser" id="onglet4" role="tabpanel" aria-labelledby="onglet4-tab">
                 50% <!-- (ratio Nbr de victoires sur nbr de match) -->
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">Close</button>
             </div>
           </div>
         </div>

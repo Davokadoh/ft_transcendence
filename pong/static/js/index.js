@@ -1,6 +1,7 @@
 import { profil } from "./profil.js";
 import { game } from "./game.js";
 import { chat } from "./chat.js";
+// import { user } from "./user.js";
 
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
@@ -27,6 +28,7 @@ function router() {
         if (target.startsWith("/game")) game(parseInt(target.split("/")[-1]));
         else if (target.startsWith("/profil")) profil();
         else if (target.startsWith("/chat")) chat();
+        else if (target.startsWith("/user")) user();
     });
 };
 
