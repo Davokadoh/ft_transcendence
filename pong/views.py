@@ -78,8 +78,6 @@ def profilPicture(request):
         form = ProfilPictureForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            # request.user.profil_picture.name = "profil_pictures/{}".format(request.user.login)
-            # request.user.save()
             return HttpResponse()
         else:
             return HttpResponseBadRequest()

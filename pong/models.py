@@ -1,4 +1,3 @@
-import json
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.db.models.signals import pre_delete
@@ -55,17 +54,21 @@ class User(AbstractBaseUser):
 
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="sender")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="receiver")
+    chat = models.ForeignKey("Chat", on_delete=models.CASCADE)
+    sender = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
+    )
+    receiver = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="receiver"
+    )
     message = models.TextField(null=False, blank=False)
-    date_added = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 class Chat(models.Model):
-    messages = models.ForeignKey(Message, on_delete=models.CASCADE)
-
-    async def send(self, content):
-        await get_channel_layer().group_send("room_{}".format(self.pk), content)
+    users = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False
+    )
 
 
 class GameTeam(models.Model):

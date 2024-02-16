@@ -1,4 +1,3 @@
-
 export function chat() {
 
     console.log('SCRIPT CHAT IS LOADED');
@@ -14,19 +13,19 @@ export function chat() {
     let templateConversation = document.createElement('template');
     let contactBlocked = [];
 
-	// const dataListContact = document.querySelector("[list-contact-template]");
-	// const listContactContainer = document.querySelector("[list-contact-container]");
-	// const searchInput = document.querySelector("[data-search]");
-	// const contactSelect = document.querySelector("[data-contact]");
-	// let users = [];
+	const dataListContact = document.querySelector("[list-contact-template]");
+	const listContactContainer = document.querySelector("[list-contact-container]");
+	const searchInput = document.querySelector("[data-search]");
+	const contactSelect = document.querySelector("[data-contact]");
+	let users = [];
 
-    const chatSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/ws/chat/'
-        + 'conversation'
-        + '/'
-    );
+    // const socket = new WebSocket(
+    //     'ws://'
+    //     + window.location.host
+    //     + '/ws/chat/'
+    //     + 'conversation'
+    //     + '/'
+    // );
 
 
     //create list contact
@@ -299,16 +298,16 @@ export function chat() {
         if (activeChatPanel)
             updateChatHistory(activeChatPanel);
 
-	// 	const conversationHistory = document.querySelector(".conversation-history");
-	// 	//update chatPanel, just keep the template child
-	// 	conversationHistory.innerHTML = "";
+		const conversationHistory = document.querySelector(".conversation-history");
+		//update chatPanel, just keep the template child
+		conversationHistory.innerHTML = "";
 
-	// 	const tpl = templateConversationHistory.content.cloneNode(true);
-	// 	const settingsTray = tpl.querySelector(".settings-tray");
-	// 	const img = settingsTray.querySelector("[data-image]");
-	// 	const name = settingsTray.querySelector("[data-text] h6");
-	// 	img.src = obj.imgSrc;
-	// 	name.textContent = obj.name;
+		const tpl = templateConversationHistory.content.cloneNode(true);
+		const settingsTray = tpl.querySelector(".settings-tray");
+		const img = settingsTray.querySelector("[data-image]");
+		const name = settingsTray.querySelector("[data-text] h6");
+		img.src = obj.imgSrc;
+		name.textContent = obj.name;
 
         conversationHistory.append(tpl);
         activeChatPanel = obj.name;
@@ -335,7 +334,7 @@ export function chat() {
 
     //-------------handle message-----------------
 
-    chatSocket.onmessage = function (event) {
+    socket.onmessage = function (event) {
         const data = JSON.parse(event.data);
         console.log("===received message:===", data.message);
         //$('#chatMessages').append('<li>' + data.message + '</li>');
@@ -350,7 +349,7 @@ export function chat() {
             console.log(`message sent: ${inputField.value}`);
 
             //test websocket
-            chatSocket.send(JSON.stringify({
+            socket.send(JSON.stringify({
                 'message': inputField.value
             }));
 
