@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.db.models.signals import pre_delete
-from django.dispatch import receiver
 import random
 from channels.layers import get_channel_layer
 from .player import Player
@@ -27,7 +26,7 @@ def user_directory_path(instance, filename):
 
 class User(AbstractBaseUser):
     username = models.CharField(max_length=255, primary_key=True)
-    nickname = models.CharField(max_length=255, unique=True, default=username)
+    nickname = models.CharField(max_length=255, unique=True, null=True)
     access_token = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -44,7 +43,7 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
-    messages = models.ManyToManyField("self", null=True, through="Message")
+    chats = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=False)
     USERNAME_FIELD = "username"
 
     objects = UserManager()
@@ -52,22 +51,21 @@ class User(AbstractBaseUser):
     def get_username(self):
         return self.username
 
+    def save(self, *args, **kwargs):
+        if not self.nickname:
+            self.nickname = self.username
+        super().save(*args, **kwargs)
+
 
 class Message(models.Model):
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
     )
-    receiver = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, blank=False, related_name="receiver"
+    target = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="target"
     )
     message = models.TextField(null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-
-
-class Chat(models.Model):
-    users = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, blank=False
-    )
 
 
 class GameTeam(models.Model):
@@ -84,11 +82,11 @@ class Team(models.Model):
         if self.users.size() < self.max_player:
             self.users.add(player_id)
 
-    @receiver(pre_delete, sender=User)
-    def pre_delete_User_in_team(sender, instance, created, **kwargs):
-        team_list = Team.objects.filter(users=None)
-        for team in team_list:
-            team.delete()
+    # @target(pre_delete, sender=User)
+    # def pre_delete_User_in_team(sender, instance, created, **kwargs):
+    #     team_list = Team.objects.filter(users=None)
+    #     for team in team_list:
+    #         team.delete()
 
 
 Status = models.IntegerChoices("Status", "LOBBY PLAY PAUSE END")
@@ -232,7 +230,7 @@ class Tournament(models.Model):
         for i in range(0, len(teams), 2):
             self.games[i // 2].add_teams(teams[i], teams[i + 1])
 
-    # @receiver(post_save, sender=Game)
+    # @target(post_save, sender=Game)
     # def listen_to_games(self, sender, instance, **kwargs):
     #     if instance.status == "finished":
     #         for round_games in self.games:

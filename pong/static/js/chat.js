@@ -343,6 +343,7 @@ export function chat() {
 			//test websocket
 			socket.send(JSON.stringify({
 				'type': 'chat_message',
+				'chat': contactName,
 				'message': inputField.value
 			}));
 
