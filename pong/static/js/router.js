@@ -22,7 +22,7 @@ export function router() {
 		gameid.pop();
 		gameid = parseInt(gameid.pop());
 		console.log("gameid: " + gameid);
-		if (target.startsWith("/game")) startGame(gameid);
+		if (target.startsWith("/game")) game(gameid);
 		else if (target.startsWith("/profil")) profil();
 		else if (target.startsWith("/chat")) chat();
 	});
