@@ -57,10 +57,21 @@ def profil(request):
 
 @login_required
 def user(request):
-    print("URL: " + request.user.profilPictureUrl)
+    if request.user.profil_picture:
+        profil_picture_url = request.user.profil_picture.url
+    elif request.user.profil_picture_oauth:
+        profil_picture_url = request.user.profil_picture_oauth
+    else:
+        profil_picture_url = STATIC_URL("img/ajouter-une-image.png")
+    print("URL: " + profil_picture_url)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "user.html", {"template": "ajax.html" if ajax else "index.html"}
+        request,
+        "user.html",
+        {
+            "template": "ajax.html" if ajax else "index.html",
+            "profil_picture_url": profil_picture_url,
+        },
     )
 
 # def profil(request):
