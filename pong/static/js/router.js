@@ -1,6 +1,6 @@
 import { chat } from "./chat.js";
 import { profil } from "./profil.js";
-import { startGame } from "./game.js";
+import { game } from "./game.js";
 
 export function router() {
 	let target = (location.pathname == "/") ? "/home" : location.pathname;
