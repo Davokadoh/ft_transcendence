@@ -20,7 +20,7 @@ const paddleBorder = "white";
 const ballColor = "white";
 const ballBorderColor = "white";
 const ballRadius = 12.5;
-const paddleSpeed = 12;
+let paddleSpeed = 12;
 let gameRunning = false;
 
 function initializeGame() {
@@ -205,6 +205,18 @@ function start() {
 
 function stopGame() {
     gameRunning = false;
+}
+
+// Fonction pour mettre à jour la vitesse du paddle dans le jeu
+function updatePaddleSpeed(speed) {
+    // Met à jour la vitesse du paddle dans le jeu avec la valeur reçue
+    paddleSpeed = speed;
+}
+
+// Fonction pour mettre à jour la vitesse de la balle dans le jeu
+function updateBallSpeed(speed) {
+    // Met à jour la vitesse de la balle dans le jeu avec la valeur reçue
+    ballSpeed = speed;
 }
 
 // Appel initial pour l'initialisation

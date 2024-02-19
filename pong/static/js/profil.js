@@ -1,45 +1,40 @@
 export function profil() {
-
-	// var statsBtn = document.getElementById('statsBtn');
-	// var modal = document.getElementById('statsModal');
-	// statsBtn.addEventListener('click', function () { modal.style.display = 'block'; });
-	// function statsModalClose() { modal.style.display = 'none'; }
-	// window.addEventListener('click', function (event) { if (event.target === modal) statsModalClose(); });
-
-	var paddleSpeedInput = document.getElementById('paddleSpeed');
-	var paddleSpeedValue = document.getElementById('paddleSpeedValue');
+	let paddleSpeedInput = document.getElementById('paddleSpeed');
+	let paddleSpeedValue = document.getElementById('paddleSpeedValue');
 	paddleSpeedInput.oninput = function () { paddleSpeedValue.innerHTML = this.value; }
 
-	var ballSpeedInput = document.getElementById('ballSpeed');
-	var ballSpeedValue = document.getElementById('ballSpeedValue');
+	let ballSpeedInput = document.getElementById('ballSpeed');
+	let ballSpeedValue = document.getElementById('ballSpeedValue');
 	ballSpeedInput.oninput = function () { ballSpeedValue.innerHTML = this.value; }
 
-	var settingsForm = document.getElementById('settingsForm');
-	var settingsModal = document.getElementById('settingsModal');
+	let settingsForm = document.getElementById('settingsForm');
+	let settingsModal = document.getElementById('settingsModal');
 	settingsModal.addEventListener('hidden.bs.modal', function () {
 		settingsForm.reset();
-		var event = new Event('input');
+		let event = new Event('input');
 		paddleSpeedInput.dispatchEvent(event);
 		ballSpeedInput.dispatchEvent(event);
 	});
 
-	var saveButton = document.getElementById('saveButton');
+	let saveButton = document.getElementById('saveButton');
 	saveButton.onclick = function () {
-		var paddleSpeedValue = paddleSpeedInput.value;
-		var ballSpeedValue = ballSpeedInput.value;
+		const paddleSpeedValue = paddleSpeedInput.value;
+		const ballSpeedValue = ballSpeedInput.value;
 		statsModalClose();
 	}
 
-	const profilPictureInput = document.getElementById('profil-picture-input');
-	const profilPictureForm = document.getElementById('profil-picture-form');
-	const profilPicture = document.getElementById('profil-picture');
+	let profilPictureInput = document.getElementById('id_profil_picture');
+	let profilPictureForm = document.getElementById('profil-picture-form');
+	let profilPicture = document.getElementById('profil-picture');
 
 	profilPicture.onclick = function () {
+		console.log("Clicked!")
 		profilPictureInput.click();
 	}
 
 	profilPictureInput.onchange = function (event) {
-		profilPicture.src = URL.createObjectURL(event.target.files[0]);
+		console.log("Input changed!")
+		// profilPicture.src = URL.createObjectURL(event.target.files[0]);
 		profilPictureForm.requestSubmit();
 	};
 
@@ -52,28 +47,32 @@ export function profil() {
 			method: form.method,
 			body: formData,
 			mode: 'same-origin',
-		}).then(response => response.json()).then(data => {
-			console.log("message: " + data.message);
+		}).then(response => {
+			profilPicture.src = URL.createObjectURL(profilPictureInput.files[0]);
+			console.log("Img src changed!")
 		});
 	}
 
+	let usernameInput = document.getElementById('username');
+	let usernameForm = document.getElementById('username-form');
+	let usernameButton = document.getElementById('modifyUsernameButton');
 
-	var usernameInput = document.getElementById('username');
-	function postUsername(newUsername) { newUsername = newUsername.trim(); }
+	usernameButton.onclick = function (event) {
+		event.preventDefault();
+		usernameForm.requestSubmit();
+	}
 
-	document.getElementById('modifyUsernameButton').addEventListener('click', function () {
-		const newUsername = usernameInput.value.trim();
-
-		fetch("/accounts/profil/update-username/", {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'X-CSRFToken': getCookie('csrftoken'),
-			},
-			body: `new_username=${newUsername}`,
+	usernameForm.onsubmit = function (event) {
+		event.preventDefault();
+		const form = usernameForm;
+		const url = new URL(form.action);
+		const formData = new FormData(form);
+		fetch(url, {
+			method: form.method,
+			body: formData,
+			mode: 'same-origin',
 		}).then(response => response.json()).then(data => {
-			console.log(data.message);
-
+			console.log("message: " + data.message);
 			localStorage.setItem('savedUsername', newUsername);
 
 			usernameInput.value = newUsername;
@@ -81,17 +80,17 @@ export function profil() {
 		}).catch(error => {
 			console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
 		});
-	});
+	}
 
 
 	fetch("/accounts/profil/username")
 		.then(response => response.json())
 		.then(data => {
-			var savedUsername = localStorage.getItem('savedUsername');
-			var savedImage = localStorage.getItem('image');
+			let savedUsername = localStorage.getItem('savedUsername');
+			let savedImage = localStorage.getItem('image');
 
-			// var profileImage = document.getElementById('profileImage');
-			var defaultUsername = data.username;
+			// let profileImage = document.getElementById('profileImage');
+			let defaultUsername = data.username;
 
 			if (savedUsername && !usernameInput.classList.contains('username-updated')) usernameInput.value = savedUsername;
 			else if (defaultUsername) usernameInput.value = defaultUsername;
@@ -105,11 +104,11 @@ export function profil() {
 			.then(response => response.json())
 			.then(data => {
 				console.log("data:", data);
-				const profilImg = data[image][link];
+				let profilImg = data[image][link];
 
 				// Mettre à jour l'image de profil i elle est disponible
 				if (profilImg) {
-					const profileImage = document.getElementById('profileImage');
+					let profileImage = document.getElementById('profileImage');
 					profileImage.src = profilImg;
 
 					// Sauvegarde l'image par défaut dans le stockage local
@@ -117,8 +116,8 @@ export function profil() {
 				}
 				else {
 					// Charge une autre image de profil par défaut le cas écheant
-					const defaultImageURL = "/static/img/image-defaut.png";
-					const profileImage = document.getElementById('profileImage');
+					let defaultImageURL = "/static/img/image-defaut.png";
+					let profileImage = document.getElementById('profileImage');
 					profileImage.src = defaultImageURL;
 
 					// Sauvegarde l'image par défaut alternative dans le stockage local
@@ -130,12 +129,4 @@ export function profil() {
 				console.log("profilImg: ", profilImg);
 			});
 	}
-
-	const modifyImageButton = document.getElementById('modifyImageButton');
-
-	modifyImageButton.onclick = function () {
-		// Mettez ici le code que vous souhaitez exécuter lorsque le bouton est cliqué
-		console.log("Le bouton a été cliqué !");
-		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
-	};
 };
