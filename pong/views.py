@@ -62,7 +62,7 @@ def user(request):
     elif request.user.profil_picture_oauth:
         profil_picture_url = request.user.profil_picture_oauth
     else:
-        profil_picture_url = STATIC_URL("img/ajouter-une-image.png")
+        profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
     print("URL: " + profil_picture_url)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
