@@ -1,3 +1,4 @@
+import socket from './index.js';
 
 export function chat() {
 
@@ -16,19 +17,18 @@ export function chat() {
 
     const searchInput = document.querySelector("[data-search]");
 
-    // const dataListContact = document.querySelector("[list-contact-template]");
-    // const listContactContainer = document.querySelector("[list-contact-container]");
-    // const contactSelect = document.querySelector("[data-contact]");
-    // let users = [];
+    const dataListContact = document.querySelector("[list-contact-template]");
+    const listContactContainer = document.querySelector("[list-contact-container]");
+    const contactSelect = document.querySelector("[data-contact]");
+    let users = [];
 
-    const chatSocket = new WebSocket(
+    /*const socket = new WebSocket(
         'ws://'
         + window.location.host
         + '/ws/chat/'
         + 'conversation'
         + '/'
-    );
-
+    );*/
 
     //create list contact
     //index, name, img
@@ -46,10 +46,10 @@ export function chat() {
                 return { name: user.name, img: user.email, element: contact };
             });
 
-            // Récupérer tous les éléments de contact
+            // fetch the all contact elements
             const contacts = document.querySelectorAll('.contact');
 
-            // Ajouter un gestionnaire d'événements à chaque contact
+            // add a event listener for each contact
             contacts.forEach(contact => {
                 contact.addEventListener('click', () => {
                     const contactName = contact.querySelector("[data-name]").textContent;
@@ -78,13 +78,13 @@ export function chat() {
             });
         });
 
-    // Charger le contenu du fichier template.html
+    // load the template.html
     fetch('/chat/chat-tmp/')
         .then(response => response.text())
         .then(htmlContent => {
             console.log("fetch chat-tmp.html!");
 
-            // Utiliser DOMParser pour extraire le contenu de la balise template
+            // use DOMParser to extract the content of template balise
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlContent, 'text/html');
 
@@ -93,7 +93,6 @@ export function chat() {
             //console.log("fetch=== ", templateConversationHistory.innerHTML);
         })
         .catch(error => console.error('Erreur de chargement du template:', error));
-
 
     //click manage
     document.addEventListener("click", (e) => {
@@ -126,7 +125,8 @@ export function chat() {
 
     //event keypress
     document.addEventListener("keypress", (e) => {
-        if (e.currentTarget.getElementById("input-id").contains(e.target))
+
+        if (contactExist && e.currentTarget.getElementById("input-id").contains(e.target))
             sendByMe(e);
     });
 
@@ -300,16 +300,16 @@ export function chat() {
         if (activeChatPanel)
             updateChatHistory(activeChatPanel);
 
-        // 	const conversationHistory = document.querySelector(".conversation-history");
-        // 	//update chatPanel, just keep the template child
-        // 	conversationHistory.innerHTML = "";
+        const conversationHistory = document.querySelector(".conversation-history");
+        //update chatPanel, just keep the template child
+        conversationHistory.innerHTML = "";
 
-        // 	const tpl = templateConversationHistory.content.cloneNode(true);
-        // 	const settingsTray = tpl.querySelector(".settings-tray");
-        // 	const img = settingsTray.querySelector("[data-image]");
-        // 	const name = settingsTray.querySelector("[data-text] h6");
-        // 	img.src = obj.imgSrc;
-        // 	name.textContent = obj.name;
+        const tpl = templateConversationHistory.content.cloneNode(true);
+        const settingsTray = tpl.querySelector(".settings-tray");
+        const img = settingsTray.querySelector("[data-image]");
+        const name = settingsTray.querySelector("[data-text] h6");
+        img.src = obj.imgSrc;
+        name.textContent = obj.name;
 
         conversationHistory.append(tpl);
         activeChatPanel = obj.name;
@@ -336,29 +336,37 @@ export function chat() {
 
     //-------------handle message-----------------
 
-    chatSocket.onmessage = function (event) {
+    socket.onmessage = function (event) {
         const data = JSON.parse(event.data);
-        console.log("===received message:===", data.message);
-        //$('#chatMessages').append('<li>' + data.message + '</li>');
+        console.log("===received message:===", data);
+        //const conversation = findConversation(data.sender); //data.sender: <username sender>
+        //if (conversation) {
+        createBubbleChat(data, "receive");
+        //}        
+    };
+
+    socket.onopen = function (e) {
+        console.log('WebSocket connection opened: ', e);
+        socket.send(JSON.stringify({ 'message': 'Hello from Page 2!' }));
     };
 
     function sendByMe(event) {
-
         console.log("Click from input chat: ", event.type);
         const inputField = document.getElementById("input-id");
+
         if ((event.type === "click" || event.key === "Enter") && inputField.value) {
 
             console.log(`message sent: ${inputField.value}`);
 
-            //test websocket
-            chatSocket.send(JSON.stringify({
+            //test websocket/*
+            socket.send(JSON.stringify({
+                'type': 'chat_message',
+                'chat': activeChatPanel, //username target
                 'message': inputField.value
             }));
 
             //just for test receive and send 
-            event.key === "Enter" ? createBubbleChat(inputField.value, "send") : createBubbleChat(inputField.value, "receive");
-            //socket.emit('chat message', inputField.value);
-            //bubbleChatReceived(inputField.value);
+            createBubbleChat(inputField.value, "send");
             inputField.value = "";
         }
     }

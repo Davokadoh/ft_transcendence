@@ -1,6 +1,6 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import Message, User
-
+from channels.db import database_sync_to_async
 
 class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
@@ -34,20 +34,20 @@ class Consumer(AsyncJsonWebsocketConsumer):
             await self.game.pause(self.user)
         elif content["type"] == "chat_message":
             print("Message received!")
-            chat = User.objects.get(content.get("chat"))
+            chat = await database_sync_to_async(User.objects.get)(username="Jud42")
             if chat is None:
                 print(f"User {content.get('chat')} does not exist!")
                 return
-            await self.user.chats.aadd(chat)
-            Message.objects.acreate(**content)
-            await self.channel_layer.send_group(f"chat_{chat.pk}", content)
+            #await self.user.chats.aadd(chat)
+            #Message.objects.acreate(**content)
+            await self.channel_layer.group_send("server", content)
         elif content["type"] == "game_invite":
             print("Invited received!")
         else:
             print("Type not found")
 
     async def chat_message(self, content):
-        await self.send_json(content)
+        await self.send_json(content["message"])
 
     async def ready(self):
         self.player.status = True

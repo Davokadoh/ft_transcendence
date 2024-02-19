@@ -4,7 +4,7 @@ import { chat } from "./chat.js";
 // import { user } from "./user.js";
 import { router } from "./router.js";
 
-export const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+const socket = new WebSocket(`ws://${window.location.host}/ws/`);
 
 router();
 document.onpopstate = router;
@@ -130,3 +130,5 @@ function getCookie(name) {
 // 			});
 // 	};
 // });
+
+export default socket;
