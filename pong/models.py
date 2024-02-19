@@ -45,8 +45,16 @@ class User(AbstractBaseUser):
     is_active = models.CharField(max_length=255)
     chats = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=False)
     USERNAME_FIELD = "username"
+    
+    friends = models.ManyToManyField("self")
 
     objects = UserManager()
+
+    # game settings
+    # paddle_speed = models.IntegerField(default=12)
+    # ball_speed = models.IntegerField(default=0)
+    # paddle_color = models.CharField(max_length=50, blank=True)
+    # game_img = models.ImageField(upload_to='game_images/', null=True, blank=True)
 
     def get_username(self):
         return self.username
@@ -199,6 +207,41 @@ class Game(models.Model):
     #     null=True,
     #     blank=True,
     # )
+
+
+
+# class Game(models.Model):
+#     teams = models.ManyToManyField(Team)
+#     start_time = models.DateTimeField(auto_now_add=True)
+#     end_time = models.DateTimeField(null=True, blank=True)
+
+#     winners = models.ForeignKey(
+#         settings.AUTH_USER_MODEL,
+#         related_name="games_won",
+#         on_delete=models.SET_NULL,
+#         null=True,
+#         blank=True,
+#     )
+#     losers = models.ForeignKey(
+#         settings.AUTH_USER_MODEL,
+#         related_name="games_lost",
+#         on_delete=models.SET_NULL,
+#         null=True,
+#         blank=True,
+#     )
+
+#     def add_team(self):
+#         new_team = Team.objects.create()
+#         self.teams.add(new_team)
+
+#     def add_player(self, player_id):
+#         self.teams.first().add_player(player_id)
+
+#     @receiver(pre_delete, sender=Team)
+#     def pre_delete_team_in_game(sender, instance, created, **kwargs):
+#         games_list = Game.objects.filter(teams=None)
+#         for game in games_list:
+#             game.delete()
 
 
 class Tournament(models.Model):

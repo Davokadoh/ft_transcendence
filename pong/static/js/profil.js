@@ -53,6 +53,32 @@ export function profil() {
 		});
 	}
 
+	// // settings
+	//     // Ajoutez l'écouteur d'événement pour le formulaire
+	// 	const settingsForm = document.getElementById('settingsForm');
+	// 	settingsForm.addEventListener('submit', function(event) {
+	// 		event.preventDefault();
+	// 		const paddleSpeed = document.getElementById('paddleSpeed').value;
+	// 		fetch('/profil', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/x-www-form-urlencoded',
+	// 				'X-CSRFToken': getCookie('csrftoken'),
+	// 			},
+	// 			body: `paddle_speed=${paddleSpeed}`,
+	// 		})
+	// 		.then(response => {
+	// 			if (response.ok) {
+	// 				// Gérer la réponse en cas de succès si nécessaire
+	// 			} else {
+	// 				console.error('Erreur lors de la soumission du formulaire');
+	// 			}
+	// 		})
+	// 		.catch(error => {
+	// 			console.error('Erreur lors de la soumission du formulaire :', error);
+	// 		});
+	// 	});
+
 	let usernameInput = document.getElementById('username');
 	let usernameForm = document.getElementById('username-form');
 	let usernameButton = document.getElementById('modifyUsernameButton');
@@ -129,4 +155,11 @@ export function profil() {
 				console.log("profilImg: ", profilImg);
 			});
 	}
+
+	const modifyImageButton = document.getElementById('modifyImageButton');
+
+	modifyImageButton.onclick = function () {
+		console.log("Le bouton a été cliqué !");
+		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
+	};
 };

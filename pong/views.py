@@ -55,6 +55,26 @@ def profil(request):
         },
     )
 
+@login_required
+def user(request):
+    print("URL: " + request.user.profilPictureUrl)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "user.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
+
+# def profil(request):
+#     print("URL: " + request.user.profilPictureUrl)
+#     user_profile, created = User.objects.get_or_create(user=request.user)
+#     if request.method == 'POST':
+#         # Suppose que vous avez un formulaire pour ajuster la vitesse des paddles
+#         paddle_speed = request.POST.get('paddle_speed')
+#         user_profile.paddle_speed = paddle_speed
+#         user_profile.save()
+#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+#     return render(
+#         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
+#     )
 
 @login_required
 def username(request):

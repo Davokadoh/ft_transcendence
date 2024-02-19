@@ -1,0 +1,71 @@
+/* Styles pour les containers de gauche et de droite */
+.container-left-user {
+	flex: 1;
+	position: relative;
+	overflow: hidden;
+	border-top-left-radius: 30px;
+	border-bottom-left-radius: 30px;
+}
+
+.container-right-user {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+/* Style pour la vidéo en arrière-plan */
+.videoCustom {
+	border-radius: 5%;
+}
+
+.night-mode .videoCustom {
+	filter: grayscale(100%);
+}
+
+/* Style pour le contenu du container de droite */
+.container-profile-info-user {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.usernameUser {
+	font-size: 32px;
+}
+
+
+.modNavUser {
+	color: var(--violet) !important;
+	font-size: 15px;
+}
+
+.night-mode .modNavUser {
+	color: var(--gris) !important;
+}
+
+.night-mode .modNavUser:focus {
+	color: black !important;
+}
+
+.night-mode .modNavUser:active {
+	color: white !important;
+}
+
+.tabCustUser {
+	margin-top: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 21px;
+	font-family: 'Titan One', sans-serif;
+}
+
+.userStat {
+	margin-top: 14px;
+	justify-content: center;
+}
+
+.userStatTab {
+	margin-bottom: 10px;
+}
