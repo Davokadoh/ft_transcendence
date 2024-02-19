@@ -210,4 +210,4 @@ def callback(request):
 
     user.access_token = access_token
     login(request, user)
-    return render(request, "callback.html", {"access_token": access_token})
+    return redirect(home)
