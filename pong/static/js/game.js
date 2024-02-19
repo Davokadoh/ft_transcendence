@@ -1,4 +1,17 @@
 export function game(){
+    // const socket = new WebSocket(`ws://${window.location.host}/game/${gameId}/ws/`);
+	  //document.addEventListener("keyup", test);
+    //
+  	//socket.onmessage = (event) => {
+    // console.log("Rcvd: " + event.data);
+  	//};
+    //
+  	//function test() {
+	  // console.log("PAUSE");
+  	// let myObj = { type: "PAUSE" };
+    // socket.send(JSON.stringify(myObj));
+  	//};
+
     let gameBoard;
     let ctx;
     let scoreText;

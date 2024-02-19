@@ -2,6 +2,22 @@ import { profil } from "./profil.js";
 import { game } from "./game.js";
 import { chat } from "./chat.js";
 // import { user } from "./user.js";
+import { router } from "./router.js";
+
+export const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+
+router();
+document.onpopstate = router;
+document.firstElementChild.onclick = function (event) {
+	const target = event.target;
+	const link = target.hasAttribute("href") ? target.href : target.getAttribute("data-link");
+	if (!!link) {
+		history.pushState(null, null, link);
+		router();
+		event.preventDefault();
+		event.stopPropagation();
+	}
+};
 
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
@@ -12,25 +28,6 @@ window.addEventListener("click", e => {
         router();
     }
 });
-
-function router() {
-    const target = (location.pathname == "/") ? "/home" : location.pathname;
-    fetch(target, {
-        headers: { "X-Requested-With": "XMLHttpRequest", },
-    }).then(response => {
-        if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
-        return response.text();
-    }).then(html => {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, "text/html");
-        document.title = doc.title;
-        document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
-        if (target.startsWith("/game")) game(parseInt(target.split("/")[-1]));
-        else if (target.startsWith("/profil")) profil();
-        else if (target.startsWith("/chat")) chat();
-        else if (target.startsWith("/user")) user();
-    });
-};
 
 console.log('index called')
 
@@ -62,6 +59,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+// < !--SCRIPT BOUTON NB / COLOR-- >
+const toggleSwitch = document.getElementById('toggle-switch');
+toggleSwitch.addEventListener('change', function () {
+	console.log('night mode function called');
+	document.body.classList.toggle('night-mode', toggleSwitch.checked);
+});
+
 // < !--SCRIPT BOUTON MENU-- >
 function toggleNavbar() {
     console.log('Toggle Navbar function called');
@@ -87,42 +91,42 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('index.js lu ok');
+// document.addEventListener('DOMContentLoaded', function () {
+// 	console.log('index.js lu ok');
 
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        console.log('index.js fonction getCookies lu ok');
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+// 	function getCookie(name) {
+// 		const value = `; ${document.cookie}`;
+// 		const parts = value.split(`; ${name}=`);
+// 		console.log('index.js fonction getCookies lu ok');
+// 		if (parts.length === 2) return parts.pop().split(';').shift();
+// 	}
 
-    // window.addEventListener('click', function (logout_user) {
-    // 	if (logout_user.target === logout_user) {
-    // 		logout_user();
-    // 	}
+// 	// window.addEventListener('click', function (logout_user) {
+// 	// 	if (logout_user.target === logout_user) {
+// 	// 		logout_user();
+// 	// 	}
 
-    window.logout_user = function () {
-        console.log('index.js fonction logout_user lu ok');
-        fetch("http://localhost:8000/accounts/logout/", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-        })
-            .then(response => {
-                if (response.ok) {
-                    // Redirige vers la page de connexion après la déconnexion
-                    window.location.href = "/accounts/login/";
-                    // window.location.href = "/accounts/logout/";
-                } else {
-                    console.error('Erreur lors de la déconnexion');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la déconnexion :', error);
-            });
-    };
-});
+// 	window.logout_user = function () {
+// 		console.log('index.js fonction logout_user lu ok');
+// 		fetch("http://localhost:8000/accounts/logout/", {
+// 			method: 'POST',
+// 			headers: {
+// 				'Content-Type': 'application/x-www-form-urlencoded',
+// 				'X-CSRFToken': getCookie('csrftoken'),
+// 			},
+// 		})
+// 			.then(response => {
+// 				if (response.ok) {
+// 					// Redirige vers la page de connexion après la déconnexion
+// 					window.location.href = "/accounts/login/";
+// 					// window.location.href = "/accounts/logout/";
+// 				} else {
+// 					console.error('Erreur lors de la déconnexion');
+// 				}
+// 			})
+// 			.catch(error => {
+// 				console.error('Erreur lors de la déconnexion :', error);
+// 			});
+// 	};
+// });

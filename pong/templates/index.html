@@ -3,113 +3,93 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  {% block title %}
-  <title>LES PONG-CHOS</title>
-  {% endblock %}
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/App.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/chat.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/play.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/game.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/home.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/profil.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/user.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style/stylesheet.css' %}" />
-  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon/favicon.ico' %}">
-
-
-
-
-  <!-- SCRIPT BOUTON MENU -->
-  <script>
-    function toggleNavbar() {
-      console.log('Toggle Navbar function called')
-      const navbarToggler = document.querySelector('.navbar-toggler')
-      const navbarNav = document.querySelector('#navbarNav')
-      const isOpen = navbarNav.classList.contains('show')
-      if (isOpen) {
-        navbarToggler.classList.remove('active')
-      } else {
-        navbarToggler.classList.add('active')
-      }
-    }
-  </script>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	{% block title %}
+	<title>LES PONG-CHOS</title>
+	{% endblock %}
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/App.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/chat.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/play.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/game.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/home.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/profil.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'style/stylesheet.css' %}" />
+	<link rel="shortcut icon" type="image/png" href="{% static 'img/favicon/favicon.ico' %}" />
 </head>
 
 <body>
-  <banner class="">
-    <div class="lineUnderNav">
-      <nav class="navbar justify-content-center fluid-container">
-        <div class="ulLiA row justify-content-around custom-line">
-          <div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
-            <div class="logo-container col-2">
-              <a class="logoLink" href="/home/" data-link><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}"
-                  class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120" data-link /></a>
-            </div>
-            <ul class="col-10 nav justify-content-center mx-auto text-center collapse navbar-collapse" id="navbarNav">
-              <li class="nav-item">
-                <a class="nav-link" href="/home/" data-link>HOME</a>
-              </li>
-              <li class="sep">|</li>
-              <li class="nav-item">
-                <a class="nav-link" href="/play/" data-link>PLAY</a>
-              </li>
-              <li class="sep">|</li>
-              <li class="nav-item">
-                <a class="nav-link" href="/chat/" data-link>CHAT</a>
-              </li>
-              <li class="sep">|</li>
-              <li class="nav-item">
-                <a class="nav-link" href="/profil/" data-link>PROFIL</a>
-              </li>
-            </ul>
+	<banner class="">
+		<div class="lineUnderNav">
+			<nav class="navbar justify-content-center fluid-container">
+				<div class="ulLiA row justify-content-around custom-line">
+					<div id="navbar" class="navbar navbar-expand-lg justify-content-center align-items-center">
+						<div class="logo-container col-2">
+							<a class="logoLink link" href="/home/"><img src="{% static 'img/Pong-Chos_LOGO-min.png' %}"
+									class="light-mode-image" alt="logo des Pong-Chos" width="120" height="120"
+									data-link="/home/" /></a>
+						</div>
+						<ul class="col-10 nav justify-content-center mx-auto text-center collapse navbar-collapse"
+							id="navbarNav">
+							<li class="nav-item">
+								<a class="nav-link link" href="/home/">HOME</a>
+							</li>
+							<li class="sep">|</li>
+							<li class="nav-item">
+								<a class="nav-link link" href="/play/">PLAY</a>
+							</li>
+							<li class="sep">|</li>
+							<li class="nav-item">
+								<a class="nav-link link" href="/chat/">CHAT</a>
+							</li>
+							<li class="sep">|</li>
+							<li class="nav-item">
+								<a class="nav-link link" href="/profil/">PROFIL</a>
+							</li>
+						</ul>
 
-            <div class="toggle-container col-2">
-              <input type="checkbox" id="toggle-switch" />
-              <label class="toggle-label" for="toggle-switch">
-                <div class="icon-container">
-                  <img class="PING_BW" id="nightModeOn" src="{% static 'img/OKPING_B.png' %}"
-                    alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
-                </div>
-                <div class="separator"></div>
-                <div class="icon-container">
-                  <img class="PONG_COL" id="nightModeOff" src="{% static 'img/OKPONG_COL.png' %}"
-                    alt="Icône de ping-pong en couleur" height="50px" width="auto" />
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-  </banner>
+						<div class="toggle-container col-2">
+							<input type="checkbox" id="toggle-switch" />
+							<label class="toggle-label" for="toggle-switch">
+								<div class="icon-container">
+									<img class="PING_BW" src="{% static 'img/OKPING_B.png' %}"
+										alt="Icône de ping-pong noir et blanc" height="39px" width="auto" />
+								</div>
+								<div class="separator"></div>
+								<div class="icon-container">
+									<img class="PONG_COL" src="{% static 'img/OKPONG_COL.png' %}"
+										alt="Icône de ping-pong en couleur" height="50px" width="auto" />
+								</div>
+							</label>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</banner>
 
-  {% block content %}
-  <div id="app"></div>
-  {% endblock %}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-  <script defer type="module" src="{% static 'js/index.js' %}"></script>
-  <script defer type="module" src="{% static 'js/game.js' %}"></script>
-  <script defer type="module" src="{% static 'js/profil.js' %}"></script>
+	{% block content %}
+	<div id="app"></div>
+	{% endblock %}
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	<script defer type="module" src="{% static 'js/index.js' %}"></script>
 
-  <footer class="text-white py-1 mt-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6">
-          <p>@2024LesPong-Chos42</p>
-        </div>
-        <div class="col-lg-6 logAlign">
-          <a class="btn btn-link logout" href="/accounts/logout/" data-link>Log Out</a>
-          {% comment %} <button class="btn btn-link logout" onclick="logout()">Log Out</button> {% endcomment %}
-        </div>
-      </div>
-    </div>
-  </footer>
+	<footer class="text-white py-1 mt-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<p>@2024LesPong-Chos42</p>
+				</div>
+				<div class="col-lg-6 logAlign">
+					<a class="btn btn-link logout" href="/accounts/logout/">Log Out</a>
+				</div>
+			</div>
+		</div>
+	</footer>
 </body>
-
 </html>
