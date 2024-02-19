@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import GameTeam, User, Team, Game
+from .models import GameTeam, User, Team, Game, Tournament
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
@@ -178,6 +178,52 @@ def game(request, game_id=None):
         {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
     )
 
+@login_required
+def lobby_tour(request, tournament_id=None):
+    if tournament_id is None:
+        game = Game.objects.create()
+        team = Team.objects.create()
+        team.save()
+        team.users.add(request.user)
+        gt = GameTeam(game=game, team=team)
+        gt.save()
+        return redirect(lobby, game.pk)
+    game = get_object_or_404(Game, pk=tournament_id)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.method == "GET":
+        return render(
+            request,
+            "lobby_tour.html",
+            {"template": "ajax.html" if ajax else "index.html", "tournament_id": tournament_id},
+        )
+    elif request.method == "POST":
+        try:
+            tournament.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
+            return render(
+                request,
+                "lobby_tour.html",
+                {
+                    "template": "ajax.html" if ajax else "index.html",
+                    "tournament_id": tournament_id,
+                    "error_message": "Missing valid team name or user name",
+                },
+            )
+
+
+@login_required
+def tournament(request, tournament_id=None):
+    if tournament_id is None:
+        return redirect(home)
+    tournament = Tournament.objects.get(pk=tournament_id)
+    if tournament is None:
+        return redirect(home)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request,
+        "tournament.html",
+        {"template": "ajax.html" if ajax else "index.html", "tournament_id": tournament_id},
+    )
 
 def logoutview(request):
     logout(request)

@@ -258,10 +258,10 @@ class Tournament(models.Model):
 
     def setup_games(self):
         self.status = "closed"
-        games = [Game()]
+        games = [Tournament()]
         num_teams = self.max_teams
         while num_teams > 1:
-            round_games = [Game() for _ in range(num_teams // 2)]
+            round_games = [Tournament() for _ in range(num_teams // 2)]
             games.append(round_games)
             num_teams //= 2
         return games
