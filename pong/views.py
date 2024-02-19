@@ -55,6 +55,43 @@ def profil(request):
         },
     )
 
+@login_required
+def user(request):
+    if request.user.profil_picture:
+        profil_picture_url = request.user.profil_picture.url
+    elif request.user.profil_picture_oauth:
+        profil_picture_url = request.user.profil_picture_oauth
+    else:
+        profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
+    print("URL: " + profil_picture_url)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.user.profil_picture:
+        profil_picture_url = request.user.profil_picture.url
+    elif request.user.profil_picture_oauth:
+        profil_picture_url = request.user.profil_picture_oauth
+    else:
+        profil_picture_url = STATIC_URL("img/ajouter-une-image.png")
+    return render(
+        request,
+        "user.html",
+        {
+            "template": "ajax.html" if ajax else "index.html",
+            "profil_picture_url": profil_picture_url,
+        },
+    )
+
+# def profil(request):
+#     print("URL: " + request.user.profilPictureUrl)
+#     user_profile, created = User.objects.get_or_create(user=request.user)
+#     if request.method == 'POST':
+#         # Suppose que vous avez un formulaire pour ajuster la vitesse des paddles
+#         paddle_speed = request.POST.get('paddle_speed')
+#         user_profile.paddle_speed = paddle_speed
+#         user_profile.save()
+#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+#     return render(
+#         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
+#     )
 
 @login_required
 def username(request):

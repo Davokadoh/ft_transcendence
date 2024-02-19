@@ -141,14 +141,6 @@
 	/* align-items: end !important; */
 }
 
-/* Style for the profile image */
-.profile-image-set {
-	/* width: 100px;
-	height: 100px;
-	margin-right: 10px; */
-	/* border-radius: 50%; */
-}
-
 .night-mode .modImg {
 	filter: invert(1);
 	/* Pour passer  une image noir en blanc ! :) */
@@ -418,7 +410,11 @@
 
 .btnCustomProfil {
 	font-size: 20px;
-	z-index: 2 !important;
+	z-index: 0 !important;
+}
+
+.night-mode .btnCustomProfil {
+	filter: grayscale(100%);
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */

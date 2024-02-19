@@ -1,0 +1,75 @@
+<!-- template.html -->
+
+<!-- conversations list -->
+<template conversation-template>
+    <div class="conversation friend --onhover d-flex" id="">
+        <img src="" alt="Friend photo" class="profile-image" data-image>
+        <div class="text" data-text>
+            <h6>Wanted Cat</h6>
+            <p class="text-muted">Hey, you're arrested </p>
+        </div>
+        <div class="ms-auto">
+            <span class="time-msg small">13:21</span>
+            <div class="dropdown" id="dropmenuId">
+                <i class="i-down bi-chevron-down dropup" id="menuDownLeftId" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                </i>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><button class="dropdown-item" type="button" id="delId">Delete</button></li>
+                    <li><button class="dropdown-item" type="button" id="unreadId">Mark unread</button></li>
+                    <li><button class="dropdown-item" type="button" id="blockUnblockId">Block contact</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- conversations history-->
+<template conversation-history-template>
+    <!-- nested row1 -->
+    <div class="row row-trayRight g-0">
+        <div class="col-md-12">
+            <div class="settings-tray settings-tray--right d-flex align-items-center" id="settingsTrayId">
+                <img class="profile-image" src="" alt="Friend Image" data-toggle="tooltip" title="Detail du profil"
+                    data-image>
+                <div class="text" data-text>
+                    <h6></h6>
+                </div>
+
+                <span class="dropdown ms-auto">
+                    <i class="bi bi-three-dots-vertical" data-toggle="tooltip" title="Menu" id="menuButtonRight"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    </i>
+                    <ul class="dropdown-menu" aria-labelledby="menuButtonRight">
+                        <li><a class="dropdown-item" href="#">Invitation</a></li>
+                        <li><a class="dropdown-item" href="#">Block contact</a></li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- nested row2 -->
+    <div class="row row-chatPanel g-0" id="rowChatPanel">
+        <div class="col-md-12">
+
+            <!-- start chat panel -->
+            <div class="chat-panel" id="chatPanelId"></div>
+
+        </div>
+
+    </div>
+
+    <!-- nested row3 -->
+    <div class="row row-chatBox g-0">
+        <div class="col-md-12">
+            <!-- message bar -->
+            <div class="chat-box d-flex align-items-center justify-content-center hide" id="chatBoxId">
+                <!-- <i class="i-emoji bi-emoji-sunglasses" id="emoji-id"></i> -->
+                <input class="inputCustom" id="input-id" />
+                <i class="i-send bi-send" id="send-id"></i>
+            </div>
+            <!-- close message bar -->
+        </div>
+    </div>
+</template>

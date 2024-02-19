@@ -1,29 +1,43 @@
-export function startGame(){
-let gameBoard;
-let ctx;
-let scoreText;
-let gameWidth;
-let gameHeight;
-let paddle1;
-let paddle2;
-let ballX;
-let ballY;
-let ballXDirection;
-let ballYDirection;
-let player1Score;
-let player2Score;
-let ballSpeed;
-const boardBackground = "black";
-const paddle1Color = "white";
-const paddle2Color = "white";
-const paddleBorder = "white";
-const ballColor = "white";
-const ballBorderColor = "white";
-const ballRadius = 12.5;
-let paddleSpeed = 12;
-let gameRunning = false;
+export function game(){
+    // const socket = new WebSocket(`ws://${window.location.host}/game/${gameId}/ws/`);
+	  //document.addEventListener("keyup", test);
+    //
+  	//socket.onmessage = (event) => {
+    // console.log("Rcvd: " + event.data);
+  	//};
+    //
+  	//function test() {
+	  // console.log("PAUSE");
+  	// let myObj = { type: "PAUSE" };
+    // socket.send(JSON.stringify(myObj));
+  	//};
 
-function initializeGame() {
+    let gameBoard;
+    let ctx;
+    let scoreText;
+    let gameWidth;
+    let gameHeight;
+    let paddle1;
+    let paddle2;
+    let ballX;
+    let ballY;
+    let ballXDirection;
+    let ballYDirection;
+    let player1Score;
+    let player2Score;
+    let ballSpeed;
+    const boardBackground = "black";
+    const paddle1Color = "white";
+    const paddle2Color = "white";
+    const paddleBorder = "white";
+    const ballColor = "white";
+    const ballBorderColor = "white";
+    const ballRadius = 12.5;
+    const paddleSpeed = 12;
+    // const paddleSpeed = {{ paddle_speed }};
+    let gameRunning = false;
+
+    function initializeGame() {
     gameBoard = document.getElementById("gameBoard");
     ctx = gameBoard.getContext("2d");
     scoreText = document.getElementById("scoreText");
@@ -39,15 +53,18 @@ function initializeGame() {
     ballY = gameHeight / 2;
     ballXDirection = 0;
     ballYDirection = 0;
+    console.log("initialize1");
     clearBoard();
-}
+    console.log("initialize2");
 
-document.getElementById("start-game").addEventListener("click", start);
-document.getElementById("stop-game").addEventListener("click", stopGame);
-document.getElementById("reset-game").addEventListener("click", resetGame);
+    }
+
+    document.getElementById("start-game").addEventListener("click", startGame);
+    document.getElementById("stop-game").addEventListener("click", stopGame);
+    document.getElementById("reset-game").addEventListener("click", resetGame);
 
 
-function draw() {
+    function draw() {
     if (!gameRunning) {
         return;
     }
@@ -57,11 +74,12 @@ function draw() {
     moveBall();
     drawBall(ballX, ballY);
     checkCollision();
-
+    // console.log("draw1");
     requestAnimationFrame(draw);
-}
+    // console.log("draw2");
+    }
 
-function clearBoard() {
+    function clearBoard() {
     ctx.fillStyle = boardBackground;
     ctx.fillRect(0, 0, gameWidth, gameHeight);
     ctx.strokeStyle = 'white';
@@ -69,9 +87,10 @@ function clearBoard() {
     ctx.moveTo(gameWidth / 2, 0);
     ctx.lineTo(gameWidth / 2, gameHeight);
     ctx.stroke();
-}
+    console.log("clearboard");
+    }
 
-function drawPaddles() {
+    function drawPaddles() {
     ctx.strokeStyle = paddleBorder;
 
     ctx.fillStyle = paddle1Color;
@@ -81,14 +100,16 @@ function drawPaddles() {
     ctx.fillStyle = paddle2Color;
     ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
     ctx.strokeRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
-}
+    console.log("drawpaddles");
+    }
 
-function moveBall() {
+    function moveBall() {
     ballX += ballSpeed * ballXDirection;
     ballY += ballSpeed * ballYDirection;
-}
+    console.log("moveBall");
+    }
 
-function drawBall(ballX, ballY) {
+    function drawBall(ballX, ballY) {
     ctx.fillStyle = ballColor;
     ctx.strokeStyle = ballBorderColor;
     ctx.lineWidth = 2;
@@ -96,9 +117,10 @@ function drawBall(ballX, ballY) {
     ctx.arc(ballX, ballY, ballRadius, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.fill();
-}
+    console.log("drawball");
+    }
 
-function createBall() {
+    function createBall() {
     ballSpeed = 2;
     ballXDirection = Math.random() < 0.5 ? -1 : 1;
     ballYDirection = Math.random() < 0.5 ? -1 : 1;
@@ -106,9 +128,10 @@ function createBall() {
     ballX = gameWidth / 2;
     ballY = gameHeight / 2;
     drawBall(ballX, ballY);
-}
+    console.log("createBalle");
+    }
 
-function checkCollision() {
+    function checkCollision() {
     if (ballY <= 0 + ballRadius) {
         ballYDirection *= -1;
     }
@@ -141,9 +164,10 @@ function checkCollision() {
             ballSpeed += 1;
         }
     }
-}
+    console.log("checkCollision");
+    }
 
-function changeDirection(event) {
+    function changeDirection(event) {
     const keyPressed = event.keyCode;
     const paddle1Up = 87;
     const paddle1Down = 83;
@@ -177,18 +201,22 @@ function changeDirection(event) {
             }
             break;
     }
-}
+    console.log("changedirection");
+    }
 
-function updateScore() {
+    function updateScore() {
     scoreText.textContent = `${player1Score} : ${player2Score}`;
-}
+    console.log("updatescore");
+    }
 
-function resetGame() {
+    function resetGame() {
     initializeGame();
     updateScore();
-}
+    console.log("resetGame");
+    }
 
-function start() {
+    function startGame() {
+    console.log("startgame1");
     if (!gameRunning) {
         gameRunning = true;
         createBall();
@@ -199,27 +227,16 @@ function start() {
         document.getElementById("gameBoard").focus(); // Donner le focus au canevas
         draw();
         document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-    
+        console.log("startgame2");
     }
-}
+    console.log("startgame3");
+    }
 
-function stopGame() {
+    function stopGame() {
     gameRunning = false;
-}
+    }
 
-// Fonction pour mettre à jour la vitesse du paddle dans le jeu
-function updatePaddleSpeed(speed) {
-    // Met à jour la vitesse du paddle dans le jeu avec la valeur reçue
-    paddleSpeed = speed;
+    // Appel initial pour l'initialisation
+    initializeGame();
+    updateScore();
 }
-
-// Fonction pour mettre à jour la vitesse de la balle dans le jeu
-function updateBallSpeed(speed) {
-    // Met à jour la vitesse de la balle dans le jeu avec la valeur reçue
-    ballSpeed = speed;
-}
-
-// Appel initial pour l'initialisation
-initializeGame();
-updateScore();
-};
