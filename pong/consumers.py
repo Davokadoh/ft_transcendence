@@ -5,6 +5,7 @@ from .models import Message, User
 class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.user = None
         self.pauseLeft = 1
 
     async def connect(self):
@@ -33,21 +34,32 @@ class Consumer(AsyncJsonWebsocketConsumer):
         elif content["type"] == "PAUSE":
             await self.game.pause(self.user)
         elif content["type"] == "chat_message":
-            print("Message received!")
-            chat = User.objects.get(content.get("chat"))
-            if chat is None:
-                print(f"User {content.get('chat')} does not exist!")
-                return
-            await self.user.chats.aadd(chat)
-            Message.objects.acreate(**content)
-            await self.channel_layer.send_group(f"chat_{chat.pk}", content)
+            await self.receive_chat(content)
         elif content["type"] == "game_invite":
             print("Invited received!")
         else:
             print("Type not found")
 
+    async def receive_chat(self, content):
+        print("Message received!")
+        # target = content.get("chat")
+        target = "Davokadoh"
+        chat = await User.objects.aget(username=target)
+        if chat is None:
+            return
+        if self.user.chats is None:
+            self.user.chats = chat
+        else:
+            await self.user.chats.aadd(chat)
+        await self.channel_layer.group_add(f"chat_{chat.pk}", self.channel_name)
+        await Message.objects.acreate(
+            sender=self.user, target=chat, message=content.get("message")
+        )
+        await self.channel_layer.group_send(f"chat_{chat.pk}", content)
+
     async def chat_message(self, content):
-        await self.send_json(content)
+        print("send message...")
+        await self.send_json(content["message"])
 
     async def ready(self):
         self.player.status = True

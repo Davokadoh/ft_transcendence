@@ -27,8 +27,9 @@ export function router() {
 		tournamentid = parseInt(tournamentid.pop());
 		console.log("gameid: " + gameid);
 		if (target.startsWith("/game")) game(gameid);
-		if (target.startsWith("/tournament")) startTournament(tournamentid);
+		else if (target.startsWith("/tournament")) startTournament(tournamentid);
 		else if (target.startsWith("/profil")) profil();
 		else if (target.startsWith("/chat")) chat();
+		else if (target.startsWith("/user")) user();
 	});
 };
