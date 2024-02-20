@@ -6,18 +6,9 @@ import { router } from "./router.js";
 
 export const socket = new WebSocket(`ws://${window.location.host}/ws/`);
 
-router();
-document.onpopstate = router;
-document.firstElementChild.onclick = function (event) {
-	const target = event.target;
-	const link = target.hasAttribute("href") ? target.href : target.getAttribute("data-link");
-	if (!!link) {
-		history.pushState(null, null, link);
-		router();
-		event.preventDefault();
-		event.stopPropagation();
-	}
-};
+//si je le laisse ca fait buger les onglets 
+// router();
+// document.onpopstate = router;
 
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
