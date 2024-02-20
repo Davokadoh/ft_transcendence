@@ -10,7 +10,7 @@ class UsernameForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ["username"]
+        fields = ["nickname"]
 
 
 class ProfilPictureForm(ModelForm):

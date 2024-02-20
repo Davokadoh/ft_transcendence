@@ -80,7 +80,7 @@ export function profil() {
 	// 		});
 	// 	});
 
-	let usernameInput = document.getElementById('username');
+	let usernameInput = document.getElementById('id_username');
 	let usernameForm = document.getElementById('username-form');
 	let usernameButton = document.getElementById('modifyUsernameButton');
 
