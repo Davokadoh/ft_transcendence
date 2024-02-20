@@ -58,14 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-// < !--SCRIPT BOUTON NB / COLOR-- >
-const toggleSwitch = document.getElementById('toggle-switch');
-toggleSwitch.addEventListener('change', function () {
-	console.log('night mode function called');
-	document.body.classList.toggle('night-mode', toggleSwitch.checked);
-});
-
 // < !--SCRIPT BOUTON MENU-- >
 function toggleNavbar() {
     console.log('Toggle Navbar function called');
