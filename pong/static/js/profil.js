@@ -28,7 +28,7 @@ export function profil() {
 		var paddleSpeedValue = paddleSpeedInput.value;
 		var ballSpeedValue = ballSpeedInput.value;
 		statsModalClose();
-	}
+	};
 
 	const profilPictureInput = document.getElementById('profil-picture-input');
 	const profilPictureForm = document.getElementById('profil-picture-form');
@@ -36,7 +36,7 @@ export function profil() {
 
 	profilPicture.onclick = function () {
 		profilPictureInput.click();
-	}
+	};
 
 	profilPictureInput.onchange = function (event) {
 		profilPicture.src = URL.createObjectURL(event.target.files[0]);
@@ -55,7 +55,7 @@ export function profil() {
 		}).then(response => response.json()).then(data => {
 			console.log("message: " + data.message);
 		});
-	}
+	};
 
 
 	var usernameInput = document.getElementById('username');
