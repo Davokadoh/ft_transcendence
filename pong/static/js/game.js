@@ -1,17 +1,4 @@
 export function game(){
-    // const socket = new WebSocket(`ws://${window.location.host}/game/${gameId}/ws/`);
-	  //document.addEventListener("keyup", test);
-    //
-  	//socket.onmessage = (event) => {
-    // console.log("Rcvd: " + event.data);
-  	//};
-    //
-  	//function test() {
-	  // console.log("PAUSE");
-  	// let myObj = { type: "PAUSE" };
-    // socket.send(JSON.stringify(myObj));
-  	//};
-
     let gameBoard;
     let ctx;
     let scoreText;
@@ -53,10 +40,11 @@ export function game(){
     ballY = gameHeight / 2;
     ballXDirection = 0;
     ballYDirection = 0;
-    console.log("initialize1");
     clearBoard();
-    console.log("initialize2");
-
+    document.getElementsByClassName("close")[0].addEventListener("click", function() {
+        document.getElementById("myModalGame").style.display = "none";
+        resetGame(); // Réinitialise le jeu après la fermeture de la fenêtre modale
+    });
     }
 
     document.getElementById("start-game").addEventListener("click", startGame);
@@ -74,9 +62,7 @@ export function game(){
     moveBall();
     drawBall(ballX, ballY);
     checkCollision();
-    // console.log("draw1");
     requestAnimationFrame(draw);
-    // console.log("draw2");
     }
 
     function clearBoard() {
@@ -87,7 +73,6 @@ export function game(){
     ctx.moveTo(gameWidth / 2, 0);
     ctx.lineTo(gameWidth / 2, gameHeight);
     ctx.stroke();
-    console.log("clearboard");
     }
 
     function drawPaddles() {
@@ -100,13 +85,11 @@ export function game(){
     ctx.fillStyle = paddle2Color;
     ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
     ctx.strokeRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
-    console.log("drawpaddles");
     }
 
     function moveBall() {
     ballX += ballSpeed * ballXDirection;
     ballY += ballSpeed * ballYDirection;
-    console.log("moveBall");
     }
 
     function drawBall(ballX, ballY) {
@@ -117,7 +100,6 @@ export function game(){
     ctx.arc(ballX, ballY, ballRadius, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.fill();
-    console.log("drawball");
     }
 
     function createBall() {
@@ -128,7 +110,6 @@ export function game(){
     ballX = gameWidth / 2;
     ballY = gameHeight / 2;
     drawBall(ballX, ballY);
-    console.log("createBalle");
     }
 
     function checkCollision() {
@@ -141,12 +122,14 @@ export function game(){
     if (ballX <= 0) {
         player2Score += 1;
         updateScore();
+        // endGame();
         createBall();
         return;
     }
     if (ballX >= gameWidth) {
         player1Score += 1;
         updateScore();
+        // endGame();
         createBall();
         return;
     }
@@ -164,7 +147,7 @@ export function game(){
             ballSpeed += 1;
         }
     }
-    console.log("checkCollision");
+    endGame()
     }
 
     function changeDirection(event) {
@@ -175,7 +158,6 @@ export function game(){
     const paddle2Down = 40;
 
     if (keyPressed === paddle2Down) {
-        // Empêcher le défilement de la page vers le bas lors de l'appui sur la flèche vers le bas
         event.preventDefault();
     }
 
@@ -201,41 +183,50 @@ export function game(){
             }
             break;
     }
-    console.log("changedirection");
     }
 
     function updateScore() {
     scoreText.textContent = `${player1Score} : ${player2Score}`;
-    console.log("updatescore");
     }
 
     function resetGame() {
     initializeGame();
     updateScore();
-    console.log("resetGame");
+    // endGame();
     }
 
     function startGame() {
-    console.log("startgame1");
-    if (!gameRunning) {
-        gameRunning = true;
-        createBall();
-        // draw();
-        // document.getElementById("gameBoard").focus(); // Assurez-vous que le canevas a le focus
-        // document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-        // document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-        document.getElementById("gameBoard").focus(); // Donner le focus au canevas
-        draw();
-        document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-        console.log("startgame2");
-    }
-    console.log("startgame3");
+        if (!gameRunning) {
+            gameRunning = true;
+            createBall();
+            document.getElementById("gameBoard").focus(); // Donner le focus au canevas
+            draw();
+            document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+            // endGame();
+        }
     }
 
     function stopGame() {
     gameRunning = false;
     }
 
+    function endGame() {
+    if (player1Score >= 1 || player2Score >= 1) {
+        stopGame();
+        let winnerMessage = "Game Over! ";
+        if (player1Score > player2Score) {
+            winnerMessage += "Player 1 wins!";
+        } else if (player2Score > player1Score) {
+            winnerMessage += "Player 2 wins!";
+        } else {
+            winnerMessage += "It's a draw!";
+        }
+
+        // Affiche la fenêtre modale avec le message
+        document.getElementById("modalGame-message").textContent = winnerMessage;
+        document.getElementById("myModalGame").style.display = "block";
+    }
+}
     // Appel initial pour l'initialisation
     initializeGame();
     updateScore();

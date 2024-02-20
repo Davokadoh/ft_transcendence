@@ -198,7 +198,7 @@ def lobby_tour(request, tournament_id=None):
         )
     elif request.method == "POST":
         try:
-            tournament.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+            game.teams[request.POST["team"]].add_player(request.POST["invited_player"])
         except (KeyError, Team.DoesNotExist, User.DoesNotExist):
             return render(
                 request,
