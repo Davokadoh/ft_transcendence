@@ -1,6 +1,7 @@
 .devcontainer/devcontainer.env
 db.sqlite3
 .DS_Store
+media/
 */migrations
 */__pycache__
 
