@@ -1,53 +1,56 @@
-#gameContainer {
-    margin: auto;
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-color: #000;
+/* ANCIENNEMENT PONG.CSS */
+
+#body-pong {
+	color: black;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #000;
 }
 
-#start-game,
-#stop-game,
-#reset-game {
-    background-color: var(--violet);
-    color: var(--vert);
-    border-radius: 20px;
-    margin-top: 10px; /* Ajoutez une marge en haut pour l'esthétique */
+.pong-table {
+	position: relative;
+	width: 800px;
+	height: 600px;
+	background-color: #000;
+	border: 2px solid #fff;
 }
 
-#scoreText {
-    font-family: "consolas", monospace;
-    font-size: 50px;
+#ball,
+#left-paddle,
+#right-paddle {
+	position: absolute;
+	background-color: #fff;
 }
 
-.modalGame {
-	display: none;
-	position: fixed;
-	top: 0;
+#ball {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#left-paddle,
+#right-paddle {
+	width: 10px;
+	height: 80px;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+#left-paddle {
 	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #00BAB9D3;;
-  }
-  
-  .modalGame-content {
-	background-color: var(--vert);
-  color: var(--violet);
-  font-family:  
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-	max-width: 400px;
-  }
-  
-  .close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-  }
-  
+}
+
+#right-paddle {
+	right: 0;
+}
+
+.test {
+	color: white;
+	font-size: 34px;
+}

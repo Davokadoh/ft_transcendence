@@ -20,31 +20,14 @@
 }
 
 
-.ladButClass {
-	margin-top: 58px;
-	margin-left: 28px;
-	font-family: 'Titan One', sans-serif;
-	/* margin: 5% 0; */
-	padding-top: 25px;
-	font-size: 50px;
-	background-color: var(--violet);
-	color: var(--vert);
-	border-radius: 30px;
-	height: 125px;
-	width: 400px;
-	border: none;
-}
-
+.ladButClass,
 .quickButClass {
-	margin-top: 52px;
-	margin-left: 28px;
-	padding-top: 25px;
+	margin-top: 65px;
 	font-size: 50px;
 	background-color: var(--violet);
-	font-family: 'Titan One', sans-serif;
 	color: var(--vert);
-	border-radius: 30px;
-	height: 125px;
+	border-radius: 20px;
+	height: 150px;
 	width: 400px;
 	border: none;
 }
@@ -59,19 +42,6 @@
 .quickButClass:active {
 	background-color: var(--bleu) !important;
 	color: var(--violet) !important;
-}
-
-.formCust {
-	width: 80% !important;
-	height: 35px !important;
-	align-content: start !important;
-	justify-content: start !important;
-	margin: 0 !important;
-	margin-top: 15px !important;
-}
-
-.scrollBall {
-	margin-top: 40px;
 }
 
 /* MODE NUIT */
@@ -98,16 +68,16 @@
 .inviteToGame {
 	font-family: 'Titan One', sans-serif;
 	transition: color 0.6s ease;
-	margin-top: 60px;
-	margin-left: 125px;
-	margin-right: auto;
+	margin-top: 120px;
+	margin-right: 100px;
 	font-size: 28px;
 	padding: 05;
 	background-color: var(--vert);
 	color: var(--violet);
-	border-radius: 30px;
-	height: 300px;
+	border-radius: 20px;
+	height: 370px;
 	width: 400px;
+	margin-left: auto;
 	align-self: flex-start;
 	/* Aligner le bord supérieur avec le bouton */
 	margin-bottom: auto;
@@ -116,19 +86,16 @@
 }
 
 .invitFriend {
-	margin-top: 30px;
-	margin-bottom: 15px;
-	font-size: 30px;
+	margin-top: 25px;
+	margin-bottom: 50px;
 }
 
 .joinFriends {
-	/* padding-top: 10px; */
+	padding-top: 10px;
 	font-size: 21px;
 	margin-top: 10px;
 	margin-bottom: 0px;
 }
-
-.onlineFriendBox {}
 
 .onlineFriend {
 	/* font-family: var(--bs-body-font-family); */
@@ -136,16 +103,12 @@
 	font-weight: bold;
 	font-size: 18px;
 	margin: 0px;
-	margin-bottom: 30px;
-	margin-top: 3px;
-	padding-left: 5px;
-	padding-right: 5px;
-	display: inline-block;
+	margin-top: 0px;
+	/* display: inline-block; les aligne sur une seule ligne*/
 	background-color: rgba(255, 255, 255, 0.5);
-	border-radius: 5px;
 	color: var(--bleu);
 	/* border-radius: 60%; */
-	text-align: top;
+	text-align: center;
 }
 
 .night-mode .onlineFriend {
@@ -217,7 +180,7 @@
 
 .scrolling-image-container {
 	white-space: nowrap;
-	animation: scrollText 30s linear infinite;
+	/* animation: scrollText 30s linear infinite; */
 	/* Ajuster la durée selon préférences */
 	/* overflow: hidden; */
 	position: relative;
@@ -260,7 +223,7 @@
 	width: 15%;
 	height: auto;
 	/* animation: bounce 2s infinite */
-	animation: roll 4s linear infinite;
+	animation: roll 6s linear infinite;
 }
 
 /* MODE SOMBRE ET MODE NUIT */
@@ -284,6 +247,10 @@
 	overflow: hidden;
 	position: relative;
 	margin-bottom: 0px;
+}
+
+.custom-image-spacing {
+	animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
