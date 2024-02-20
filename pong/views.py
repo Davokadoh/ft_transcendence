@@ -1,23 +1,16 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
+
+from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import User, Game
+from .models import GameTeam, User, Team, Game, Tournament
+from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
 import os
-
-access_token = 0
-
-
-@login_required
-def profilPicture(request):
-    if request.method == "POST":
-        return JsonResponse({"foo": "bar"})
-    else:
-        return request.user.profilPictureUrl
 
 
 def index(request, page_name=None):
@@ -42,42 +35,133 @@ def play(request):
 
 @login_required
 def profil(request):
-    print("URL: " + request.user.profilPictureUrl)
+    username_form = UsernameForm(instance=request.user)
+    profil_picture_form = ProfilPictureForm(instance=request.user)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.user.profil_picture:
+        profil_picture_url = request.user.profil_picture.url
+    elif request.user.profil_picture_oauth:
+        profil_picture_url = request.user.profil_picture_oauth
+    else:
+        profil_picture_url = STATIC_URL("img/ajouter-une-image.png")
     return render(
-        request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
+        request,
+        "profil.html",
+        {
+            "template": "ajax.html" if ajax else "index.html",
+            "profil_picture_url": profil_picture_url,
+            "profil_picture_form": profil_picture_form,
+            "username_form": username_form,
+        },
     )
+
+@login_required
+def user(request):
+    if request.user.profil_picture:
+        profil_picture_url = request.user.profil_picture.url
+    elif request.user.profil_picture_oauth:
+        profil_picture_url = request.user.profil_picture_oauth
+    else:
+        profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
+    print("URL: " + profil_picture_url)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.user.profil_picture:
+        profil_picture_url = request.user.profil_picture.url
+    elif request.user.profil_picture_oauth:
+        profil_picture_url = request.user.profil_picture_oauth
+    else:
+        profil_picture_url = STATIC_URL("img/ajouter-une-image.png")
+    return render(
+        request,
+        "user.html",
+        {
+            "template": "ajax.html" if ajax else "index.html",
+            "profil_picture_url": profil_picture_url,
+        },
+    )
+
+# def profil(request):
+#     print("URL: " + request.user.profilPictureUrl)
+#     user_profile, created = User.objects.get_or_create(user=request.user)
+#     if request.method == 'POST':
+#         # Suppose que vous avez un formulaire pour ajuster la vitesse des paddles
+#         paddle_speed = request.POST.get('paddle_speed')
+#         user_profile.paddle_speed = paddle_speed
+#         user_profile.save()
+#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+#     return render(
+#         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
+#     )
+
+@login_required
+def username(request):
+    if request.method == "GET":
+        return JsonResponse({"username": request.user.username})
+    elif request.method == "POST":
+        form = UsernameForm(request.POST, instance=request.user)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return JsonResponse({"message": "Username updated successfully"})
+        else:
+            return JsonResponse({"error": "New username is required"}, status=400)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+@login_required
+def profilPicture(request):
+    if request.method == "POST":
+        form = ProfilPictureForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponse()
+        else:
+            return HttpResponseBadRequest()
 
 
 @login_required
 def chat(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    return render(
-        request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
-    )
+    if request.path == "/chat/chat-tmp/":
+        return render(request, "chat-tmp.html")
+    else:
+        return render(
+            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+        )
 
 
 @login_required
 def lobby(request, game_id=None):
     if game_id is None:
         game = Game.objects.create()
-        game.add_team()
-        game.add_player(request.user)
-        print("Game nbr: " + str(game.pk))
+        team = Team.objects.create()
+        team.save()
+        team.users.add(request.user)
+        gt = GameTeam(game=game, team=team)
+        gt.save()
         return redirect(lobby, game.pk)
-    game = Game.objects.get(pk=game_id)
+    game = get_object_or_404(Game, pk=game_id)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
-        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
             request,
             "lobby.html",
             {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
         )
     elif request.method == "POST":
-        added_player = request.POST.get("player")
-        if added_player is not None:
-            game.add_player(added_player)
-            # return todo
+        try:
+            game.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
+            return render(
+                request,
+                "lobby.html",
+                {
+                    "template": "ajax.html" if ajax else "index.html",
+                    "game_id": game_id,
+                    "error_message": "Missing valid team name or user name",
+                },
+            )
 
 
 @login_required
@@ -94,24 +178,53 @@ def game(request, game_id=None):
         {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
     )
 
-
 @login_required
-def username(request):
+def lobby_tour(request, tournament_id=None):
+    if tournament_id is None:
+        game = Game.objects.create()
+        team = Team.objects.create()
+        team.save()
+        team.users.add(request.user)
+        gt = GameTeam(game=game, team=team)
+        gt.save()
+        return redirect(lobby, game.pk)
+    game = get_object_or_404(Game, pk=tournament_id)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
-        return JsonResponse({"username": request.user.username})
+        return render(
+            request,
+            "lobby_tour.html",
+            {"template": "ajax.html" if ajax else "index.html", "tournament_id": tournament_id},
+        )
     elif request.method == "POST":
-        new_username = request.POST.get("new_username")
-        if new_username:
-            request.user.username = new_username
-            request.user.save()
-            return JsonResponse({"message": "Username updated successfully"})
-        else:
-            return JsonResponse({"error": "New username is required"}, status=400)
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=405)
+        try:
+            game.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
+            return render(
+                request,
+                "lobby_tour.html",
+                {
+                    "template": "ajax.html" if ajax else "index.html",
+                    "tournament_id": tournament_id,
+                    "error_message": "Missing valid team name or user name",
+                },
+            )
 
 
 @login_required
+def tournament(request, tournament_id=None):
+    if tournament_id is None:
+        return redirect(home)
+    tournament = Tournament.objects.get(pk=tournament_id)
+    if tournament is None:
+        return redirect(home)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request,
+        "tournament.html",
+        {"template": "ajax.html" if ajax else "index.html", "tournament_id": tournament_id},
+    )
+
 def logoutview(request):
     logout(request)
     return loginview(request)
@@ -178,11 +291,12 @@ def callback(request):
         try:
             user.profilPictureUrl = response.json()["image"]["link"]
         except KeyError:
-            user.profilPictureUrl = "https://github.com/{}.png".format(user.username)
-        #"https://assets.justinmind.com/wp-content/uploads/2018/11/Lorem-Ipsum-alternatives.png"
-        print("PP set to: " + user.profilPictureUrl)
+            user.profil_picture_oauth = "https://github.com/{}.png".format(
+                user.username
+            )
         user.save()
 
     user.access_token = access_token
     login(request, user)
-    return render(request, "callback.html", {"access_token": access_token})
+    # return render(request, "callback.html", {"access_token": access_token})
+    return redirect(home)

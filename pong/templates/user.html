@@ -1,0 +1,119 @@
+{% extends template %}
+{% load static %}
+
+{% block title %}
+<title>USER</title>
+{% endblock %}
+
+{% block content %}
+<div id="app">
+	<div class="container text-center">
+		<div class="row justify-content-around">
+			<div class="container container-option d-flex flex-column">
+				<iframe class="col videoCustom" width="auto" height="auto"
+					src="https://www.youtube.com/embed/jxSvjnuBeRM?autoplay=1" frameborder="0"
+					allow="autoplay; encrypted-media" allowfullscreen></iframe>
+			</div>
+
+			<div class="container container-profil d-flex flex-column align-items justify-content-between">
+				<div class="row align-items-center justify-content-between">
+					<form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
+						class="col justify-content-start">
+						<img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
+						{% csrf_token %}
+						<input id="profil-picture-input" type="file" class="form-control" />
+					</form>
+					<form action="/accounts/profil/username/" method="post" class="col-8">
+						{% csrf_token %}
+						<!-- {% comment %} <label class="visually-hidden col-form-label col-form-label-sm" for="username">Name</label> {% endcomment %} -->
+						<div class="col">
+							<span class="usernameUser" id="username">{{ request.user.username }}</span>
+						</div>
+
+						<!-- <button id="modifyUsernameButton" class="col-2 btn bg-vert" type="submit">✓</button> -->
+						<!-- {% comment %} <input class="col-2 btn bg-vert" type="image" id="modifyUsernameButton" alt="ChangeUsername" src="{% static 'img/cocher.png' %}" /> {% endcomment %} -->
+						<!-- <div class="justify-content-start"> -->
+						<!-- <button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image" style="width: 28px; height: auto; filter: invert(1);"></button> -->
+						<!-- <input type="file" accept="image/*" id="imageInput" style="display: none; border-radius: 20%;"> -->
+						<!-- </div> -->
+					</form>
+				</div>
+
+				<!-- <div class="row align-items-center justify-content-between">
+            <button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#statsModal" id="statsBtn">Statistics</button>
+            <img src="{% static 'img/stat/statistique.png' %}" alt="Statistics Icon" class="col-2 img-fluid icon" />
+          </div> -->
+
+				<!-- Onglets -->
+				<ul class="nav nav-tabs userStat" id="myTabs" role="tablist">
+					<li class="nav-item" role="presentation">
+						<a class="nav-link modNavUser active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1"
+							role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link modNavUser" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab"
+							aria-controls="onglet2" aria-selected="false">Win</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link modNavUser" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab"
+							aria-controls="onglet3" aria-selected="false">Match</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link modNavUser" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab"
+							aria-controls="onglet4" aria-selected="false">Ratio</a>
+					</li>
+				</ul>
+
+				<!-- Contenu des onglets -->
+				<div class="tab-content userStatTab">
+					<div class="tab-pane fade show active tabCustUser" id="onglet1" role="tabpanel"
+						aria-labelledby="onglet1-tab">
+						6/10 <!-- (rang par rapport aux amis) -->
+					</div>
+					<div class="tab-pane fade tabCustUser" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
+						306 <!-- (Nbr de victoires) -->
+					</div>
+					<div class="tab-pane fade tabCustUser" id="onglet3" role="tabpanel" aria-labelledby="onglet3-tab">
+						612 <!-- (Nbr de match) -->
+					</div>
+					<div class="tab-pane fade tabCustUser" id="onglet4" role="tabpanel" aria-labelledby="onglet4-tab">
+						50% <!-- (ratio Nbr de victoires sur nbr de match) -->
+					</div>
+				</div>
+
+				<div class="row align-items-center justify-content-around">
+					<button type="button" class="col-lg-6 btn bg-vert" data-bs-target="#addFriend">Friend
+						request</button>
+					<br />
+					<button type="button" class="col-lg-6 btn bg-vert" data-bs-target="#BlockFriend">Remove
+						friend</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-info">
+		<section class="py-4 mb-4 text-center seachFriendAlign">
+			<div class="container-fluid">
+				<div class="row align-items-center text-align-right miniMode">
+					<div class="col-lg-3">
+						<p class="findFriend">Find a friend</p>
+					</div>
+					<div class="col-lg-6">
+						<div class="input-group input-group-custom">
+							<input type="text" class="form-control" placeholder="Search" aria-label="Username"
+								aria-describedby="basic-addon1" />
+							<div class="input-group-append">
+								<!-- <button type="button" class="btn btn-dark btnCustomProfil" id="user" alt="Check user profil"> 👀 </button> -->
+								<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user"
+									alt="Check user profil"> 👀 </a>
+								<button type="button" class="btn btn-dark imgButton" id="ladder"
+									alt="Add user as a friend"></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	{% endblock %}
