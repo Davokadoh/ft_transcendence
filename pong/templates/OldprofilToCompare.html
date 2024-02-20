@@ -37,37 +37,42 @@
 			<div class="container container-profil d-flex flex-column align-items justify-content-between">
 				<div class="row align-items-center justify-content-between">
 					<form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
-						enctype="multipart/form-data" class="col justify-content-start">
-						<img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
+						class="col justify-content-start">
+						{% if request.user.profilPictureUrl is not None %}
+						<img src="{{ request.user.profilPictureUrl }}" id="profil-picture"
+							class="col-12 col profile-image-set" />
+						{% else %}
+						<img src="{% static 'img/profil/image-defaut.png' %}" id="profil-picture" class="col-12 " />
+						{% endif %}
 						{% csrf_token %}
-						{% for field in profil_picture_form %}
-						<label class="hidden-label" style="display: none;"
-							for="{{ field.auto_id }}">{{ field.label }}</label>
-						{{ field }}
-						{% endfor %}
+						<input id="profil-picture-input" type="file" class="form-control" />
 					</form>
-					<form id="username-form" action="/accounts/profil/username/" method="post" class="col-8">
+					<form action="/accounts/profil/username/" method="post" class="col-8">
 						{% csrf_token %}
+						{% comment %} <label class="visually-hidden col-form-label col-form-label-sm"
+							for="username">Name</label> {% endcomment %}
 						<div class="row align-items-center justify-content-between">
-							<div class="col justify-content-start">
-								{% for field in username_form %}
-								<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
-								{{ field }}
-								{% endfor %}
+							<div class="col">
+								<input id="username" class="form-control form-control-sm" type="text"
+									placeholder="{{ request.user.username }}" />
 							</div>
-							<button id="modifyUsernameButton" class="btn bg-vert col-4 d-flex" type="submit">✓</button>
-						</div>
-						<div class="justify-content-start">
-							<button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img
-									src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image"
-									style="width: 28px; height: auto; filter: invert(1);"></button>
-							<input type="file" accept="image/*" id="imageInput"
-								style="display: none; border-radius: 20%;">
+
+
+							<button id="modifyUsernameButton" class="col-2 btn bg-vert" type="submit">✓</button>
+							{% comment %} <input class="col-2 btn bg-vert" type="image" id="modifyUsernameButton"
+								alt="ChangeUsername" src="{% static 'img/cocher.png' %}" /> {% endcomment %}
+							<div class="justify-content-start">
+								<button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img
+										src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image"
+										style="width: 28px; height: auto; filter: invert(1);"></button>
+								<input type="file" accept="image/*" id="imageInput"
+									style="display: none; border-radius: 20%;">
+							</div>
 						</div>
 					</form>
 				</div>
+				<HR class="sepLigne" ALIGN=CENTER>
 				<div class="row align-items-center justify-content-around">
-					<HR class="sepLigne" ALIGN=CENTER>
 					<button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal"
 						data-bs-target="#contactsModal">Contacts</button>
 					<br />
@@ -204,36 +209,36 @@
 					<!-- Onglets -->
 					<ul class="nav nav-tabs navCustom" id="myTabs" role="tablist">
 						<li class="nav-item" role="presentation">
-							<a class="nav-link modNav active" id="rank-tab" data-bs-toggle="tab" href="#rank" role="tab"
-								aria-controls="rank" aria-selected="true">Rank</a>
+							<a class="nav-link modNav active" id="onglet1-tab" data-bs-toggle="tab" href="#onglet1"
+								role="tab" aria-controls="onglet1" aria-selected="true">Rank</a>
 						</li>
 						<li class="nav-item" role="presentation">
-							<a class="nav-link modNav" id="win-tab" data-bs-toggle="tab" href="#win" role="tab"
-								aria-controls="win" aria-selected="false">Win</a>
+							<a class="nav-link modNav" id="onglet2-tab" data-bs-toggle="tab" href="#onglet2" role="tab"
+								aria-controls="onglet2" aria-selected="false">Win</a>
 						</li>
 						<li class="nav-item" role="presentation">
-							<a class="nav-link modNav" id="match-tab" data-bs-toggle="tab" href="#match" role="tab"
-								aria-controls="match" aria-selected="false">Match</a>
+							<a class="nav-link modNav" id="onglet3-tab" data-bs-toggle="tab" href="#onglet3" role="tab"
+								aria-controls="onglet3" aria-selected="false">Match</a>
 						</li>
 						<li class="nav-item" role="presentation">
-							<a class="nav-link modNav" id="ratio-tab" data-bs-toggle="tab" href="#ratio" role="tab"
-								aria-controls="ratio" aria-selected="false">Ratio</a>
+							<a class="nav-link modNav" id="onglet4-tab" data-bs-toggle="tab" href="#onglet4" role="tab"
+								aria-controls="onglet4" aria-selected="false">Ratio</a>
 						</li>
 					</ul>
 
 					<!-- Contenu des onglets -->
 					<div class="tab-content">
-						<div class="tab-pane fade show active tabCust" id="rank" role="tabpanel"
-							aria-labelledby="rank-tab">
+						<div class="tab-pane fade show active tabCust" id="onglet1" role="tabpanel"
+							aria-labelledby="onglet1-tab">
 							6/10 <!-- (rang par rapport aux amis) -->
 						</div>
-						<div class="tab-pane fade tabCust" id="win" role="tabpanel" aria-labelledby="win-tab">
+						<div class="tab-pane fade tabCust" id="onglet2" role="tabpanel" aria-labelledby="onglet2-tab">
 							306 <!-- (Nbr de victoires) -->
 						</div>
-						<div class="tab-pane fade tabCust" id="match" role="tabpanel" aria-labelledby="match-tab">
+						<div class="tab-pane fade tabCust" id="onglet3" role="tabpanel" aria-labelledby="onglet3-tab">
 							612 <!-- (Nbr de match) -->
 						</div>
-						<div class="tab-pane fade tabCust" id="ratio" role="tabpanel" aria-labelledby="ratio-tab">
+						<div class="tab-pane fade tabCust" id="onglet4" role="tabpanel" aria-labelledby="onglet4-tab">
 							50% <!-- (ratio Nbr de victoires sur nbr de match) -->
 						</div>
 					</div>
@@ -408,3 +413,45 @@
 	</div>
 </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+//////
+
+<div class="container container-profil d-flex flex-column align-items justify-content-between">
+	<div class="row align-items-center justify-content-between">
+		<form id="profil-picture-form" action="/accounts/profil/picture/" method="post" enctype="multipart/form-data"
+			class="col justify-content-start">
+			<img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
+			{% csrf_token %}
+			{% for field in profil_picture_form %}
+			<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
+			{{ field }}
+			{% endfor %}
+			<button type="submit" class="btn bg-vert col-4 d-flex">Enregistrer</button>
+		</form>
+		<form id="username-form" action="/accounts/profil/username/" method="post" class="col-8">
+			{% csrf_token %}
+			<div class="row align-items-center justify-content-between">
+				<div class="col justify-content-start">
+					{% for field in username_form %}
+					<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
+					{{ field }}
+					{% endfor %}
+				</div>
+				<button id="modifyUsernameButton" class="btn bg-vert col-4 d-flex" type="submit">✓</button>
+			</div>
+			<div class="justify-content-start">
+				<button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img
+						src="{% static '/img/ajouter-une-image.png' %}" alt="Modify Image"
+						style="width: 28px; height: auto; filter: invert(1);"></button>
+				<input type="file" accept="image/*" id="imageInput" style="display: none; border-radius: 20%;">
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,4 +1,26 @@
-// index.js update
+// import { profil } from "./profil.js";
+// import { game } from "./game.js";
+// import { startTournament } from "./tournament.js";
+// import { chat } from "./chat.js";
+// import { user } from "./user.js";
+import { router } from "./router.js";
+
+const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+
+router();
+document.onpopstate = router
+window.addEventListener("popstate", router);
+window.addEventListener("DOMContentLoaded", router);
+window.addEventListener("click", e => {
+    if (e.target.matches("[data-link]")) {
+        e.preventDefault();
+        history.pushState(null, null, e.target.href);
+        router();
+    }
+});
+
+console.log('index called')
+
 
 // < !--SCRIPT BOUTON NB / COLOR-- >
 
@@ -47,32 +69,35 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('index.js fonction getCookies lu ok');
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
+});
 
     // window.addEventListener('click', function (logout_user) {
     // 	if (logout_user.target === logout_user) {
     // 		logout_user();
     // 	}
 
-    window.logout_user = function () {
-        console.log('index.js fonction logout_user lu ok');
-        fetch("http://localhost:8000/accounts/logout/", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-        })
-            .then(response => {
-                if (response.ok) {
-                    // Redirige vers la page de connexion après la déconnexion
-                    window.location.href = "/accounts/login/";
-                    // window.location.href = "/accounts/logout/";
-                } else {
-                    console.error('Erreur lors de la déconnexion');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la déconnexion :', error);
-            });
-    };
-});
+// 	window.logout_user = function () {
+// 		console.log('index.js fonction logout_user lu ok');
+// 		fetch("http://localhost:8000/accounts/logout/", {
+// 			method: 'POST',
+// 			headers: {
+// 				'Content-Type': 'application/x-www-form-urlencoded',
+// 				'X-CSRFToken': getCookie('csrftoken'),
+// 			},
+// 		})
+// 			.then(response => {
+// 				if (response.ok) {
+// 					// Redirige vers la page de connexion après la déconnexion
+// 					window.location.href = "/accounts/login/";
+// 					// window.location.href = "/accounts/logout/";
+// 				} else {
+// 					console.error('Erreur lors de la déconnexion');
+// 				}
+// 			})
+// 			.catch(error => {
+// 				console.error('Erreur lors de la déconnexion :', error);
+// 			});
+// 	};
+// });
+
+export default socket;

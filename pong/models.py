@@ -18,7 +18,9 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
+    chats = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
     USERNAME_FIELD = "username"
+    friends = models.ManyToManyField("self")
 
     objects = UserManager()
 

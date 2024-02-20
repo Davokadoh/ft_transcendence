@@ -1,3 +1,8 @@
+/* pour enlever les boutons moches du formulaire */
+#id_profil_picture.form-control.form-control-sm {
+    display: none !important;
+}
+
 #profil-picture-input {
 	display: none;
 }
