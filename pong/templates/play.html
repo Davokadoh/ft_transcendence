@@ -6,17 +6,19 @@
 {% endblock %}
 
 {% block content %}
-  <div id="app">
-    <div class="container text-center">
-      <div class="row align-items-center custom-line">
-        <div class="col-6 row justify-content-center custom-line">
-          <a class="nav-link btn btn-dark justify-content-around ladButClass" href="/lobby_tour/ {{ tournament_id }}" id="ladder_tour" data-link="/lobby_tour">TOURNAMENT</a>
-          <br />
-          <a class="nav-link btn btn-dark justify-content-around quickButClass" href="/lobby/{{ game_id }}" id="ladder" data-link="lobby">QUICK PLAY</a>
-        </div>
-        <div class="col-6 row justify-content-around custom-line inviteToGame">
-          <p class="text-center invitFriend">Invite a friend to play</p>
-          <div class="row justify-content-between custom-line">
+<div id="app">
+	<div class="container text-center">
+		<div class="row">
+			<div class="col-6">
+				<a class="nav-link btn btn-dark ladButClass" href="/tournament/" id="tournament"
+					data-link>TOURNAMENT</a>
+				<br />
+				<a class="nav-link btn btn-dark quickButClass" href="/lobby/{{ game_id }}" id="ladder" data-link>QUICK
+					PLAY</a>
+			</div>
+			<div class="col-6 inviteToGame">
+				<p class="text-center invitFriend">Invite a friend to play</p>
+				<div class="row justify-content-between custom-line">
 					<input type="text" class="col-3 form-control formCust" placeholder="Enter a username"
 						aria-label="Username" aria-describedby="basic-addon1" />
 					<button type="button" class="col-3 btn btn-dark imgButton" id="ladder">INVITE</button>
@@ -39,8 +41,8 @@
 				<div class="scrolling-text-container scrollBall">
 					<img src="{% static 'img/balle.png' %}" alt="Scrolling Image" class="custom-image-spacing" />
 				</div>
-        </div>
-      </div>
-    </div>
-  </div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

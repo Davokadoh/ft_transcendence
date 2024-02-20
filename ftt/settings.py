@@ -11,13 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -33,7 +30,6 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-	"daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -71,13 +67,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "ftt.wsgi.application"
-ASGI_APPLICATION = "ftt.asgi.application"
-CHANNEL_LAYERS = {
-    "default": {
-		"BACKEND": "channels.layers.InMemoryChannelLayer"
-    },
-}
+WSGI_APPLICATION = "ftt.wsgi.application"
 
 
 # Database
@@ -109,7 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = ["pong.backend.CustomAuthenticationBackend"]
+AUTHENTICATION_BACKENDS = ['pong.backend.CustomAuthenticationBackend']
 AUTH_USER_MODEL = "pong.User"
 CSRF_USE_SESSIONS = True
 

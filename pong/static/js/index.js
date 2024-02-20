@@ -23,49 +23,35 @@ console.log('index called')
 
 
 // < !--SCRIPT BOUTON NB / COLOR-- >
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleSwitch = document.getElementById('toggle-switch');
-    const nightModeOn = document.getElementById('nightModeOn');
-    const nightModeOff = document.getElementById('nightModeOff');
-    const separator = document.querySelector('.separator');
 
-    nightModeOn.addEventListener('click', function () {
-        if (!toggleSwitch.checked) {
-            toggleSwitch.checked = false;
-            document.body.classList.add('night-mode');
-            separator.style.background = 'black'; // Change la couleur de la ligne de séparation
-            toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour activer le mode nuit
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('night mode function called');
+        const toggleSwitch = document.getElementById('toggle-switch');
+
+        toggleSwitch.addEventListener('change', function () {
+            document.body.classList.toggle('night-mode', toggleSwitch.checked);
+        });
     });
 
-    nightModeOff.addEventListener('click', function () {
-        if (toggleSwitch.checked) {
-            toggleSwitch.checked = true;
-            document.body.classList.remove('night-mode');
-            separator.style.background = ''; // Change la couleur de la ligne de séparation
-            toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour désactiver le mode nuit
-        }
-    });
-});
 
 // < !--SCRIPT BOUTON MENU-- >
-function toggleNavbar() {
-    console.log('Toggle Navbar function called');
+    function toggleNavbar() {
+        console.log('Toggle Navbar function called');
 
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarNav = document.querySelector('#navbarNav');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarNav = document.querySelector('#navbarNav');
 
-    // Vérifie si le menu est ouvert
-    const isOpen = navbarNav.classList.contains('show');
+        // Vérifie si le menu est ouvert
+        const isOpen = navbarNav.classList.contains('show');
 
-    // Si le menu est ouvert, retire la classe active du bouton
-    if (isOpen) {
-        navbarToggler.classList.remove('active');
-    } else {
-        // Si le menu est fermé, ajoute la classe active au bouton
-        navbarToggler.classList.add('active');
+        // Si le menu est ouvert, retire la classe active du bouton
+        if (isOpen) {
+            navbarToggler.classList.remove('active');
+        } else {
+            // Si le menu est fermé, ajoute la classe active au bouton
+            navbarToggler.classList.add('active');
+        }
     }
-}
 // Fonction pour récupérer le jeton CSRF depuis les cookies
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -73,21 +59,22 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// document.addEventListener('DOMContentLoaded', function () {
-// 	console.log('index.js lu ok');
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('index.js lu ok');
 
 
-// 	function getCookie(name) {
-// 		const value = `; ${document.cookie}`;
-// 		const parts = value.split(`; ${name}=`);
-// 		console.log('index.js fonction getCookies lu ok');
-// 		if (parts.length === 2) return parts.pop().split(';').shift();
-// 	}
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        console.log('index.js fonction getCookies lu ok');
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+});
 
-// 	// window.addEventListener('click', function (logout_user) {
-// 	// 	if (logout_user.target === logout_user) {
-// 	// 		logout_user();
-// 	// 	}
+    // window.addEventListener('click', function (logout_user) {
+    // 	if (logout_user.target === logout_user) {
+    // 		logout_user();
+    // 	}
 
 // 	window.logout_user = function () {
 // 		console.log('index.js fonction logout_user lu ok');
