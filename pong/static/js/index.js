@@ -5,7 +5,7 @@
 // import { user } from "./user.js";
 import { router } from "./router.js";
 
-const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+export const socket = new WebSocket(`ws://${window.location.host}/ws/`);
 
 router();
 document.onpopstate = router
