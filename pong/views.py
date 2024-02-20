@@ -285,7 +285,7 @@ def callback(request):
         headers={"Accept": "application/json"},
     )
     if not response.ok:
-        raise Http404("Status code is: " + response.status_code)
+        raise Http404("Status code is: " + str(response.status_code))
     access_token = response.json()["access_token"]
 
     response = requests.get(
