@@ -345,10 +345,10 @@ export function chat() {
         //}        
     };
 
-    socket.onopen = function (e) {
-        console.log('WebSocket connection opened: ', e);
-        socket.send(JSON.stringify({ 'message': 'Hello from Page 2!' }));
-    };
+    // socket.onopen = function (e) {
+    //     console.log('WebSocket connection opened: ', e);
+    //     socket.send(JSON.stringify({ 'message': 'Hello from Page 2!' }));
+    // };
 
     function sendByMe(event) {
         console.log("Click from input chat: ", event.type);
