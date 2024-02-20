@@ -471,14 +471,15 @@ footer {
 	border-color: black;
 }
 
-/*  Couleur pour le mode nuit */
-/* #toggle-switch:checked+.toggle-label {
+#toggle-switch:checked+.toggle-label {
+	/*  Couleur pour le mode nuit */
 	background-color: white;
-}*/
+}
 
-/* #toggle-switch:checked+.toggle-label .separator {
+#toggle-switch:checked+.toggle-label .separator {
+	/* background: linear-gradient(to bottom, var(--violet), var(--vert));  */
 	background: black;
-} */
+}
 
 
 /* Styles pour le mode nuit */

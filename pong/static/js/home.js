@@ -41,3 +41,4 @@ console.log("script home BTN play load with success");
             xhr.send();
         });
     });
+
