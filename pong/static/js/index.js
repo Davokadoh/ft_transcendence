@@ -6,6 +6,7 @@ import { router } from "./router.js";
 
 const socket = new WebSocket(`ws://${window.location.host}/ws/`);
 
+
 router();
 document.onpopstate = router
 window.addEventListener("popstate", router);
@@ -45,14 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour désactiver le mode nuit
         }
     });
-});
-
-
-// < !--SCRIPT BOUTON NB / COLOR-- >
-const toggleSwitch = document.getElementById('toggle-switch');
-toggleSwitch.addEventListener('change', function () {
-	console.log('night mode function called');
-	document.body.classList.toggle('night-mode', toggleSwitch.checked);
 });
 
 // < !--SCRIPT BOUTON MENU-- >
