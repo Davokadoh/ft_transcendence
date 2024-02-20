@@ -22,6 +22,9 @@ urlpatterns = [
     path("lobby/", views.lobby),
     path("lobby/<int:game_id>/", views.lobby),
     path("game/<int:game_id>/", views.game),
+    path("lobby_tour/", views.lobby_tour),
+    path("lobby_tour/<int:tournament_id>/", views.lobby_tour),
+    path("tournament/<int:tournament_id>/", views.tournament),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

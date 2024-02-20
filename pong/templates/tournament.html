@@ -1,7 +1,7 @@
 {% extends template %}
 {% load static %}
 {% block title %}
-<title>GAME #{{ game_id }}</title>
+<title>TOURNAMENT #{{ tournament_id }}</title>
 {% endblock %}
 {% block content %}
 <div id="app">
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="col-md-4 d-flex align-items-center justify-content-center mt-3">
-      <div id="boardGame" class="gameContainer">
+      <div id="boardGame" class="tournamentContainer">
         <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
       </div>
     </div>
@@ -22,12 +22,6 @@
       <div id="scoreText" class="text-center">0 : 0</div>
     </div>
   </div>  
-  <div id="myModalGame" class="modalGame">
-    <div class="modalGame-content">
-      <span class="close">&times;</span>
-      <p id="modalGame-message"></p>
-    </div>
-  </div>
 </div>
 
 {% endblock %}

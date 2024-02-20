@@ -14,4 +14,3 @@ RUN pip3 install --upgrade pip && pip3 install python-dotenv && pip3 install Dja
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
 
-
