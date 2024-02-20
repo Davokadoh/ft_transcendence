@@ -1,4 +1,28 @@
-/* ANCIENNEMENT PONG.CSS */
+#gameContainer {
+    margin: auto;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #000;
+}
+
+#start-game,
+#stop-game,
+#reset-game {
+    background-color: var(--violet);
+    color: var(--vert);
+    border-radius: 20px;
+    margin-top: 10px; /* Ajoutez une marge en haut pour l'esthétique */
+}
+
+#scoreText {
+    font-family: "consolas", monospace;
+    font-size: 50px;
+}
+
+/* ANCIENNEMENT PONG.CSS
 
 #body-pong {
 	color: black;
@@ -53,4 +77,4 @@
 .test {
 	color: white;
 	font-size: 34px;
-}
+} */

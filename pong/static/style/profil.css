@@ -7,6 +7,48 @@
 	display: none;
 }
 
+.profile-image-set {
+	border-radius: 10%;
+	border: 2px solid #ffffff;
+}
+
+.sepLigne {
+    border: none; /* Supprime la bordure par défaut */
+    height: 3px; /* Épaisseur de la ligne */
+    background-color: white; /* Couleur de fond de la ligne */
+    margin: 20px auto; /* Marge top et bottom et auto pour aligner au centre */
+    border-radius: 5px; /* Bords arrondis */
+	opacity: 0.8; /* Opacité complète a 1*/
+    position: relative; /* Position relative pour les animations */
+    animation: changeColor 20s infinite; /* Animation de changement de couleur */
+}
+
+/* Animation de changement de couleur */
+@keyframes changeColor {
+    0% {
+        background-color: white; /* Début: blanc */
+    }
+    25% {
+        background-color: var(--violet); /* Violet après 5 secondes */
+    }
+    50% {
+        background-color: var(--bleu); /* Vert après 10 secondes */
+    }
+    75% {
+		background-color: black; /* Bleu après 20 secondes */
+    }
+    95% {
+		background-color: var(--violet); /* Noir après 15 secondes */
+    }
+    100% {
+        background-color: white; /* Bleu après 20 secondes */
+    }
+}
+
+.night-mode .sepLigne {
+	background-color: white !important;
+}
+
 .container-option {
 	border-radius: 30px;
 	background-color: #9016B2;
@@ -56,15 +98,19 @@
 	}
 }
 
+/* plus utile */
 .modImg {
 	background-image: url('../img/ajouter-une-image.png');
 	background-color: transparent !important;
 	color: transparent !important;
 	background-size: cover;
 	border: none !important;
+	height: 15px !important;
+	width: 15px !important;
 }
 
 .modImg:hover {
+
 	background-color: transparent;
 	filter: contrast(175%) brightness(3%);
 	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
@@ -98,14 +144,6 @@
 	width: 30px;
 	height: 30px;
 	/* align-items: end !important; */
-}
-
-/* Style for the profile image */
-.profile-image-set {
-	/* width: 100px;
-	height: 100px;
-	margin-right: 10px; */
-	border-radius: 50%;
 }
 
 .night-mode .modImg {
@@ -365,12 +403,23 @@
 }
 
 .input-group-custom {
-	width: 300px;
+	width: 350px;
 }
 
 .input-group-append {
-	width: 100px;
+	/* width: 300px; */
+	margin-left: 15px !important;
 	overflow: auto;
+
+}
+
+.btnCustomProfil {
+	font-size: 20px;
+	z-index: 0 !important;
+}
+
+.night-mode .btnCustomProfil {
+	filter: grayscale(100%);
 }
 
 /*  Pour avoir les bords de droite du formulaire arrondis */
