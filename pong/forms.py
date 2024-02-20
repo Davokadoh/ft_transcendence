@@ -23,3 +23,13 @@ class ProfilPictureForm(ModelForm):
     class Meta:
         model = User 
         fields = ["profil_picture"]
+
+class settingsForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfilPictureForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs["class"] = "form-control form-control-sm"
+
+    class Meta:
+        model = User 
+        fields = ["paddleSpeed"]

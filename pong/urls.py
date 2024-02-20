@@ -22,6 +22,7 @@ urlpatterns = [
     path("lobby/", views.lobby),
     path("lobby/<int:game_id>/", views.lobby),
     path("game/<int:game_id>/", views.game),
+	path("accounts/profil/settings/", views.UpdateUserSettingsView)
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

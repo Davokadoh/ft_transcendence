@@ -248,3 +248,24 @@ def callback(request):
     login(request, user)
     # return render(request, "callback.html", {"access_token": access_token})
     return redirect(home)
+
+def UpdateUserSettingsView(request):
+    print("coucou")
+    if request.method == "POST":
+        paddle_speed = int(request.POST.get('paddle_speed'))
+        ball_speed = int(request.POST.get('ball_speed'))
+        paddle_color = request.POST.get('paddle_color')
+        ball_color = request.POST.get('ball_color')
+        background_color = request.POST.get('background_color')
+        request.user.paddleSpeed = paddle_speed
+        request.user.ballSpeed = ball_speed
+        request.user.paddleColor = paddle_color
+        request.user.ballColor = ball_color
+        request.user.backgroundColor = background_color
+        # Met à jour d'autres champs du modèle utilisateur
+
+        # Enregistre les modifications dans la base de données
+        request.user.save()
+        return redirect(profil)
+    else:
+        return HttpResponseBadRequest("Invalid request method")

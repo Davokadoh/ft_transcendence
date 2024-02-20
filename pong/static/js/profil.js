@@ -18,9 +18,25 @@ export function profil() {
 
 	let saveButton = document.getElementById('saveButton');
 	saveButton.onclick = function () {
+		settingsForm.requestSubmit();
 		const paddleSpeedValue = paddleSpeedInput.value;
 		const ballSpeedValue = ballSpeedInput.value;
-		statsModalClose();
+		profilSettingsForm.requestSubmit()
+	}
+
+	profilSettingsForm.onsubmit = function (event) {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const url = new URL(form.action);
+		const formData = new FormData(form);
+		fetch(url, {
+			method: form.method,
+			body: formData,
+			mode: 'same-origin',
+		}).then(response => {
+			profilSettings.src = URL.createObjectURL(paddleSpeedInput);
+			console.log("Img src changed!")
+		});
 	}
 
 	let profilPictureInput = document.getElementById('id_profil_picture');

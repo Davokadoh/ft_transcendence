@@ -9,6 +9,7 @@ import pathlib
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class OverwriteStorage(FileSystemStorage):
@@ -50,6 +51,11 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    paddleSpeed = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    ballSpeed = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    paddleColor = models.CharField(max_length=50, blank=True)
+    ballColor = models.CharField(max_length=50, blank=True)
+    backgroundColor = models.CharField(max_length=50, blank=True)
     # game settings
     # paddle_speed = models.IntegerField(default=12)
     # ball_speed = models.IntegerField(default=0)
