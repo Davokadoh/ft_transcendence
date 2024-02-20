@@ -4,12 +4,11 @@ import { chat } from "./chat.js";
 // import { user } from "./user.js";
 import { router } from "./router.js";
 
-export const socket = new WebSocket(`ws://${window.location.host}/ws/`);
+const socket = new WebSocket(`ws://${window.location.host}/ws/`);
 
-//si je le laisse ca fait buger les onglets 
-// router();
-// document.onpopstate = router;
 
+router();
+document.onpopstate = router
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("click", e => {
@@ -113,3 +112,5 @@ function getCookie(name) {
 // 			});
 // 	};
 // });
+
+export default socket;
