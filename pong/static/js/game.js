@@ -43,7 +43,11 @@ export function game() {
 		clearBoard();
 		document.getElementsByClassName("close")[0].addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame(); // Réinitialise le jeu après la fermeture de la fenêtre modale
+			resetGame();
+		});
+		document.querySelector('.modalButton').addEventListener('click', function() {
+			document.getElementById("myModalGame").style.display = "none";
+			resetGame();
 		});
 	}
 
@@ -122,14 +126,12 @@ export function game() {
 		if (ballX <= 0) {
 			player2Score += 1;
 			updateScore();
-			// endGame();
 			createBall();
 			return;
 		}
 		if (ballX >= gameWidth) {
 			player1Score += 1;
 			updateScore();
-			// endGame();
 			createBall();
 			return;
 		}
@@ -192,7 +194,6 @@ export function game() {
 	function resetGame() {
 		initializeGame();
 		updateScore();
-		// endGame();
 	}
 
 	function startGame() {
@@ -202,7 +203,6 @@ export function game() {
 			document.getElementById("gameBoard").focus(); // Donner le focus au canevas
 			draw();
 			document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-			// endGame();
 		}
 	}
 
@@ -222,12 +222,11 @@ export function game() {
 				winnerMessage += "It's a draw!";
 			}
 
-			// Affiche la fenêtre modale avec le message
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
 		}
 	}
-	// Appel initial pour l'initialisation
+
 	initializeGame();
 	updateScore();
 }
