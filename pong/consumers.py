@@ -68,7 +68,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def ready(self):
         self.game.send(
             {
-                "type": "player_status",
+                "type": "player_ready",
                 "user": self.user.username,
             }
         )
