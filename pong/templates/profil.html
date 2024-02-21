@@ -336,7 +336,8 @@
 				</div>
 
 				<div class="modal-body">
-					<form id="settingsForm" method="post">
+					<form id="settingsForm" method="post" action="/accounts/profil/settings/">
+						{% csrf_token %}
 						<div class="form-group formGroupCustom">
 							<label for="paddleSpeed">
 								Paddles speed
@@ -344,7 +345,7 @@
 								<span class="rangCust" id="paddleSpeedValue">50</span>
 								<span class="crochets">]</span>
 							</label>
-							<input type="range" class="form-range rangeCustom" id="paddleSpeed" value="50" min="1"
+							<input type="range" class="form-range rangeCustom" id="paddleSpeed" name="paddle_speed" value="50" min="1"
 								max="100" />
 						</div>
 
@@ -356,24 +357,24 @@
 								<span class="rangCust" id="ballSpeedValue">50</span>
 								<span class="crochets">]</span>
 							</label>
-							<input type="range" class="form-range rangeCustom" id="ballSpeed" value="50" min="1"
+							<input type="range" class="form-range rangeCustom" id="ballSpeed" name="ball_speed" value="50" min="1"
 								max="100" />
 						</div>
 
 						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
 						<div class="form-group formGroupCustom">
 							<label for="paddleColor">Paddles color</label>
-							<input type="color" class="form-control" id="paddleColor" />
+							<input type="color" class="form-control" id="paddleColor" name="paddle_color" />
 						</div>
 						<div class="form-group formGroupCustom">
 							<label for="ballColor">Ball color</label>
-							<input type="color" class="form-control" id="ballColor" />
+							<input type="color" class="form-control" id="ballColor" name="ball_color"/>
 						</div>
 
 						<!-- Paramètre 4 : Fond du jeu -->
 						<div class="form-group formGroupCustom">
 							<label>Game background</label>
-							<select class="form-control" id="backgroundColor">
+							<select class="form-control" id="backgroundColor" name="backgroud_color">
 								<option value="black">Black</option>
 								<option value="purple">Violet</option>
 								<option value="image1">Image 1</option>

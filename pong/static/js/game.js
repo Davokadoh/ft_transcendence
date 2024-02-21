@@ -45,7 +45,7 @@ export function game() {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
-		document.querySelector('.modalButton').addEventListener('click', function() {
+		document.querySelector('.modalButton').addEventListener('click', function () {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});

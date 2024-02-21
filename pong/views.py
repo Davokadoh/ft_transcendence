@@ -2,7 +2,6 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.exceptions import DoesNotExist
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 
@@ -389,3 +388,23 @@ def create_fake_user(request):
         'profil_picture': 'img/profil/image-defaut.png',
     }
     return JsonResponse(user_info)
+
+def UpdateUserSettingsView(request):
+    print("coucou")
+    if request.method == "POST":
+        paddle_speed = int(request.POST.get('paddle_speed'))
+        print("paddle speed: ", paddle_speed)
+        ball_speed = int(request.POST.get('ball_speed'))
+        print("ball_speed: ", ball_speed)
+        paddle_color = request.POST.get('paddle_color')
+        ball_color = request.POST.get('ball_color')
+        background_color = request.POST.get('background_color')
+        request.user.paddleSpeed = paddle_speed
+        request.user.ballSpeed = ball_speed
+        request.user.paddleColor = paddle_color
+        request.user.ballColor = ball_color
+
+        request.user.save()
+        return redirect(profil)
+    else:
+        return HttpResponseBadRequest("Invalid request method")

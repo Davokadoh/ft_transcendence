@@ -23,3 +23,4 @@ class ProfilPictureForm(ModelForm):
     class Meta:
         model = User 
         fields = ["profil_picture"]
+        

@@ -17,11 +17,31 @@ export function profil() {
 	});
 
 	function statsModalClose() { modal.style.display = 'none'; }
+	// let saveButton = document.getElementById('saveButton');
+	// saveButton.onclick = function () {
+	// 	const paddleSpeedValue = paddleSpeedInput.value;
+	// 	const ballSpeedValue = ballSpeedInput.value;
+	//  statsModalClose();
+	// }
+	
 	let saveButton = document.getElementById('saveButton');
 	saveButton.onclick = function () {
-		const paddleSpeedValue = paddleSpeedInput.value;
-		const ballSpeedValue = ballSpeedInput.value;
+		settingsForm.requestSubmit();
 		statsModalClose();
+	}
+
+	profilSettingsForm.onsubmit = function (event) {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const url = new URL(form.action);
+		const formData = new FormData(form);
+		fetch(url, {
+			method: form.method,
+			body: formData,
+			mode: 'same-origin',
+		}).then(response => {
+			console.log("Settings changed!")
+		});
 	}
 
 	let profilPictureInput = document.getElementById('id_profil_picture');
