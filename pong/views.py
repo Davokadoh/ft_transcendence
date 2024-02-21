@@ -81,17 +81,22 @@ def profil(request):
 
 @login_required
 def user(request, username=None):
+    # try:
+    #     user = User.objects.get(username=username)
+    # except user.DoesNotExist:
+    #     return redirect(home)
     try:
         user = User.objects.get(username=username)
-    # except DoesNotExist:
-    except TypeError:
-        return redirect(home)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
     if user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
     elif user.profil_picture_oauth:
         profil_picture_url = request.user.profil_picture_oauth
     else:
-        profil_picture_url = "/static/img/ajouter-une-image.png"
+        profil_picture_url = "/static/img/image-defaut.png"
+
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request,
