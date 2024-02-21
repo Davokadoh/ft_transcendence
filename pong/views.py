@@ -235,11 +235,6 @@ def logoutview(request):
     return loginview(request)
 
 
-def logoutview(request):
-    logout(request)
-    return loginview(request)
-
-
 def loginview(request):
     token = request.headers.get("Authorization")
     if request.user.is_authenticated:
