@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from . import views
+from .views import create_fake_user
 
 urlpatterns = [
     path("", views.index),
@@ -25,6 +26,8 @@ urlpatterns = [
 	path("lobby_tour/", views.lobby_tour),
     path("lobby_tour/<int:tournament_id>/", views.lobby_tour),
     path("tournament/<int:tournament_id>/", views.tournament),
+    path('user/<str:username>/', views.user),
+    path('api/create-fake-user/', create_fake_user, name='create_fake_user'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
