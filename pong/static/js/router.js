@@ -1,5 +1,6 @@
 import { chat } from "./chat.js";
 import { profil } from "./profil.js";
+import { user } from "./user.js"
 import { game } from "./game.js";
 import { startTournament } from "./tournament.js";
 

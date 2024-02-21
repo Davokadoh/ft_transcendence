@@ -163,4 +163,11 @@ export function profil() {
 		console.log("Le bouton a été cliqué !");
 		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
 	};
+	let user = document.getElementById('user');
+	let searched_username = document.getElementById('searchInput');
+	searched_username.onchange = function () {
+		console.log("searched_username JS = ", searched_username.value);
+		console.log("WINDOW HREF = ", window.location.href);
+		user.href = `/user/${searched_username.value}/`;
+	};
 };

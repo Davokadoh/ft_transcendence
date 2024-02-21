@@ -1,6 +1,8 @@
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import DoesNotExist
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 
@@ -21,7 +23,8 @@ def index(request, page_name=None):
 def home(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "home.html", {"template": "ajax.html" if ajax else "index.html"}
+        request, "home.html", {
+            "template": "ajax.html" if ajax else "index.html"}
     )
 
 
@@ -29,7 +32,8 @@ def home(request):
 def play(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "play.html", {"template": "ajax.html" if ajax else "index.html"}
+        request, "play.html", {
+            "template": "ajax.html" if ajax else "index.html"}
     )
 
 
@@ -56,23 +60,49 @@ def profil(request):
     )
 
 
+# @login_required
+# def user(request):
+#     if request.user.profil_picture:
+#         profil_picture_url = request.user.profil_picture.url
+#     elif request.user.profil_picture_oauth:
+#         profil_picture_url = request.user.profil_picture_oauth
+#     else:
+#         profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
+#     print("URL: " + profil_picture_url)
+#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+#     return render(
+#         request,
+#         "user.html",
+#         {
+#             "template": "ajax.html" if ajax else "index.html",
+#             "profil_picture_url": profil_picture_url,
+#         },
+#     )
+
 @login_required
-def user(request):
-    if request.user.profil_picture:
+def user(request, username=None):
+    # try:
+    #     user = User.objects.get(username=username)
+    # except user.DoesNotExist:
+    #     return redirect(home)
+    try:
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
+    if user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
-    elif request.user.profil_picture_oauth:
+    elif user.profil_picture_oauth:
         profil_picture_url = request.user.profil_picture_oauth
     else:
-        profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
-    print("URL: " + profil_picture_url)
+        profil_picture_url = "/static/img/image-defaut.png"
+
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request,
         "user.html",
-        {
-            "template": "ajax.html" if ajax else "index.html",
-            "profil_picture_url": profil_picture_url,
-        },
+        {"template": "ajax.html" if ajax else "index.html",
+            "user": user, "profil_picture_url": profil_picture_url},
     )
 
 
@@ -109,7 +139,8 @@ def username(request):
 @login_required
 def profilPicture(request):
     if request.method == "POST":
-        form = ProfilPictureForm(request.POST, request.FILES, instance=request.user)
+        form = ProfilPictureForm(
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponse()
@@ -124,7 +155,8 @@ def chat(request):
         return render(request, "chat-tmp.html")
     else:
         return render(
-            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+            request, "chat.html", {
+                "template": "ajax.html" if ajax else "index.html"}
         )
 
 
@@ -148,7 +180,8 @@ def lobby(request, game_id=None):
         )
     elif request.method == "POST":
         try:
-            game.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+            game.teams[request.POST["team"]].add_player(
+                request.POST["invited_player"])
         except (KeyError, Team.DoesNotExist, User.DoesNotExist):
             return render(
                 request,
@@ -199,7 +232,8 @@ def lobby_tour(request, tournament_id=None):
         )
     elif request.method == "POST":
         try:
-            game.teams[request.POST["team"]].add_player(request.POST["invited_player"])
+            game.teams[request.POST["team"]].add_player(
+                request.POST["invited_player"])
         except (KeyError, Team.DoesNotExist, User.DoesNotExist):
             return render(
                 request,
@@ -257,7 +291,8 @@ def loginview(request):
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("OAUTH_URL"),
                 os.getenv("OAUTH_ID"),
-                requests.utils.quote("http://localhost:8000/accounts/callback/"),
+                requests.utils.quote(
+                    "http://localhost:8000/accounts/callback/"),
                 "public",
                 123,  # state
             )
@@ -305,3 +340,47 @@ def callback(request):
     login(request, user)
     # return render(request, "callback.html", {"access_token": access_token})
     return redirect(home)
+
+
+def get_user_info(request, username):
+    if request.method == 'GET':
+        # username = request.GET.get('username')
+        # username = request.GET.get('profil_picture')
+        print('username GET =', username)
+        try:
+            user = User.objects.get(username=username)
+            user_info = {
+                'username': user.username,
+                'nickname': user.nickname,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'profil_picture': '/static/img/triste.png'
+                # 'profil_picture': user.profil_picture.url if user.profil_picture else user.profil_picture_oauth,
+            }
+            return JsonResponse(user_info)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+    elif request.method == 'POST':  # condition pour gérer les requêtes GET
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+    # TEST AVEC FAUX USERS
+
+
+def create_fake_user(request):
+    # Créer un faux utilisateur
+    fake_user = User.objects.create_user(
+        username='user123', email='user123@example.com', password='password123', profil_picture=STATIC_URL('./img/profil/image-defaut.png'))
+    fake_user.first_name = 'John'
+    fake_user.last_name = 'Doe'
+    # fake_user.profil_picture = '../img/profil/image-defaut.png'
+    fake_user.save()
+
+    # Renvoyer les informations de l'utilisateur créé
+    user_info = {
+        'username': fake_user.username,
+        'first_name': fake_user.first_name,
+        'last_name': fake_user.last_name,
+        'email': fake_user.email,
+        'profil_picture': 'img/profil/image-defaut.png',
+    }
+    return JsonResponse(user_info)
