@@ -1,58 +1,99 @@
 #gameContainer {
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-color: #000;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #000;
 }
 
 #start-game,
 #stop-game,
 #reset-game {
-    background-color: var(--violet);
-    color: var(--vert);
-    border-radius: 20px;
-    margin-top: 10px;
+  background-color: var(--violet);
+  color: var(--vert);
+  border-radius: 20px;
+  margin-top: 18px;
+  font-family: 'Titan One', sans-serif;
+}
+
+#start-game:hover,
+#stop-game:hover,
+#reset-game:hover{
+background-color: var(--vert);
+color: var(--violet);
+}
+
+#start-game:active,
+#stop-game:active,
+#reset-game:active {
+background-color: var(--violet);
+color: var(--vert);
+border-color: #ffffff;
+
+}
+
+
+.night-mode #start-game,
+.night-mode #stop-game,
+.night-mode #reset-game {
+  border: 2px solid #ffffff;
+  background-color: black;
+  color: #fff;
+}
+
+.night-mode #start-game:hover,
+.night-mode #stop-game:hover,
+.night-mode #reset-game:hover {
+    color: black;
+    background-color: white;
+    border-color: #ffffff;
+}
+
+.night-mode #start-game:active,
+.night-mode #stop-game:active,
+.night-mode #reset-game:active {
+    background-color: black;
+    color: white;
+    border: none;
 }
 
 #scoreText {
-    font-family: "consolas", monospace;
-    font-size: 50px;
+  font-family: "consolas", monospace;
+  font-size: 50px;
 }
 
 .modalGame {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100vh;
-  }
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+}
 
-  
+
 .modalGame-content {
-	padding: 20px;
-	width: 80%;
-	max-width: 400px;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-  }
+padding: 20px;
+width: 80%;
+max-width: 400px;
+display: flex;
+flex-direction: column;
+height: 100%;
+}
 
-  .modal-body {
-    flex-grow: 1;
-    overflow: auto;
+.modal-body {
+  flex-grow: 1;
+  overflow: auto;
 }
 
 .modalCenter{
-	top: 30%;
-	transform: translate(-10%) !important;
+top: 30%;
+transform: translate(-10%) !important;
 }
 
 .close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-  }
-  
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
+}
