@@ -22,6 +22,7 @@ socket.onmessage = function (event) {
 			break;
 		// case "chat_message":
 		// 	chat_message(data);
+		// 	break;
 		default:
 			console.error("Unknown message type!");
 			break;

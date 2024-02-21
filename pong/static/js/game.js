@@ -1,3 +1,5 @@
+import socket from './index.js';
+
 export function game() {
 	let gameBoard;
 	let ctx;
@@ -24,6 +26,33 @@ export function game() {
 	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
 
+	socket.onmessage = function (event) {
+		const data = JSON.parse(event.data);
+		switch (data.type) {
+			case "game_state":
+				console.log("Game state");
+				break;
+			case "player_ready":
+				console.log(`Player ${data.player} is ready`);
+				break;
+			case "game_start":
+				console.log("Game has been started");
+				break;
+			case "game_pause":
+				console.log("Game has been paused");
+				break;
+			case "game_resume":
+				console.log("Game has been resumed");
+				break;
+			case "game_score":
+				console.log("Game has been scored");
+				break;
+			default:
+				console.error("Unknown message type!");
+				break;
+		}
+	};
+
 	function initializeGame() {
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
@@ -45,7 +74,7 @@ export function game() {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
-		document.querySelector('.modalButton').addEventListener('click', function() {
+		document.querySelector('.modalButton').addEventListener('click', function () {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});

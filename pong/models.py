@@ -1,3 +1,4 @@
+import asyncio
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import pre_delete
@@ -108,15 +109,14 @@ class Game(models.Model):
     max_points = 2
     max_pause_per_player = 1
     players = list[Player]
-    # balls = list[Ball]
     ball = Ball(field["width"] / 2, field["height"] / 2)
 
     async def send(self, content):
         await get_channel_layer().group_send(f"game_{self.pk}", content)
 
-    def play(self):
+    async def play(self):
         if all(self.players.ready):
-            # await asyncio.sleep(3)
+            await asyncio.sleep(3)
             if self.status is Status.LOBBY:
                 self.start()
             self.status = Status.PLAY
@@ -132,8 +132,8 @@ class Game(models.Model):
     async def pause(self, src):
         self.status = Status.PAUSE
         await self.send({"type": "game_pause", "by_player": src.username})
-        # for player in self.players:
-        #     player.ready = False
+        for player in self.players:
+            player.ready = False
 
     def score(self, team):
         team.score += 1
@@ -189,49 +189,6 @@ class Game(models.Model):
                 "state": {"ball": self.ball, "players": self.players},
             }
         )
-
-    # winners = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     related_name="games_won",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    # )
-    # losers = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     related_name="games_lost",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    # )
-
-
-# class Game(models.Model):
-#     teams = models.ManyToManyField(Team)
-#     start_time = models.DateTimeField(auto_now_add=True)
-#     end_time = models.DateTimeField(null=True, blank=True)
-
-#     winners = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         related_name="games_won",
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#     )
-#     losers = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         related_name="games_lost",
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#     )
-
-#     def add_team(self):
-#         new_team = Team.objects.create()
-#         self.teams.add(new_team)
-
-#     def add_player(self, player_id):
-#         self.teams.first().add_player(player_id)
 
 #     @receiver(pre_delete, sender=Team)
 #     def pre_delete_team_in_game(sender, instance, created, **kwargs):
