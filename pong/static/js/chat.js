@@ -22,14 +22,6 @@ export function chat() {
 	const contactSelect = document.querySelector("[data-contact]");
 	let users = [];
 
-	/*const socket = new WebSocket(
-		'ws://'
-		+ window.location.host
-		+ '/ws/chat/'
-		+ 'conversation'
-		+ '/'
-	);*/
-
 	//create list contact
 	//index, name, img
 	fetch("https://jsonplaceholder.typicode.com/users")
@@ -120,7 +112,6 @@ export function chat() {
 				});
 			}
 		}
-
 	});
 
 	//event keypress
@@ -219,8 +210,6 @@ export function chat() {
 			const contactName = myTarget.querySelector(".text h6").textContent;
 			console.log("click action: ", e.target.id);
 			console.log("Target: ", contactName);
-
-
 
 			if (e.target.id === "delId") {
 				myTarget.remove();
@@ -336,14 +325,14 @@ export function chat() {
 
 	//-------------handle message-----------------
 
-	socket.onmessage = function (event) {
-		const data = JSON.parse(event.data);
-		console.log("===received message:===", data);
-		//const conversation = findConversation(data.sender); //data.sender: <username sender>
-		//if (conversation) {
-		createBubbleChat(data, "receive");
-		//}        
-	};
+	// socket.onmessage = function (event) {
+	// 	const data = JSON.parse(event.data);
+	// 	console.log("===received message:===", data);
+	// 	//const conversation = findConversation(data.sender); //data.sender: <username sender>
+	// 	//if (conversation) {
+	// 	createBubbleChat(data, "receive");
+	// 	//}        
+	// };
 
 	// socket.onopen = function (e) {
 	//     console.log('WebSocket connection opened: ', e);
