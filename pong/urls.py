@@ -19,6 +19,7 @@ urlpatterns = [
     path("play/", views.play),
     path("profil/", views.profil),
     path("user/", views.user),
+    path("user/<str:username>", views.user),
     path("lobby/", views.lobby),
     path("lobby/<int:game_id>/", views.lobby),
     path("game/<int:game_id>/", views.game),

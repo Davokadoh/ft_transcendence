@@ -1,13 +1,13 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import pre_delete
-import random
 from channels.layers import get_channel_layer
+from django.conf import settings
+from django.db import models
 from .player import Player
 from .ball import Ball
 import pathlib
-from django.core.files.storage import FileSystemStorage
-from django.conf import settings
+import random
 import os
 
 
@@ -19,9 +19,7 @@ class OverwriteStorage(FileSystemStorage):
 
 
 def user_directory_path(instance, filename):
-    return "profil_pictures/{0}{1}".format(
-        instance.username, pathlib.Path(filename).suffix
-    )
+    return f"profil_pictures/{instance.username}{pathlib.Path(filename).suffix}"
 
 
 class User(AbstractBaseUser):
@@ -43,9 +41,9 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
-    chats = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
-    USERNAME_FIELD = "username"
+    chats = models.ManyToManyField("self")
     friends = models.ManyToManyField("self")
+    USERNAME_FIELD = "username"
 
     objects = UserManager()
 
@@ -114,7 +112,7 @@ class Game(models.Model):
     ball = Ball(field["width"] / 2, field["height"] / 2)
 
     async def send(self, content):
-        await get_channel_layer().group_send("game_{}".format(self.pk), content)
+        await get_channel_layer().group_send(f"game_{self.pk}", content)
 
     def play(self):
         if all(self.players.ready):
@@ -206,7 +204,6 @@ class Game(models.Model):
     #     null=True,
     #     blank=True,
     # )
-
 
 
 # class Game(models.Model):

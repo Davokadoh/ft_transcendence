@@ -12,16 +12,20 @@ class Consumer(AsyncJsonWebsocketConsumer):
         self.user = self.scope["user"]
         if not self.user.is_authenticated:
             return
+        self.user.online = True
         async for chat in User.objects.filter(chats=self.user):
             await self.channel_layer.group_add(f"chat_{chat.pk}", self.channel_name)
-            print("user {} added to user {}'s channel group".format(self.user, chat.pk))
+            print(f"user {self.user.username} added to user {chat.pk}'s channel group")
+        await self.channel_layer.group_send("server", {"type": "connection", "user": self.user.username})
         await self.channel_layer.group_add("server", self.channel_name)
         await self.accept()
 
     async def disconnect(self, close_code):
+        self.user.online = False
+        await self.channel_layer.group_discard("server", self.channel_name)
+        await self.channel_layer.group_send("server", {"type": "disconnection", "user": self.user.username})
         async for chat in User.objects.filter(chats=self.user):
             await self.channel_layer.group_discard(f"chat_{chat.pk}", self.channel_name)
-        await self.channel_layer.group_discard("server", self.channel_name)
 
     async def receive_json(self, content):
         print(content)
@@ -38,27 +42,26 @@ class Consumer(AsyncJsonWebsocketConsumer):
         elif content["type"] == "game_invite":
             print("Invited received!")
         else:
-            print("Type not found")
+            print(f"Unknown message type: {content['type']}")
 
     async def receive_chat(self, content):
         print("Message received!")
         # target = content.get("chat")
         target = "Davokadoh"
         chat = await User.objects.aget(username=target)
-        if chat is None:
-            return
-        if self.user.chats is None:
-            self.user.chats = chat
-        else:
-            await self.user.chats.aadd(chat)
         await self.channel_layer.group_add(f"chat_{chat.pk}", self.channel_name)
         await Message.objects.acreate(
             sender=self.user, target=chat, message=content.get("message")
         )
         await self.channel_layer.group_send(f"chat_{chat.pk}", content)
 
+    async def connection(self, content):
+        await self.send_json(content)
+
+    async def disconnection(self, content):
+        await self.send_json(content)
+
     async def chat_message(self, content):
-        print("send message...")
         await self.send_json(content["message"])
 
     async def ready(self):
