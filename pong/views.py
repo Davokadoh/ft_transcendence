@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
-# from django.core.exceptions import DoesNotExist
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 
@@ -82,29 +82,32 @@ def profil(request):
 
 @login_required
 def user(request, username=None):
-    # try:
-    #     user = User.objects.get(username=username)
-    # except user.DoesNotExist:
-    #     return redirect(home)
     try:
         user = User.objects.get(username=username)
     except ObjectDoesNotExist:
-        return redirect('home')
+        messages.error(request, "L'utilisateur spécifié n'existe pas.")
+        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        return render(
+            request, "error.html", {
+                "template": "ajax.html" if ajax else "index.html"}
+            )
 
     if user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
     elif user.profil_picture_oauth:
         profil_picture_url = request.user.profil_picture_oauth
     else:
-        profil_picture_url = "/static/img/image-defaut.png"
+        profil_picture_url = "/static/img/profil/image-defaut.png"
 
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    return render(
-        request,
-        "user.html",
-        {"template": "ajax.html" if ajax else "index.html",
-            "user": user, "profil_picture_url": profil_picture_url},
-    )
+    
+    context = {
+        'messages': messages.get_messages(request),
+        "template": "ajax.html" if ajax else "index.html",
+        "user": user,
+        "profil_picture_url": profil_picture_url
+    }
+    return render(request, "user.html", context)
 
 
 # def profil(request):

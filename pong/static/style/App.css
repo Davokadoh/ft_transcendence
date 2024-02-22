@@ -649,3 +649,37 @@ body.night-mode footer {
 	}
 
 }
+
+/* CSS pour la page ERROR */
+
+.fontSize {
+	font-size: 25px !important;
+}
+
+.fontSizeTitle {
+	margin-top: 30px !important;
+	font-size: 42px !important;
+}
+
+.paragraph {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.sancho {
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    width: 100%; /* Largeur du conteneur */
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(100%); /* Début de l'animation : déplace le texte à l'extérieur du conteneur */
+    }
+    100% {
+        transform: translateX(-100%); /* Fin de l'animation : déplace le texte à l'intérieur du conteneur */
+    }
+}
+
+.sancho p {
+    animation: scroll 30s linear infinite; /* Applique l'animation au paragraphe contenu dans le conteneur */
+}

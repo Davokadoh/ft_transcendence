@@ -6,6 +6,7 @@ from . import views
 from .views import create_fake_user
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path("", views.index),
 	path('favicon.ico', RedirectView.as_view(url=static('favicon.ico'))),
     path("accounts/login/", views.loginview),
