@@ -654,6 +654,7 @@ body.night-mode footer {
 
 .fontSize {
 	font-size: 25px !important;
+	font-style: italic;
 }
 
 .fontSizeTitle {
@@ -665,21 +666,27 @@ body.night-mode footer {
     display: block;
     margin-bottom: 20px;
 }
+.sancho > :first-child {
+	display: inline-block;                /* modèle de boîte en ligne */
+	padding-right: 2em;                   /* un peu d'espace pour la transition */
+	padding-left: 100%;                   /* placement à droite du conteneur */
+	white-space: nowrap;                  /* pas de passage à la ligne */
+	animation: defilement-rtl 30s infinite linear;
+	padding-top: 5px;
+	font-size: 25px !important;
+  
 
-.sancho {
-    white-space: nowrap; /* Empêche le texte de passer à la ligne */
-    width: 100%; /* Largeur du conteneur */
+  animation-name: defilement-rtl;       /* référence à la règle @keyframes mise en oeuvre */
+  animation-duration: 150s;              /* valeur à ajuster suivant la longueur du message */
+  animation-iteration-count: infinite;  /* boucle continue */
+  animation-timing-function: linear;    /* pas vraiment utile ici */
 }
 
-@keyframes scroll {
-    0% {
-        transform: translateX(100%); /* Début de l'animation : déplace le texte à l'extérieur du conteneur */
-    }
-    100% {
-        transform: translateX(-100%); /* Fin de l'animation : déplace le texte à l'intérieur du conteneur */
-    }
-}
-
-.sancho p {
-    animation: scroll 30s linear infinite; /* Applique l'animation au paragraphe contenu dans le conteneur */
-}
+  @keyframes defilement-rtl {
+	0% {
+	  transform: translate3d(0,0,0);      /* position initiale à droite */
+	}
+	100% {
+	  transform: translate3d(-100%,0,0);  /* position finale à gauche */
+	}
+  }

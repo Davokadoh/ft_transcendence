@@ -3,10 +3,9 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
-
+from django.contrib import messages
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, User, Team, Game
@@ -60,32 +59,11 @@ def profil(request):
         },
     )
 
-
-# @login_required
-# def user(request):
-#     if request.user.profil_picture:
-#         profil_picture_url = request.user.profil_picture.url
-#     elif request.user.profil_picture_oauth:
-#         profil_picture_url = request.user.profil_picture_oauth
-#     else:
-#         profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
-#     print("URL: " + profil_picture_url)
-#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-#     return render(
-#         request,
-#         "user.html",
-#         {
-#             "template": "ajax.html" if ajax else "index.html",
-#             "profil_picture_url": profil_picture_url,
-#         },
-#     )
-
 @login_required
 def user(request, username=None):
     try:
         user = User.objects.get(username=username)
     except ObjectDoesNotExist:
-        messages.error(request, "L'utilisateur spécifié n'existe pas.")
         ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
             request, "error.html", {
