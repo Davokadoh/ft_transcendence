@@ -206,9 +206,54 @@ def game(request, game_id=None):
         {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
     )
 
+@login_required
+def remLobby(request, remote_id=None, invitedPlayer2=None):
+    if remote_id is None:
+        game = Game.objects.create()
+        team = Team.objects.create()
+        team.save()
+        team.users.add(request.user)
+        gt = GameTeam(game=game, team=team)
+        gt.save()
+        return redirect(remLobby, game.pk)
+    game = get_object_or_404(Game, pk=remote_id)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.method == "GET":
+        return render(
+            request,
+            "remLobby.html",
+            {"template": "ajax.html" if ajax else "index.html", "invitedPlayer2": invitedPlayer2},
+        )
+    elif request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user = User.objects.get(username=data.get("username"))
+            if (user is None):
+                    return JsonResponse({"error_message": "user not found"})
+            return JsonResponse({"username": user.username})
+        except ObjectDoesNotExist:
+            return JsonResponse({"error_message": "Missing valid player 2 username"})
+
 
 @login_required
-def lobby_tour(request, tournament_id=None):
+def remote(request, remote_id=None):
+    if remote_id is None:
+        return redirect(home)
+    remote = Remote.objects.get(pk=remote_id)
+    if remote is None:
+        return redirect(home)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request,
+        "remote.html",
+        {
+            "template": "ajax.html" if ajax else "index.html",
+            "remote_id": remote_id,
+        },
+    )
+
+@login_required
+def tourLobby(request, tournament_id=None):
     if tournament_id is None:
         game = Game.objects.create()
         team = Team.objects.create()
@@ -216,13 +261,13 @@ def lobby_tour(request, tournament_id=None):
         team.users.add(request.user)
         gt = GameTeam(game=game, team=team)
         gt.save()
-        return redirect(lobby_tour, game.pk)
+        return redirect(tourLobby, game.pk)
     game = get_object_or_404(Game, pk=tournament_id)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
         return render(
             request,
-            "lobby_tour.html",
+            "tourLobby.html",
             {
                 "template": "ajax.html" if ajax else "index.html",
                 "tournament_id": tournament_id,
@@ -235,7 +280,7 @@ def lobby_tour(request, tournament_id=None):
         except (KeyError, Team.DoesNotExist, User.DoesNotExist):
             return render(
                 request,
-                "lobby_tour.html",
+                "tourLobby.html",
                 {
                     "template": "ajax.html" if ajax else "index.html",
                     "tournament_id": tournament_id,

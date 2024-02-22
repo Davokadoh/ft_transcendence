@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-<title>LOBBY TOURNAMENT</title>
+<title>LOBBY REMOTE</title>
 {% endblock %}
 
 {% block content %}
@@ -11,20 +11,19 @@
 		<div class="row align-items-center custom-line">
 			<div class="col-6 row justify-content-center custom-line">
 				<a class="nav-link btn btn-dark justify-content-around ladButClass"
-					href="/tournament/ {{ tournament_id }}" id="ladder_tour" data-link="">START</a>
+				href="/remote/{{ remote_id }}" data-link>START</a>
 			</div>
 			<div class="col-6 row justify-content-around custom-line inviteToGame">
 				<p class="text-center invitFriend">Invite a friend to play</p>
 				<div class="row justify-content-between custom-line">
-					<input type="text" class="col-3 form-control formCust" placeholder="Enter a username"
+					{% csrf_token %}
+					<input type="text" id="player2Rem" class="col-3 form-control formCust" placeholder="Player 2's username"
 						aria-label="Username" aria-describedby="basic-addon1" />
-					<button type="button" class="col-3 btn btn-dark imgButton" id="ladder">INVITE</button>
+					<button type="button" class="col-3 btn btn-dark imgButton" id="enterButtonRem">Enter</button>
 				</div>
-				<p class="joinFriends">FRIEND(S) WHO HAS JOINED :</p>
+				<p class="joinFriends">FRIEND WHO HAS JOINED :</p>
 				<div class="onlineFriendBox">
 					<p class="onlineFriend">pseudo1</p>
-					<p class="onlineFriend">pseudo2</p>
-					<p class="onlineFriend">pseudo3</p>
 				</div>
 			</div>
 		</div>
