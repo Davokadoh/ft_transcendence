@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from django.core.serializers import serialize
+import json
+
 
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
@@ -310,3 +315,25 @@ def callback(request):
     login(request, user)
     # return render(request, "callback.html", {"access_token": access_token})
     return redirect(home)
+
+
+@csrf_exempt
+def get_users(request):
+    if request.method == "GET":
+        users = User.objects.all()
+        # users = serialize("json", users)
+        # users = json.loads(users)
+    try:
+        user_list = []
+        for user in users:
+            user_info = {
+                "username": user.username,
+                "profil_picture": user.profil_picture_oauth,
+                # add other field if necessary
+            }
+            user_list.append(user_info)
+
+        context = {"user_list": user_list}
+        return JsonResponse(context, safe=False)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)

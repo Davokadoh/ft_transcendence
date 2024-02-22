@@ -208,7 +208,6 @@ class Game(models.Model):
     # )
 
 
-
 # class Game(models.Model):
 #     teams = models.ManyToManyField(Team)
 #     start_time = models.DateTimeField(auto_now_add=True)

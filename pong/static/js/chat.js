@@ -2,6 +2,22 @@ import socket from './index.js';
 
 export function chat() {
 
+	/*fetch('test/create', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			// Ajoutez d'autres en-têtes si nécessaire, comme les jetons CSRF
+		},
+		body: JSON.stringify({}),
+	})
+		.then(response => response.json())
+		.then(data => {
+			console.log('Utilisateur créé avec succès:', data);
+			// Faites ce que vous devez faire avec les données de l'utilisateur créé
+		})
+		.catch(error => console.error('Erreur lors de la création de l\'utilisateur:', error));
+	*/
+
 	console.log('SCRIPT CHAT IS LOADED');
 
 	let isVisibleList = false;
@@ -20,7 +36,8 @@ export function chat() {
 	const dataListContact = document.querySelector("[list-contact-template]");
 	const listContactContainer = document.querySelector("[list-contact-container]");
 	const contactSelect = document.querySelector("[data-contact]");
-	let users = [];
+
+	//let users = [];
 
 	/*const socket = new WebSocket(
 		'ws://'
@@ -29,54 +46,6 @@ export function chat() {
 		+ 'conversation'
 		+ '/'
 	);*/
-
-	//create list contact
-	//index, name, img
-	fetch("https://jsonplaceholder.typicode.com/users")
-		.then(response => response.json())
-		.then(data => {
-			console.log("fetch placeholder!");
-			users = data.map(user => {
-				const contact = dataListContact.content.cloneNode(true).children[0];
-				const img = contact.querySelector("[data-image]");
-				const name = contact.querySelector("[data-name]");
-				img.src = "https://upload.chatsdumonde.com/img_global/24-comportement/_light-18718-chat-qui-vole-objet-nourriture.jpg";
-				name.textContent = user.name;
-				listContactContainer.append(contact);
-				return { name: user.name, img: user.email, element: contact };
-			});
-
-			// fetch the all contact elements
-			const contacts = document.querySelectorAll('.contact');
-
-			// add a event listener for each contact
-			contacts.forEach(contact => {
-				contact.addEventListener('click', () => {
-					const contactName = contact.querySelector("[data-name]").textContent;
-					const img = contact.querySelector("[data-image]").src;
-					//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
-					searchInput.value = "";
-
-					//visibleAllContact();
-					if (findConversation(contactName)) {
-						selectConversation(contactName);
-					} else {
-						const obj = {
-							name: contactName,
-							imgSrc: img,
-						};
-						createConversation(obj);
-						document.getElementById('panelPrincipalId').classList.toggle('hide', true);
-						document.getElementById('chatBoxId').classList.toggle('hide', false);
-						contactExist = true;
-					}
-					document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
-					document.getElementById('conversationListId').classList.toggle('hide', false);
-					isVisibleList = false;
-				});
-
-			});
-		});
 
 	// load the template.html
 	fetch('/chat/chat-tmp/')
@@ -102,9 +71,12 @@ export function chat() {
 		console.log("e.target***: ", e.target);
 		console.log("e.curtarget***: ", e.currentTarget);
 
-
-
-		if (e.currentTarget.getElementById("searchContact").contains(e.target))
+		console.log(activeChatPanel);
+		if (activeChatPanel && e.currentTarget.getElementById("contactImgProfil").contains(e.target)) {
+			console.log("click img contact");
+			document.getElementById("contactProfil").classList.toggle("invisible-y");
+		}
+		else if (e.currentTarget.getElementById("searchContact").contains(e.target))
 			search_contact();
 		else if (contactExist) {
 
@@ -141,22 +113,61 @@ export function chat() {
 
 	function search_contact() {
 
+		create_list_contact()
 		console.log('CLICK ON SEARCH');
 		if (!isVisibleList) {
 			document.getElementById('conversationListId').classList.toggle('hide', true);
 			document.getElementById('listContact').classList.replace("invisible-y", "visible-y");
 			isVisibleList = true;
 		}
+	}
 
-		//input flux
-		searchInput.addEventListener("input", function (e) {
-			const value = e.target.value;
-			users.forEach(user => {
-				const isVisible = user.name.toLowerCase().includes(value.toLowerCase());
-				console.log(user.element);
-				user.element.classList.toggle("hide", !isVisible);
+	function create_list_contact() {
+
+		const cloneContactList = document.querySelector("[list-contact-container]").cloneNode(true);
+
+		fetch('/users/list', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('fetch /users/list : ERROR');
+				}
+				return response.json();
+			})
+			.then(data => {
+
+				console.log('Response server _data_ : users/list : ', data.user_list);
+
+				data.user_list.map(user => {
+
+					//take template
+					const contact = dataListContact.content.cloneNode(true).children[0];
+					const img = contact.querySelector("[data-image]");
+					const name = contact.querySelector("[data-name]");
+
+					const username = user.username;
+					const profil_picture = user.profil_picture;
+					img.src = profil_picture;
+					name.textContent = username;
+
+					//insert contact 
+					cloneContactList.append(contact);
+					console.log(cloneContactList.innerHTML);
+				});
+				listContactContainer.innerHTML = cloneContactList.innerHTML;
+
+				//Listen event about search
+				handle_click_contact();
+				handle_input_steam();
+			})
+			.catch(error => {
+				console.error('request error: Fetch', error);
 			});
-		});
+		cloneContactList.innerHTML = "";
 	}
 
 	function handle_conversation(event) {
@@ -270,6 +281,7 @@ export function chat() {
 		htmlactiveChatPanel.innerHTML = mapChatHistory.get(contactName).innerHTML;
 
 		activeChatPanel = contactName;
+		console.log("[active chatpanel dans select conversation]")
 
 		document.getElementById('panelPrincipalId').classList.toggle('hide', true);
 	}
@@ -408,4 +420,54 @@ export function chat() {
 			element.scrollTop = element.scrollHeight;
 		}
 	}
+
+	function handle_click_contact() {
+
+		const contacts = document.querySelectorAll('.contact');
+		// add a event listener for each contact
+		contacts.forEach(contact => {
+			contact.addEventListener('click', () => {
+				console.log("CLICK on CONTACT");
+				const contactName = contact.querySelector("[data-name]").textContent;
+				const img = contact.querySelector("[data-image]").src;
+				//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
+				searchInput.value = "";
+
+				//visibleAllContact();
+				if (findConversation(contactName)) {
+					selectConversation(contactName);
+				} else {
+					const obj = {
+						name: contactName,
+						imgSrc: img,
+					};
+					createConversation(obj);
+					document.getElementById('panelPrincipalId').classList.toggle('hide', true);
+					document.getElementById('chatBoxId').classList.toggle('hide', false);
+					contactExist = true;
+				}
+				document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
+				document.getElementById('conversationListId').classList.toggle('hide', false);
+				isVisibleList = false;
+			});
+
+		});
+
+	}
+
+	function handle_input_steam() {
+
+		console.log("Handle input stream Function");
+		const contacts = document.querySelectorAll('.contact');
+
+		searchInput.addEventListener("input", function (e) {
+			const value = e.target.value;
+			contacts.forEach(user => {
+				const name = user.querySelector("[data-name]").textContent;
+				const isVisible = name.toLowerCase().includes(value.toLowerCase());
+				user.classList.toggle("hide", !isVisible);
+			});
+		});
+	}
+
 }
