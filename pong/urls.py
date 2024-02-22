@@ -8,7 +8,7 @@ from .views import create_fake_user
 urlpatterns = [
     path('', views.home, name='home'),
     path("", views.index),
-	path('favicon.ico', RedirectView.as_view(url=static('favicon.ico'))),
+    path("favicon.ico", RedirectView.as_view(url=static("favicon.ico"))),
     path("accounts/login/", views.loginview),
     path("accounts/callback/", views.callback),
     path("accounts/logout/", views.logoutview),
@@ -32,6 +32,7 @@ urlpatterns = [
     path("tournament/<int:tournament_id>/", views.tournament),
     path('user/<str:username>/', views.user),
     path('api/create-fake-user/', create_fake_user, name='create_fake_user'),
+    path("users/list", views.get_users),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

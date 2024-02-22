@@ -6,12 +6,16 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from django.core.serializers import serialize
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, User, Team, Game
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
+import json
 import os
 
 
@@ -410,3 +414,26 @@ def create_fake_user(request):
         'profil_picture': 'img/profil/image-defaut.png',
     }
     return JsonResponse(user_info)
+
+
+@csrf_exempt
+def get_users(request):
+    if request.method == "GET":
+        users = User.objects.all()
+        # users = serialize("json", users)
+        # users = json.loads(users)
+    try:
+        user_list = []
+        for user in users:
+            user_info = {
+                "username": user.username,
+                "profil_picture": user.profil_picture_oauth,
+                # add other field if necessary
+            }
+            user_list.append(user_info)
+
+        context = {"user_list": user_list}
+        return JsonResponse(context, safe=False)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+

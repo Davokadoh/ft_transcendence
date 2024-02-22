@@ -385,3 +385,39 @@ body-msg {
         /* Style du texte du placeholder */
     }
 }
+
+.contact-profil {
+    border-radius: 0;
+    background-color: #999;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 300px;
+    font-family: 'Titan One', sans-serif;
+    color: #9016B2;
+    margin: 0 0;
+    transition-duration: 0.8s;
+    -webkit-transition-duration: 0.4s;
+}
+
+.contact-profil button {
+    border: 2px solid #ffffff;
+    background-color: #9016B2;
+    color: #87d300;
+    transition: all 0.3s;
+    font-family: 'Titan One', sans-serif;
+    font-size: 15px;
+    width: fit-content;
+}
+
+.contact-profil button:hover {
+    color: #ffffff;
+    background-color: #9016B2;
+    border-color: #ffffff;
+}
+
+.contact-profil button:active {
+    background-color: #87d300;
+    color: #87d300;
+    border: none;
+}
