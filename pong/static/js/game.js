@@ -13,18 +13,35 @@ export function game() {
 	let player1Score;
 	let player2Score;
 	let ballSpeed;
-	const boardBackground = "black";
-	const paddle1Color = "white";
-	const paddle2Color = "white";
+	let paddleSpeed;
+	let paddle1Color;
+	let paddle2Color;
+	let ballColor;
+	let boardBackground;
 	const paddleBorder = "white";
-	const ballColor = "white";
 	const ballBorderColor = "white";
 	const ballRadius = 12.5;
-	const paddleSpeed = 12;
 	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
 
 	function initializeGame() {
+		fetch('/accounts/profil/settings/data/')
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				ballSpeed = data.ballSpeed;
+				paddleSpeed = data.paddleSpeed;
+				paddle1Color = data.paddleColor;
+				paddle2Color = data.paddleColor;
+				ballColor = data.ballColor;
+				boardBackground = data.backgroundColor;
+				console.log("ball speed: ", ballSpeed);
+				console.log("paddle speed: ", paddleSpeed);
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
 		scoreText = document.getElementById("scoreText");
@@ -35,7 +52,7 @@ export function game() {
 		paddle1 = { width: 25, height: 100, x: 10, y: 5 };
 		paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 105 };
 		gameRunning = false;
-		ballSpeed = 1;
+		// ballSpeed = 1;
 		ballX = gameWidth / 2;
 		ballY = gameHeight / 2;
 		ballXDirection = 0;
@@ -107,13 +124,11 @@ export function game() {
 	}
 
 	function createBall() {
-		ballSpeed = 2;
-		ballXDirection = Math.random() < 0.5 ? -1 : 1;
-		ballYDirection = Math.random() < 0.5 ? -1 : 1;
-
 		ballX = gameWidth / 2;
 		ballY = gameHeight / 2;
 		drawBall(ballX, ballY);
+		ballXDirection = Math.random() < 0.5 ? -1 : 1;
+		ballYDirection = Math.random() < 0.5 ? -1 : 1;
 	}
 
 	function checkCollision() {
@@ -149,7 +164,7 @@ export function game() {
 				ballSpeed += 1;
 			}
 		}
-		endGame()
+		endGame();
 	}
 
 	function changeDirection(event) {

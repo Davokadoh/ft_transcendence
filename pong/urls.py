@@ -29,6 +29,7 @@ urlpatterns = [
     path('user/<str:username>/', views.user),
     path('api/create-fake-user/', create_fake_user, name='create_fake_user'),
     path("accounts/profil/settings/", views.UpdateUserSettingsView),
+	path("accounts/profil/settings/data/", views.getUserData),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

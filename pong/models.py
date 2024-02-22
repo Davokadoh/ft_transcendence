@@ -69,7 +69,7 @@ class User(AbstractBaseUser):
         if not self.nickname:
             self.nickname = self.username
         super().save(*args, **kwargs)
-
+    
 
 class Message(models.Model):
     sender = models.ForeignKey(
