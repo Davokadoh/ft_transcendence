@@ -1,4 +1,4 @@
-export function tournament(){
+export function remote(){
 
     let gameBoard;
     let ctx;
@@ -62,7 +62,9 @@ export function tournament(){
     moveBall();
     drawBall(ballX, ballY);
     checkCollision();
+    // console.log("draw1");
     requestAnimationFrame(draw);
+    // console.log("draw2");
     }
 
     function clearBoard() {
@@ -73,6 +75,7 @@ export function tournament(){
     ctx.moveTo(gameWidth / 2, 0);
     ctx.lineTo(gameWidth / 2, gameHeight);
     ctx.stroke();
+    console.log("clearboard");
     }
 
     function drawPaddles() {
@@ -85,11 +88,13 @@ export function tournament(){
     ctx.fillStyle = paddle2Color;
     ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
     ctx.strokeRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+    console.log("drawpaddles");
     }
 
     function moveBall() {
     ballX += ballSpeed * ballXDirection;
     ballY += ballSpeed * ballYDirection;
+    console.log("moveBall");
     }
 
     function drawBall(ballX, ballY) {
@@ -100,6 +105,7 @@ export function tournament(){
     ctx.arc(ballX, ballY, ballRadius, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.fill();
+    console.log("drawball");
     }
 
     function createBall() {
@@ -110,6 +116,7 @@ export function tournament(){
     ballX = gameWidth / 2;
     ballY = gameHeight / 2;
     drawBall(ballX, ballY);
+    console.log("createBalle");
     }
 
     function checkCollision() {
@@ -145,6 +152,7 @@ export function tournament(){
             ballSpeed += 1;
         }
     }
+    console.log("checkCollision");
     }
 
     function changeDirection(event) {
@@ -155,6 +163,7 @@ export function tournament(){
     const paddle2Down = 40;
 
     if (keyPressed === paddle2Down) {
+        // Empêcher le défilement de la page vers le bas lors de l'appui sur la flèche vers le bas
         event.preventDefault();
     }
 
@@ -180,31 +189,38 @@ export function tournament(){
             }
             break;
     }
+    console.log("changedirection");
     }
 
     function updateScore() {
     scoreText.textContent = `${player1Score} : ${player2Score}`;
+    console.log("updatescore");
     }
 
     function resetGame() {
     initializeGame();
     updateScore();
+    console.log("resetGame");
     }
 
     function startGame() {
+    console.log("startgame1");
     if (!gameRunning) {
         gameRunning = true;
         createBall();
-        document.getElementById("gameBoard").focus();
+        document.getElementById("gameBoard").focus(); // Donner le focus au canevas
         draw();
         document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+        console.log("startgame2");
     }
+    console.log("startgame3");
     }
 
     function stopGame() {
     gameRunning = false;
     }
 
+    // Appel initial pour l'initialisation
     initializeGame();
     updateScore();
 }

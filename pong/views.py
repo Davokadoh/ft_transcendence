@@ -1,8 +1,9 @@
+import json
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.exceptions import DoesNotExist
+# from django.core.exceptions import DoesNotExist
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 
@@ -161,7 +162,7 @@ def chat(request):
 
 
 @login_required
-def lobby(request, game_id=None):
+def lobby(request, game_id=None, invitedPlayer2=None):
     if game_id is None:
         game = Game.objects.create()
         team = Team.objects.create()
@@ -176,23 +177,17 @@ def lobby(request, game_id=None):
         return render(
             request,
             "lobby.html",
-            {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
+            {"template": "ajax.html" if ajax else "index.html", "invitedPlayer2": invitedPlayer2},
         )
     elif request.method == "POST":
         try:
-            game.teams[request.POST["team"]].add_player(
-                request.POST["invited_player"])
-        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
-            return render(
-                request,
-                "lobby.html",
-                {
-                    "template": "ajax.html" if ajax else "index.html",
-                    "game_id": game_id,
-                    "error_message": "Missing valid team name or user name",
-                },
-            )
-
+            data = json.loads(request.body)
+            user = User.objects.get(username=data.get("username"))
+            if (user is None):
+                    return JsonResponse({"error_message": "user not found"})
+            return JsonResponse({"username": user.username})
+        except ObjectDoesNotExist:
+            return JsonResponse({"error_message": "Missing valid player 2 username"})
 
 @login_required
 def game(request, game_id=None):

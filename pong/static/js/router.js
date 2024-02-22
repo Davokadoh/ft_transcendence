@@ -2,7 +2,7 @@ import { chat } from "./chat.js";
 import { profil } from "./profil.js";
 import { user } from "./user.js"
 import { game } from "./game.js";
-import { startTournament } from "./tournament.js";
+import { tournament } from "./tournament.js";
 
 export function router() {
 	let target = (location.pathname == "/") ? "/home" : location.pathname;
@@ -28,7 +28,7 @@ export function router() {
 		tournamentid = parseInt(tournamentid.pop());
 		console.log("gameid: " + gameid);
 		if (target.startsWith("/game")) game(gameid);
-		else if (target.startsWith("/tournament")) startTournament(tournamentid);
+		else if (target.startsWith("/tournament")) tournament(tournamentid);
 		else if (target.startsWith("/profil")) profil();
 		else if (target.startsWith("/chat")) chat();
 		else if (target.startsWith("/user")) user();

@@ -1,4 +1,4 @@
-export function lobby_tour(remote_id){
+export function lobby_rem(remote_id){
 	document.getElementById('inviteButton').addEventListener('click', function () {
 		var inviteUsername = document.getElementById('inviteUsername').value;
 	
