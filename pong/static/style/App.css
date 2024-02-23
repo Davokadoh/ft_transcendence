@@ -10,6 +10,7 @@
 }
 
 body {
+	animation: changeColorBody 50s infinite;
 	/* background: linear-gradient(to bottom right,var(--violet), var(--vert)); */
 	/* color: black; */
 	background-color: white;
@@ -27,6 +28,41 @@ body {
 	padding-bottom: 100px;
 	/* Remplacez 100px par la hauteur de votre footer */
 	/* overflow-y: auto; */
+}
+
+.navbar {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-expand-lg {
+	background-color: transparent;
+}
+
+.corpus {
+	/* opacity: 0.5; */
+	/* animation: changeColorBody 50s infinite; */
+}
+
+/* Animation de changement de couleur */
+@keyframes changeColorBody {
+    0% {
+        background-color: rgba(255, 255, 255, 1); /* Blanc */
+    }
+    25% {
+        background-color: rgba(138, 43, 226, 0.2); /* Violet avec 70% d'opacité */
+    }
+    70% {
+        background-color: rgba(0, 0, 255, 0.2); /* Bleu avec 70% d'opacité */
+    }
+    75% {
+        background-color: rgba(135, 211, 0, 0.2); 
+    }
+    95% {
+        background-color: rgba(138, 43, 226, 0.2); /* Violet avec 70% d'opacité */
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.2); /* Blanc avec 70% d'opacité */
+    }
 }
 
 header {
@@ -482,6 +518,10 @@ footer {
 
 
 /* Styles pour le mode nuit */
+body.night-mode {
+    animation: none !important; /* Annule l'animation */
+}
+
 body.night-mode .toggle-container {
 	color: white;
 	/* Couleur du texte en mode nuit */
