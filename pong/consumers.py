@@ -93,12 +93,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         await self.send_json(content)
 
     async def handle_key_press(self, key):
-        # print(f"User: {self.user.username} Key: {key}")
         if key == "arrowup" or key == "w":
             self.player.speed_y = -1
-            # for player in self.game.players:
-                # player.speed_y = -1
         elif key == "arrowdown" or key == "s":
             self.player.speed_y = 1
-            # for player in self.game.players:
-                # player.speed_y = 1

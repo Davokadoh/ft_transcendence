@@ -7,7 +7,7 @@ import { startTournament } from "./tournament.js";
 export function router() {
 	let target = (location.pathname == "/") ? "/home" : location.pathname;
 	fetch(target, {
-		headers: { "X-Requested-With": "XMLHttpRequest", },
+		headers: { "X-Requested-With": "XMLHttpRequest" }
 	}).then(response => {
 		if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
 		target = location.pathname;

@@ -1,8 +1,3 @@
-// import { profil } from "./profil.js";
-// import { game } from "./game.js";
-// import { startTournament } from "./tournament.js";
-// import { chat } from "./chat.js";
-// import { user } from "./user.js";
 import { router } from "./router.js";
 
 const socket = new WebSocket(`ws://${window.location.host}/ws/`);
@@ -30,6 +25,7 @@ socket.onmessage = function (event) {
 	console.log(usersOnline);
 };
 
+router();
 document.onpopstate = router;
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);

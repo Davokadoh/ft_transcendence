@@ -81,6 +81,7 @@ class GameTeam(models.Model):
 
 
 class Team(models.Model):
+    name = models.TextField()
     users = models.ManyToManyField(User)
     max_player = 2
 

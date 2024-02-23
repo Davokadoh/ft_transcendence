@@ -179,19 +179,13 @@ def lobby(request, game_id=None):
         )
     elif request.method == "POST":
         try:
-            game.teams[request.POST["team"]].add_player(
-                request.POST["invited_player"])
-        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
-            return render(
-                request,
-                "lobby.html",
-                {
-                    "template": "ajax.html" if ajax else "index.html",
-                    "game_id": game_id,
-                    "error_message": "Missing valid team name or user name",
-                },
-            )
-
+            data = json.loads(request.body)
+            user = User.objects.get(username=data.get("player2_username"))
+            if (user is None):
+                    return JsonResponse({"error_message": "user not found"})
+            return JsonResponse({"username": user.username})
+        except ObjectDoesNotExist:
+            return JsonResponse({"error_message": "Missing valid player 2 username"})
 
 @login_required
 def game(request, game_id=None):
