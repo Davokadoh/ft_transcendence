@@ -1,4 +1,3 @@
-import asyncio
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import pre_delete
@@ -7,6 +6,7 @@ from django.conf import settings
 from django.db import models
 from .player import Player
 from .ball import Ball
+import asyncio
 import pathlib
 import random
 import os
@@ -97,6 +97,11 @@ class Team(models.Model):
 
 Status = models.IntegerChoices("Status", "LOBBY PLAY PAUSE END")
 
+class Tteam():
+    def __init__(self):
+        self.score = 0
+        self.name = ""
+
 
 class Game(models.Model):
     field = {"width": 800, "height": 600}
@@ -108,87 +113,177 @@ class Game(models.Model):
     status = models.IntegerField(choices=Status, default=Status.LOBBY)
     max_points = 2
     max_pause_per_player = 1
-    players = list[Player]
+    players = []
     ball = Ball(field["width"] / 2, field["height"] / 2)
+    left_team = Tteam()
+    right_team = Tteam()
+    state = {}
 
     async def send(self, content):
         await get_channel_layer().group_send(f"game_{self.pk}", content)
 
-    async def play(self):
-        if all(self.players.ready):
-            await asyncio.sleep(3)
-            if self.status is Status.LOBBY:
-                self.start()
-            self.status = Status.PLAY
-            self.send({"type": "game_status", "status": self.status})
-            while self.status is Status.PLAY:
-                self.update
+    async def ready(self, player):
+        await self.send({"type": "player_ready", "player": player.username})
+        await self.play()
 
-    def start(self):
+    async def start(self):
         for player in self.players:
-            player.y = self.field["height"] / 2
-        self.ball.position = self.field["width"] / 2, self.field["height"] / 2
+            player.pos_y = self.field["height"] / 2
+        self.ball.pos_x, self.ball.pos_y = (
+            self.field["width"] / 2,
+            self.field["height"] / 2,
+        )
 
-    async def pause(self, src):
+    async def play(self):
+        if self.status is Status.PLAY:
+            return
+        if all(player.ready for player in self.players):
+            if self.status is Status.LOBBY:
+                await self.start()
+            self.status = Status.PLAY
+            await self.send({"type": "game_status", "status": self.status})
+            asyncio.create_task(self.loop())
+
+    async def pause(self, player):
+        if player.pauseLeft <= 0:
+            player.consumer.send({"type": "pause_refused"})
+            return
+        player.pauseLeft -= 1
         self.status = Status.PAUSE
-        await self.send({"type": "game_pause", "by_player": src.username})
+        await self.send({"type": "game_pause", "status": self.status})
         for player in self.players:
             player.ready = False
 
-    def score(self, team):
+    async def score(self, team):
+        print("SCORE")
         team.score += 1
-        self.send({"type": "game_score", "status": self.score})
+        await self.send({"type": "game_score", "team": team.name})
         if team.score >= self.max_points:
             self.status = Status.END
-            self.send({"type": "game_status", "status": self.status})
+            await self.send({"type": "game_status", "status": self.status})
         else:
-            self.ball.position = self.field["width"] / 2, self.field["height"] / 2
+            self.ball.pos_x, self.ball.pos_y = (
+                self.field["width"] / 2,
+                self.field["height"] / 2,
+            )
 
-    def update(self):
-        # for item in self.players, self.balls:
-        #     item.update()
+    async def loop(self):
+        while self.status is Status.PLAY:
+            await self.update()
 
+    async def update(self):
         for p in self.players:
-            p.pos.y += p.speed.y
-            p.pos.y = max(0, min(p.pos.y, self.field["height"] - p.height / 2))
+            p.pos_y += p.speed_y
+            p.pos_y = max(0, min(p.pos_y, self.field["height"] - p.height / 2))
 
         # Check ball collision with players
         for player in self.players:
             if (
-                player.pos.y - player.height / 2 <= self.ball.pos.y + self.ball.radius
-                and self.ball.pos.y - self.ball.radius
-                <= player.pos.y + player.height / 2
-                and player.pos.x - player.width / 2
-                <= self.ball.pos.x + self.ball.radius
-                and self.ball.pos.x - self.ball.radius
-                <= player.pos.x + player.width / 2
+                player.pos_y - player.height / 2 <= self.ball.pos_y + self.ball.radius
+                and self.ball.pos_y - self.ball.radius
+                <= player.pos_y + player.height / 2
+                and player.pos_x - player.width / 2
+                <= self.ball.pos_x + self.ball.radius
+                and self.ball.pos_x - self.ball.radius
+                <= player.pos_x + player.width / 2
             ):
-                self.ball.speed.x *= -1
+                self.ball.speed_x *= -1
 
         # Check ball collision with sides
-        new_x = self.ball.pos.x + self.ball.speed.x
+        new_x = self.ball.pos_x + self.ball.speed_x
         if new_x <= self.ball.radius:
-            self.score(self.left_team)
+            await self.score(self.left_team)
         elif new_x >= self.field["width"] - self.ball.radius:
-            self.score(self.right_team)
+            await self.score(self.right_team)
         else:
-            self.ball.pos.x = new_x
+            self.ball.pos_x = new_x
 
         # Check ball collision with top and bot
-        new_y = self.ball.pos.y + self.ball.speed.y
+        new_y = self.ball.pos_y + self.ball.speed_y
         if (
             new_y <= self.ball.radius
             or self.field["height"] - self.ball.radius <= new_y
         ):
-            self.ball.speed.y *= -1
-        self.ball.pos.y += self.ball.speed.y
+            self.ball.speed_y *= -1
+        self.ball.pos_y += self.ball.speed_y
 
-        self.send(
+        for player in self.players:
+            self.state.update({f"player_{player.consumer.user.username}_y": player.pos_y})
+        self.state.update({"ball_x": self.ball.pos_x})
+        self.state.update({"ball_y": self.ball.pos_y})
+
+        print(self.state)
+        await self.send(
             {
-                "type": "game_state",
-                "state": {"ball": self.ball, "players": self.players},
+                "type": "game_update",
+                "state": self.state,
             }
         )
+
+        await asyncio.sleep(2/1000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #     @receiver(pre_delete, sender=Team)
 #     def pre_delete_team_in_game(sender, instance, created, **kwargs):

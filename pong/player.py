@@ -1,5 +1,6 @@
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, consumer, x, y):
+        self.consumer = consumer
         self.ready = False
         self.width = 10
         self.height = 1
@@ -7,4 +8,10 @@ class Player:
         self.pos_y = y
         self.speed_y = 0
         self.pauseLeft = 2
-        self.connected = False
+
+    def move(self, direction):
+        if direction == "UP":
+            self.speed_y = -1
+        elif direction == "DOWN":
+            self.speed_y = 1
+        print(f"Speed is {self.speed_y}")

@@ -2,7 +2,6 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.exceptions import DoesNotExist
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 
@@ -15,8 +14,8 @@ import requests
 import os
 
 
-def index(request, page_name=None):
-    return render(request, "index.html", page_name)
+def index(request):
+    return render(request, "index.html")
 
 
 @login_required

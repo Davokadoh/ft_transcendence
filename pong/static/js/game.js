@@ -1,6 +1,6 @@
 import socket from './index.js';
 
-export function game() {
+export function game(game_id) {
 	let gameBoard;
 	let ctx;
 	let scoreText;
@@ -25,33 +25,6 @@ export function game() {
 	const paddleSpeed = 12;
 	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
-
-	socket.onmessage = function (event) {
-		const data = JSON.parse(event.data);
-		switch (data.type) {
-			case "game_state":
-				console.log("Game state");
-				break;
-			case "player_ready":
-				console.log(`Player ${data.player} is ready`);
-				break;
-			case "game_start":
-				console.log("Game has been started");
-				break;
-			case "game_pause":
-				console.log("Game has been paused");
-				break;
-			case "game_resume":
-				console.log("Game has been resumed");
-				break;
-			case "game_score":
-				console.log("Game has been scored");
-				break;
-			default:
-				console.error("Unknown message type!");
-				break;
-		}
-	};
 
 	function initializeGame() {
 		gameBoard = document.getElementById("gameBoard");
@@ -79,10 +52,6 @@ export function game() {
 			resetGame();
 		});
 	}
-
-	document.getElementById("start-game").addEventListener("click", startGame);
-	document.getElementById("stop-game").addEventListener("click", stopGame);
-	document.getElementById("reset-game").addEventListener("click", resetGame);
 
 
 	function draw() {
@@ -178,7 +147,7 @@ export function game() {
 				ballSpeed += 1;
 			}
 		}
-		endGame()
+		endGame();
 	}
 
 	function changeDirection(event) {
@@ -194,26 +163,20 @@ export function game() {
 
 		switch (keyPressed) {
 			case paddle1Up:
-				if (paddle1.y > 0) {
-					paddle1.y -= paddleSpeed;
-				}
+				if (paddle1.y > 0) paddle1.y -= paddleSpeed;
 				break;
 			case paddle1Down:
-				if (paddle1.y < gameHeight - paddle1.height) {
-					paddle1.y += paddleSpeed;
-				}
+				if (paddle1.y < gameHeight - paddle1.height) paddle1.y += paddleSpeed;
 				break;
 			case paddle2Up:
-				if (paddle2.y > 0) {
-					paddle2.y -= paddleSpeed;
-				}
+				if (paddle2.y > 0) paddle2.y -= paddleSpeed;
 				break;
 			case paddle2Down:
-				if (paddle2.y < gameHeight - paddle2.height) {
-					paddle2.y += paddleSpeed;
-				}
+				if (paddle2.y < gameHeight - paddle2.height) paddle2.y += paddleSpeed;
 				break;
 		}
+
+		socket.send(JSON.stringify({ 'type': 'key_press', 'key': keyPressed }));
 	}
 
 	function updateScore() {
@@ -226,12 +189,16 @@ export function game() {
 	}
 
 	function startGame() {
+		socket.send(JSON.stringify({ 'type': 'player_ready' }));
 		if (!gameRunning) {
 			gameRunning = true;
 			createBall();
 			document.getElementById("gameBoard").focus(); // Donner le focus au canevas
 			draw();
-			document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+			// document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+			document.getElementById("gameBoard").onkeydown = function (event) {
+				socket.send(JSON.stringify({ 'type': 'key_press', 'key': event.key}));
+			};
 		}
 	}
 
@@ -255,6 +222,56 @@ export function game() {
 			document.getElementById("myModalGame").style.display = "block";
 		}
 	}
+
+	document.getElementById("start-game").addEventListener("click", startGame);
+	document.getElementById("start-game").onclick = function () { socket.send(JSON.stringify({ 'type': 'player_ready' })) };
+	document.getElementById("stop-game").addEventListener("click", stopGame);
+	document.getElementById("reset-game").addEventListener("click", resetGame);
+
+	socket.send(JSON.stringify({ 'type': 'game_join', 'game_id': game_id }));
+
+	function updateGame(data) {
+		ballX = data.state.ball_x;
+		ballY = data.state.ball_y;
+		paddle1.y = data.state.player_Davokadoh_y;
+	}
+
+	socket.onmessage = function (event) {
+		const data = JSON.parse(event.data);
+		console.log(data);
+		switch (data.type) {
+			case "game_status":
+				console.log("Game state");
+				break;
+			case "player_ready":
+				console.log(`Player ${data.player} is ready`);
+				break;
+			case "game_start":
+				startGame();
+				console.log("Game start");
+				break;
+			case "game_pause":
+				console.log("Game pause");
+				break;
+			case "game_resume":
+				console.log("Game resume");
+				break;
+			case "game_update":
+				console.log("Game update");
+				updateGame(data);
+				break;
+			case "game_score":
+				player1Score = data.
+				console.log("Game score");
+				break;
+			case "game_end":
+				console.log("Game end");
+				break;
+			default:
+				console.error(`Unknown message type: ${data.type}`);
+				break;
+		}
+	};
 
 	initializeGame();
 	updateScore();

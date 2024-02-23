@@ -30,14 +30,13 @@ socket.onmessage = function (event) {
 	console.log(usersOnline);
 };
 
-router();
 document.onpopstate = router;
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("click", e => {
-	if (e.target.matches("[data-link]")) {
+	if (e.target.hasAttribute("data-link")) {
 		e.preventDefault();
-		history.pushState(null, null, e.target.href);
+		history.pushState(null, null, e.target.getAttribute("data-link"));
 		router();
 	}
 });
@@ -118,7 +117,7 @@ function getCookie(name) {
 // 			method: 'POST',
 // 			headers: {
 // 				'Content-Type': 'application/x-www-form-urlencoded',
-// 				'X-CSRFToken': getCookie('csrftoken'),
+				// 'X-CSRFToken': getCookie('csrftoken'),
 // 			},
 // 		})
 // 			.then(response => {

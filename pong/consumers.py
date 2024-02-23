@@ -1,11 +1,15 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .models import Message, User
+
+from pong.player import Player
+from .models import Game, Message, User
 
 
 class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = None
+        self.game = None
+        self.player = None
 
     async def connect(self):
         self.user = self.scope["user"]
@@ -36,14 +40,22 @@ class Consumer(AsyncJsonWebsocketConsumer):
             return
         if content["type"] == "key_press":
             await self.handle_key_press(content.get("key"))
+        elif content["type"] == "game_join":
+            self.game = await Game.objects.aget(pk=content.get("game_id"))
+            self.player = Player(self, 0, 0)
+            self.game.players.append(self.player)
+            await self.channel_layer.group_add(
+                f"game_{self.game.pk}", self.channel_name
+            )
         elif content["type"] == "player_ready":
-            await self.ready()
+            self.player.ready = True
+            await self.game.ready(self.user)
         elif content["type"] == "player_pause":
             await self.game.pause(self.user)
         elif content["type"] == "chat_message":
             await self.receive_chat(content)
         elif content["type"] == "game_invite":
-            print("Invited received!")
+            await self.game.invited.append(content.get("invited_player"))
         else:
             print(f"Unknown message type: {content['type']}")
 
@@ -65,21 +77,28 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def chat_message(self, content):
         await self.send_json(content["message"])
 
-    async def ready(self):
-        self.game.send(
-            {
-                "type": "player_ready",
-                "user": self.user.username,
-            }
-        )
-        self.game.play()
+    async def player_ready(self, content):
+        await self.send_json(content)
 
-    async def game_pause(self, content):
+    async def pause_refused(self, content):
+        await self.send_json(content)
+
+    async def game_status(self, content):
+        await self.send_json(content)
+
+    async def game_update(self, content):
+        await self.send_json(content)
+
+    async def game_score(self, content):
         await self.send_json(content)
 
     async def handle_key_press(self, key):
-        print("User: {} Key: {}", self.game.pause(self.user), key)
+        # print(f"User: {self.user.username} Key: {key}")
         if key == "arrowup" or key == "w":
-            self.player.move("UP")
+            self.player.speed_y = -1
+            # for player in self.game.players:
+                # player.speed_y = -1
         elif key == "arrowdown" or key == "s":
-            self.player.move("DOWN")
+            self.player.speed_y = 1
+            # for player in self.game.players:
+                # player.speed_y = 1
