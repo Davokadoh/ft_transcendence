@@ -41,8 +41,8 @@
 						<img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
 						{% csrf_token %}
 						{% for field in profil_picture_form %}
-						<label class="hidden-label" style="display: none;"
-							for="{{ field.auto_id }}">{{ field.label }}</label>
+						<label class="hidden-label" style="display: none;" for="{{ field.auto_id }}">{{ field.label
+							}}</label>
 						{{ field }}
 						{% endfor %}
 					</form>
@@ -336,16 +336,17 @@
 				</div>
 
 				<div class="modal-body">
-					<form id="settingsForm" method="post">
+					<form id="settingsForm" method="post" action="/accounts/profil/settings/">
+						{% csrf_token %}
 						<div class="form-group formGroupCustom">
 							<label for="paddleSpeed">
 								Paddles speed
 								<span class="crochets">[</span>
-								<span class="rangCust" id="paddleSpeedValue">50</span>
+								<span class="rangCust" id="paddleSpeedValue">{{ request.user.paddleSpeed }}</span>
 								<span class="crochets">]</span>
 							</label>
-							<input type="range" class="form-range rangeCustom" id="paddleSpeed" value="50" min="1"
-								max="100" />
+							<input type="range" class="form-range rangeCustom" id="paddleSpeed" name="paddle_speed"
+							value="{{ request.user.paddleSpeed }}" min="1" max="100" />
 						</div>
 
 						<!-- Paramètre 2 : Vitesse de la balle -->
@@ -353,32 +354,32 @@
 							<label for="ballSpeed">
 								Ball speed
 								<span class="crochets">[</span>
-								<span class="rangCust" id="ballSpeedValue">50</span>
+								<span class="rangCust" id="ballSpeedValue">{{ request.user.ballSpeed }}</span>
 								<span class="crochets">]</span>
 							</label>
-							<input type="range" class="form-range rangeCustom" id="ballSpeed" value="50" min="1"
-								max="100" />
+							<input type="range" class="form-range rangeCustom" id="ballSpeed" name="ball_speed"
+								value="{{ request.user.ballSpeed }}" min="1" max="10" />
 						</div>
 
 						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
 						<div class="form-group formGroupCustom">
 							<label for="paddleColor">Paddles color</label>
-							<input type="color" class="form-control" id="paddleColor" />
+							<input type="color" class="form-control" id="paddleColor" name="paddle_color" value="{{ request.user.paddleColor}}" />
 						</div>
 						<div class="form-group formGroupCustom">
 							<label for="ballColor">Ball color</label>
-							<input type="color" class="form-control" id="ballColor" />
+							<input type="color" class="form-control" id="ballColor" name="ball_color" value="{{ request.user.ballColor}}" />
 						</div>
 
 						<!-- Paramètre 4 : Fond du jeu -->
 						<div class="form-group formGroupCustom">
-							<label>Game background</label>
-							<select class="form-control" id="backgroundColor">
-								<option value="black">Black</option>
+							<label for="backgroundColor">Game background</label>
+							<input type="color" class="form-control" id="backgroundColor" name="background_color" value="{{ request.user.backgroundColor}}">
+							<!-- <option value="black">Black</option>
 								<option value="purple">Violet</option>
 								<option value="image1">Image 1</option>
-								<option value="image2">Image 2</option>
-							</select>
+								<option value="image2">Image 2</option> -->
+							</input>
 						</div>
 
 						<!-- Paramètre 5 : Accessibilité -->

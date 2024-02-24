@@ -17,10 +17,10 @@ export function profil() {
 	});
 
 	function statsModalClose() { modal.style.display = 'none'; }
+	
 	let saveButton = document.getElementById('saveButton');
 	saveButton.onclick = function () {
-		const paddleSpeedValue = paddleSpeedInput.value;
-		const ballSpeedValue = ballSpeedInput.value;
+		settingsForm.requestSubmit();
 		statsModalClose();
 	}
 
