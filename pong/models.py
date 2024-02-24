@@ -241,6 +241,35 @@ class Game(models.Model):
 #         for game in games_list:
 #             game.delete()
 
+# Class Game sur branche tournament :
+# class Game(models.Model):
+#     field = {"width": 800, "height": 600}
+#     teams = models.ManyToManyField(
+#         Team, through=GameTeam, through_fields=("game", "team")
+#     )
+#     start_time = models.DateTimeField(auto_now_add=True)
+#     end_time = models.DateTimeField(null=True, blank=True)
+#     status = models.IntegerField(choices=Status, default=Status.LOBBY)
+#     max_points = 2
+#     max_pause_per_player = 1
+#     players = list[Player]
+#     # balls = list[Ball]
+#     ball = Ball(field["width"] / 2, field["height"] / 2)
+
+class Remote(models.Model):
+    field = {"width": 800, "height": 600}
+    # teams = models.ManyToManyField(
+    #     Team, through=GameTeam, through_fields=("game", "team")
+    # )
+    start_time = models.DateTimeField(auto_now_add=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    status = models.IntegerField(choices=Status, default=Status.LOBBY)
+    max_points = 2
+    max_pause_per_player = 1
+    players = list[Player]
+    # balls = list[Ball]
+    ball = Ball(field["width"] / 2, field["height"] / 2)
+
 
 class Tournament(models.Model):
     teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)

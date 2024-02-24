@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-<title>LOBBY TOURNAMENT</title>
+<title>LOBBY</title>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
 		<div class="row align-items-center custom-line">
 			<div class="col-6 row justify-content-center custom-line">
 				<a class="nav-link btn btn-dark justify-content-around ladButClass"
-				href="/game/{{ game_id }}" data-link>START</a>
+    				href="#" id="startButton" data-link>START</a>
 			</div>
 			<div class="col-6 row justify-content-around custom-line inviteToGame">
 				<p class="text-center invitFriend">Invite a friend to play</p>
@@ -19,11 +19,11 @@
 					{% csrf_token %}
 					<input type="text" id="player2" class="col-3 form-control formCust" placeholder="Player 2's username"
 						aria-label="Username" aria-describedby="basic-addon1" />
-					<button type="button" class="col-3 btn btn-dark imgButton" id="enterButton">Enter</button>
+					<button type="button" class="col-3 btn btn-dark imgButton" id="inviteButton">INVITE</button>
 				</div>
 				<p class="joinFriends">FRIEND WHO HAS JOINED :</p>
 				<div class="onlineFriendBox">
-					<p class="onlineFriend">pseudo1</p>
+					<p id="onlineFriend" class="onlineFriend">pseudo1</p>
 				</div>
 			</div>
 		</div>

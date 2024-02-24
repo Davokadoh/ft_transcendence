@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import GameTeam, Tournament, User, Team, Game
+from .models import GameTeam, Tournament, User, Team, Game, Remote
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
@@ -145,10 +145,9 @@ def chat(request):
                 "template": "ajax.html" if ajax else "index.html"}
         )
 
-
 @login_required
-def lobby(request, game_id=None, invitedPlayer2=None):
-    if game_id is None:
+def lobby(request, gameId=None, invitedPlayer2=None):
+    if gameId is None:
         game = Game.objects.create()
         team = Team.objects.create()
         team.save()
@@ -156,72 +155,77 @@ def lobby(request, game_id=None, invitedPlayer2=None):
         gt = GameTeam(game=game, team=team)
         gt.save()
         return redirect(lobby, game.pk)
-    game = get_object_or_404(Game, pk=game_id)
+    game = get_object_or_404(Game, pk=gameId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
         return render(
             request,
             "lobby.html",
-            {"template": "ajax.html" if ajax else "index.html", "invitedPlayer2": invitedPlayer2},
+            {"template": "ajax.html" if ajax else "index.html", "gameId": gameId, "invitedPlayer2": invitedPlayer2},
         )
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            user = User.objects.get(username=data.get("username"))
+            username = data.get("username")
+            user = User.objects.get(username=username)
             if (user is None):
                     return JsonResponse({"error_message": "user not found"})
-            return JsonResponse({"username": user.username})
+            return JsonResponse({"username": user.username})      
         except ObjectDoesNotExist:
-            return JsonResponse({"error_message": "Missing valid player 2 username"})
+            return JsonResponse({"error_message": "Missing valid player username"})
+
 
 @login_required
-def game(request, game_id=None):
-    if game_id is None:
+def game(request, gameId=None):
+    if gameId is None:
         return redirect(home)
-    game = Game.objects.get(pk=game_id)
+    game = Game.objects.get(pk=gameId)
     if game is None:
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request,
         "game.html",
-        {"template": "ajax.html" if ajax else "index.html", "game_id": game_id},
+        {"template": "ajax.html" if ajax else "index.html", "gameId": gameId},
     )
 
+
 @login_required
-def remLobby(request, remote_id=None, invitedPlayer2=None):
-    if remote_id is None:
+def remLobby(request, remoteId=None, invitedPlayer2=None):
+    if remoteId is None:
         game = Game.objects.create()
         team = Team.objects.create()
         team.save()
         team.users.add(request.user)
         gt = GameTeam(game=game, team=team)
         gt.save()
-        return redirect(remLobby, game.pk)
-    game = get_object_or_404(Game, pk=remote_id)
+        return redirect(lobby, game.pk)
+    game = get_object_or_404(Game, pk=remoteId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
         return render(
             request,
             "remLobby.html",
-            {"template": "ajax.html" if ajax else "index.html", "invitedPlayer2": invitedPlayer2},
+            {"template": "ajax.html" if ajax else "index.html", "remoteId": remoteId, "invitedPlayer2": invitedPlayer2},
         )
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            user = User.objects.get(username=data.get("username"))
+            username = data.get("username")
+            user = User.objects.get(username=username)
             if (user is None):
                     return JsonResponse({"error_message": "user not found"})
-            return JsonResponse({"username": user.username})
+            return JsonResponse({"username": user.username})      
         except ObjectDoesNotExist:
-            return JsonResponse({"error_message": "Missing valid player 2 username"})
+            return JsonResponse({"error_message": "Missing valid player username"})
+
 
 
 @login_required
-def remote(request, remote_id=None):
-    if remote_id is None:
+def remote(request, remoteId=None):
+    if remoteId is None:
         return redirect(home)
-    remote = Remote.objects.get(pk=remote_id)
+    remote = Remote.objects.get(pk=remoteId)
     if remote is None:
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
@@ -230,13 +234,13 @@ def remote(request, remote_id=None):
         "remote.html",
         {
             "template": "ajax.html" if ajax else "index.html",
-            "remote_id": remote_id,
+            "remoteId": remoteId,
         },
     )
 
 @login_required
-def tourLobby(request, tournament_id=None):
-    if tournament_id is None:
+def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=None, invitedPlayer4=None):
+    if tournamentId is None:
         game = Game.objects.create()
         team = Team.objects.create()
         team.save()
@@ -244,31 +248,29 @@ def tourLobby(request, tournament_id=None):
         gt = GameTeam(game=game, team=team)
         gt.save()
         return redirect(tourLobby, game.pk)
-    game = get_object_or_404(Game, pk=tournament_id)
+
+    game = get_object_or_404(Game, pk=tournamentId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+
     if request.method == "GET":
         return render(
             request,
             "tourLobby.html",
             {
-                "template": "ajax.html" if ajax else "index.html",
-                "tournament_id": tournament_id,
+                "template": "ajax.html" if ajax else "index.html", "tournamentId": tournamentId,
+                "invitedPlayer2": invitedPlayer2, "invitedPlayer3": invitedPlayer3, "invitedPlayer4": invitedPlayer4
             },
         )
     elif request.method == "POST":
         try:
-            game.teams[request.POST["team"]].add_player(
-                request.POST["invited_player"])
-        except (KeyError, Team.DoesNotExist, User.DoesNotExist):
-            return render(
-                request,
-                "tourLobby.html",
-                {
-                    "template": "ajax.html" if ajax else "index.html",
-                    "tournament_id": tournament_id,
-                    "error_message": "Missing valid team name or user name",
-                },
-            )
+            data = json.loads(request.body)
+            username = data.get("username")
+            user = User.objects.get(username=username)
+            if (user is None):
+                    return JsonResponse({"error_message": "user not found"})
+            return JsonResponse({"username": user.username})
+        except ObjectDoesNotExist:
+            return JsonResponse({"error_message": "Missing valid player username"})
 
 
 @login_required
