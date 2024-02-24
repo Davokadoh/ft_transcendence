@@ -274,10 +274,10 @@ def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=No
 
 
 @login_required
-def tournament(request, tournament_id=None):
-    if tournament_id is None:
+def tournament(request, tournamentId=None):
+    if tournamentId is None:
         return redirect(home)
-    tournament = Tournament.objects.get(pk=tournament_id)
+    tournament = Tournament.objects.get(pk=tournamentId)
     if tournament is None:
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
@@ -286,7 +286,7 @@ def tournament(request, tournament_id=None):
         "tournament.html",
         {
             "template": "ajax.html" if ajax else "index.html",
-            "tournament_id": tournament_id,
+            "tournamentId": tournamentId,
         },
     )
 

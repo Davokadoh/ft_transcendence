@@ -1,4 +1,4 @@
-export function tourLobby(tournament_id){
+export function tourLobby(tournamentId){
 	document.getElementById('inviteButton').addEventListener('click', function () {
 		var player2Username = document.getElementById('otherplayer').value;
 		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -7,7 +7,7 @@ export function tourLobby(tournament_id){
 				player2_username: player2Username
 			};
 
-			fetch(`/tourLobby/${tournament_id}/`, {
+			fetch(`/tourLobby/${tournamentId}/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
