@@ -38,6 +38,7 @@ def play(request):
 def profil(request):
     username_form = UsernameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
+    # settings_form = ProfilSettingsForm(instance=request.user)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
@@ -53,6 +54,7 @@ def profil(request):
             "profil_picture_url": profil_picture_url,
             "profil_picture_form": profil_picture_form,
             "username_form": username_form,
+            # "settings_form": settings_form,
         },
     )
 

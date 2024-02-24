@@ -342,11 +342,11 @@
 							<label for="paddleSpeed">
 								Paddles speed
 								<span class="crochets">[</span>
-								<span class="rangCust" id="paddleSpeedValue">50</span>
+								<span class="rangCust" id="paddleSpeedValue">{{ request.user.paddleSpeed }}</span>
 								<span class="crochets">]</span>
 							</label>
 							<input type="range" class="form-range rangeCustom" id="paddleSpeed" name="paddle_speed"
-								value="50" min="1" max="100" />
+							value="{{ request.user.paddleSpeed }}" min="1" max="100" />
 						</div>
 
 						<!-- Paramètre 2 : Vitesse de la balle -->
@@ -354,27 +354,27 @@
 							<label for="ballSpeed">
 								Ball speed
 								<span class="crochets">[</span>
-								<span class="rangCust" id="ballSpeedValue">50</span>
+								<span class="rangCust" id="ballSpeedValue">{{ request.user.ballSpeed }}</span>
 								<span class="crochets">]</span>
 							</label>
 							<input type="range" class="form-range rangeCustom" id="ballSpeed" name="ball_speed"
-								value="50" min="1" max="100" />
+								value="{{ request.user.ballSpeed }}" min="1" max="10" />
 						</div>
 
 						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
 						<div class="form-group formGroupCustom">
 							<label for="paddleColor">Paddles color</label>
-							<input type="color" class="form-control" id="paddleColor" name="paddle_color" />
+							<input type="color" class="form-control" id="paddleColor" name="paddle_color" value="{{ request.user.paddleColor}}" />
 						</div>
 						<div class="form-group formGroupCustom">
 							<label for="ballColor">Ball color</label>
-							<input type="color" class="form-control" id="ballColor" name="ball_color" />
+							<input type="color" class="form-control" id="ballColor" name="ball_color" value="{{ request.user.ballColor}}" />
 						</div>
 
 						<!-- Paramètre 4 : Fond du jeu -->
 						<div class="form-group formGroupCustom">
 							<label for="backgroundColor">Game background</label>
-							<input type="color" class="form-control" id="backgroundColor" name="background_color">
+							<input type="color" class="form-control" id="backgroundColor" name="background_color" value="{{ request.user.backgroundColor}}">
 							<!-- <option value="black">Black</option>
 								<option value="purple">Violet</option>
 								<option value="image1">Image 1</option>

@@ -10,7 +10,7 @@ export function profil() {
 	let settingsForm = document.getElementById('settingsForm');
 	let settingsModal = document.getElementById('settingsModal');
 	settingsModal.addEventListener('hidden.bs.modal', function () {
-		settingsForm.reset();
+		// settingsForm.reset();
 		let event = new Event('input');
 		paddleSpeedInput.dispatchEvent(event);
 		ballSpeedInput.dispatchEvent(event);
