@@ -2,8 +2,8 @@ class Player:
     def __init__(self, consumer, x, y):
         self.consumer = consumer
         self.ready = False
-        self.width = 10
-        self.height = 1
+        self.width = 25
+        self.height = 100
         self.pos_x = x
         self.pos_y = y
         self.speed_y = 0

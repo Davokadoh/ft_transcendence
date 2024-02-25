@@ -8,13 +8,10 @@ export function game(game_id) {
 	let gameHeight = gameBoard.height;
 	let paddle1 = { width: 25, height: 100, x: 10, y: 5 };
 	let paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 105 };
-	let ball = { x: gameWidth / 2, y: gameHeight / 2, dx: 0, dy: 0, speed: 1 };
+	let ball = { x: gameWidth / 2, y: gameHeight / 2, speed: 1 };
 	let score = [0, 0];
-	let scoreMax = 1;
-	let ballSpeed = 1;
 	const boardBackground = "black";
 	const ballRadius = 12.5;
-	const paddleSpeed = 12;
 	let gameRunning = false;
 
 	function draw() {
@@ -57,78 +54,69 @@ export function game(game_id) {
 
 	document.getElementById("start-game").onclick = startGame;
 	document.getElementById("stop-game").onclick = stopGame;
-	// document.getElementById("reset-game").onclick = resetGame;
 
 	function startGame() {
 		socket.send(JSON.stringify({ 'type': 'player_ready' }));
 		if (!gameRunning) {
 			gameRunning = true;
 			draw();
-			document.getElementById("gameBoard").focus();
-			document.getElementById("gameBoard").onkeydown = function (event) {
-				if (event.key == 'w' || event.key == 's') socket.send(JSON.stringify({ 'type': 'key_press', 'key': event.key }));
+			gameBoard.focus();
+			gameBoard.onkeydown = function (event) {
+				if (event.key == 'w') socket.send(JSON.stringify({ 'type': 'game_move', 'direction': "UP" }));
+				else if (event.key == 's') socket.send(JSON.stringify({ 'type': 'game_move', 'direction': "DOWN" }));
 			};
 		}
 	}
 
 	function stopGame() {
-		gameRunning = false;
+		console.log("Asking for pause");
+		socket.send(JSON.stringify({ 'type': 'player_pause' }));
 	}
 
 	function endGame() {
-		if (player1Score >= 1 || player2Score >= 1) {
-			stopGame();
-			let winnerMessage = "Game Over! ";
-			if (player1Score > player2Score) {
-				winnerMessage += "Player 1 wins!";
-			} else if (player2Score > player1Score) {
-				winnerMessage += "Player 2 wins!";
-			} else {
-				winnerMessage += "It's a draw!";
-			}
-
-			document.getElementById("modalGame-message").textContent = winnerMessage;
-			document.getElementById("myModalGame").style.display = "block";
+		gameRunning = false;
+		clearBoard();
+		let winnerMessage = "Game Over! ";
+		if (score[0] > score[1]) {
+			winnerMessage += "Player 1 wins!";
+		} else if (score[0] < score[1]) {
+			winnerMessage += "Player 2 wins!";
+		} else {
+			winnerMessage += "It's a draw!";
 		}
-	}
 
-	function updateGame(data) {
-		ball.x = data.state.ball_x;
-		ball.y = data.state.ball_y;
-		paddle1.y = data.state.player_Davokadoh_y;
+		document.getElementById("modalGame-message").textContent = winnerMessage;
+		// document.getElementById("myModalGame").style.display = "block";
+		let myModalGame = new bootstrap.Modal(document.getElementById("myModalGame"), {});
+		// const myModalGame = document.getElementById('myModalGame');
+		myModalGame.show();
 	}
 
 	function updateScore(team) {
 		score[team] += 1;
 		scoreText.textContent = `${score[0]} : ${score[1]}`;
-		if (score[team] >= scoreMax) endGame();
+	}
+
+	function updateGame(state) {
+		ball.x = state.ball_x;
+		ball.y = state.ball_y;
+		paddle1.y = state.player_Davokadoh_y;
+	}
+
+	function updateStatus(status) {
+		if (status == "PLAY") startGame();
+		else if (status == "Pause") stopGame();
+		else if (status == "END") endGame();
 	}
 
 	socket.onmessage = function (event) {
 		const data = JSON.parse(event.data);
-		console.log(data);
-		switch (data.type) {
-			case "player_ready":
-				console.log(`Player ${data.player} is ready`);
-				break;
-			case "game_start":
-				startGame();
-				break;
-			case "game_pause":
-				break;
-			case "game_resume":
-				break;
-			case "game_update":
-				updateGame(data);
-				break;
-			case "game_score":
-				updateScore(data.team)
-				break;
-			case "game_end":
-				endGame();
-				break;
-		};
-	}
+		// console.log(data);
+		if (data.type == "player_ready") console.log(`Player ${data.player} is ready`);
+		else if (data.type == "game_status") updateStatus(data.status);
+		else if (data.type == "game_update") updateGame(data.state);
+		else if (data.type == "game_score") updateScore(data.team);
+	};
 
 	clearBoard();
 	updateScore();
