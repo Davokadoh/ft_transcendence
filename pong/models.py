@@ -279,8 +279,8 @@ class Remote(models.Model):
 
 
 class Tournament(models.Model):
-    teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
-    max_teams = models.PositiveIntegerField()
+    # teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
+    # max_teams = models.PositiveIntegerField(null=True, blank=True)
     status = "open"
 
     def register_team(self, team):

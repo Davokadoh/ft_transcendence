@@ -196,6 +196,8 @@
 	font-family: 'Titan One', sans-serif;
 	color: #9016B2;
 	margin: 5% 0;
+	overflow: scroll;
+    overflow-y: hidden;
 }
 
 .container-profil button {

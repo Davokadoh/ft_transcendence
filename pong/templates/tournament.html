@@ -5,23 +5,45 @@
 {% endblock %}
 {% block content %}
 <div id="app">
-	<div class="container-fluid d-flex flex-row">
-		<div class="col-md-4 d-flex align-items-center justify-content-center">
-			<div class="d-flex flex-column align-items-center">
-				<button id="start-game" class="btn btn-primary mb-2">Démarrer</button>
-				<button id="stop-game" class="btn btn-danger mb-2">Arrêter</button>
-				<button id="reset-game" class="btn btn-danger">Reset</button>
-			</div>
-		</div>
-		<div class="col-md-4 d-flex align-items-center justify-content-center mt-3">
-			<div id="boardGame" class="tournamentContainer">
-				<canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
-			</div>
-		</div>
-		<div class="col-md-4 d-flex align-items-center justify-content-center">
-			<div id="scoreText" class="text-center">0 : 0</div>
-		</div>
-	</div>
-</div>
+  <div class="container-fluid d-flex flex-row">
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <div class="d-flex flex-column align-items-center">
+        <button id="start-game" class="btn bg-vert">Démarrer</button>
+        <button id="stop-game" class="btn bg-vert">Arrêter</button>
+        <button id="reset-game" class="btn bg-vert">Reset</button>
+      </div>
+    </div>
+    <div class="col-md-4 d-flex align-items-center justify-content-center mt-3">
+      <div id="boardGame" class="gameContainer">
+        <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
+      </div>
+    </div>
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <div id="scoreText" class="text-center">0 : 0</div>
+    </div>
+  </div>
 
+
+<!-- Modal Bootstrap -->
+  <div id="myModalGame" class="modal modalGame overlay" data-bs-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modalCenter" role="document">
+      <div class="modal-content custom-modal nightModalMod">
+        <div class="modal-header">
+          <h3 class="modal-title" id="gameModalLabel">GAME OVER</h3>
+          <button type="button" class="close modalCloseButton" data-bs-dismiss="modal" aria-label="close">
+            <span class="close">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="modalGame-message"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

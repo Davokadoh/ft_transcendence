@@ -239,15 +239,10 @@ def remote(request, remoteId=None):
 @login_required
 def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=None, invitedPlayer4=None):
     if tournamentId is None:
-        game = Game.objects.create()
-        team = Team.objects.create()
-        team.save()
-        team.users.add(request.user)
-        gt = GameTeam(game=game, team=team)
-        gt.save()
-        return redirect(tourLobby, game.pk)
+        tournament = Tournament.objects.create()
+        return redirect(tourLobby, tournament.pk)
 
-    game = get_object_or_404(Game, pk=tournamentId)
+    tournament = get_object_or_404(Tournament, pk=tournamentId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
     if request.method == "GET":
@@ -262,22 +257,41 @@ def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=No
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            username = data.get("username")
-            user = User.objects.get(username=username)
-            if (user is None):
-                    return JsonResponse({"error_message": "user not found"})
-            return JsonResponse({"username": user.username})
-        except ObjectDoesNotExist:
-            return JsonResponse({"error_message": "Missing valid player username"})
+            player2Username = data.get("p2Username")
+            player3Username = data.get("p3Username")
+            player4Username = data.get("p4Username")
+            
+            player2 = User.objects.filter(username=player2Username).first()
+            player3 = User.objects.filter(username=player3Username).first()
+            player4 = User.objects.filter(username=player4Username).first()
+
+            if player2 is None:
+                return JsonResponse({"error_message": "Player 2 not found"})
+            elif player3 is None:
+                return JsonResponse({"error_message": "Player 3 not found"})
+            elif player4 is None:
+                return JsonResponse({"error_message": "Player 4 not found"})
+            return JsonResponse({
+                "p2Username": player2.username,
+                "p3Username": player3.username,
+                "p4Username": player4.username,
+            })
+        except ObjectDoesNotExist as e:
+            return JsonResponse({"error_message": str(e), "invalidUsername": data.get("username")})
 
 
 @login_required
 def tournament(request, tournamentId=None):
     if tournamentId is None:
         return redirect(home)
-    tournament = Tournament.objects.get(pk=tournamentId)
-    if tournament is None:
-        return redirect(home)
+
+    try:
+        tournament = Tournament.objects.get(pk=tournamentId)
+    except Tournament.DoesNotExist:
+        raise Http404("Tournament does not exist")
+    
+    # if tournament is None:
+    #     return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request,

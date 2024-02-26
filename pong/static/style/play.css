@@ -99,23 +99,23 @@
 }
 
 .inviteToGame {
-	font-family: 'Titan One', sans-serif;
-	transition: color 0.6s ease;
-	margin-top: 60px;
-	margin-left: 125px;
-	margin-right: auto;
-	font-size: 28px;
-	padding: 05;
-	background-color: var(--vert);
-	color: var(--violet);
-	border-radius: 30px;
-	height: 300px;
-	width: 400px;
-	align-self: flex-start;
-	/* Aligner le bord supérieur avec le bouton */
-	margin-bottom: auto;
-	align-items: center;
-	justify-content: center;
+    font-family: 'Titan One', sans-serif;
+    transition: color 0.6s ease;
+    margin-top: 60px;
+    margin-left: 125px;
+    margin-right: auto;
+    font-size: 28px;
+    padding: 05;
+    background-color: var(--vert);
+    color: var(--violet);
+    border-radius: 30px;
+    /* height: 300px; */
+    width: 400px;
+    align-self: flex-start;
+    /* Aligner le bord supérieur avec le bouton */
+    margin-bottom: auto;
+    align-items: center;
+    justify-content: center;
 }
 
 .invitFriend {

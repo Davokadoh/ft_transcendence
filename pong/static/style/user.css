@@ -32,7 +32,12 @@
 }
 
 .usernameUser {
-	font-size: 32px;
+    font-size: 32px;
+    white-space: nowrap;
+     /* Empêche le texte de passer à la ligne */
+    text-overflow: ellipsis; 
+    /* Ajoute des points de suspension (...) pour indiquer le texte coupé */
+    margin-right: 10px;
 }
 
 
