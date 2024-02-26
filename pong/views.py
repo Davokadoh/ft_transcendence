@@ -471,4 +471,3 @@ def get_users(request):
         return JsonResponse(context, safe=False)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
-
