@@ -52,4 +52,38 @@ export function remLobby(remoteId) {
             }
         });
     }
+    // Fonction pour creer et afficher une alerte personnalisée
+    function showAlert(message) {
+        // Créer un élément d'alerte
+        var alertElement = document.createElement('div');
+        alertElement.className = 'custom-alert'; // Ajouter la classe CSS personnalisée
+
+        // Créer un élément pour le titre
+        var titleElement = document.createElement('div');
+        titleElement.className = 'alert-title'; // Ajouter une classe pour le titre
+        titleElement.textContent = 'Alert information'; // Ajouter le titre ici
+
+        // Créer un bouton de fermeture
+        var closeButton = document.createElement('button');
+        closeButton.textContent = 'X';
+        closeButton.className = 'close-button'; // Ajouter une classe CSS pour le style du bouton
+        closeButton.onclick = function () {
+            document.body.removeChild(alertElement); // Supprimer l'alerte lorsque le bouton est cliqué
+        };
+
+        // Créer un élément pour le message
+        var messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container'; // Ajouter une classe pour le conteneur de message
+
+        // Ajouter le texte du message à l'élément de message
+        var messageElement = document.createElement('div');
+        messageElement.textContent = message;
+
+        // Ajouter les éléments au DOM
+        titleElement.appendChild(closeButton);
+        alertElement.appendChild(titleElement);
+        messageContainer.appendChild(messageElement);
+        alertElement.appendChild(messageContainer);
+        document.body.appendChild(alertElement);
+    }
 }
