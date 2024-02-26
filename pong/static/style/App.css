@@ -10,8 +10,7 @@
 }
 
 body {
-	/* background: linear-gradient(to bottom right,var(--violet), var(--vert)); */
-	/* color: black; */
+	animation: changeColorBody 50s infinite;
 	background-color: white;
 	margin: 0;
 	/* display: flex; */
@@ -25,8 +24,64 @@ body {
 	/* Barre de defilement gauche droite*/
 	/* overflow-y: hidden; Barre de defilement haut bas*/
 	padding-bottom: 100px;
-	/* Remplacez 100px par la hauteur de votre footer */
-	/* overflow-y: auto; */
+}
+
+.navbar {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-expand-lg {
+	background-color: transparent;
+}
+
+.corpus {
+	/* opacity: 0.5; */
+	/* animation: changeColorBody 50s infinite; */
+}
+
+/* Animation de changement de couleur */
+@keyframes changeColorBody {
+    0% {
+        background-color: rgba(255, 255, 255, 1); /* Blanc */
+    }
+    25% {
+        background-color: rgba(138, 43, 226, 0.2); /* Violet avec 70% d'opacité */
+    }
+    70% {
+        background-color: rgba(0, 0, 255, 0.2); /* Bleu avec 70% d'opacité */
+    }
+    75% {
+        background-color: rgba(135, 211, 0, 0.2); 
+    }
+    95% {
+        background-color: rgba(138, 43, 226, 0.2); /* Violet avec 70% d'opacité */
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.2); /* Blanc avec 70% d'opacité */
+    }
+}
+
+	
+/* Animation de changement de couleur Mode sombre*/
+@keyframes changeColorBodyDark {
+    0% {
+        background-color: rgb(20, 20, 20); /* Couleur très sombre */
+    }
+    25% {
+        background-color: rgb(70, 10, 70); /* Violet très foncé */
+    }
+    70% {
+        background-color: rgb(0, 0, 70); /* Bleu très foncé */
+    }
+    75% {
+        background-color: rgb(70, 70, 0); /* Vert très foncé */
+    }
+    95% {
+        background-color: rgb(70, 10, 70); /* Violet très foncé */
+    }
+    100% {
+        background-color: rgb(20, 20, 20); /* Couleur très sombre */
+    }
 }
 
 header {
@@ -471,17 +526,12 @@ footer {
 	border-color: black;
 }
 
-/*  Couleur pour le mode nuit */
-/* #toggle-switch:checked+.toggle-label {
-	background-color: white;
-}*/
-
-/* #toggle-switch:checked+.toggle-label .separator {
-	background: black;
-} */
-
 
 /* Styles pour le mode nuit */
+body.night-mode {
+    animation: none !important; /* Annule l'animation */
+}
+
 body.night-mode .toggle-container {
 	color: white;
 	/* Couleur du texte en mode nuit */
@@ -602,6 +652,7 @@ body.night-mode footer {
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: #1c1c1e;
+		animation: changeColorBodyDark 50s infinite;
 		color: #fefefe;
 	}
 

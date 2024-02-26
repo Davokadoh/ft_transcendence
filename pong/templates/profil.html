@@ -88,10 +88,10 @@
 					<div class="col-lg-6">
 						<div class="input-group input-group-custom">
 							<input type="text" class="form-control" name="username" id="searchInput"
-							placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
-						<div class="input-group-append">
-							<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user" data-link="/user"
-								alt="Check user profil"> 👀 </a>
+								placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
+							<div class="input-group-append">
+								<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user"
+									data-link="/user" alt="Check user profil"> 👀 </a>
 								<button type="button" class="btn btn-dark imgButton" id="ladder"
 									alt="Add user as a friend"></button>
 							</div>
@@ -263,33 +263,39 @@
 						Osh
 						<img class="featImg" src="{% static 'img/feats/5pts_pong1.png' %}"
 							alt="Put 5pts on your opponent without taking a point" />
+					<p>Récompense : un high five de Claire</p>
 					</p>
 					<p class="featModal d-flex align-items-end"
 						title="Put 10pts on your opponent without taking a point">
 						Merciless
 						<img class="featImg" src="{% static 'img/feats/10pts_pong2.png' %}"
 							alt="Put 10pts on your opponent without taking a point" />
+					<p>Récompense : une poignée de main de Verena</p>
 					</p>
 					<p class="featModal d-flex align-items-end"
 						title="Bounce the ball 3 times before scoring the point">
 						Stroke
 						<img class="featImg" src="{% static 'img/feats/bounce_pong3.png' %}"
 							alt="Bounce the ball 3 times before scoring the point" />
+					<p>Récompense : une tape dans le dos de Greg</p>
 					</p>
 					<p class="featModal d-flex align-items-end" title="Play with maximum ball and paddle speeds">
 						Brisk
 						<img class="featImg" src="{% static 'img/feats/speed_pong4.png' %}"
 							alt="Play with maximum ball and paddle speeds" />
+					<p>Récompense : un sourire de Joachim</p>
 					</p>
 					<p class="featModal d-flex align-items-end" title="Score the point on the serve">
 						Service
 						<img class="featImg" src="{% static 'img/feats/service_pong5.png' %}"
 							alt="Score the point on the serve" />
+					<p>Récompense : un compliment de Raphaël</p>
 					</p>
 					<p class="featModal d-flex align-items-end" title="Complete 25 exchanges without losing the ball">
 						Cooperate
 						<img class="featImg" src="{% static 'img/feats/coop_pong6.png' %}"
 							alt="Complete 25 exchanges without losing the ball" />
+					<p>Récompense : notre reconnaissance éternelle</p>
 					</p>
 				</div>
 
@@ -346,7 +352,7 @@
 								<span class="crochets">]</span>
 							</label>
 							<input type="range" class="form-range rangeCustom" id="paddleSpeed" name="paddle_speed"
-							value="{{ request.user.paddleSpeed }}" min="1" max="100" />
+								value="{{ request.user.paddleSpeed }}" min="1" max="100" />
 						</div>
 
 						<!-- Paramètre 2 : Vitesse de la balle -->
@@ -364,35 +370,25 @@
 						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
 						<div class="form-group formGroupCustom">
 							<label for="paddleColor">Paddles color</label>
-							<input type="color" class="form-control" id="paddleColor" name="paddle_color" value="{{ request.user.paddleColor}}" />
+							<input type="color" class="form-control" id="paddleColor" name="paddle_color"
+								value="{{ request.user.paddleColor}}" />
 						</div>
 						<div class="form-group formGroupCustom">
 							<label for="ballColor">Ball color</label>
-							<input type="color" class="form-control" id="ballColor" name="ball_color" value="{{ request.user.ballColor}}" />
+							<input type="color" class="form-control" id="ballColor" name="ball_color"
+								value="{{ request.user.ballColor}}" />
 						</div>
 
 						<!-- Paramètre 4 : Fond du jeu -->
 						<div class="form-group formGroupCustom">
 							<label for="backgroundColor">Game background</label>
-							<input type="color" class="form-control" id="backgroundColor" name="background_color" value="{{ request.user.backgroundColor}}">
+							<input type="color" class="form-control" id="backgroundColor" name="background_color"
+								value="{{ request.user.backgroundColor}}">
 							<!-- <option value="black">Black</option>
 								<option value="purple">Violet</option>
 								<option value="image1">Image 1</option>
 								<option value="image2">Image 2</option> -->
 							</input>
-						</div>
-
-						<!-- Paramètre 5 : Accessibilité -->
-						<div class="form-check formCheckCustom">
-							<input type="checkbox" class="form-check-input" id="highContrast" />
-							<label class="form-check-label" for="highContrast">Increase contrast</label>
-						</div>
-
-						<!-- Paramètre 6 : 2FA -->
-						<div class="form-check formCheckCustom">
-							<input type="checkbox" class="form-check-input" id="enable2FA" />
-							<label class="form-check-label" for="enable2FA">Enable two-factor authentication
-								(2FA)</label>
 						</div>
 
 						<button type="button" class="btn btn-register modalNightButton" id="saveButton">Save</button>
