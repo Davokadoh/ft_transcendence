@@ -23,6 +23,12 @@ export function game() {
 	const ballRadius = 12.5;
 	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
+	let keyState = {
+        'w': false,
+        's': false,
+        'ArrowUp': false,
+        'ArrowDown': false,
+    };
 
 	function initializeGame() {
 		fetch('/accounts/profil/settings/data/')
@@ -168,40 +174,33 @@ export function game() {
 	}
 
 	function changeDirection(event) {
-		const keyPressed = event.keyCode;
-		const paddle1Up = 87;
-		const paddle1Down = 83;
-		const paddle2Up = 38;
-		const paddle2Down = 40;
+        const keyPressed = event.key;
 
-		if (keyPressed === paddle2Down) {
-			event.preventDefault();
-		}
+        if (keyPressed in keyState) {
+            keyState[keyPressed] = (event.type === 'keydown');
 
-		switch (keyPressed) {
-			case paddle1Up:
-				if (paddle1.y > 0) {
-					paddle1.y -= paddleSpeed;
-				}
-				break;
-			case paddle1Down:
-				if (paddle1.y < gameHeight - paddle1.height) {
-					paddle1.y += paddleSpeed;
-				}
-				break;
-			case paddle2Up:
-				if (paddle2.y > 0) {
-					paddle2.y -= paddleSpeed;
-				}
-				break;
-			case paddle2Down:
-				if (paddle2.y < gameHeight - paddle2.height) {
-					paddle2.y += paddleSpeed;
-				}
-				break;
-		}
-	}
+            if (keyState['w'] && !keyState['s']) {
+                if (paddle1.y > 0) {
+                    paddle1.y -= paddleSpeed;
+                }
+            } else if (!keyState['w'] && keyState['s']) {
+                if (paddle1.y < gameHeight - paddle1.height) {
+                    paddle1.y += paddleSpeed;
+                }
+            }
 
+            if (keyState['ArrowUp'] && !keyState['ArrowDown']) {
+                if (paddle2.y > 0) {
+                    paddle2.y -= paddleSpeed;
+                }
+            } else if (!keyState['ArrowUp'] && keyState['ArrowDown']) {
+                if (paddle2.y < gameHeight - paddle2.height) {
+                    paddle2.y += paddleSpeed;
+                }
+            }
+        }
+    }
+	
 	function updateScore() {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
@@ -218,6 +217,7 @@ export function game() {
 			document.getElementById("gameBoard").focus(); // Donner le focus au canevas
 			draw();
 			document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+			document.getElementById("gameBoard").addEventListener("keyup", changeDirection);
 		}
 	}
 
@@ -226,7 +226,7 @@ export function game() {
 	}
 
 	function endGame() {
-		if (player1Score >= 1 || player2Score >= 1) {
+		if (player1Score >= 5 || player2Score >= 5) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
