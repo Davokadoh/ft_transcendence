@@ -25,7 +25,7 @@ export function lobby(gameId) {
                 .then(result => {
                     console.log(result);
                     if (result.error_message) {
-                        alert(result.error_message);
+                        showAlert(result.error_message);
                         isUsernameValid = false;
                     } else {
                         document.getElementById('onlineFriend').textContent = result.username;
@@ -38,7 +38,7 @@ export function lobby(gameId) {
                 });
 
         } else {
-            alert("Please enter the username of player 2 before inviting.");
+            showAlert("Please enter the username of player 2 before inviting.");
             isUsernameValid = false;
         }
     });
@@ -48,7 +48,7 @@ export function lobby(gameId) {
             if (isUsernameValid) {
                 window.location.href = `/game/${gameId}`;
             } else {
-                alert("Please enter a valid username first.");
+                showAlert("Please enter a valid username first.");
             }
         });
     }
