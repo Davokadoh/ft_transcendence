@@ -3,7 +3,7 @@ import { profil } from "./profil.js";
 import { user } from "./user.js"
 import { lobby } from "./lobby.js";
 import { remLobby } from "./remLobby.js";
-import { tourLobby } from "./tourLobby.js"
+// import { tourLobby } from "./tourLobby.js"
 import { game } from "./game.js";
 import { remote } from "./remote.js";
 import { tournament } from "./tournament.js";
