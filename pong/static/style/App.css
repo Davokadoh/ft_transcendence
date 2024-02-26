@@ -65,6 +65,32 @@ body {
     }
 }
 
+/* Animation de changement de couleur Mode sombre*/
+@keyframes changeColorBodyDark {
+    0% {
+        background-color: rgb(20, 20, 20); /* Couleur très sombre */
+    }
+    25% {
+        background-color: rgb(70, 10, 70); /* Violet très foncé */
+    }
+    70% {
+        background-color: rgb(0, 0, 70); /* Bleu très foncé */
+    }
+    75% {
+        background-color: rgb(70, 70, 0); /* Vert très foncé */
+    }
+    95% {
+        background-color: rgb(70, 10, 70); /* Violet très foncé */
+    }
+    100% {
+        background-color: rgb(20, 20, 20); /* Couleur très sombre */
+    }
+}
+
+
+
+
+
 header {
 	/* size: 20px; */
 	font-size: 2rem;
@@ -642,6 +668,7 @@ body.night-mode footer {
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: #1c1c1e;
+		animation: changeColorBodyDark 50s infinite;
 		color: #fefefe;
 	}
 
