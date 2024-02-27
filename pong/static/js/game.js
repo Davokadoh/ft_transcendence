@@ -275,49 +275,48 @@ export function game(gameId) {
 				} else {
 					winnerMessage += "It's a draw!";
 				}
+			}
+			document.getElementById("modalGame-message").textContent = winnerMessage;
+			document.getElementById("myModalGame").style.display = "block";
+			var data = {
+				player1Score: player1Score,
+				player2Score: player2Score
+			};
 
-				document.getElementById("modalGame-message").textContent = winnerMessage;
-				document.getElementById("myModalGame").style.display = "block";
-				var data = {
-					player1Score: player1Score,
-					player2Score: player2Score
-				};
-
-				fetch(`/game/${gameId}/get-scores/`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-Requested-With': 'XMLHttpRequest',
-						'X-CSRFToken': csrftoken,
-					},
-					body: JSON.stringify(data),
+			fetch(`/game/${gameId}/get-scores/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRFToken': csrftoken,
+				},
+				body: JSON.stringify(data),
+			})
+				.then(response => response.json())
+				.then(result => {
+					console.log("score_end:", player1Score);
+					console.log("score_end:", player2Score);
 				})
-					.then(response => response.json())
-					.then(result => {
-						console.log("score_end:", player1Score);
-						console.log("score_end:", player2Score);
-					})
-					.catch(error => {
-						console.error('Error Fetch request :', error);
-					});
-			}
+				.catch(error => {
+					console.error('Error Fetch request :', error);
+				});
 		}
-
-		document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
-
-		function toggleRules() {
-			var rulesContent = document.getElementById("rulesContent");
-			var closeButton = document.getElementById("closeRulesButton");
-			if (rulesContent.style.display === "none") {
-				rulesContent.style.display = "block";
-				closeButton.textContent = "✗";
-			} else {
-				rulesContent.style.display = "none";
-				closeButton.textContent = "-";
-			}
-		}
-
-		initializeGame();
-		updateScore();
 	}
+
+	document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
+
+	function toggleRules() {
+		var rulesContent = document.getElementById("rulesContent");
+		var closeButton = document.getElementById("closeRulesButton");
+		if (rulesContent.style.display === "none") {
+			rulesContent.style.display = "block";
+			closeButton.textContent = "✗";
+		} else {
+			rulesContent.style.display = "none";
+			closeButton.textContent = "-";
+		}
+	}
+
+	initializeGame();
+	updateScore();
 }
