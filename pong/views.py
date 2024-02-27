@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 import requests
 import json
 import os
+import base64
 
 
 def index(request, page_name=None):
@@ -331,20 +332,22 @@ def loginview(request):
             return redirect("/home" if next is None else next)
         else:
             load_dotenv()
-            state = os.urandom(42)
+            request.session['state'] = base64.b64encode(os.urandom(100)).decode('ascii')
+            print("state: ", request.session['state'])
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("OAUTH_URL"),
                 os.getenv("OAUTH_ID"),
                 requests.utils.quote("http://localhost:8000/accounts/callback/"),
                 "public",
-                123,  # state
+                request.session['state'],  # state
             )
+            print("auth url: ", auth_url)
             return redirect(auth_url)
-
 
 def callback(request):
     code = request.GET.get("code")
     state = request.GET.get("state")
+    print("state 2: ", state)
     response = requests.post(
         "{}{}".format(os.getenv("OAUTH_URL"), os.getenv("OAUTH_TOKEN_URL")),
         data={
