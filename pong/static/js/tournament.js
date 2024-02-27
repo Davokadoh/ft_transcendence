@@ -1,4 +1,4 @@
-export function tournament(){
+export function tournament(tournamentId){
     let gameBoard;
 	let ctx;
 	let scoreText;
@@ -12,6 +12,8 @@ export function tournament(){
 	let ballYDirection;
 	let player1Score;
 	let player2Score;
+	let player1;
+	let player2;
 	let ballSpeed;
 	const boardBackground = "black";
 	const paddle1Color = "white";
@@ -61,6 +63,23 @@ export function tournament(){
 	document.getElementById("stop-game").addEventListener("click", stopGame);
 	document.getElementById("reset-game").addEventListener("click", resetGame);
 
+	fetch(`/tournament/${tournamentId}/get-username/`)
+    .then(response => response.json())
+    .then(data => {
+        var player1 = data.player1_username;
+        var player2 = data.player2_username;
+        var player3 = data.player3_username; // Ajout de la récupération du nom du joueur 3
+        console.log(player1);
+        console.log(player2);
+        console.log(player3); // Affichage du nom du joueur 3 dans la console
+        document.getElementById('player1').textContent = player1;
+        document.getElementById('player2').textContent = player2;
+        document.getElementById('player3').textContent = player3; // Mise à jour du texte pour le joueur 3
+    })
+    .catch(error => {
+        // Gérer les erreurs survenues lors de la requête
+        console.error('Erreur lors de la requête AJAX :', error);
+    });
 
 	function draw() {
 		if (!gameRunning) {
@@ -224,6 +243,20 @@ export function tournament(){
 
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
+		}
+	}
+
+	document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
+
+	function toggleRules() {
+		var rulesContent = document.getElementById("rulesContent");
+		var closeButton = document.getElementById("closeRulesButton");
+		if (rulesContent.style.display === "none") {
+			rulesContent.style.display = "block";
+			closeButton.textContent = "✗";
+		} else {
+			rulesContent.style.display = "none";
+			closeButton.textContent = "-";
 		}
 	}
 

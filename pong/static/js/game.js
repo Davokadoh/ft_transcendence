@@ -58,6 +58,8 @@ export function game(gameId) {
 				player2 = data.player2_username;
 				console.log(player1);
 				console.log(player2);
+				document.getElementById('player1').textContent = player1;
+				document.getElementById('player2').textContent = player2;
 			})
 			.catch(error => {
 				// Gérer les erreurs survenues lors de la requête
@@ -220,6 +222,8 @@ export function game(gameId) {
 	function updateScore() {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
+
+	// function 
 
 	function resetGame() {
 		initializeGame();
