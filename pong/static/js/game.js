@@ -26,11 +26,11 @@ export function game(gameId) {
 	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
 	let keyState = {
-        'w': false,
-        's': false,
-        'ArrowUp': false,
-        'ArrowDown': false,
-    };
+		'w': false,
+		's': false,
+		'ArrowUp': false,
+		'ArrowDown': false,
+	};
 
 	function initializeGame() {
 		fetch('/accounts/profil/settings/data/')
@@ -190,33 +190,33 @@ export function game(gameId) {
 	}
 
 	function changeDirection(event) {
-        const keyPressed = event.key;
+		const keyPressed = event.key;
 
-        if (keyPressed in keyState) {
-            keyState[keyPressed] = (event.type === 'keydown');
+		if (keyPressed in keyState) {
+			keyState[keyPressed] = (event.type === 'keydown');
 
-            if (keyState['w'] && !keyState['s']) {
-                if (paddle1.y > 0) {
-                    paddle1.y -= paddleSpeed;
-                }
-            } else if (!keyState['w'] && keyState['s']) {
-                if (paddle1.y < gameHeight - paddle1.height) {
-                    paddle1.y += paddleSpeed;
-                }
-            }
+			if (keyState['w'] && !keyState['s']) {
+				if (paddle1.y > 0) {
+					paddle1.y -= paddleSpeed;
+				}
+			} else if (!keyState['w'] && keyState['s']) {
+				if (paddle1.y < gameHeight - paddle1.height) {
+					paddle1.y += paddleSpeed;
+				}
+			}
 
-            if (keyState['ArrowUp'] && !keyState['ArrowDown']) {
-                if (paddle2.y > 0) {
-                    paddle2.y -= paddleSpeed;
-                }
-            } else if (!keyState['ArrowUp'] && keyState['ArrowDown']) {
-                if (paddle2.y < gameHeight - paddle2.height) {
-                    paddle2.y += paddleSpeed;
-                }
-            }
-        }
-    }
-	
+			if (keyState['ArrowUp'] && !keyState['ArrowDown']) {
+				if (paddle2.y > 0) {
+					paddle2.y -= paddleSpeed;
+				}
+			} else if (!keyState['ArrowUp'] && keyState['ArrowDown']) {
+				if (paddle2.y < gameHeight - paddle2.height) {
+					paddle2.y += paddleSpeed;
+				}
+			}
+		}
+	}
+
 	function updateScore() {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
@@ -255,6 +255,20 @@ export function game(gameId) {
 
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
+		}
+	}
+
+	document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
+
+	function toggleRules() {
+		var rulesContent = document.getElementById("rulesContent");
+		var closeButton = document.getElementById("closeRulesButton");
+		if (rulesContent.style.display === "none") {
+			rulesContent.style.display = "block";
+			closeButton.textContent = "✗";
+		} else {
+			rulesContent.style.display = "none";
+			closeButton.textContent = "-";
 		}
 	}
 

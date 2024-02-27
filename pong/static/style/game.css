@@ -98,8 +98,6 @@
   cursor: pointer;
 }
 
-- []
-
 /* SCORE CONTAINER */
 .score-container {
   width: 250px;
@@ -234,8 +232,7 @@
   }
 
   .rule.blackboard {
-    position: absolute;
-    top: 20;
+    display: none;
   }
 }
 
@@ -258,5 +255,10 @@
 }
 
 .night-mode .badge {
-  color: #000;
+color: #000;
+}
+
+.rule.blackboard {
+  position: absolute;
+  margin-top: 190px;
 }
