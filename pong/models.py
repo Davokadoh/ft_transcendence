@@ -136,7 +136,6 @@ class Game(models.Model):
         await self.arefresh_from_db()
         for p in self.players:
             print(f"{p.consumer.user.username}:{' not' if not p.ready else ''} ready")
-        print(f"status is {self.status}")
         await self.send({"type": "game_ready", "player": player.username})
         if self.status == Status.LOBBY or self.status == Status.PAUSE:
             await self.play()
@@ -145,7 +144,6 @@ class Game(models.Model):
         if all(player.ready for player in self.players):
             self.left = await self.gameteam_set.afirst()
             self.right = await self.gameteam_set.alast()
-            print(f"Play with status: {self.status}")
             if self.status == Status.LOBBY:
                 await self.reset()
             self.status = Status.PLAY
