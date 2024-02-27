@@ -234,9 +234,9 @@ export function tournament(tournamentId){
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
-				winnerMessage += "Player 1 wins!";
+				winnerMessage += player1 + " wins!";
 			} else if (player2Score > player1Score) {
-				winnerMessage += "Player 2 wins!";
+				winnerMessage += player2 + " wins!";
 			} else {
 				winnerMessage += "It's a draw!";
 			}
