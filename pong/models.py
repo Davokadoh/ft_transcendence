@@ -145,11 +145,11 @@ class Game(models.Model):
         if all(player.ready for player in self.players):
             self.left = await self.gameteam_set.afirst()
             self.right = await self.gameteam_set.alast()
+            print(f"Play with status: {self.status}")
+            if self.status == Status.LOBBY:
+                await self.reset()
             self.status = Status.PLAY
             await self.asave()
-            print(f"Play with status: {self.status}")
-            if self.status is Status.LOBBY:
-                await self.reset()
             await self.send({"type": "game_status", "status": self.status})
             task = asyncio.create_task(self.loop())
             self.background_tasks.add(task)
@@ -177,13 +177,13 @@ class Game(models.Model):
             await p.consumer.leave_game()
 
     async def reset(self):
-        # self.players[0].pos_x = 10
-        # self.players[1].pos_x = self.field["width"] - 10 - self.players[1].width
-        self.players[0].pos_x = self.field["width"] - 10 - self.players[0].width
+        self.players[0].pos_x = 10
+        self.players[1].pos_x = self.field["width"] - 10 - self.players[1].width
         for player in self.players:
             player.pos_y = self.field["height"] / 2 - player.height / 2
         self.ball.pos_x = self.field["width"] / 2
         self.ball.pos_y = self.field["height"] / 2
+        print("RESET")
         await self.sendUpdate()
 
     async def score(self, team, side):
