@@ -113,7 +113,6 @@ export function remote(game_id) {
 
 	socket.onmessage = function (event) {
 		const data = JSON.parse(event.data);
-		if (data.type == "game_score") console.log(data);
 		if (data.type == "game_ready") console.log(`Player ${data.player} is ready`);
 		else if (data.type == "game_status") updateStatus(data.status);
 		else if (data.type == "game_update") updateGame(data.state);

@@ -3,5 +3,5 @@ class Ball:
         self.radius = 12.5
         self.pos_x = x
         self.pos_y = y
-        self.speed_x = 1
+        self.speed_x = -1
         self.speed_y = 1

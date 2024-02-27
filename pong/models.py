@@ -143,11 +143,11 @@ class Game(models.Model):
 
     async def play(self):
         if all(player.ready for player in self.players):
+            self.left = await self.gameteam_set.afirst()
+            self.right = await self.gameteam_set.alast()
             self.status = Status.PLAY
             await self.asave()
             print(f"Play with status: {self.status}")
-            self.left = await self.gameteam_set.afirst()
-            self.right = await self.gameteam_set.alast()
             if self.status is Status.LOBBY:
                 await self.reset()
             await self.send({"type": "game_status", "status": self.status})
@@ -177,10 +177,11 @@ class Game(models.Model):
             await p.consumer.leave_game()
 
     async def reset(self):
-        self.players[0].pos_x = 10
-        self.players[1].pos_x = self.field["width"] - 10 - self.players[1].width
+        # self.players[0].pos_x = 10
+        # self.players[1].pos_x = self.field["width"] - 10 - self.players[1].width
+        self.players[0].pos_x = self.field["width"] - 10 - self.players[0].width
         for player in self.players:
-            player.pos_y = self.field["height"] / 2
+            player.pos_y = self.field["height"] / 2 - player.height / 2
         self.ball.pos_x = self.field["width"] / 2
         self.ball.pos_y = self.field["height"] / 2
         await self.sendUpdate()
@@ -199,7 +200,7 @@ class Game(models.Model):
             begin = time.time()
             await self.step()
             delta = begin - time.time()
-            sleep = max(5 - delta, 0)
+            sleep = max(2 - delta, 0)
             await asyncio.sleep(sleep / 1000)
         print(f"Status: {self.status}")
 
@@ -227,32 +228,24 @@ class Game(models.Model):
         ball_radius = self.ball.radius
         ball_pos_x = self.ball.pos_x
         ball_pos_y = self.ball.pos_y
-        # self.players = [
-        #     (
-        #         p.pos_y + p.speed_y,
-        #         max(0, min(p.pos_y + p.speed_y, height - p.height / 2)),
-        #     )
-        #     for p in self.players
-        # ]
         for p in self.players:
             p.pos_y += p.speed_y
-            p.pos_y = max(0, min(p.pos_y, height - p.height / 2))
+            p.pos_y = max(0, min(p.pos_y, height - p.height))
 
         # Check ball collision with players
         if any(
-            p.pos_y - p.height / 2 <= ball_pos_y <= p.pos_y + p.height / 2
-            and p.pos_x - p.width / 2 <= ball_pos_x <= p.pos_x + p.width / 2
+            p.pos_y <= ball_pos_y <= p.pos_y + p.height
+            and p.pos_x <= ball_pos_x <= p.pos_x + p.width
             for p in self.players
         ):
-            print(f"boing: {self.players[0 if ball_pos_x > 400 else 1].consumer.user.username}")
             self.ball.speed_x *= -1
 
         # Check ball collision with sides
         new_x = ball_pos_x + self.ball.speed_x
         if new_x <= ball_radius:
-            await self.score(left, 0)
-        elif new_x >= width - ball_radius:
             await self.score(right, 1)
+        elif new_x >= width - ball_radius:
+            await self.score(left, 0)
         else:
             self.ball.pos_x = new_x
 
