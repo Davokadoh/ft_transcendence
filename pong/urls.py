@@ -35,6 +35,7 @@ urlpatterns = [
     path("accounts/profil/settings/", views.UpdateUserSettingsView),
 	path("accounts/profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),
+    path("game/<int:gameId>/get-username/", views.get_usernames),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

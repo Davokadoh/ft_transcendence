@@ -1,4 +1,4 @@
-export function game() {
+export function game(gameId) {
 	let gameBoard;
 	let ctx;
 	let scoreText;
@@ -12,6 +12,8 @@ export function game() {
 	let ballYDirection;
 	let player1Score;
 	let player2Score;
+	let player1;
+	let player2;
 	let ballSpeed;
 	let paddleSpeed;
 	let paddle1Color;
@@ -48,6 +50,20 @@ export function game() {
 				// Gérer les erreurs survenues lors de la requête
 				console.error('Erreur lors de la requête AJAX :', error);
 			});
+
+		fetch(`/game/${gameId}/get-username/`)
+			.then(response => response.json())
+			.then(data => {
+				player1 = data.player1_username;
+				player2 = data.player2_username;
+				console.log(player1);
+				console.log(player2);
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
+
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
 		scoreText = document.getElementById("scoreText");

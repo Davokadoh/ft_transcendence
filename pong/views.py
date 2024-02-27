@@ -168,6 +168,11 @@ def lobby(request, gameId=None, invitedPlayer2=None):
             user = User.objects.get(username=username)
             if (user is None):
                     return JsonResponse({"error_message": "user not found"})
+            team2 = Team.objects.create()
+            team2.save()
+            team2.users.add(user)
+            gt = GameTeam(game=game, team=team2)
+            gt.save()
             return JsonResponse({"username": user.username})      
         except ObjectDoesNotExist:
             return JsonResponse({"error_message": "Missing valid player username"})
@@ -465,6 +470,18 @@ def getUserData(request):
     return JsonResponse(data)
 
 
+def get_usernames(request, gameId=None):
+    if gameId is None:
+        return JsonResponse({"error": "Invalid request"})
+    game = Game.objects.get(pk=gameId)
+    player1_username = game.teams.first().users.first().username
+    player2_username = game.teams.last().users.first().username
+    data = {
+        "player1_username": player1_username,
+        "player2_username": player2_username,
+    }
+    return JsonResponse(data)
+    
 @csrf_exempt
 def get_users(request):
     if request.method == "GET":
