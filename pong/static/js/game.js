@@ -275,6 +275,7 @@ export function game(gameId) {
 				} else {
 					winnerMessage += "It's a draw!";
 				}
+			}
 
 				document.getElementById("modalGame-message").textContent = winnerMessage;
 				document.getElementById("myModalGame").style.display = "block";
@@ -320,4 +321,3 @@ export function game(gameId) {
 		initializeGame();
 		updateScore();
 	}
-}
