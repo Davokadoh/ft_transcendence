@@ -66,6 +66,19 @@ export function game(gameId) {
 				console.error('Erreur lors de la requête AJAX :', error);
 			});
 
+		fetch(`/game/${gameId}/get-scores/`)
+			.then(response => response.json())
+			.then(data => {
+				player1Score = data.player1Score;
+				player2Score = data.player2Score;
+				console.log(player1Score);
+				console.log(player2Score);
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
+			
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
 		scoreText = document.getElementById("scoreText");
@@ -246,6 +259,11 @@ export function game(gameId) {
 	}
 
 	function endGame() {
+		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		if (!csrftoken) {
+			console.error('CSRF token not found');
+			return ;
+		}
 		if (player1Score >= 5 || player2Score >= 5) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
@@ -259,6 +277,28 @@ export function game(gameId) {
 
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
+			var data = {
+				player1Score: player1Score,
+				player2Score: player2Score
+			};
+			
+			fetch(`/game/${gameId}/get-scores/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify(data),
+            	})
+                .then(response => response.json())
+                .then(result => {
+                    console.log("score_end:", player1Score);
+                    console.log("score_end:", player2Score);
+                })
+                .catch(error => {
+                    console.error('Error Fetch request :', error);
+                });
 		}
 	}
 

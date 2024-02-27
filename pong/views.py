@@ -481,6 +481,18 @@ def get_usernames(request, gameId=None):
         "player2_username": player2_username,
     }
     return JsonResponse(data)
+
+def get_scores(request, gameId=None):
+    if gameId is None:
+        return JsonResponse({"error": "Invalid request"})
+    game = Game.objects.get(pk=gameId)
+    player1Score = game.gameteam_set.first().score
+    player2Score = game.gameteam_set.last().score
+    data = {
+        "player1Score": player1Score,
+        "player2Score": player2Score,
+    }
+    return JsonResponse(data)
     
 @csrf_exempt
 def get_users(request):
