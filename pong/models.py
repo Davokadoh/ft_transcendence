@@ -277,44 +277,80 @@ class Remote(models.Model):
     # balls = list[Ball]
     ball = Ball(field["width"] / 2, field["height"] / 2)
 
-
 class Tournament(models.Model):
-    # teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
-    # max_teams = models.PositiveIntegerField(null=True, blank=True)
-    status = "open"
+    teams = models.ManyToManyField(User, related_name="joined_tournaments", blank=True)
+    status = models.CharField(max_length=10, default="open")
+    max_teams = models.PositiveIntegerField(null=True, blank=True)
 
-    def register_team(self, team):
-        if self.status != "open":
-            raise Exception("Can't add team to tournament: registration is closed")
-        if self.teams.count() >= self.max_teams:
-            raise Exception("Can't add team to tournament: tournament is full")
-        self.teams.add(team)
+    def setup_matches(self, teams):
+        matches = []
+        for i in range(0, len(teams), 2):
+            match = Match(team1=teams[i], team2=teams[i + 1], tournament=self)
+            match.save()
+            matches.append(match)
+        return matches
 
-    def setup_games(self):
-        self.status = "closed"
-        games = [Game()]
-        num_teams = self.max_teams
-        while num_teams > 1:
-            round_games = [Game() for _ in range(num_teams // 2)]
-            games.append(round_games)
-            num_teams //= 2
-        return games
-
-    def start(self):
-        self.games = self.setup_games()
+    def start_tournament(self):
         teams = list(self.teams.all())
         random.shuffle(teams)
-        for i in range(0, len(teams), 2):
-            self.games[i // 2].add_teams(teams[i], teams[i + 1])
 
-    # @target(post_save, sender=Game)
-    # def listen_to_games(self, sender, instance, **kwargs):
-    #     if instance.status == "finished":
-    #         for round_games in self.games:
-    #             if instance in round_games:
-    #                 round_index = self.games.index(round_games)
-    #                 game_index = round_games.index(instance)
-    #                 if round_index < len(self.games) - 1:  # if not the final round
-    #                     next_game = self.games[round_index + 1][game_index // 2]
-    #                     next_game.add_team(instance.winner)
-    #                 break
+        matches = self.setup_matches(teams)
+
+        for match in matches:
+            match.play()
+
+    def playTournament(self):
+        # le player 1 joue contre le player 3 dans la teams 1
+        # le player 2 joue contre le player 4 dans la teams 2
+        # les gagnants de chaque teams jouent l'un contre l'autre
+        # Créer les équipes et mélanger les joueurs
+        teams = list(self.teams.all())
+        random.shuffle(teams)
+
+        # Créer les matchs initiaux
+        matches = self.setup_matches(teams)
+
+        # Récupérer les gagnants des matchs initiaux
+        winners = []
+        for match in matches:
+            winner = match.playMatch()
+            winners.append(winner)
+
+        # Créer le match final entre les gagnants
+        final_match = Match.objects.create(
+            tournament=self,
+            team1=winners[0],
+            team2=winners[1]
+        )
+        final_match.playMatch()
+    
+
+        
+
+
+class Match(models.Model):
+    tournament = models.ForeignKey(Tournament, related_name="matches", on_delete=models.CASCADE)
+    team1 = models.ForeignKey(User, related_name="team1_matches", on_delete=models.CASCADE)
+    team2 = models.ForeignKey(User, related_name="team2_matches", on_delete=models.CASCADE)
+    winner = models.ForeignKey(User, related_name="won_matches", null=True, blank=True, on_delete=models.CASCADE)
+    
+    def get_total_score(self):
+        # Obtenez la somme des scores de tous les utilisateurs dans l'équipe
+        total_score = sum(user.score for user in self.users.all())
+        return total_score
+    
+    def determine_winner(self):
+        if self.team1.get_total_score() > self.team2.get_total_score():
+            return self.team1.users.first()
+        else:
+            return self.team2.users.first()
+        
+    def playMatch(self):
+        # Simuler le jeu entre team1 et team2
+        # Déterminez le gagnant et mettez à jour le modèle Match
+        # Retournez l'utilisateur gagnant
+        winner = self.determine_winner()
+        self.winner = winner
+        self.save()
+        return winner
+

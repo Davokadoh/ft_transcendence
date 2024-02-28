@@ -307,7 +307,33 @@ def tournament(request, tournamentId=None):
             "tournamentId": tournamentId,
         },
     )
+@login_required
+def start_game(request, tournament_id, player_id):
+    # Logique pour récupérer les données initiales du jeu pour le joueur spécifié
+    # (par exemple, positions initiales des paddles, scores, etc.)
+    # ...
 
+    # Renvoie les données au format JSON
+    return JsonResponse({
+        'player1_username': player1.username,
+        'player2_username': player2.username,
+        'player3_username': player3.username,
+        'player4_username': player4.username,
+        'player1_score': player1.score,
+        'player2_score': player2.score,
+        'player3_score': player3.score,
+        'player4_score': player4.score,
+    })
+
+@login_required
+def end_game(request, tournament_id, player_id):
+    # Logique pour enregistrer les scores du joueur spécifié et déterminer si tous les joueurs ont terminé
+    # ...
+
+    # Renvoie une réponse au format JSON indiquant si tous les joueurs ont terminé
+    return JsonResponse({
+        'all_players_finished': all_players_finished,
+    })
 
 def logoutview(request):
     logout(request)
@@ -493,6 +519,66 @@ def get_scores(request, gameId=None):
         "player1Score": player1Score,
         "player2Score": player2Score,
     }
+    return JsonResponse(data)
+
+def get_fourUsernames(request, tournamentId=None):
+    if tournamentId is None:
+        return JsonResponse({"error": "Invalid request"})
+    
+    game = Game.objects.get(pk=tournamentId)
+    
+    # Récupérer les utilisateurs des équipes
+    team1_users = game.teams.first().users.all()
+    team2_users = game.teams.last().users.all()
+
+    # Assurez-vous qu'il y a au moins un utilisateur dans chaque équipe
+    if not team1_users or not team2_users:
+        return JsonResponse({"error": "Not enough users in teams"})
+
+    # Récupérer les noms d'utilisateur pour les joueurs
+    player1_username = team1_users.first().username
+    player2_username = team2_users.first().username
+
+    # Ajouter les deux joueurs supplémentaires si disponibles
+    player3_username = team1_users[1].username if len(team1_users) > 1 else None
+    player4_username = team2_users[1].username if len(team2_users) > 1 else None
+
+    data = {
+        "player1_username": player1_username,
+        "player2_username": player2_username,
+        "player3_username": player3_username,
+        "player4_username": player4_username,
+    }
+
+    return JsonResponse(data)
+
+def get_fourScores(request, tournamentId=None):
+    if tournamentId is None:
+        return JsonResponse({"error": "Invalid request"})
+    game = Game.objects.get(pk=tournamentId)
+    # Récupérer les scores des équipes
+    team1_scores = game.gameteam_set.filter(team__team_number=1).values_list('score', flat=True)
+    team2_scores = game.gameteam_set.filter(team__team_number=2).values_list('score', flat=True)
+
+    # Assurez-vous qu'il y a au moins un score dans chaque équipe
+    if not team1_scores or not team2_scores:
+        return JsonResponse({"error": "Not enough scores in teams"})
+
+    # Récupérer les scores pour les joueurs
+    player1Score = team1_scores[0]
+    player2Score = team2_scores[0]
+
+    # Ajouter les deux scores supplémentaires si disponibles
+    player3Score = team1_scores[1] if len(team1_scores) > 1 else None
+    player4Score = team2_scores[1] if len(team2_scores) > 1 else None
+
+    data = {
+        "player1Score": player1Score,
+        "player2Score": player2Score,
+        "player3Score": player3Score,
+        "player4Score": player4Score,
+    }
+
     return JsonResponse(data)
     
 @csrf_exempt

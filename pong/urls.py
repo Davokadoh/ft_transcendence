@@ -36,7 +36,9 @@ urlpatterns = [
 	path("accounts/profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),
     path("game/<int:gameId>/get-username/", views.get_usernames),
-    path("game/<int:gameId>/get-scores/", views.get_scores),
+    path("game/<int:gameId>/get-score/", views.get_scores),
+    path("tournament/<int:tournamentId>/get-fourUsernames/", views.get_fourUsernames),
+    path("game/<int:tournamentId>/get-fourScores/", views.get_fourScores),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
