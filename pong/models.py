@@ -110,7 +110,6 @@ Status = models.IntegerChoices("Status", "LOBBY PLAY PAUSE END")
 
 
 class Game(models.Model):
-    field = {"width": 800, "height": 600}
     teams = models.ManyToManyField(
         Team, through=GameTeam, through_fields=("game", "team")
     )
@@ -121,110 +120,19 @@ class Game(models.Model):
     max_pause_per_player = 1
     players = list[Player]
     # balls = list[Ball]
-    ball = Ball(field["width"] / 2, field["height"] / 2)
 
     # Match History
     start_time = models.DateTimeField(auto_now_add=True)
     style = models.CharField(max_length=100, default='not defined')
     opponent = models.CharField(max_length=255, null=True, default=None)
-    score = models.IntegerField(default=0)
-    result = models.CharField(max_length=10, default='not defined')
+    score = models.CharField(max_length=5, default="0 - 0")
+    # winner = models.CharField(max_length=10, default='not defined')
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
-    async def send(self, content):
-        await get_channel_layer().group_send("game_{}".format(self.pk), content)
 
-    def play(self):
-        if all(self.players.ready):
-            # await asyncio.sleep(3)
-            if self.status is Status.LOBBY:
-                self.start()
-            self.status = Status.PLAY
-            self.send({"type": "game_status", "status": self.status})
-            while self.status is Status.PLAY:
-                self.update
-
-    def start(self):
-        for player in self.players:
-            player.y = self.field["height"] / 2
-        self.ball.position = self.field["width"] / 2, self.field["height"] / 2
-
-    async def pause(self, src):
-        self.status = Status.PAUSE
-        await self.send({"type": "game_pause", "by_player": src.username})
-        # for player in self.players:
-        #     player.ready = False
-
-    def score(self, team):
-        team.score += 1
-        self.send({"type": "game_score", "status": self.score})
-        if team.score >= self.max_points:
-            self.status = Status.END
-            self.send({"type": "game_status", "status": self.status})
-        else:
-            self.ball.position = self.field["width"] / \
-                2, self.field["height"] / 2
-
-    def update(self):
-        # for item in self.players, self.balls:
-        #     item.update()
-
-        for p in self.players:
-            p.pos.y += p.speed.y
-            p.pos.y = max(0, min(p.pos.y, self.field["height"] - p.height / 2))
-
-        # Check ball collision with players
-        for player in self.players:
-            if (
-                player.pos.y - player.height / 2 <= self.ball.pos.y + self.ball.radius
-                and self.ball.pos.y - self.ball.radius
-                <= player.pos.y + player.height / 2
-                and player.pos.x - player.width / 2
-                <= self.ball.pos.x + self.ball.radius
-                and self.ball.pos.x - self.ball.radius
-                <= player.pos.x + player.width / 2
-            ):
-                self.ball.speed.x *= -1
-
-        # Check ball collision with sides
-        new_x = self.ball.pos.x + self.ball.speed.x
-        if new_x <= self.ball.radius:
-            self.score(self.left_team)
-        elif new_x >= self.field["width"] - self.ball.radius:
-            self.score(self.right_team)
-        else:
-            self.ball.pos.x = new_x
-
-        # Check ball collision with top and bot
-        new_y = self.ball.pos.y + self.ball.speed.y
-        if (
-            new_y <= self.ball.radius
-            or self.field["height"] - self.ball.radius <= new_y
-        ):
-            self.ball.speed.y *= -1
-        self.ball.pos.y += self.ball.speed.y
-
-        self.send(
-            {
-                "type": "game_state",
-                "state": {"ball": self.ball, "players": self.players},
-            }
-        )
-
-    # winners = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     related_name="games_won",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    # )
-    # losers = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     related_name="games_lost",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    # )
+    def __str__(self):
+        return f"Stats for {self.player.username}"
 
 
 # class Game(models.Model):

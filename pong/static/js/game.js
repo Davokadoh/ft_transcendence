@@ -264,60 +264,58 @@ export function game(gameId) {
 			console.error('CSRF token not found');
 			return;
 		}
-		if (player1Score >= 5 || player2Score >= 5) {
-			if (player1Score >= 5 || player2Score >= 5) {
-				stopGame();
-				let winnerMessage = "Game Over! ";
-				if (player1Score > player2Score) {
-					winnerMessage += player1 + " wins!";
-				} else if (player2Score > player1Score) {
-					winnerMessage += player2 + " wins!";
-				} else {
-					winnerMessage += "It's a draw!";
-				}
-			}
-
-				document.getElementById("modalGame-message").textContent = winnerMessage;
-				document.getElementById("myModalGame").style.display = "block";
-				var data = {
-					player1Score: player1Score,
-					player2Score: player2Score
-				};
-
-				fetch(`/game/${gameId}/get-scores/`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-Requested-With': 'XMLHttpRequest',
-						'X-CSRFToken': csrftoken,
-					},
-					body: JSON.stringify(data),
-				})
-					.then(response => response.json())
-					.then(result => {
-						console.log("score_end:", player1Score);
-						console.log("score_end:", player2Score);
-					})
-					.catch(error => {
-						console.error('Error Fetch request :', error);
-					});
-			}
-		}
-
-		document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
-
-		function toggleRules() {
-			var rulesContent = document.getElementById("rulesContent");
-			var closeButton = document.getElementById("closeRulesButton");
-			if (rulesContent.style.display === "none") {
-				rulesContent.style.display = "block";
-				closeButton.textContent = "✗";
+		if (player1Score >= 1 || player2Score >= 1) {
+			stopGame();
+			let winnerMessage = "Game Over! ";
+			if (player1Score > player2Score) {
+				winnerMessage += player1 + " wins!";
+			} else if (player2Score > player1Score) {
+				winnerMessage += player2 + " wins!";
 			} else {
-				rulesContent.style.display = "none";
-				closeButton.textContent = "-";
+				winnerMessage += "It's a draw!";
 			}
-		}
 
-		initializeGame();
-		updateScore();
+			document.getElementById("modalGame-message").textContent = winnerMessage;
+			document.getElementById("myModalGame").style.display = "block";
+			var data = {
+				player1Score: player1Score,
+				player2Score: player2Score
+			};
+
+			fetch(`/game/${gameId}/get-scores/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRFToken': csrftoken,
+				},
+				body: JSON.stringify(data),
+			})
+				.then(response => response.json())
+				.then(result => {
+					console.log("score_end:", player1Score);
+					console.log("score_end:", player2Score);
+				})
+				.catch(error => {
+					console.error('Error Fetch request :', error);
+				});
+		}
 	}
+
+	document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
+
+	function toggleRules() {
+		var rulesContent = document.getElementById("rulesContent");
+		var closeButton = document.getElementById("closeRulesButton");
+		if (rulesContent.style.display === "none") {
+			rulesContent.style.display = "block";
+			closeButton.textContent = "✗";
+		} else {
+			rulesContent.style.display = "none";
+			closeButton.textContent = "-";
+		}
+	}
+
+	initializeGame();
+	updateScore();
+}
