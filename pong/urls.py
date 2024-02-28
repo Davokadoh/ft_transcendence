@@ -1,4 +1,3 @@
-from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
@@ -7,7 +6,7 @@ from .views import create_fake_user
 
 urlpatterns = [
     path("", views.home),
-    path("favicon.ico", RedirectView.as_view(url=static("favicon.ico"))),
+    path("favicon.ico/", views.favicon),
     path("accounts/login/", views.loginview),
     path("accounts/callback/", views.callback),
     path("accounts/logout/", views.logoutview),
@@ -34,6 +33,8 @@ urlpatterns = [
     path("accounts/profil/settings/", views.UpdateUserSettingsView),
 	path("accounts/profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),
+    path("temp", views.temp),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

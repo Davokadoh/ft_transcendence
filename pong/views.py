@@ -1,6 +1,6 @@
-import json
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, logout
@@ -12,6 +12,8 @@ from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, User, Team, Game
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
+from django.conf import settings
+from pathlib import Path
 import requests
 import json
 import os
@@ -19,6 +21,12 @@ import os
 
 def index(request, page_name=None):
     return render(request, "index.html", page_name)
+
+@require_GET
+def favicon(request):
+    # file = (settings.STATIC_URL / "favicon" / "favicon.ico").open("rb")
+    file = Path("./static/img/favicon/favicon.ico").open("rb")
+    return FileResponse(file)
 
 
 @login_required
@@ -36,6 +44,10 @@ def play(request):
         request, "play.html", {"template": "ajax.html" if ajax else "index.html"}
     )
 
+def temp(request):
+    user_teams = Team.objects.filter(users=request.user)
+    games = Game.objects.filter(teams__in=user_teams)
+    return JsonResponse(list(games.values()), safe=False)
 
 @login_required
 def profil(request):

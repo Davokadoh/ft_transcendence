@@ -1,9 +1,15 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from asgiref.sync import sync_to_async
+from pong.engine import Engine
 from .models import Game, Message, User
 from pong.player import Player
 
+games = {}
+
 
 class Consumer(AsyncJsonWebsocketConsumer):
+    groups = ["all"]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = None
@@ -13,25 +19,22 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.user = self.scope["user"]
         if not self.user.is_authenticated:
+            await self.close()
             return
         self.user.online = True
         async for chat in User.objects.filter(chats=self.user):
             self.channel_layer.group_add(f"chat_{chat.pk}", self.channel_name)
             print(f"user {self.user.username} added to user {chat.pk}'s channel group")
         self.channel_layer.group_send(
-            "server", {"type": "connection", "user": self.user.username}
+            "all", {"type": "connection", "user": self.user.username}
         )
-        self.channel_layer.group_add("server", self.channel_name)
         await self.accept()
 
     async def disconnect(self, close_code):
         self.user.online = False
-        await self.channel_layer.group_discard("server", self.channel_name)
         self.channel_layer.group_send(
-            "server", {"type": "disconnection", "user": self.user.username}
+            "all", {"type": "disconnection", "user": self.user.username}
         )
-        async for chat in User.objects.filter(chats=self.user):
-            self.channel_layer.group_discard(f"chat_{chat.pk}", self.channel_name)
 
     async def receive_json(self, content):
         print(content)
@@ -52,16 +55,18 @@ class Consumer(AsyncJsonWebsocketConsumer):
             print(f"Unknown message type: {content['type']}")
 
     async def join_game(self, content):
-        self.game = await Game.objects.aget(pk=content.get("game_id"))
-        self.player = Player(self, 0, 0)
+        game_id = content.get("game_id")
+        if game_id not in games:
+            games[game_id] = await sync_to_async(Engine)(game_id)
+        self.game = games[game_id]
+        self.player = Player(self)
         self.game.players.append(self.player)
-        await self.channel_layer.group_add(
+        await self.channel_layer.group_add(f"game_{game_id}", self.channel_name)
+
+    async def leave_game(self):
+        await self.channel_layer.group_discard(
             f"game_{self.game.pk}", self.channel_name
         )
-    
-    async def leave_game(self):
-        await self.channel_layer.group_discard(f"game_{self.game.pk}", self.channel_name)
-
 
     async def receive_chat(self, content):
         target = "Davokadoh"  # content.get("chat")
