@@ -515,3 +515,10 @@ def get_users(request):
         return JsonResponse(context, safe=False)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
+    
+
+# FOR MATCH HISTORY
+def profil_view(request):
+    # Récupérer tous les matchs associés à l'utilisateur
+    matches = Game.objects.filter(teams__users=request.user)
+    return render(request, 'profil.html', {'matches': matches})

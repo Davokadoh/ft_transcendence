@@ -319,8 +319,28 @@
 				</div>
 
 				<div class="modal-body">
-					<!-- INFO CONCERNANT LES MATCH - CONTRE QUI ONT A JOUE LE PLUS SOUVENT PAR EXEMPLE -->
+					<div class="matchHistory text-center">
+						<div class="scrollable-container">
+							{% for match in matches %}
+							<div class="match-item">
+								<span class="match-info">{{ match.start_time }}</span>
+								<!-- Date du match -->
+								<span class="match-info">{{ match.style }}</span>
+								<!-- Style de jeu -->
+								<span class="match-info">{{ match.opponent }}</span>
+								<!-- Nom de l'adversaire -->
+								<span class="match-info">{{ match.score }}</span>
+								<!-- Score du match -->
+								<span class="match-info {% if match.result == 'WIN' %}win{% else %}lose{% endif %}">
+									{{ match.result }}
+								</span>
+								<!-- Résultat du match -->
+							</div>
+							{% endfor %}
+						</div>
+					</div>
 				</div>
+				
 
 				<div class="modal-footer">
 					<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"

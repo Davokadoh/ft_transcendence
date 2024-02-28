@@ -44,14 +44,17 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
-    chats = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
+    chats = models.ForeignKey(
+        "self", on_delete=models.SET_NULL, null=True, blank=True)
     USERNAME_FIELD = "username"
     friends = models.ManyToManyField("self")
 
     objects = UserManager()
 
-    paddleSpeed = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
-    ballSpeed = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
+    paddleSpeed = models.IntegerField(
+        default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    ballSpeed = models.IntegerField(
+        default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
     paddleColor = models.CharField(max_length=50, blank=True)
     ballColor = models.CharField(max_length=50, blank=True)
     backgroundColor = models.CharField(max_length=50, blank=True)
@@ -69,7 +72,7 @@ class User(AbstractBaseUser):
         if not self.nickname:
             self.nickname = self.username
         super().save(*args, **kwargs)
-    
+
 
 class Message(models.Model):
     sender = models.ForeignKey(
@@ -151,7 +154,8 @@ class Game(models.Model):
             self.status = Status.END
             self.send({"type": "game_status", "status": self.status})
         else:
-            self.ball.position = self.field["width"] / 2, self.field["height"] / 2
+            self.ball.position = self.field["width"] / \
+                2, self.field["height"] / 2
 
     def update(self):
         # for item in self.players, self.balls:
@@ -285,7 +289,8 @@ class Tournament(models.Model):
 
     def register_team(self, team):
         if self.status != "open":
-            raise Exception("Can't add team to tournament: registration is closed")
+            raise Exception(
+                "Can't add team to tournament: registration is closed")
         if self.teams.count() >= self.max_teams:
             raise Exception("Can't add team to tournament: tournament is full")
         self.teams.add(team)

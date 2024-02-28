@@ -818,3 +818,23 @@
 	filter: invert(1);
 	/* si actif et si pas actif en gris et flou */
 }
+
+/* MATCH HISTORY */
+
+.scrollable-container {
+    max-height: 200px; /* Ajuste la hauteur maximale a modifier si besoin */
+    overflow-y: auto; /* Ajoute une barre de défilement verticale si nécessaire */
+}
+
+.match-item {
+    display: flex; /* Affiche les éléments sur une seule ligne */
+    justify-content: space-between; /* Espace uniformément sur la ligne */
+    padding: 5px 0; /* Ajoute un peu d'espacement entre chaque élément */
+}
+
+.match-info {
+    flex: 1; /* Fait en sorte que chaque élément prenne autant d'espace que possible */
+    text-align: center; /* Centre le texte horizontalement dans chaque élément */
+	white-space: nowrap; 
+	/* empeche le retur a la ligne */
+}
