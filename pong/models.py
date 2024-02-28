@@ -114,7 +114,7 @@ class Game(models.Model):
     teams = models.ManyToManyField(
         Team, through=GameTeam, through_fields=("game", "team")
     )
-    start_time = models.DateTimeField(auto_now_add=True)
+    # start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     status = models.IntegerField(choices=Status, default=Status.LOBBY)
     max_points = 2
@@ -122,6 +122,14 @@ class Game(models.Model):
     players = list[Player]
     # balls = list[Ball]
     ball = Ball(field["width"] / 2, field["height"] / 2)
+
+    # Match History
+    start_time = models.DateTimeField(auto_now_add=True)
+    style = models.CharField(max_length=100, default='not defined')
+    opponent = models.CharField(max_length=255, null=True, default=None)
+    score = models.IntegerField(default=0)
+    result = models.CharField(max_length=10, default='not defined')
+
 
     async def send(self, content):
         await get_channel_layer().group_send("game_{}".format(self.pk), content)

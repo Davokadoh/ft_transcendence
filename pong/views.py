@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
+from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, User, Team, Game, Remote
@@ -28,7 +29,8 @@ def index(request, page_name=None):
 def home(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "home.html", {"template": "ajax.html" if ajax else "index.html"}
+        request, "home.html", {
+            "template": "ajax.html" if ajax else "index.html"}
     )
 
 
@@ -36,7 +38,8 @@ def home(request):
 def play(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "play.html", {"template": "ajax.html" if ajax else "index.html"}
+        request, "play.html", {
+            "template": "ajax.html" if ajax else "index.html"}
     )
 
 
@@ -60,9 +63,11 @@ def profil(request):
             "profil_picture_url": profil_picture_url,
             "profil_picture_form": profil_picture_form,
             "username_form": username_form,
+            "game_list": Game.objects.filter(players_contains=request.user),
             # "settings_form": settings_form,
         },
     )
+
 
 @login_required
 def user(request, username=None):
@@ -73,7 +78,7 @@ def user(request, username=None):
         return render(
             request, "error.html", {
                 "template": "ajax.html" if ajax else "index.html"}
-            )
+        )
 
     if user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
@@ -83,7 +88,7 @@ def user(request, username=None):
         profil_picture_url = "/static/img/profil/image-defaut.png"
 
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    
+
     context = {
         'messages': messages.get_messages(request),
         "template": "ajax.html" if ajax else "index.html",
@@ -126,7 +131,8 @@ def username(request):
 @login_required
 def profilPicture(request):
     if request.method == "POST":
-        form = ProfilPictureForm(request.POST, request.FILES, instance=request.user)
+        form = ProfilPictureForm(
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponse()
@@ -141,13 +147,26 @@ def chat(request):
         return render(request, "chat-tmp.html")
     else:
         return render(
-            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+            request, "chat.html", {
+                "template": "ajax.html" if ajax else "index.html"}
         )
+
 
 @login_required
 def lobby(request, gameId=None, invitedPlayer2=None):
     if gameId is None:
-        game = Game.objects.create()
+        game = Game.objects.create(
+            start_time=timezone.now(),  # Utilisez le module timezone pour obtenir l'heure actuelle
+            # Récupérez le style à partir des données POST
+            # style=request.POST.get('style', ''),
+            style="Quick Play",
+            # Récupérez l'opposant à partir des données POST
+            opponent=request.POST.get('player2', ''),
+            # Récupérez le score à partir des données POST, par défaut 0
+            score=request.POST.get('scoreText', 0),
+            # Récupérez le résultat à partir des données POST
+            result=request.POST.get('result', ''),
+        )
         team = Team.objects.create()
         team.save()
         team.users.add(request.user)
@@ -160,7 +179,8 @@ def lobby(request, gameId=None, invitedPlayer2=None):
         return render(
             request,
             "lobby.html",
-            {"template": "ajax.html" if ajax else "index.html", "gameId": gameId, "invitedPlayer2": invitedPlayer2},
+            {"template": "ajax.html" if ajax else "index.html",
+                "gameId": gameId, "invitedPlayer2": invitedPlayer2},
         )
     elif request.method == "POST":
         try:
@@ -168,13 +188,13 @@ def lobby(request, gameId=None, invitedPlayer2=None):
             username = data.get("username")
             user = User.objects.get(username=username)
             if (user is None):
-                    return JsonResponse({"error_message": "user not found"})
+                return JsonResponse({"error_message": "user not found"})
             team2 = Team.objects.create()
             team2.save()
             team2.users.add(user)
             gt = GameTeam(game=game, team=team2)
             gt.save()
-            return JsonResponse({"username": user.username})      
+            return JsonResponse({"username": user.username})
         except ObjectDoesNotExist:
             return JsonResponse({"error_message": "Missing valid player username"})
 
@@ -210,7 +230,8 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
         return render(
             request,
             "remLobby.html",
-            {"template": "ajax.html" if ajax else "index.html", "remoteId": remoteId, "invitedPlayer2": invitedPlayer2},
+            {"template": "ajax.html" if ajax else "index.html",
+                "remoteId": remoteId, "invitedPlayer2": invitedPlayer2},
         )
     elif request.method == "POST":
         try:
@@ -218,11 +239,10 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             username = data.get("username")
             user = User.objects.get(username=username)
             if (user is None):
-                    return JsonResponse({"error_message": "user not found"})
-            return JsonResponse({"username": user.username})      
+                return JsonResponse({"error_message": "user not found"})
+            return JsonResponse({"username": user.username})
         except ObjectDoesNotExist:
             return JsonResponse({"error_message": "Missing valid player username"})
-
 
 
 @login_required
@@ -241,6 +261,7 @@ def remote(request, remoteId=None):
             "remoteId": remoteId,
         },
     )
+
 
 @login_required
 def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=None, invitedPlayer4=None):
@@ -266,7 +287,7 @@ def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=No
             player2Username = data.get("p2Username")
             player3Username = data.get("p3Username")
             player4Username = data.get("p4Username")
-            
+
             player2 = User.objects.filter(username=player2Username).first()
             player3 = User.objects.filter(username=player3Username).first()
             player4 = User.objects.filter(username=player4Username).first()
@@ -295,7 +316,7 @@ def tournament(request, tournamentId=None):
         tournament = Tournament.objects.get(pk=tournamentId)
     except Tournament.DoesNotExist:
         raise Http404("Tournament does not exist")
-    
+
     # if tournament is None:
     #     return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
@@ -337,11 +358,13 @@ def loginview(request):
             return redirect("/home" if next is None else next)
         else:
             load_dotenv()
-            request.session['state'] = base64.b64encode(os.urandom(100)).decode('ascii')
+            request.session['state'] = base64.b64encode(
+                os.urandom(100)).decode('ascii')
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("OAUTH_URL"),
                 os.getenv("OAUTH_ID"),
-                requests.utils.quote("http://localhost:8000/accounts/callback/"),
+                requests.utils.quote(
+                    "http://localhost:8000/accounts/callback/"),
                 "public",
                 request.session['state'],  # state
             )
@@ -483,6 +506,7 @@ def get_usernames(request, gameId=None):
     }
     return JsonResponse(data)
 
+
 def get_scores(request, gameId=None):
     if gameId is None:
         return JsonResponse({"error": "Invalid request"})
@@ -494,7 +518,8 @@ def get_scores(request, gameId=None):
         "player2Score": player2Score,
     }
     return JsonResponse(data)
-    
+
+
 @csrf_exempt
 def get_users(request):
     if request.method == "GET":
@@ -515,7 +540,7 @@ def get_users(request):
         return JsonResponse(context, safe=False)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
-    
+
 
 # FOR MATCH HISTORY
 def profil_view(request):
