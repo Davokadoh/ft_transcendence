@@ -946,3 +946,12 @@
     --scrollbar-thumb-hover-color: grey; /* Nouvelle couleur de la barre de défilement lorsqu'elle est survolée hover*/
 }
 
+
+
+.WIN {
+    color: rgb(30, 211, 30);
+}
+
+.LOSE {
+    color: red;
+}
