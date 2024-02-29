@@ -197,36 +197,55 @@ class Remote(models.Model):
     # balls = list[Ball]
     ball = Ball(field["width"] / 2, field["height"] / 2)
 
-
 class Tournament(models.Model):
-    # teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
-    # max_teams = models.PositiveIntegerField(null=True, blank=True)
-    status = "open"
+    teams = models.ManyToManyField(
+            Team
+        )
+    # start_time = models.DateTimeField(auto_now_add=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    status = models.IntegerField(choices=Status, default=Status.LOBBY)
+    max_points = 2
+    max_pause_per_player = 1
+    players = list[Player]
+    # balls = list[Ball]
 
-    def register_team(self, team):
-        if self.status != "open":
-            raise Exception(
-                "Can't add team to tournament: registration is closed")
-        if self.teams.count() >= self.max_teams:
-            raise Exception("Can't add team to tournament: tournament is full")
-        self.teams.add(team)
+    # Match History
+    start_time = models.DateTimeField(auto_now_add=True)
+    style = models.CharField(max_length=100, default='not defined')
+    opponent = models.CharField(max_length=255, null=True, default=None)
+    score = models.CharField(max_length=5, default="0 - 0")
+    # winner = models.CharField(max_length=10, default='not defined')
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
-    def setup_games(self):
-        self.status = "closed"
-        games = [Game()]
-        num_teams = self.max_teams
-        while num_teams > 1:
-            round_games = [Game() for _ in range(num_teams // 2)]
-            games.append(round_games)
-            num_teams //= 2
-        return games
+# class Tournament(models.Model):
+#     teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
+#     max_teams = models.PositiveIntegerField(null=True, blank=True)
+#     status = "open"
 
-    def start(self):
-        self.games = self.setup_games()
-        teams = list(self.teams.all())
-        random.shuffle(teams)
-        for i in range(0, len(teams), 2):
-            self.games[i // 2].add_teams(teams[i], teams[i + 1])
+#     def register_team(self, team):
+#         if self.status != "open":
+#             raise Exception(
+#                 "Can't add team to tournament: registration is closed")
+#         if self.teams.count() >= self.max_teams:
+#             raise Exception("Can't add team to tournament: tournament is full")
+#         self.teams.add(team)
+
+#     def setup_games(self):
+#         self.status = "closed"
+#         games = [Game()]
+#         num_teams = self.max_teams
+#         while num_teams > 1:
+#             round_games = [Game() for _ in range(num_teams // 2)]
+#             games.append(round_games)
+#             num_teams //= 2
+#         return games
+
+#     def start(self):
+#         self.games = self.setup_games()
+#         teams = list(self.teams.all())
+#         random.shuffle(teams)
+#         for i in range(0, len(teams), 2):
+#             self.games[i // 2].add_teams(teams[i], teams[i + 1])
 
     # @target(post_save, sender=Game)
     # def listen_to_games(self, sender, instance, **kwargs):

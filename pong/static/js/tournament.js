@@ -12,8 +12,12 @@ export function tournament(tournamentId){
 	let ballYDirection;
 	let player1Score;
 	let player2Score;
+	// let player3Score;
+	// let player4Score;
 	let player1;
 	let player2;
+	// let player3;
+	// let player4;
 	let ballSpeed;
 	const boardBackground = "black";
 	const paddle1Color = "white";
@@ -33,6 +37,33 @@ export function tournament(tournamentId){
     };
 
 	function initializeGame() {
+		fetch(`/tournament/${tournamentId}/tour-get-username/`)
+			.then(response => response.json())
+			.then(data => {
+				player1 = data.player1_username;
+				player2 = data.player2_username;
+				console.log(player1);
+				console.log(player2);
+				document.getElementById('player1').textContent = player1;
+				document.getElementById('player2').textContent = player2;
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
+
+		fetch(`/tournament/${tournamentId}/tour-get-scores/`)
+			.then(response => response.json())
+			.then(data => {
+				player1Score = data.player1Score;
+				player2Score = data.player2Score;
+				console.log(player1Score);
+				console.log(player2Score);
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
 		scoreText = document.getElementById("scoreText");
@@ -63,23 +94,23 @@ export function tournament(tournamentId){
 	document.getElementById("stop-game").addEventListener("click", stopGame);
 	document.getElementById("reset-game").addEventListener("click", resetGame);
 
-	fetch(`/tournament/${tournamentId}/get-username/`)
-    .then(response => response.json())
-    .then(data => {
-        var player1 = data.player1_username;
-        var player2 = data.player2_username;
-        var player3 = data.player3_username; // Ajout de la récupération du nom du joueur 3
-        console.log(player1);
-        console.log(player2);
-        console.log(player3); // Affichage du nom du joueur 3 dans la console
-        document.getElementById('player1').textContent = player1;
-        document.getElementById('player2').textContent = player2;
-        document.getElementById('player3').textContent = player3; // Mise à jour du texte pour le joueur 3
-    })
-    .catch(error => {
-        // Gérer les erreurs survenues lors de la requête
-        console.error('Erreur lors de la requête AJAX :', error);
-    });
+	// fetch(`/tournament/${tournamentId}/get-username/`)
+    // .then(response => response.json())
+    // .then(data => {
+    //     var player1 = data.player1_username;
+    //     var player2 = data.player2_username;
+    //     var player3 = data.player3_username; // Ajout de la récupération du nom du joueur 3
+    //     console.log(player1);
+    //     console.log(player2);
+    //     console.log(player3); // Affichage du nom du joueur 3 dans la console
+    //     document.getElementById('player1').textContent = player1;
+    //     document.getElementById('player2').textContent = player2;
+    //     document.getElementById('player3').textContent = player3; // Mise à jour du texte pour le joueur 3
+    // })
+    // .catch(error => {
+    //     // Gérer les erreurs survenues lors de la requête
+    //     console.error('Erreur lors de la requête AJAX :', error);
+    // });
 
 	function draw() {
 		if (!gameRunning) {
@@ -230,7 +261,8 @@ export function tournament(tournamentId){
 	}
 
 	function endGame() {
-		if (player1Score >= 5 || player2Score >= 5) {
+		if (player1Score >= 1 || player2Score >= 1) { //pour les tests plus rapide
+			// if (player1Score >= 5 || player2Score >= 5) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
@@ -243,6 +275,28 @@ export function tournament(tournamentId){
 
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
+			var data = {
+				player1Score: player1Score,
+				player2Score: player2Score
+			};
+
+			fetch(`/tournament/${tournamentId}/tour-get-scores/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRFToken': csrftoken,
+				},
+				body: JSON.stringify(data),
+			})
+				.then(response => response.json())
+				.then(result => {
+					console.log("score_end:", player1Score);
+					console.log("score_end:", player2Score);
+				})
+				.catch(error => {
+					console.error('Error Fetch request :', error);
+				});
 		}
 	}
 

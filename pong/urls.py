@@ -37,6 +37,8 @@ urlpatterns = [
     path("users/list", views.get_users),
     path("game/<int:gameId>/get-username/", views.get_usernames),
     path("game/<int:gameId>/get-scores/", views.get_scores),
+    path("tournament/<int:tournamentId>/tour-get-username/", views.get_tour_usernames),
+    path("tournament/<int:tournamentId>/tour-get-scores/", views.get_tour_scores),
     path("accounts/profil/", views.profil_view, name="profil_view"),
 ]
 

@@ -524,11 +524,51 @@ def get_usernames(request, gameId=None):
     }
     return JsonResponse(data)
 
+def get_tour_usernames(request, tournamentId=None):
+    if tournamentId is None:
+        return JsonResponse({"error": "Invalid request"})
+    game = Tournament.objects.get(pk=tournamentId)
+    player1_username = game.teams.first().users.first().username
+    player2_username = game.teams.last().users.first().username
+    data = {
+        "player1_username": player1_username,
+        "player2_username": player2_username,
+    }
+    return JsonResponse(data)
 
 def get_scores(request, gameId=None):
     if gameId is None:
         return JsonResponse({"error": "Invalid request"})
     game = Game.objects.get(pk=gameId)
+    if request.method == "GET":
+        data = {
+            "player1Score": game.gameteam_set.first().score,
+            "player2Score": game.gameteam_set.first().score,
+        }
+        return JsonResponse(data)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        player1Score = data.get("player1Score")
+        player2Score = data.get("player2Score")
+        # print("PLAYER 1 ", player1Score)
+        # print("PLAYER 2 ", player2Score)
+        game.gameteam_set.first().score = player1Score
+        game.gameteam_set.last().score = player2Score
+        print(f"{game.teams.first().users.first().username}: {player1Score}")
+        print(f"{game.teams.last().users.first().username}: {player2Score}")
+        game.winner = game.teams.first().users.first() if player1Score > player2Score else game.teams.last().users.first()
+        # print(game.winner.username)
+        game.save()
+        data = {
+            "player1Score": game.gameteam_set.first().score,
+            "player2Score": game.gameteam_set.first().score,
+        }
+        return JsonResponse(data)
+    
+def get_tour_scores(request, tournamentId=None):
+    if tournamentId is None:
+        return JsonResponse({"error": "Invalid request"})
+    game = Tournament.objects.get(pk=tournamentId)
     if request.method == "GET":
         data = {
             "player1Score": game.gameteam_set.first().score,

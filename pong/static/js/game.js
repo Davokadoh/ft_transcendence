@@ -236,8 +236,6 @@ export function game(gameId) {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
 
-	// function 
-
 	function resetGame() {
 		initializeGame();
 		updateScore();
