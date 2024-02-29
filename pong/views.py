@@ -57,7 +57,7 @@ def profil(request):
     wins = games.filter(winner=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
-    matches = Game.objects.filter(teams__in=user_teams)
+    matches = Game.objects.filter(teams__in=user_teams).order_by('-start_time')
 
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.user.profil_picture:
@@ -176,11 +176,9 @@ def lobby(request, gameId=None, invitedPlayer2=None):
     if gameId is None:
         game = Game.objects.create(
             start_time=timezone.now(),
-            style="Quick Play",
-            # opponent=request.POST.get('player2', ''),
-            # opponent=invitedPlayer2,
-            opponent="invitedPlayer2",
-            score=request.POST.get('scoreText', 0),
+            style="Quick Play tamer",
+            opponent=request.POST.get('player2'),
+            score=request.POST.get('scoreText', 0 - 0),
         )
         team = Team.objects.create()
         team.save()
