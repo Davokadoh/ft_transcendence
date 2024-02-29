@@ -882,6 +882,7 @@
 .cadreTitreHist th:first-child {
 	border-top-left-radius: 10px;
 }
+
 .cadreTitreHist th:last-child {
 	border-top-right-radius: 10px;
 }
@@ -898,9 +899,50 @@
 	font-family: "Titan One", sans-serif;
 }
 
-.matchHistTable {
-}
+.matchHistTable {}
 
 .modal-lg-custom .modal-content {
 	width: 550px;
 }
+
+/* Redéfinition des couleurs par défaut pour la barre de defilement*/
+:root {
+    --scrollbar-track-color: var(--violet); /* Couleur de fond de la barre de défilement */
+    --scrollbar-thumb-color: var(--vert); /* Couleur de la barre de défilement */
+    --scrollbar-thumb-hover-color: var(--bleu); /* Couleur de la barre de défilement lorsqu'elle est survolée */
+}
+
+/* Barre de défilement principale */
+::-webkit-scrollbar {
+    width: 5px;
+    /* Largeur de la barre de défilement */
+}
+
+/* Barre de défilement track */
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+    /* Couleur de fond */
+}
+
+/* Barre de défilement thumb */
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-color);
+    /* Couleur de la barre de défilement */
+    border-radius: 5px;
+    /* Coins arrondis */
+}
+
+/* Barre de défilement thumb lorsqu'elle est survolée */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-color);
+    /* Couleur de la barre de défilement lorsqu'elle est survolée */
+}
+
+/* NIGHT MODE */
+/* Modification des couleurs pour le mode nuit */
+.night-mode {
+    --scrollbar-track-color: white; /* Nouvelle couleur de fond de la barre de défilement track*/
+    --scrollbar-thumb-color: rgb(59, 59, 59); /* Nouvelle couleur de la barre de défilement thumb*/
+    --scrollbar-thumb-hover-color: grey; /* Nouvelle couleur de la barre de défilement lorsqu'elle est survolée hover*/
+}
+
