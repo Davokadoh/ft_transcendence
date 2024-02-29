@@ -199,70 +199,6 @@ class Game(models.Model):
             }
         )
 
-    # winners = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     related_name="games_won",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    # )
-    # losers = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     related_name="games_lost",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    # )
-
-
-# class Game(models.Model):
-#     teams = models.ManyToManyField(Team)
-#     start_time = models.DateTimeField(auto_now_add=True)
-#     end_time = models.DateTimeField(null=True, blank=True)
-
-#     winners = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         related_name="games_won",
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#     )
-#     losers = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         related_name="games_lost",
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#     )
-
-#     def add_team(self):
-#         new_team = Team.objects.create()
-#         self.teams.add(new_team)
-
-#     def add_player(self, player_id):
-#         self.teams.first().add_player(player_id)
-
-#     @receiver(pre_delete, sender=Team)
-#     def pre_delete_team_in_game(sender, instance, created, **kwargs):
-#         games_list = Game.objects.filter(teams=None)
-#         for game in games_list:
-#             game.delete()
-
-# Class Game sur branche tournament :
-# class Game(models.Model):
-#     field = {"width": 800, "height": 600}
-#     teams = models.ManyToManyField(
-#         Team, through=GameTeam, through_fields=("game", "team")
-#     )
-#     start_time = models.DateTimeField(auto_now_add=True)
-#     end_time = models.DateTimeField(null=True, blank=True)
-#     status = models.IntegerField(choices=Status, default=Status.LOBBY)
-#     max_points = 2
-#     max_pause_per_player = 1
-#     players = list[Player]
-#     # balls = list[Ball]
-#     ball = Ball(field["width"] / 2, field["height"] / 2)
-
 class Remote(models.Model):
     field = {"width": 800, "height": 600}
     # teams = models.ManyToManyField(
@@ -281,6 +217,7 @@ class Tournament(models.Model):
     teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
     max_teams = models.PositiveIntegerField()
     status = "open"
+    winner = models.ForeignKey(related_name="winner", null=True, blank=True)
 
     def register_team(self, team):
         if self.status != "open":
@@ -306,14 +243,27 @@ class Tournament(models.Model):
         for i in range(0, len(teams), 2):
             self.games[i // 2].add_teams(teams[i], teams[i + 1])
 
-    current_match_index = models.PositiveIntegerField(default=0)
-    current_players = models.ManyToManyField(Team, related_name="current_match_players", blank=True)
-    scores = models.TextField(blank=True)
 
-    def start_match(self):
+    def start_tour(tournament):
+        tournament.status = "in progress"
+        tournament.start_time = timezone.now()
+        tournament.save()
+        setup_games()
+
+    def round_matches(tournament, winner, round_number):
+        next_round_game = Match.objects.filter(
+            tournament=tournament, round_number=round_number + 1
+        )
+        if next_round_game.exists():
+            print("Matches for the next round have already been created.")
+            return
         
-        pass
+        if round_number == 1:
+            teams = winner
 
-    def end_match(self, scores):
-        # Logic to end a match, record scores, progress to the next match, etc.
-        pass
+        elif round_number == 3:
+            print("Tournament is finished")
+            tournament.status = "finished"
+            tournament.end_time = timezone.now()
+
+
