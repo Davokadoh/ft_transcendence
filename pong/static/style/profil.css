@@ -1,6 +1,6 @@
 /* pour enlever les boutons moches du formulaire */
 #id_profil_picture.form-control.form-control-sm {
-    display: none !important;
+	display: none !important;
 }
 
 #profil-picture-input {
@@ -14,36 +14,55 @@
 }
 
 .sepLigne {
-    border: none; /* Supprime la bordure par défaut */
-    height: 3px; /* Épaisseur de la ligne */
-    background-color: white; /* Couleur de fond de la ligne */
-    margin: 20px auto; /* Marge top et bottom et auto pour aligner au centre */
-    border-radius: 5px; /* Bords arrondis */
-	opacity: 0.8; /* Opacité complète a 1*/
-    position: relative; /* Position relative pour les animations */
-    animation: changeColor 20s infinite; /* Animation de changement de couleur */
+	border: none;
+	/* Supprime la bordure par défaut */
+	height: 3px;
+	/* Épaisseur de la ligne */
+	background-color: white;
+	/* Couleur de fond de la ligne */
+	margin: 20px auto;
+	/* Marge top et bottom et auto pour aligner au centre */
+	border-radius: 5px;
+	/* Bords arrondis */
+	opacity: 0.8;
+	/* Opacité complète a 1*/
+	position: relative;
+	/* Position relative pour les animations */
+	animation: changeColor 20s infinite;
+	/* Animation de changement de couleur */
 }
 
 /* Animation de changement de couleur */
 @keyframes changeColor {
-    0% {
-        background-color: white; /* Début: blanc */
-    }
-    25% {
-        background-color: var(--violet); /* Violet après 5 secondes */
-    }
-    50% {
-        background-color: var(--bleu); /* Vert après 10 secondes */
-    }
-    75% {
-		background-color: black; /* Bleu après 20 secondes */
-    }
-    95% {
-		background-color: var(--violet); /* Noir après 15 secondes */
-    }
-    100% {
-        background-color: white; /* Bleu après 20 secondes */
-    }
+	0% {
+		background-color: white;
+		/* Début: blanc */
+	}
+
+	25% {
+		background-color: var(--violet);
+		/* Violet après 5 secondes */
+	}
+
+	50% {
+		background-color: var(--bleu);
+		/* Vert après 10 secondes */
+	}
+
+	75% {
+		background-color: black;
+		/* Bleu après 20 secondes */
+	}
+
+	95% {
+		background-color: var(--violet);
+		/* Noir après 15 secondes */
+	}
+
+	100% {
+		background-color: white;
+		/* Bleu après 20 secondes */
+	}
 }
 
 .night-mode .sepLigne {
@@ -197,7 +216,7 @@
 	color: #9016B2;
 	margin: 5% 0;
 	overflow: auto;
-    overflow-y: hidden;
+	overflow-y: hidden;
 }
 
 .container-profil button {
@@ -817,4 +836,30 @@
 	margin-left: 15px;
 	filter: invert(1);
 	/* si actif et si pas actif en gris et flou */
+}
+
+/* MATCH HISTORY */
+.scrollable-container {
+	max-height: 200px;
+	/* Ajuste la hauteur maximale a modifier si besoin */
+	overflow-y: auto;
+	/* Ajoute une barre de défilement verticale si nécessaire */
+}
+
+.match-item {
+	display: flex;
+	/* Affiche les éléments sur une seule ligne */
+	justify-content: space-between;
+	/* Espace uniformément sur la ligne */
+	padding: 5px 0;
+	/* Ajoute un peu d'espacement entre chaque élément */
+}
+
+.match-info {
+	flex: 1;
+	/* Fait en sorte que chaque élément prenne autant d'espace que possible */
+	text-align: center;
+	/* Centre le texte horizontalement dans chaque élément */
+	white-space: nowrap;
+	/* empeche le retur a la ligne */
 }
