@@ -76,9 +76,9 @@ def user(request, username=None):
             )
 
     if user.profil_picture:
-        profil_picture_url = request.user.profil_picture.url
+        profil_picture_url = user.profil_picture.url
     elif user.profil_picture_oauth:
-        profil_picture_url = request.user.profil_picture_oauth
+        profil_picture_url = user.profil_picture_oauth
     else:
         profil_picture_url = "/static/img/profil/image-defaut.png"
 
@@ -291,13 +291,14 @@ def tournament(request, tournamentId=None):
     if tournamentId is None:
         return redirect(home)
 
-    try:
-        tournament = Tournament.objects.get(pk=tournamentId)
-    except Tournament.DoesNotExist:
-        raise Http404("Tournament does not exist")
-    
-    # if tournament is None:
-    #     return redirect(home)
+    tournament = Tournament.objects.get(pk=tournamentId)
+    if tournament is None:
+        return redirect(home)
+
+    # Check if the tournament has started, if not, start it
+    if tournament.status == "open":
+        tournament.start()
+
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request,
@@ -305,36 +306,10 @@ def tournament(request, tournamentId=None):
         {
             "template": "ajax.html" if ajax else "index.html",
             "tournamentId": tournamentId,
+            "current_players": tournament.current_players.all(),
+            "current_match_index": tournament.current_match_index,
         },
     )
-
-@login_required
-def start_tour(request, tournamentId, playerId):
-    # Logique pour récupérer les données initiales du jeu pour le joueur spécifié
-    # (par exemple, positions initiales des paddles, scores, etc.)
-    # ...
-
-    # Renvoie les données au format JSON
-    return JsonResponse({
-        'player1_username': player1.username,
-        'player2_username': player2.username,
-        'player3_username': player3.username,
-        'player4_username': player4.username,
-        'player1_score': player1.score,
-        'player2_score': player2.score,
-        'player3_score': player3.score,
-        'player4_score': player4.score,
-    })
-
-@login_required
-def end_game(request, tournamentId, playerId):
-    # Logique pour enregistrer les scores du joueur spécifié et déterminer si tous les joueurs ont terminé
-    # ...
-
-    # Renvoie une réponse au format JSON indiquant si tous les joueurs ont terminé
-    return JsonResponse({
-        'all_players_finished': all_players_finished,
-    })
 
 def logoutview(request):
     logout(request)
@@ -514,13 +489,30 @@ def get_scores(request, gameId=None):
     if gameId is None:
         return JsonResponse({"error": "Invalid request"})
     game = Game.objects.get(pk=gameId)
-    player1Score = game.gameteam_set.first().score
-    player2Score = game.gameteam_set.last().score
-    data = {
-        "player1Score": player1Score,
-        "player2Score": player2Score,
-    }
-    return JsonResponse(data)
+    if request.method == "GET":
+        data = {
+            "player1Score": game.gameteam_set.first().score,
+            "player2Score": game.gameteam_set.first().score,
+        }
+        return JsonResponse(data)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        player1Score = data.get("player1Score")
+        player2Score = data.get("player2Score")
+        print("PLAYER 1 ", player1Score)
+        print("PLAYER 2 ", player2Score)
+        game.gameteam_set.first().score = player1Score
+        game.gameteam_set.last().score = player2Score
+        print(f"{game.teams.first().users.first().username}: {player1Score}")
+        print(f"{game.teams.last().users.first().username}: {player2Score}")
+        game.winner = game.teams.first().users.first() if player1Score > player2Score else game.teams.last().users.first()
+        # print(game.winner.username)
+        game.save()
+        data = {
+            "player1Score": game.gameteam_set.first().score,
+            "player2Score": game.gameteam_set.first().score,
+        }
+        return JsonResponse(data)
 
 def get_fourUsernames(request, tournamentId=None):
     if tournamentId is None:

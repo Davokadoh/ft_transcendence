@@ -254,17 +254,34 @@ export function tournament(tournamentId){
 		updateScore();
 	}
 
-	function startGame(playerId) {
+	async function startGame() {
 		if (!gameRunning) {
 			gameRunning = true;
-			currentPlayerId = playerId;
-			createBall();
-			document.getElementById("gameBoard").focus(); // Donner le focus au canevas
-			draw();
-			document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-			document.getElementById("gameBoard").addEventListener("keyup", changeDirection);
-		}
-	}
+			// Check if there are still matches to be played
+            if (tournamentStatus !== "closed") {
+                await fetch(`/start-match/${tournamentId}/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken"),
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                // Fetch new match information
+                const response = await fetch(`/get-match/${tournamentId}/`);
+                const matchData = await response.json();
+
+                // Update UI with new match data (player names, scores, etc.)
+                updateMatchUI(matchData);
+                createBall();
+                document.getElementById("gameBoard").focus(); // Donner le focus au canevas
+                draw();
+                document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
+                document.getElementById("gameBoard").addEventListener("keyup", changeDirection);
+		    }
+	    }
+    }
 
 	function stopGame() {
 		gameRunning = false;
@@ -291,7 +308,7 @@ export function tournament(tournamentId){
 				player4Score: player4Score
 			};
 
-			fetch(`/game/${gameId}/get-scores/`, {
+			fetch(`/tournament/${tournamentId}/get-scores/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
