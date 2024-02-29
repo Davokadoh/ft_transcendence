@@ -325,8 +325,6 @@ class Tournament(models.Model):
         final_match.playMatch()
     
 
-        
-
 
 class Match(models.Model):
     tournament = models.ForeignKey(Tournament, related_name="matches", on_delete=models.CASCADE)

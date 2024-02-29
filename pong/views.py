@@ -307,8 +307,9 @@ def tournament(request, tournamentId=None):
             "tournamentId": tournamentId,
         },
     )
+
 @login_required
-def start_game(request, tournament_id, player_id):
+def start_tour(request, tournamentId, playerId):
     # Logique pour récupérer les données initiales du jeu pour le joueur spécifié
     # (par exemple, positions initiales des paddles, scores, etc.)
     # ...
@@ -326,7 +327,7 @@ def start_game(request, tournament_id, player_id):
     })
 
 @login_required
-def end_game(request, tournament_id, player_id):
+def end_game(request, tournamentId, playerId):
     # Logique pour enregistrer les scores du joueur spécifié et déterminer si tous les joueurs ont terminé
     # ...
 
