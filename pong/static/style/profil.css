@@ -843,7 +843,7 @@
 	max-height: 200px;
 	overflow-y: auto;
 	/* Ajoute la barre de défilement verticale */
-	overflow-x: auto;
+	overflow-x: hidden;
 	/* Supprime la barre horizontal */
 }
 
