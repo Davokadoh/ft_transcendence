@@ -85,10 +85,10 @@
   overflow: auto;
 }
 
-.modalCenter {
+/* .modalCenter {
   top: 30%;
   transform: translate(-10%) !important;
-}
+} */
 
 .close {
   color: #aaa;
