@@ -100,9 +100,9 @@ def user(request, username=None):
         )
 
     if user.profil_picture:
-        profil_picture_url = request.user.profil_picture.url
+        profil_picture_url = user.profil_picture.url
     elif user.profil_picture_oauth:
-        profil_picture_url = request.user.profil_picture_oauth
+        profil_picture_url = user.profil_picture_oauth
     else:
         profil_picture_url = "/static/img/profil/image-defaut.png"
 
