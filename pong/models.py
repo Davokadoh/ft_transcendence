@@ -217,7 +217,7 @@ class Tournament(models.Model):
     teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
     max_teams = models.PositiveIntegerField()
     status = "open"
-    winner = models.ForeignKey(related_name="winner", null=True, blank=True)
+    # winner = models.ForeignKey(related_name="winner", null=True, blank=True)
 
     def register_team(self, team):
         if self.status != "open":
