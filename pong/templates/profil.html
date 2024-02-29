@@ -321,22 +321,39 @@
 				<div class="modal-body">
 					<div class="matchHistory text-center">
 						<div class="scrollable-container">
-							{% for match in matches %}
-							<div class="match-item">
-								<span class="match-info">{{ match.start_time }}</span>
-								<!-- Date du match -->
-								<span class="match-info">{{ match.style }}</span>
-								<!-- Style de jeu -->
-								<span class="match-info">{{ match.opponent }}</span>
-								<!-- Nom de l'adversaire -->
-								<span class="match-info">{{ match.score }}</span>
-								<!-- Score du match -->
-								<span class="match-info {% if match.result == 'WIN' %}win{% else %}lose{% endif %}">
-									{{ match.result }}
-								</span>
-								<!-- Résultat du match -->
-							</div>
-							{% endfor %}
+							<table class="table">
+								<thead>
+									<tr class="cadreTitreHist" >
+										<th class="titreHist">Date</th>
+										<th class="titreHist">Game</th>
+										<th class="titreHist">Opponent</th>
+										<th class="titreHist">Score</th>
+										<th class="titreHist">Result</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for match in matches %}
+									<tr>
+										<!-- <div class="match-item"> -->
+											<td class="match-info tabHistory">{{ match.start_time|date }}</td>
+											<!-- Date du match -->
+											<td class="match-info tabHistory">{{ match.style }}</td>
+											<!-- Style de jeu -->
+											<td class="match-info tabHistory">{{ match.opponent }}</td>
+											<!-- Nom de l'adversaire -->
+											<td class="match-info tabHistory">{{ match.score }}</td>
+											<!-- Score du match -->
+											<td class="match-info tabHistory {% if match.result == 'win' %}WIN{% else %}LOSE{% endif %}">
+												{{ match.result }}
+											</td>
+											<!-- Résultat du match -->
+										<!-- </div> -->
+									</tr>
+									{% endfor %}
+
+								</tbody>
+							</table>
+
 						</div>
 					</div>
 				</div>

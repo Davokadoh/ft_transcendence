@@ -863,3 +863,27 @@
 	white-space: nowrap;
 	/* empeche le retur a la ligne */
 }
+
+.tabHistory {
+	background-color: transparent !important;
+	color: #fff !important;
+
+}
+
+/* .cadreTitreHist {
+	border-top-left-radius: 10px !important;
+	border-top-right-radius: 10px;
+} */
+
+.cadreTitreHist th:first-child {
+	border-top-left-radius: 10px;
+}
+.cadreTitreHist th:last-child {
+	border-top-right-radius: 10px;
+}
+
+.titreHist {
+	background-color: #fff;
+	color: #9016B2 !important;
+	font-family: "Titan One", sans-serif;
+}
