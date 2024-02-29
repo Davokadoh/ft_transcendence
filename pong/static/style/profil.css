@@ -868,6 +868,7 @@
 .tabHistory {
 	background-color: transparent !important;
 	color: #fff !important;
+	width: fit-content;
 }
 
 .cadreTitreHist {
@@ -895,4 +896,11 @@
 	background-color: #fff;
 	color: black !important;
 	font-family: "Titan One", sans-serif;
+}
+
+.matchHistTable {
+}
+
+.modal-lg-custom .modal-content {
+	width: 550px;
 }

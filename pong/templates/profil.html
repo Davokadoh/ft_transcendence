@@ -207,8 +207,8 @@
 								aria-controls="rank" aria-selected="true">Rank</a>
 						</li> -->
 						<li class="nav-item" role="presentation">
-							<a class="nav-link modNav active" id="match-tab" data-bs-toggle="tab" href="#match" role="tab"
-								aria-controls="match" aria-selected="false">Match Played</a>
+							<a class="nav-link modNav active" id="match-tab" data-bs-toggle="tab" href="#match"
+								role="tab" aria-controls="match" aria-selected="false">Match Played</a>
 						</li>
 						<li class="nav-item" role="presentation">
 							<a class="nav-link modNav" id="win-tab" data-bs-toggle="tab" href="#win" role="tab"
@@ -223,10 +223,11 @@
 					<!-- Contenu des onglets -->
 					<div class="tab-content">
 						<!-- <div class="tab-pane fade show active tabCust" id="rank" role="tabpanel" -->
-							<!-- aria-labelledby="rank-tab"> -->
-							<!-- 6/10 (rang par rapport aux amis) -->
+						<!-- aria-labelledby="rank-tab"> -->
+						<!-- 6/10 (rang par rapport aux amis) -->
 						<!-- </div> -->
-						<div class="tab-pane fade tabCust show active" id="match" role="tabpanel" aria-labelledby="match-tab">
+						<div class="tab-pane fade tabCust show active" id="match" role="tabpanel"
+							aria-labelledby="match-tab">
 							{{ matches_played }} <!-- (Nbr de match) -->
 						</div>
 						<div class="tab-pane fade tabCust" id="win" role="tabpanel" aria-labelledby="win-tab">
@@ -310,7 +311,7 @@
 	<!-- Modal Bootstrap MATCH FG -->
 	<div class="modal fade overlay" data-bs-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
 		aria-labelledby="matchModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-lg-custom" role="document">
 			<div class="modal-content custom-modal nightModalMod">
 				<div class="modal-header">
 					<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
@@ -321,9 +322,9 @@
 				<div class="modal-body">
 					<div class="matchHistory text-center">
 						<div class="scrollable-container">
-							<table class="table">
+							<table class="table matchHistTable">
 								<thead>
-									<tr class="cadreTitreHist" >
+									<tr class="cadreTitreHist">
 										<th class="titreHist">Date</th>
 										<th class="titreHist">Game</th>
 										<th class="titreHist">Opponent</th>
@@ -335,29 +336,28 @@
 									{% for match in matches %}
 									<tr>
 										<!-- <div class="match-item"> -->
-											<td class="match-info tabHistory">{{ match.start_time|date }}</td>
-											<!-- Date du match -->
-											<td class="match-info tabHistory">{{ match.style }}</td>
-											<!-- Style de jeu -->
-											<td class="match-info tabHistory">{{ match.opponent }}</td>
-											<!-- Nom de l'adversaire -->
-											<td class="match-info tabHistory">{{ match.score }}</td>
-											<!-- Score du match -->
-											<td class="match-info tabHistory {% if match.result == 'win' %}WIN{% else %}LOSE{% endif %}">
-												{{ match.result }}
-											</td>
-											<!-- Résultat du match -->
+										<td class="match-info tabHistory">{{ match.start_time|date }}</td>
+										<!-- Date du match -->
+										<td class="match-info tabHistory">{{ match.style }}</td>
+										<!-- Style de jeu -->
+										<td class="match-info tabHistory">{{ match.opponent }}</td>
+										<!-- Nom de l'adversaire -->
+										<td class="match-info tabHistory">{{ match.score }}</td>
+										<!-- Score du match -->
+										<td
+											class="match-info tabHistory {% if match.result == 'win' %}WIN{% else %}LOSE{% endif %}">
+											{{ match.result }}
+										</td>
+										<!-- Résultat du match -->
 										<!-- </div> -->
 									</tr>
 									{% endfor %}
-
 								</tbody>
 							</table>
-
 						</div>
 					</div>
 				</div>
-				
+
 
 				<div class="modal-footer">
 					<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"

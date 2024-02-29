@@ -178,7 +178,8 @@ def lobby(request, gameId=None, invitedPlayer2=None):
             start_time=timezone.now(),
             style="Quick Play",
             # opponent=request.POST.get('player2', ''),
-            opponent=invitedPlayer2,
+            # opponent=invitedPlayer2,
+            opponent="invitedPlayer2",
             score=request.POST.get('scoreText', 0),
         )
         team = Team.objects.create()
