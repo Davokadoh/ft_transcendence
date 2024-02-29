@@ -264,18 +264,18 @@ export function game(gameId) {
 			console.error('CSRF token not found');
 			return;
 		}
-		if (player1Score >= 5 || player2Score >= 5) {
-			if (player1Score >= 5 || player2Score >= 5) {
-				stopGame();
-				let winnerMessage = "Game Over! ";
-				if (player1Score > player2Score) {
-					winnerMessage += player1 + " wins!";
-				} else if (player2Score > player1Score) {
-					winnerMessage += player2 + " wins!";
-				} else {
-					winnerMessage += "It's a draw!";
-				}
+		if (player1Score >= 1 || player2Score >= 1) { //pour les tests plus rapide
+		// if (player1Score >= 5 || player2Score >= 5) {
+			stopGame();
+			let winnerMessage = "Game Over! ";
+			if (player1Score > player2Score) {
+				winnerMessage += player1 + " wins!";
+			} else if (player2Score > player1Score) {
+				winnerMessage += player2 + " wins!";
+			} else {
+				winnerMessage += "It's a draw!";
 			}
+
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
 			var data = {
