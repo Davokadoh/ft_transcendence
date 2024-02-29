@@ -120,7 +120,10 @@ export function profil() {
 			let defaultUsername = data.username;
 
 			if (savedUsername && !usernameInput.classList.contains('username-updated')) usernameInput.value = savedUsername;
-			else if (defaultUsername) usernameInput.value = defaultUsername;
+			// else if (defaultUsername) usernameInput.value = defaultUsername; // erreur dans la console traiter par creyt
+			else if (defaultUsername && usernameInput) {
+				usernameInput.value = defaultUsername;
+			}
 
 			// if (savedImage) profileImage.src = savedImage;
 		});
