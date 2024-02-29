@@ -52,12 +52,25 @@ def profil(request):
     # Calcul des statistiques du joueur
     user_teams = Team.objects.filter(users=request.user)
     games = Game.objects.filter(teams__in=user_teams)
+
     matches_played = games.count()
     # wins = games.filter(result='win').count()
     wins = games.filter(winner=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
-    matches = Game.objects.filter(teams__in=user_teams)
+    matches = Game.objects.filter(teams__in=user_teams).order_by('-start_time')
+    # opponent_games = Game.objects.filter(opponent=request.user)
+    opponent = User.objects.filter(username='player2').first()
+
+    # Pour le champs Result du Match History
+    for game in games:
+        if game.winner == request.user:
+            game.result = 'WIN'
+            # game.color = 'green'
+        else:
+            game.result = 'LOSE'
+            # game.color = 'red'
+        game.save()
 
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.user.profil_picture:
@@ -78,15 +91,12 @@ def profil(request):
             "wins": wins,
             "win_ratio": win_ratio,
             "matches": matches,
+            "opponent": opponent,
             # "game_list": Game.objects.filter(players_contains=request.user),
             # "settings_form": settings_form,
         },
     )
 
-def temp(request):
-    user_teams = Team.objects.filter(users=request.user)
-    games = Game.objects.filter(teams__in=user_teams)
-    return JsonResponse(list(games.values()), safe=False)
 
 @login_required
 def user(request, username=None):
@@ -175,15 +185,11 @@ def chat(request):
 def lobby(request, gameId=None, invitedPlayer2=None):
     if gameId is None:
         game = Game.objects.create(
-            start_time=timezone.now(),  # Utilisez le module timezone pour obtenir l'heure actuelle
-            # Récupérez le style à partir des données POST
-            # style=request.POST.get('style', ''),
+            start_time=timezone.now(),
             style="Quick Play",
-            # Récupérez l'opposant à partir des données POST
-            opponent=request.POST.get('player2', ''),
-            # Récupérez le score à partir des données POST, par défaut 0
-            score=request.POST.get('scoreText', 0),
-            # Récupérez le résultat à partir des données POST
+            opponent=request.POST.get('player2'),
+            score=request.POST.get('scoreText', ''),
+            # score=request.POST.get('scoreText', 0),
         )
         team = Team.objects.create()
         team.save()
@@ -235,7 +241,12 @@ def game(request, gameId=None):
 @login_required
 def remLobby(request, remoteId=None, invitedPlayer2=None):
     if remoteId is None:
-        game = Game.objects.create()
+        game = Game.objects.create(
+            start_time=timezone.now(),
+            style="Remote Play",
+            opponent=request.POST.get('player2', ''),
+            score=request.POST.get('scoreText', 0),
+        )
         team = Team.objects.create()
         team.save()
         team.users.add(request.user)
@@ -545,7 +556,8 @@ def get_scores(request, gameId=None):
         game.gameteam_set.last().score = player2Score
         print(f"{game.teams.first().users.first().username}: {player1Score}")
         print(f"{game.teams.last().users.first().username}: {player2Score}")
-        game.winner = game.teams.first().users.first() if player1Score > player2Score else game.teams.last().users.first()
+        game.winner = game.teams.first().users.first(
+        ) if player1Score > player2Score else game.teams.last().users.first()
         # print(game.winner.username)
         game.save()
         data = {
