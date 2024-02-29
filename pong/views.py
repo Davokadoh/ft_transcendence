@@ -539,8 +539,8 @@ def get_scores(request, gameId=None):
         data = json.loads(request.body)
         player1Score = data.get("player1Score")
         player2Score = data.get("player2Score")
-        print("PLAYER 1 ", player1Score)
-        print("PLAYER 2 ", player2Score)
+        # print("PLAYER 1 ", player1Score)
+        # print("PLAYER 2 ", player2Score)
         game.gameteam_set.first().score = player1Score
         game.gameteam_set.last().score = player2Score
         print(f"{game.teams.first().users.first().username}: {player1Score}")
