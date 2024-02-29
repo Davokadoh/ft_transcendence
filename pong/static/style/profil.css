@@ -887,3 +887,9 @@
 	color: #9016B2 !important;
 	font-family: "Titan One", sans-serif;
 }
+
+.night-mode .titreHist {
+	background-color: #fff;
+	color: black !important;
+	font-family: "Titan One", sans-serif;
+}
