@@ -52,34 +52,34 @@ export function remLobby(remoteId) {
             }
         });
     }
-    // Fonction pour creer et afficher une alerte personnalisée
+    // ALERTE PERSONNALISEE
     function showAlert(message) {
-        // Créer un élément d'alerte
+        // Crée un élément d'alerte
         var alertElement = document.createElement('div');
-        alertElement.className = 'custom-alert'; // Ajouter la classe CSS personnalisée
+        alertElement.className = 'custom-alert';
 
-        // Créer un élément pour le titre
+        // Crée un élément pour le titre
         var titleElement = document.createElement('div');
-        titleElement.className = 'alert-title'; // Ajouter une classe pour le titre
-        titleElement.textContent = 'Alert information'; // Ajouter le titre ici
+        titleElement.className = 'alert-title';
+        titleElement.textContent = 'Alert information';
 
-        // Créer un bouton de fermeture
+        // Crée un bouton de fermeture
         var closeButton = document.createElement('button');
         closeButton.textContent = 'X';
-        closeButton.className = 'close-button'; // Ajouter une classe CSS pour le style du bouton
+        closeButton.className = 'close-button';
         closeButton.onclick = function () {
-            document.body.removeChild(alertElement); // Supprimer l'alerte lorsque le bouton est cliqué
+            document.body.removeChild(alertElement);
         };
 
-        // Créer un élément pour le message
+        // Crée un élément pour le message
         var messageContainer = document.createElement('div');
-        messageContainer.className = 'message-container'; // Ajouter une classe pour le conteneur de message
+        messageContainer.className = 'message-container';
 
-        // Ajouter le texte du message à l'élément de message
+        // Ajoute le texte du message à l'élément de message
         var messageElement = document.createElement('div');
         messageElement.textContent = message;
 
-        // Ajouter les éléments au DOM
+        // Ajoute les éléments au DOM
         titleElement.appendChild(closeButton);
         alertElement.appendChild(titleElement);
         messageContainer.appendChild(messageElement);

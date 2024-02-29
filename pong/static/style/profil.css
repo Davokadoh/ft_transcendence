@@ -841,9 +841,10 @@
 /* MATCH HISTORY */
 .scrollable-container {
 	max-height: 200px;
-	/* Ajuste la hauteur maximale a modifier si besoin */
 	overflow-y: auto;
-	/* Ajoute une barre de défilement verticale si nécessaire */
+	/* Ajoute la barre de défilement verticale */
+	overflow-x: auto;
+	/* Supprime la barre horizontal */
 }
 
 .match-item {
@@ -867,13 +868,15 @@
 .tabHistory {
 	background-color: transparent !important;
 	color: #fff !important;
-
 }
 
-/* .cadreTitreHist {
-	border-top-left-radius: 10px !important;
-	border-top-right-radius: 10px;
-} */
+.cadreTitreHist {
+	position: sticky;
+	/* pour que la barre de titre passe par dessus */
+	top: 0;
+	background-color: #fff;
+	z-index: 1000;
+}
 
 .cadreTitreHist th:first-child {
 	border-top-left-radius: 10px;

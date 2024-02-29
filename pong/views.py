@@ -175,15 +175,11 @@ def chat(request):
 def lobby(request, gameId=None, invitedPlayer2=None):
     if gameId is None:
         game = Game.objects.create(
-            start_time=timezone.now(),  # Utilisez le module timezone pour obtenir l'heure actuelle
-            # Récupérez le style à partir des données POST
-            # style=request.POST.get('style', ''),
+            start_time=timezone.now(),
             style="Quick Play",
-            # Récupérez l'opposant à partir des données POST
-            opponent=request.POST.get('player2', ''),
-            # Récupérez le score à partir des données POST, par défaut 0
+            # opponent=request.POST.get('player2', ''),
+            opponent=invitedPlayer2,
             score=request.POST.get('scoreText', 0),
-            # Récupérez le résultat à partir des données POST
         )
         team = Team.objects.create()
         team.save()
@@ -235,7 +231,12 @@ def game(request, gameId=None):
 @login_required
 def remLobby(request, remoteId=None, invitedPlayer2=None):
     if remoteId is None:
-        game = Game.objects.create()
+        game = Game.objects.create(
+            start_time=timezone.now(),
+            style="Remote Play",
+            opponent=request.POST.get('player2', ''),
+            score=request.POST.get('scoreText', 0),
+        )
         team = Team.objects.create()
         team.save()
         team.users.add(request.user)
