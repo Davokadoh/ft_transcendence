@@ -155,25 +155,30 @@ export function profil() {
 	};
 	let user = document.getElementById('user');
 	let searched_username = document.getElementById('searchInput');
-	searched_username.onchange = function () {
-		console.log("searched_username JS = ", searched_username.value);
-		// console.log("WINDOW HREF = ", window.location.href);
-		user.href = `/user/${searched_username.value}/`;
-	};
+
+	searched_username.addEventListener("keypress", (e) => {
+		if (e.key == "Enter")
+			user.click();
+	});
+	user.addEventListener("click", () => {
+		if (searched_username.value)
+			user.href = `/user/${searched_username.value}/`;
+	});
 
 	document.addEventListener("click", (e) => {
 		if (visibleList && !e.target.classList.contains("text")) {
-			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
+			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
 			visibleList = false;
 		}
 	});
+
 	searched_username.addEventListener("click", () => {
 
 		console.log("click onsearch");
 		if (visibleList == false) {
 			createListContact()
 				.then(() => {
-					document.getElementById('listContact').classList.replace("invisible-y", "visible-y");
+					document.getElementById('listContact').classList.replace("invisible-profile-y", "visible-profile-y");
 					visibleList = true;
 				})
 				.catch(error => {
@@ -181,7 +186,7 @@ export function profil() {
 				});
 		}
 		else {
-			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
+			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
 			visibleList = false;
 		}
 	});
@@ -189,8 +194,8 @@ export function profil() {
 	document.getElementById("ladder").addEventListener("click", () => {
 		console.log("click on ladder");
 
-		const action = "add";
-		testManageFriend(action);
+		testManageFriend("add");
+		searched_username.value = "";
 	});
 
 	async function fetchTemplate() {
@@ -273,8 +278,9 @@ export function profil() {
 			const contactName = contact.querySelector("[data-name]").textContent;
 			const img = contact.querySelector("[data-image]").src;
 			//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
-			searchInput.value = contactName;
-			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
+			searched_username.value = contactName;
+			searched_username.focus();
+			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
 			//isVisibleList = false;
 		});
 	}
@@ -297,27 +303,28 @@ export function profil() {
 	//test de Raph:
 	function testManageFriend(action) {
 
-		const target = "PongChoRabbit";
-		fetch(`manageFriend/${action}/${target}/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(response.status);
-				}
-				return response.json();
+		if (searched_username.value != "") {
+			fetch(`manageFriend/${action}/${searched_username.value}/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
 			})
-			.then(data => {
-				// test
-				console.log(data.message);
-			})
-			.catch(error => {
-				// Le traitement des erreurs ici
-				console.error('Request fetch Error:', error);
-			});
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(response.status);
+					}
+					return response.json();
+				})
+				.then(data => {
+					// test
+					console.log(data.message);
+				})
+				.catch(error => {
+					// Le traitement des erreurs ici
+					console.error('Request fetch Error:', error);
+				});
+		}
 	}
 
 };

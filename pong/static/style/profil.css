@@ -972,7 +972,7 @@
 }
 
 /*raph added*/
-.list-contact {
+.list-contact-profile {
 	position: absolute;
 	height: auto;
 	overflow-y: auto;
@@ -981,6 +981,7 @@
 	.contact {
 		border-top: 0px !important;
 		white-space: nowrap;
+		overflow: hidden;
 		text-overflow: ellipsis;
 
 		.profile-image {
@@ -991,7 +992,7 @@
 		}
 
 		.text {
-			margin-left: 30px;
+			margin-left: 10px;
 
 			text-align: center;
 			color: black;
@@ -1001,24 +1002,25 @@
 
 		&:hover {
 			cursor: pointer;
-			background-color: var(--violet);
+			background-color: rgba(255, 255, 255, 0.5);
+			/*var(--violet);*/
 		}
 	}
 }
 
-.invisible-y {
+.invisible-profile-y {
 	opacity: 0;
 	visibility: hidden;
 	transform: translateY(0);
 }
 
-.visible-y {
+.visible-profile-y {
 	opacity: 1;
 	visibility: visible;
 	transform: translateY(-100%);
 	transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
 }
 
-.hide {
+.hide-profile {
 	display: none !important;
 }

@@ -672,29 +672,43 @@ def manageFriend(request, prefix, action, username):
             target = User.objects.get(username=username)
 
             if action == "add":
-                print("je rentre dans add")
-                user_instance.friends.add(target)
-                print(f"friend: {username} added by {user_instance.username}")
-                print("*****:", user_instance.friends.all())
-                return JsonResponse({"message": "friend have been added"}, status=200)
+                if not user_instance.friends.filter(username=target.username).exists():
+                    user_instance.friends.add(target)
+                    print(f"friend: {username} added by {user_instance.username}")
+                    print("*****:", user_instance.friends.all())
+                    return JsonResponse({"message": "friend have been added"}, status=200)
+                else:
+                    return JsonResponse({"message": "friend already present"}, status=200)
             elif action == "remove":
-                user_instance.friends.remove(target)
-                print("*****:", user_instance.friends.all())
-                print(
-                    f"friend: {username} removed by {user_instance.username}")
-                return JsonResponse({"message": "friend have been removed"}, status=200)
+                if user_instance.friends.filter(username=target.username).exists():
+                    user_instance.friends.remove(target)
+                    print("*****:", user_instance.friends.all())
+                    print(
+                        f"friend: {username} removed by {user_instance.username}")
+                    return JsonResponse({"message": "friend have been removed"}, status=200)
+                else:
+                    return JsonResponse({"message": "friend doesn't exist"}, status=200)
+
             elif action == "block":
-                user_instance.blocked_users.add(target)
-                print(
-                    f"friend: {username} was blocked by {user_instance.username}")
-                return JsonResponse({"message": "friend have been blocked"}, status=200)
+                if user_instance.friends.filter(username=target.username).exists() and \
+                    not user_instance.blocked_users.filter(username=target.username).exists():
+                    user_instance.blocked_users.add(target)
+                    print(
+                        f"friend: {username} was blocked by {user_instance.username}")
+                    return JsonResponse({"message": "friend have been blocked"}, status=200)
+                else:
+                    return JsonResponse({"message": "friend doesn't exist or already blocked"}, status=200)
             elif action == "unblock":
-                user_instance.blocked_users.remove(target)
-                print(
-                    f"friend: {username} was unblocked by {user_instance.username}")
-                return JsonResponse(
-                    {"message": "friend have been unblocked"}, status=200
-                )
+                if user_instance.friends.filter(username=target.username).exists() and \
+                    user_instance.blocked_users.filter(username=target.username).exists():
+                    user_instance.blocked_users.remove(target)
+                    print(
+                        f"friend: {username} was unblocked by {user_instance.username}")
+                    return JsonResponse(
+                        {"message": "friend have been unblocked"}, status=200
+                    )
+                else:
+                    return JsonResponse({"message": "friend doesn't exist or not blocked"}, status=200)
             else:
                 return JsonResponse({"message": "action not recognize"}, status=200)
 
