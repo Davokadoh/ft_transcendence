@@ -167,6 +167,8 @@ def profilPicture(request):
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
+    elif request.method == "GET":
+        return JsonResponse({"profilPicture": request.user.profil_picture_oauth})
 
 
 @login_required
@@ -594,3 +596,114 @@ def profil_view(request):
     # Récupérer tous les matchs associés à l'utilisateur
     matches = Game.objects.filter(teams__users=request.user)
     return render(request, 'profil.html', {'matches': matches})
+
+def getList(request, prefix, type):
+    print("[getList FUNCTION]")
+    if request.method == "GET":
+        # users = serialize("json", users)
+        # users = json.loads(users)
+        try:
+            if type == "users":
+                users = User.objects.all()
+                user_list = []
+                for user in users:
+                    user_info = {
+                        "username": user.username,
+                        "profil_picture": user.profil_picture_oauth,
+                        # add other field if necessary
+                    }
+                    user_list.append(user_info)
+                context = {"user_list": user_list}
+                return JsonResponse(context, safe=False)
+
+            elif type == "friends":
+                user_instance = request.user
+                friends = user_instance.friends.all()
+                friend_list = []
+                for friend in friends:
+                    friend_info = {
+                        "username": friend.username,
+                        "profil_picture": friend.profil_picture_oauth,
+                    }
+                    friend_list.append(friend_info)
+                context = {"friend_list": friend_list}
+                return JsonResponse(context, safe=False)
+
+            elif type == "blocked":
+                user_instance = request.user
+                users = user_instance.blocked_users.all()
+                blocked_list = []
+                for user in users:
+                    user = {
+                        "username": user.username,
+                    }
+                    blocked_list.append(user)
+                context = {"users_blocked": blocked_list}
+                return JsonResponse(context, safe=False)
+
+        except User.DoesNotExist:
+            return JsonResponse({"error": "User not found"}, status=404)
+
+@csrf_exempt
+def manageFriend(request, prefix, action, username):
+    print("[manageFriend FUNCTION]")
+    if request.method == "POST":
+        try:
+            user_instance = request.user
+            target = User.objects.get(username=username)
+
+            if action == "add":
+                print("je rentre dans add")
+                user_instance.friends.add(target)
+                print(f"friend: {username} added by {user_instance.username}")
+                print("*****:", user_instance.friends.all())
+                return JsonResponse({"message": "friend have been added"}, status=200)
+            elif action == "remove":
+                user_instance.friends.remove(target)
+                print("*****:", user_instance.friends.all())
+                print(f"friend: {username} removed by {user_instance.username}")
+                return JsonResponse({"message": "friend have been removed"}, status=200)
+            elif action == "block":
+                user_instance.blocked_users.add(target)
+                print(f"friend: {username} was blocked by {user_instance.username}")
+                return JsonResponse({"message": "friend have been blocked"}, status=200)
+            elif action == "unblock":
+                user_instance.blocked_users.remove(target)
+                print(f"friend: {username} was unblocked by {user_instance.username}")
+                return JsonResponse(
+                    {"message": "friend have been unblocked"}, status=200
+                )
+            else:
+                return JsonResponse({"message": "action not recognize"}, status=200)
+
+        except User.DoesNotExist:
+            print(f"User not found: {username}")
+            return JsonResponse({"error": "user not found"}, status=404)
+
+def get_user_conversations(request):
+    if request.method == "GET":
+        user = request.user
+        conversations = user.conversations.all()
+        serialized_conversations = []
+
+        for conversation in conversations:
+            messages = [
+                {
+                    "type": "chat_message",
+                    "sender": message.sender.username,
+                    "target": message.target.username,
+                    "message": message.message,
+                    "timestamp": message.timestamp,
+                }
+                for message in conversation.messages.all()
+            ]
+            serialized_conversations.append(
+                {
+                    "name": conversation.participants.username,
+                    "messages": messages,
+                    # "unread": conversation.unread,
+                }
+            )
+
+        context = {"conversations": serialized_conversations}
+        return JsonResponse(context)

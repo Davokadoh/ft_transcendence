@@ -1,15 +1,23 @@
 <!-- template.html -->
 
+<!-- contacts list -->
+<template list-contact-template>
+    <div class="contact friend --onhover border-top d-flex align-items-center" id="">
+        <img src="" alt="Friend photo" class="profile-image" data-image>
+        <div class="text" data-name></div>
+    </div>
+</template>
+
 <!-- conversations list -->
 <template conversation-template>
     <div class="conversation friend --onhover d-flex" id="">
         <img src="" alt="Friend photo" class="profile-image" data-image>
         <div class="text" data-text>
-            <h6>Wanted Cat</h6>
-            <p class="text-muted">Hey, you're arrested </p>
+            <h6></h6>
+            <p class="text-muted" id="textMuted"></p>
         </div>
         <div class="ms-auto">
-            <span class="time-msg small">13:21</span>
+            <span class="time-msg small" id="timeMsg"></span>
             <div class="dropdown" id="dropmenuId">
                 <i class="i-down bi-chevron-down dropup" id="menuDownLeftId" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -68,6 +76,7 @@
                             <span class="usernameUser" id="username">{{ request.user.username }}</span>
                         </div>
                     </form>
+
                 </div>
 
                 <!-- Onglets -->

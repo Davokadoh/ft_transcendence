@@ -38,6 +38,9 @@ urlpatterns = [
     path("game/<int:gameId>/get-username/", views.get_usernames),
     path("game/<int:gameId>/get-scores/", views.get_scores),
     path("accounts/profil/", views.profil_view, name="profil_view"),
+     path("<path:prefix>/getList/<str:type>", views.getList),
+    path("chat/conversations/", views.get_user_conversations),
+    path("<path:prefix>/manageFriend/<str:action>/<str:username>/", views.manageFriend),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

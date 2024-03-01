@@ -351,11 +351,6 @@ body-msg {
         &:focus {
             outline-color: rgb(161, 13, 161);
         }
-
-        /*&::placeholder {
-        color: red;
-        font-weight: 400;
-        }*/
     }
 
     i {
@@ -387,6 +382,8 @@ body-msg {
 }
 
 .contact-profil {
+    position: absolute;
+    z-index: 6000 !important;
     border-radius: 0;
     background-color: #999;
     padding: 40px;
@@ -398,7 +395,13 @@ body-msg {
     margin: 0 0;
     transition-duration: 0.8s;
     -webkit-transition-duration: 0.4s;
+
+    /*usernameUser*/
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
+
 
 .contact-profil button {
     border: 2px solid #ffffff;
@@ -420,4 +423,8 @@ body-msg {
     background-color: #87d300;
     color: #87d300;
     border: none;
+}
+
+.read-on {
+    background-color: red;
 }

@@ -46,8 +46,12 @@ class User(AbstractBaseUser):
     is_active = models.CharField(max_length=255)
     chats = models.ForeignKey(
         "self", on_delete=models.SET_NULL, null=True, blank=True)
+    conversations = models.ManyToManyField("Conversation")
+
+    channel_name = models.CharField(max_length=255)
     USERNAME_FIELD = "username"
     friends = models.ManyToManyField("self")
+    blocked_users = models.ManyToManyField("self")
 
     objects = UserManager()
 
@@ -55,9 +59,9 @@ class User(AbstractBaseUser):
         default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
     ballSpeed = models.IntegerField(
         default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
-    paddleColor = models.CharField(max_length=50, blank=True)
-    ballColor = models.CharField(max_length=50, blank=True)
-    backgroundColor = models.CharField(max_length=50, blank=True)
+    paddleColor = models.CharField(default='#feffff', max_length=50, blank=True)
+    ballColor = models.CharField(default='#feffff', max_length=50, blank=True)
+    backgroundColor = models.CharField(default='#000000', max_length=50, blank=True)
 
     # game settings
     # paddle_speed = models.IntegerField(default=12)
@@ -73,6 +77,10 @@ class User(AbstractBaseUser):
             self.nickname = self.username
         super().save(*args, **kwargs)
 
+class Conversation(models.Model):
+    participants = models.ForeignKey(User, on_delete=models.CASCADE)
+    messages = models.ManyToManyField("Message")
+    # unread = models.BooleanField(default=True)
 
 class Message(models.Model):
     sender = models.ForeignKey(

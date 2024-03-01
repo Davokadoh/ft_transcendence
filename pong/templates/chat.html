@@ -14,22 +14,16 @@
 
 				<div class="col-md-12">
 
-					<div class="settings-tray settings-tray--left d-flex align-items-center">
-						<img class="profile-image"
-							src="https://img.freepik.com/vecteurs-premium/logo-mascotte-dessin-anime-kawaii-creatif-mignon-voleur-chat-blanc_152710-1459.jpg"
-							alt="Profile image">
-						<span class="icons ms-auto">
-							<i class="i-menu bi-three-dots-vertical" data-toggle="tooltip" title="Menu"
-								id="menuButtonLeft" data-bs-toggle="dropdown" aria-expanded="false">
-							</i>
-							<ul class="dropdown-menu" aria-labelledby="menuButtonLeft">
-								<li><a class="dropdown-item" href="#">Action</a></li>
-								<li><a class="dropdown-item" href="#">Another action</a></li>
-								<li><a class="dropdown-item" href="#">Something else here</a></li>
-							</ul>
-
-						</span>
-					</div>
+					<form action="/accounts/profil/picture/" method="get"
+						class="settings-tray settings-tray--left d-flex align-items-center">
+						<img class="profile-image" src="{{ request.user.profil_picture_oauth }}" alt="Profile image"
+							title="{{ request.user.username }}">
+						{% csrf_token %}
+					</form>
+					<form action="/accounts/profil/username/" method="get" class="test">
+						{% csrf_token %}
+						<span class="usernameUser" id="username">{{ request.user.username }}</span>
+					</form>
 				</div>
 			</div>
 
@@ -48,13 +42,6 @@
 						</div>
 
 						<div class="list-contact invisible-y" id="listContact" list-contact-container>
-							<template list-contact-template>
-								<div class="contact friend --onhover border-top d-flex align-items-center"
-									id="contactId">
-									<img src="" alt="Friend photo" class="profile-image" data-image>
-									<div class="text" data-name></div>
-								</div>
-							</template>
 						</div>
 
 

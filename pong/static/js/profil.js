@@ -141,4 +141,37 @@ export function profil() {
 		// console.log("WINDOW HREF = ", window.location.href);
 		user.href = `/user/${searched_username.value}/`;
 	};
+
+	document.getElementById("ladder").addEventListener("click", () => {
+		console.log("click on ladder");
+
+		const action = "add";
+		testManageFriend(action);
+	});
+	//test de Raph:
+	function testManageFriend(action) {
+
+		const target = "PongChoRabbit";
+		fetch(`manageFriend/${action}/${target}/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.status);
+				}
+				return response.json();
+			})
+			.then(data => {
+				// test
+				console.log(data.message);
+			})
+			.catch(error => {
+				// Le traitement des erreurs ici
+				console.error('Request fetch Error:', error);
+			});
+	}
+
 };

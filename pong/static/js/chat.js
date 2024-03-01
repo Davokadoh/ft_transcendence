@@ -22,85 +22,79 @@ export function chat() {
 
 	let isVisibleList = false;
 	let isVisibleChat = true;
+	let conversationExist = false;
+
 	let activeChatPanel = null;
 
-	let contactExist = false;
 	let mapConversationList = new Map();
 	let mapChatHistory = new Map();
-	let templateConversationHistory = document.createElement('template');
-	let templateConversation = document.createElement('template');
-	let contactBlocked = [];
+
+	let templateConversationHistory = document.createElement("template");
+	let templateConversation = document.createElement("template");
+	let templateContactList = document.createElement("template");
 
 	const searchInput = document.querySelector("[data-search]");
-
-	const dataListContact = document.querySelector("[list-contact-template]");
-	const listContactContainer = document.querySelector("[list-contact-container]");
+	const conversationList = document.getElementById("conversationListId");
+	const conversationHistory = document.querySelector(".conversation-history");
 	const contactSelect = document.querySelector("[data-contact]");
 
-	//let users = [];
+	let usersBlocked = [];
 
-	/*const socket = new WebSocket(
-		'ws://'
-		+ window.location.host
-		+ '/ws/chat/'
-		+ 'conversation'
-		+ '/'
-	);*/
 
-	// load the template.html
-	fetch('/chat/chat-tmp/')
-		.then(response => response.text())
-		.then(htmlContent => {
-			console.log("fetch chat-tmp.html!");
+	fetchUsersBlocked();
 
-			// use DOMParser to extract the content of template balise
-			const parser = new DOMParser();
-			const doc = parser.parseFromString(htmlContent, 'text/html');
+	fetchTemplate()
+		.then(() => {
 
-			templateConversationHistory = doc.querySelector('template[conversation-history-template]');
-			templateConversation = doc.querySelector('template[conversation-template]');
-			//console.log("fetch=== ", templateConversationHistory.innerHTML);
+			// create list contact directly
+			createListContact()
+				.then(() => {
+					console.log("List contacts loaded: ", document.getElementById('listContact').innerHTML);
+
+					// load list conversations
+					fetchListConversation()
+						.then(() => {
+							console.log("==conversations list loaded!==");
+							console.log("maConver : ", mapConversationList.size);
+							mapConversationList.forEach((value, key) => {
+								document.getElementById("conversationListId").append(value);
+								document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
+
+							});
+							mapChatHistory.forEach((value, key) => {
+								console.log("**mapChatHistory value**: ", value);
+							});
+						})
+						.catch(error => {
+							console.error('request error: Fetch chat/conversations/', error);
+						});
+				})
+				.catch(error => {
+					console.error('Creation list contact failed :', error);
+				});
 		})
-		.catch(error => console.error('Erreur de chargement du template:', error));
+		.catch(error => {
+			console.error('fetch template failed :', error);
+		});
+
+
 
 	//click manage
 	document.addEventListener("click", (e) => {
 		e.stopImmediatePropagation();
-		refresh_display();
 
 		console.log("e.target***: ", e.target);
 		console.log("e.curtarget***: ", e.currentTarget);
+		console.log("activeChatPanel by listener click: ", activeChatPanel);
 
-		console.log(activeChatPanel);
-		if (activeChatPanel && e.currentTarget.getElementById("contactImgProfil").contains(e.target)) {
-			console.log("click img contact");
-			document.getElementById("contactProfil").classList.toggle("invisible-y");
-		}
-		else if (e.currentTarget.getElementById("searchContact").contains(e.target))
+		if (!e.currentTarget.getElementById("searchContact").contains(e.target))
+			refresh_display();
+		if (e.currentTarget.getElementById("searchContact").contains(e.target))
 			search_contact();
-		else if (contactExist) {
-
-			if (e.currentTarget.getElementById("send-id").contains(e.target))
-				sendByMe(e);
-			else {
-				const conversations = document.querySelectorAll(".conversation");
-				conversations.forEach(conversation => {
-					conversation.addEventListener("click", (e) => {
-						e.stopImmediatePropagation();
-						handle_conversation(e);
-					});
-				});
-			}
-		}
-
 	});
 
-	//event keypress
-	document.addEventListener("keypress", (e) => {
-
-		if (contactExist && e.currentTarget.getElementById("input-id").contains(e.target))
-			sendByMe(e);
-	});
+	// click on search
+	document.getElementById("searchContactId").addEventListener("click", search_contact);
 
 	function refresh_display() {
 		//hide list contact if actif
@@ -111,89 +105,81 @@ export function chat() {
 		}
 	}
 
-	function search_contact() {
+	function search_contact(event) {
 
-		create_list_contact()
 		console.log('CLICK ON SEARCH');
-		if (!isVisibleList) {
-			document.getElementById('conversationListId').classList.toggle('hide', true);
-			document.getElementById('listContact').classList.replace("invisible-y", "visible-y");
-			isVisibleList = true;
+		console.log("isVisibleList: ", isVisibleList);
+
+		if (isVisibleList === false) {
+			createListContact()
+				.then(() => {
+					document.getElementById('conversationListId').classList.toggle('hide', true);
+					document.getElementById('listContact').classList.replace("invisible-y", "visible-y");
+					isVisibleList = true;
+				})
+				.catch(error => {
+					console.error('Erreur lors de la création de la liste de contacts :', error);
+				});
 		}
 	}
 
-	function create_list_contact() {
 
-		const cloneContactList = document.querySelector("[list-contact-container]").cloneNode(true);
+	function handle_click_contact(contact) {
 
-		fetch('/users/list', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-		})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('fetch /users/list : ERROR');
-				}
-				return response.json();
-			})
-			.then(data => {
+		contact.addEventListener('click', () => {
 
-				console.log('Response server _data_ : users/list : ', data.user_list);
+			console.log("CLICK on CONTACT");
+			const contactName = contact.querySelector("[data-name]").textContent;
+			const img = contact.querySelector("[data-image]").src;
+			//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
+			searchInput.value = "";
 
-				data.user_list.map(user => {
+			//visibleAllContact();
+			console.log("find conversation result:  ", findConversation(contactName));
+			if (findConversation(contactName)) {
+				selectConversation(contactName);
 
-					//take template
-					const contact = dataListContact.content.cloneNode(true).children[0];
-					const img = contact.querySelector("[data-image]");
-					const name = contact.querySelector("[data-name]");
-
-					const username = user.username;
-					const profil_picture = user.profil_picture;
-					img.src = profil_picture;
-					name.textContent = username;
-
-					//insert contact 
-					cloneContactList.append(contact);
-					console.log(cloneContactList.innerHTML);
-				});
-				listContactContainer.innerHTML = cloneContactList.innerHTML;
-
-				//Listen event about search
-				handle_click_contact();
-				handle_input_steam();
-			})
-			.catch(error => {
-				console.error('request error: Fetch', error);
-			});
-		cloneContactList.innerHTML = "";
+			} else {
+				const obj = {
+					name: contactName,
+					imgSrc: img,
+				};
+				createConversation(obj);
+				createChatPanel(obj);
+			}
+			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
+			document.getElementById('conversationListId').classList.toggle('hide', false);
+			isVisibleList = false;
+		});
 	}
 
 	function handle_conversation(event) {
 
-		//dropdown
-		if (event.currentTarget.querySelector(".dropdown .i-down").contains(event.target)) {
-			console.log("click on dropdown: ", event.target.closest(".conversation"));
-			console.log("on i-down: ", event.currentTarget.querySelector(".dropdown .i-down"));
+		//icon dropdown
+		if (event.target.classList.contains("i-down")) {
 
-			var displayingDrop = document.getElementById("menuDownLeftId").nextElementSibling;
+			console.log("click icon dropdown");
+			var displayingDrop = event.target.nextElementSibling;
 
 			//just adjust zindex when drop displaying
 			if (displayingDrop.classList.contains("show"))
 				zIndexDropdown(event.currentTarget);
 
 			//close dropdown if the cursor leave
-			event.currentTarget.querySelector(".dropdown, .dropdown .dropdown-menu")
+			event.target.closest(".conversation").querySelector(".dropdown, .dropdown .dropdown-menu")
 				.addEventListener("mouseleave", () => {
+					console.log("**mouse leave**");
 					closeDropdown(event.target.closest(".dropdown"));
 				});
+
+			//dropdown action
 			handle_dropdown_action(event.target.closest(".conversation"));
-			return;
 		}
 		else {
+
 			const contactName = event.currentTarget.querySelector(".text h6").textContent;
 			console.log("click on conversation: ", contactName);
+			// if the target is not dropdown
 			selectConversation(contactName);
 		}
 	}
@@ -234,26 +220,34 @@ export function chat() {
 
 
 			if (e.target.id === "delId") {
+				socket.send(JSON.stringify({
+					'type': 'manage_conversation',
+					'action': '#remove',
+					'target': contactName,
+				}));
 				myTarget.remove();
 				if (activeChatPanel === contactName) {
 					document.querySelector(".conversation-history").innerHTML = "";
 					document.getElementById('panelPrincipalId').classList.toggle('hide', false);
+					activeChatPanel = null;
 				}
 				mapChatHistory.delete(contactName);
 				mapConversationList.delete(contactName);
 				if (mapConversationList.size === 0) {
 					activeChatPanel = null;
-					contactExist = false;
+					conversationExist = false;
 				}
 			} else if (e.target.id === "blockUnblockId") {
 				const blockUnblockElement = e.target;
 				if (blockUnblockElement.textContent === "Block contact") {
 					blockContact(contactName, true);
 					blockUnblockElement.textContent = "Unblock contact";
+					testManageFriend("block", contactName);
 					console.log("contact was blocked");
 				} else {
 					blockContact(contactName, false);
 					blockUnblockElement.textContent = "Block contact";
+					testManageFriend("unblock", contactName);
 					console.log("contact unblocked");
 				}
 			}
@@ -272,18 +266,27 @@ export function chat() {
 
 	function selectConversation(contactName) {
 
+		console.log("==selectConversation FUNCTION==");
+
 		console.log(`select: ${contactName}`);
 		console.log(`active chat: ${activeChatPanel}`);
 
-		updateChatHistory(activeChatPanel);
+		if (activeChatPanel != contactName) {
+			document.querySelector(".conversation-history").innerHTML = "";
+			document.querySelector(".conversation-history").append(mapChatHistory.get(contactName));
 
-		const htmlactiveChatPanel = document.querySelector(".conversation-history");
-		htmlactiveChatPanel.innerHTML = mapChatHistory.get(contactName).innerHTML;
+			console.log(mapChatHistory.get(contactName));
+			document.querySelector(".conversation-history").addEventListener("click", handle_click_history);
+			document.getElementById("input-id").addEventListener("keypress", sendByMe);
 
-		activeChatPanel = contactName;
-		console.log("[active chatpanel dans select conversation]")
 
-		document.getElementById('panelPrincipalId').classList.toggle('hide', true);
+			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
+			document.getElementById('chatBoxId').classList.toggle('hide', false);
+
+
+			activeChatPanel = contactName;
+			conversationExist = true;
+		}
 	}
 
 
@@ -294,42 +297,93 @@ export function chat() {
 	}
 
 	function createConversation(obj) {
-		const conversationList = document.getElementById("conversationListId");
-		const tpl = templateConversation.content.cloneNode(true);
-		//set id conversation
-		tpl.querySelector(".conversation").id = obj.name;
-		const name = tpl.querySelector("[data-text] h6");
-		const img = tpl.querySelector("[data-image]");
-		name.textContent = obj.name;
-		img.src = obj.imgSrc;
-		conversationList.append(tpl);
-		console.log(conversationList.innerHTML);
-		updateMapConversations(name.textContent, tpl);
-		createChatPanel(obj);
+
+		// if none message sent by the activechatpanel erase it
+		if (!mapConversationList.has(activeChatPanel))
+			document.getElementById("conversationListId").innerHTML = "";
+		document.getElementById("conversationListId").append(setTemplate("conversationList", obj));
+		console.log("== createConversation list: ==", document.getElementById("conversationListId").lastElementChild);
+
+		// when click on conversation
+		document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
+
+	}
+
+	function setTemplate(type, obj) {
+
+		//const element = document.createElement("div");
+
+		if (type === "chatHistory") {
+			// take template and set the value
+			let tpl = templateConversationHistory.content.cloneNode(true);
+			let settingsTray = tpl.querySelector(".settings-tray");
+			let img = settingsTray.querySelector("[data-image]");
+			let name = settingsTray.querySelector("[data-text] h6");
+			let chatBox = tpl.querySelector("#chatBoxId");
+			img.src = obj.imgSrc;
+			name.textContent = obj.name;
+			if (usersBlocked.find(user => user.username === obj.name))
+				chatBox.classList.toggle("disabled", true);
+			else
+				chatBox.classList.toggle("disabled", false);
+			//element.append(tpl);
+			return tpl;
+		}
+		else if (type === "conversationList") {
+			//take template
+			let tpl = templateConversation.content.cloneNode(true);
+			//set value
+			tpl.querySelector(".conversation").id = obj.name;
+			let name = tpl.querySelector("[data-text] h6");
+			let img = tpl.querySelector("[data-image]");
+			let blockUnblock = tpl.querySelector("#blockUnblockId");
+			if (usersBlocked.find(user => user.username === obj.name))
+				blockUnblock.innerText = "Unblock contact";
+			else
+				blockUnblock.innerText = "Block contact";
+			name.textContent = obj.name;
+			img.src = obj.imgSrc;
+			return tpl;
+		}
 	}
 
 	function createChatPanel(obj) {
-		if (activeChatPanel)
-			updateChatHistory(activeChatPanel);
 
-		const conversationHistory = document.querySelector(".conversation-history");
-		//update chatPanel, just keep the template child
-		conversationHistory.innerHTML = "";
+		console.log("===createChatPanel FUNCTION===: ", obj.name);
+		const contactName = obj.name;
+		if (activeChatPanel != contactName) {
 
-		const tpl = templateConversationHistory.content.cloneNode(true);
-		const settingsTray = tpl.querySelector(".settings-tray");
-		const img = settingsTray.querySelector("[data-image]");
-		const name = settingsTray.querySelector("[data-text] h6");
-		img.src = obj.imgSrc;
-		name.textContent = obj.name;
+			document.querySelector(".conversation-history").innerHTML = "";
+			document.querySelector(".conversation-history").append(setTemplate("chatHistory", obj));
 
-		conversationHistory.append(tpl);
-		activeChatPanel = obj.name;
-		//console.log("template: ", conversationHistory.innerHTML);
-		console.log("===Create ChatPanel===");
+			document.querySelector(".conversation-history").addEventListener("click", handle_click_history);
+			document.getElementById("input-id").addEventListener("keypress", sendByMe);
+
+
+			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
+			document.getElementById('chatBoxId').classList.toggle('hide', false);
+
+			activeChatPanel = contactName;
+			conversationExist = true;
+		}
+	}
+
+	function handle_click_history(event) {
+
+		console.log("==handle_click_history==:  ", event.target);
+
+		if (event.target.classList.contains("profile-image")) {
+			console.log("click img contact");
+			document.getElementById("contactProfil").classList.toggle("invisible-y");
+		}
+		else if (event.target.classList.contains("i-send"))
+			sendByMe(event);
 	}
 
 	function findConversation(name) {
+		console.log("name: ", name);
+		console.log("findconverasation contain name: ", mapConversationList.has(name));
+
 		return mapConversationList.has(name);
 	}
 
@@ -341,77 +395,152 @@ export function chat() {
 		console.log("MAP key: ", contactName);
 	}
 
-	function updateMapConversations(contactName, element) {
-		mapConversationList.set(contactName, element);
-		console.log("===mapChatList updated!===");
+	function updateConversations(data, type) {
+		var msg = data.message;
+		var shortText = msg.length < 21 ? msg : msg.substring(0, 20) + ' ...';
+		var conversation = "";
+		if (type == "receive")
+			conversation = data.sender;
+		else
+			conversation = data.target
+
+		if (document.getElementById(conversation)) {
+			const element = document.getElementById(conversation);
+			element.querySelector("#textMuted").innerText = shortText;
+			element.querySelector("#timeMsg").innerText = data.timestamp;
+			mapConversationList.set(data.target, element);
+			//update map
+		}
+		else if (mapConversationList.has(conversation)) {
+			mapConversationList.get(conversation).querySelector("#textMuted").innerText = shortText;
+			mapConversationList.get(conversation).querySelector("#timeMsg").innerText = data.timestamp;
+		}
+
+		console.log("===mapConversationsList updated!===");
 	}
 
 	//-------------handle message-----------------
-
 	socket.onmessage = function (event) {
 		const data = JSON.parse(event.data);
 		console.log("===received message:===", data);
-		//const conversation = findConversation(data.sender); //data.sender: <username sender>
-		//if (conversation) {
-		createBubbleChat(data, "receive");
-		//}        
+
+		parse_msg(data);
 	};
 
+	function parse_msg(data) {
+		if (data.sender == document.getElementById("username").textContent) {
+			message_sent(data);
+		}
+		else
+			message_receive(data);
+	}
 	// socket.onopen = function (e) {
 	//     console.log('WebSocket connection opened: ', e);
 	//     socket.send(JSON.stringify({ 'message': 'Hello from Page 2!' }));
 	// };
+
+	function message_receive(data) {
+		console.log("==message_receive FUNCTION==");
+
+
+		const element = document.createElement("div");
+
+		element.className = "row g-0";
+		element.innerHTML = `
+			<!--msg from friend-->
+			<div class="col-md-3 d-flex">
+				<div class="chat-bubble chat-bubble--left" id="msgByOtherId">
+					${data.message}
+				</div>
+			</div>`;
+
+		console.log("active chat dans message_receive: ", activeChatPanel);
+
+		if (findConversation(data.sender)) {
+
+			if (data.sender == activeChatPanel) {
+				document.getElementById("chatPanelId").append(element);
+				scrollUp(document.getElementById("rowChatPanel"));
+				updateChatHistory(activeChatPanel);
+			}
+			else {
+				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
+				//document.getElementById(data.sender).classList.toggle("read-on", true);
+			}
+			updateConversations(data, "receive");
+		}
+		else {
+
+			//test take img by list friends
+			// const takeImg = document.querySelector(`#${data.sender}-contact-id .profile-image`).getAttribute("src");
+			const takeImg = "";
+			console.log("takeImg: ", takeImg);
+			const obj = {
+				name: data.sender,
+				imgSrc: takeImg,
+				//time msg
+				// few line of the last message
+			};
+			createConversation(obj);
+			//document.getElementById(data.sender).classList.toggle("read-on", true);
+			updateConversations(data, "receive");
+			mapConversationList.set(obj.name, setTemplate("conversationList", obj));
+			mapChatHistory.set(data.sender, setTemplate("chatHistory", obj));
+			mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
+
+			console.log("****conversationList SIZE*****: ", mapConversationList.size);
+			console.log("****conversationList*****: ", mapConversationList.get(data.sender));
+			console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));
+			conversationExist = true;
+		}
+	}
+
+	function message_sent(data) {
+
+		console.log("==message_sent FUNCTION==");
+
+		//take class
+		const element = document.createElement("div");
+
+		element.className = "row g-0";
+		element.innerHTML = `
+			<div class="col-md-3 offset-md-9 d-flex">
+				<div class="chat-bubble chat-bubble--blue chat-bubble--right ms-auto" id="msgByMeId">
+					${data.message}
+				</div>
+			</div>`;
+		if (activeChatPanel) {
+			document.getElementById("chatPanelId").append(element);
+			scrollUp(document.getElementById("rowChatPanel"));
+			updateChatHistory(activeChatPanel);
+		}
+		else {
+			if (findConversation(data.target))
+				mapChatHistory.get(data.target).querySelector("#chatPanelId").append(element);
+		}
+		updateConversations(data, "sent");
+		console.log("active chat dans message_sent: ", activeChatPanel);
+
+
+	}
 
 	function sendByMe(event) {
 		console.log("Click from input chat: ", event.type);
 		const inputField = document.getElementById("input-id");
 
 		if ((event.type === "click" || event.key === "Enter") && inputField.value) {
-
 			console.log(`message sent: ${inputField.value}`);
 
 			//test websocket/*
 			socket.send(JSON.stringify({
 				'type': 'chat_message',
-				'chat': activeChatPanel, //username target
+				'target': activeChatPanel, //username target
 				'message': inputField.value
 			}));
 
 			//just for test receive and send 
-			createBubbleChat(inputField.value, "send");
 			inputField.value = "";
 		}
-	}
-
-	function createBubbleChat(value, status) {
-
-		console.log("BUBBLE CHAT SENT => FUNCTION");
-		//take class
-		const chatPanel = document.getElementById("chatPanelId");
-		const element = document.createElement("div");
-
-		if (status === "send") {
-			element.className = "row g-0";
-			element.innerHTML = `
-        <div class="col-md-3 offset-md-9 d-flex">
-            <div class="chat-bubble chat-bubble--blue chat-bubble--right ms-auto" id="msgByMeId">
-                ${value}
-            </div>
-        </div>`;
-			chatPanel.append(element);
-		}
-		else if (status === "receive") {
-			element.className = "row g-0";
-			element.innerHTML = `
-                <!--msg from friend-->
-                <div class="col-md-3 d-flex">
-                    <div class="chat-bubble chat-bubble--left" id="msgByOtherId">
-                        ${value}
-                    </div>
-                </div>`;
-			chatPanel.append(element);
-		}
-		scrollUp(document.getElementById("rowChatPanel"));
 	}
 
 	function scrollUp(element) {
@@ -421,38 +550,13 @@ export function chat() {
 		}
 	}
 
-	function handle_click_contact() {
+	function formatageTime(timeJson) {
 
-		const contacts = document.querySelectorAll('.contact');
-		// add a event listener for each contact
-		contacts.forEach(contact => {
-			contact.addEventListener('click', () => {
-				console.log("CLICK on CONTACT");
-				const contactName = contact.querySelector("[data-name]").textContent;
-				const img = contact.querySelector("[data-image]").src;
-				//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
-				searchInput.value = "";
 
-				//visibleAllContact();
-				if (findConversation(contactName)) {
-					selectConversation(contactName);
-				} else {
-					const obj = {
-						name: contactName,
-						imgSrc: img,
-					};
-					createConversation(obj);
-					document.getElementById('panelPrincipalId').classList.toggle('hide', true);
-					document.getElementById('chatBoxId').classList.toggle('hide', false);
-					contactExist = true;
-				}
-				document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
-				document.getElementById('conversationListId').classList.toggle('hide', false);
-				isVisibleList = false;
-			});
+		var heures = new Date(timeJson).getHours();
+		var minutes = new Date(timeJson).getMinutes();
 
-		});
-
+		return heures.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
 	}
 
 	function handle_input_steam() {
@@ -470,4 +574,175 @@ export function chat() {
 		});
 	}
 
+	async function fetchTemplate() {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const response = await fetch('/chat/chat-tmp/');
+
+				if (!response.ok)
+					throw new Error('fetch chat/template : ERROR');
+
+				const htmlContent = await response.text();
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(htmlContent, 'text/html');
+				templateContactList = doc.querySelector('template[list-contact-template]');
+				templateConversationHistory = doc.querySelector('template[conversation-history-template]');
+				templateConversation = doc.querySelector('template[conversation-template]');
+				resolve();
+				console.log("fetch chat-tmp.html!");
+			} catch (error) {
+				reject(error);
+				console.error('Erreur de chargement du template:', error);
+			}
+		});
+	}
+
+	function createListContact() {
+
+		return new Promise((resolve, reject) => {
+
+			console.log("==createListContact FUNCTION==");
+			fetch("getList/friends", {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('fetch getList/friends : ERROR');
+					}
+					return response.json();
+				})
+				.then(data => {
+
+					console.log('Response server _data_ : users/list : ', data.friend_list);
+					// clear contact list on document
+					document.getElementById("listContact").innerHTML = "";
+					data.friend_list.map(user => {
+
+						//take template
+						var tpl = templateContactList.content.cloneNode(true);
+						// tpl.querySelector(".contact").id = `${user.username}-contact-id`;
+						tpl.querySelector("[data-image]").src = user.profil_picture;
+						tpl.querySelector("[data-name]").textContent = user.username;
+
+						//insert contact 
+						document.getElementById("listContact").append(tpl);
+						handle_click_contact(document.getElementById("listContact").lastElementChild);
+
+					});
+					console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
+
+					//Listen event about search
+					handle_input_steam();
+					resolve();
+
+				})
+				.catch(error => {
+					console.error('request error: Fetch', error);
+					reject(error);
+				});
+		});
+	}
+
+	function fetchUsersBlocked() {
+		console.log("==fetch users_blocked==");
+
+		fetch("getList/blocked", {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+			.then(response => {
+				if (!response.ok)
+					throw new Error('fetch getList/blocked : ERROR');
+
+				return response.json();
+			})
+			.then(data => {
+				usersBlocked = data.users_blocked.map(user => { return user; });
+				console.log('Response server _data_ : blocked/list : ', usersBlocked);
+				//if (usersBlocked.find(user => user.username == "PongChoRabbit"))
+				//	console.log("target was blocked");
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+
+	async function fetchListConversation() {
+
+		return new Promise(async (resolve, reject) => {
+			try {
+				const response = await fetch("/chat/conversations/", {
+					//method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				});
+
+				if (!response.ok)
+					throw new Error('fetch chat/conversations : ERROR');
+
+				const data = await response.json();
+
+				console.log('Response server _data_ : conversations List : ', data.conversations);
+				data.conversations.forEach(conversation => {
+					//load conversation
+					const takeImg = document.querySelector(`#${conversation.name}-contact-id .profile-image`).getAttribute("src");
+					const obj = {
+						"name": conversation.name,
+						"img": takeImg,
+					}
+					//createConversation(obj);
+					//var state = conversation.unread;
+					mapConversationList.set(conversation.name, setTemplate("conversationList", obj));
+					//mapConversationList.get(conversation.name).classList.toggle("read-on", !state);
+					mapChatHistory.set(conversation.name, setTemplate("chatHistory", obj));
+					//document.getElementById("conversationListId").append(setTemplate("conversationList", obj));
+
+					conversation.messages.forEach(message => {
+
+						//load the messages within conversation
+						message.timestamp = formatageTime(message.timestamp);
+						parse_msg(message);
+						console.log("dans fetch sender: ", message.sender);
+						console.log("dans fetch target: ", message.target);
+						console.log("dans fetch message: ", message.message);
+
+					});
+				});
+				resolve();
+
+			} catch (error) {
+				reject();
+			}
+		});
+	}
+
+	function testManageFriend(action, target) {
+
+		fetch(`manageFriend/${action}/${target}/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.status);
+				}
+				return response.json();
+			})
+			.then(data => {
+				// test
+				console.log(data.message);
+			})
+			.catch(error => {
+				// Le traitement des erreurs ici
+				console.error('Request fetch Error:', error);
+			});
+	}
 }
