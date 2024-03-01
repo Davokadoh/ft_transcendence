@@ -55,7 +55,9 @@ body-msg {
     border-radius: 25px;
 }
 
-
+.night-mode .profile-image {
+    filter: grayscale(100);
+}
 
 .settings-tray {
 

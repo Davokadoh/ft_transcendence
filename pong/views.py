@@ -1,3 +1,4 @@
+
 import json
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
@@ -45,33 +46,40 @@ def play(request):
 
 @login_required
 def profil(request):
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    try:
+        # Calcul des statistiques du joueur
+        user_teams = Team.objects.filter(users=request.user)
+        games = Game.objects.filter(teams__in=user_teams)
+        matches = Game.objects.filter(
+            teams__in=user_teams).order_by('-start_time')
+        for match in matches:
+            try:
+                match.opponent = match.teams.exclude(
+                    users=request.user).first().users.first()
+                print(f"Opp: {match.opponent}")
+                match.score = match.gameteam_set.first().score, match.gameteam_set.last().score
+                print(f"SCORE = {match.score[0]} - {match.score[1]}")
+                if match.winner == request.user:
+                    match.result = 'WIN'
+                else:
+                    match.result = 'LOSE'
+            except (AttributeError, IndexError, ObjectDoesNotExist) as e:
+                print(f"Error while retrieving match data : {e}")
+                pass
+    except ObjectDoesNotExist:
+        return render(
+            request, "error.html", {
+                "template": "ajax.html" if ajax else "index.html"}
+        )
     username_form = UsernameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
-    # settings_form = ProfilSettingsForm(instance=request.user)
-
-    # Calcul des statistiques du joueur
-    user_teams = Team.objects.filter(users=request.user)
-    games = Game.objects.filter(teams__in=user_teams)
 
     matches_played = games.count()
     wins = games.filter(winner=request.user).count()
     win_ratio = round((wins / matches_played) * 100,
                       2) if matches_played > 0 else 0
 
-    matches = Game.objects.filter(teams__in=user_teams).order_by('-start_time')
-
-    for match in matches:
-        match.opponent = match.teams.exclude(
-            users=request.user).first().users.first()
-        print(f"Opp: {match.opponent}")
-        match.score = match.gameteam_set.first().score, match.gameteam_set.last().score
-        print(f"SCORE = {match.score[0]} - {match.score[1]}")
-        if match.winner == request.user:
-            match.result = 'WIN'
-        else:
-            match.result = 'LOSE'
-
-    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
     elif request.user.profil_picture_oauth:
@@ -90,11 +98,8 @@ def profil(request):
             "wins": wins,
             "win_ratio": win_ratio,
             "matches": matches,
-            # "game_list": Game.objects.filter(players_contains=request.user),
-            # "settings_form": settings_form,
         },
     )
-
 
 
 @login_required
@@ -102,33 +107,35 @@ def user(request, username=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
         user = User.objects.get(username=username)
+        # Calcul des statistiques du joueur
+        user_teams = Team.objects.filter(users=user)
+        games = Game.objects.filter(teams__in=user_teams)
+        matches = Game.objects.filter(
+            teams__in=user_teams).order_by('-start_time')
+        for match in matches:
+            try:
+                match.opponent = match.teams.exclude(
+                    users=user).first().users.first()
+                print(f"Opp: {match.opponent}")
+                match.score = match.gameteam_set.first().score, match.gameteam_set.last().score
+                print(f"SCORE = {match.score[0]} - {match.score[1]}")
+                if match.winner == user:
+                    match.result = 'WIN'
+                else:
+                    match.result = 'LOSE'
+            except (AttributeError, IndexError, ObjectDoesNotExist) as e:
+                print(f"Error while retrieving match data : {e}")
+                pass
     except ObjectDoesNotExist:
         return render(
             request, "error.html", {
                 "template": "ajax.html" if ajax else "index.html"}
         )
 
-    # Calcul des statistiques du joueur
-    user_teams = Team.objects.filter(users=user)
-    games = Game.objects.filter(teams__in=user_teams)
-
     matches_played = games.count()
     wins = games.filter(winner=user).count()
     win_ratio = round((wins / matches_played) * 100,
-                        2) if matches_played > 0 else 0
-
-    matches = Game.objects.filter(teams__in=user_teams).order_by('-start_time')
-
-    for match in matches:
-        match.opponent = match.teams.exclude(
-            users=user).first().users.first()
-        print(f"Opp: {match.opponent}")
-        match.score = match.gameteam_set.first().score, match.gameteam_set.last().score
-        print(f"SCORE = {match.score[0]} - {match.score[1]}")
-        if match.winner == user:
-            match.result = 'WIN'
-        else:
-            match.result = 'LOSE'
+                      2) if matches_played > 0 else 0
 
     if user.profil_picture:
         profil_picture_url = user.profil_picture.url
@@ -579,7 +586,6 @@ def get_scores(request, gameId=None):
         return JsonResponse(data)
 
 
-
 @csrf_exempt
 def get_users(request):
     if request.method == "GET":
@@ -607,6 +613,7 @@ def profil_view(request):
     # Récupérer tous les matchs associés à l'utilisateur
     matches = Game.objects.filter(teams__users=request.user)
     return render(request, 'profil.html', {'matches': matches})
+
 
 def getList(request, prefix, type):
     print("[getList FUNCTION]")
@@ -655,6 +662,7 @@ def getList(request, prefix, type):
         except User.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
 
+
 @csrf_exempt
 def manageFriend(request, prefix, action, username):
     print("[manageFriend FUNCTION]")
@@ -672,15 +680,18 @@ def manageFriend(request, prefix, action, username):
             elif action == "remove":
                 user_instance.friends.remove(target)
                 print("*****:", user_instance.friends.all())
-                print(f"friend: {username} removed by {user_instance.username}")
+                print(
+                    f"friend: {username} removed by {user_instance.username}")
                 return JsonResponse({"message": "friend have been removed"}, status=200)
             elif action == "block":
                 user_instance.blocked_users.add(target)
-                print(f"friend: {username} was blocked by {user_instance.username}")
+                print(
+                    f"friend: {username} was blocked by {user_instance.username}")
                 return JsonResponse({"message": "friend have been blocked"}, status=200)
             elif action == "unblock":
                 user_instance.blocked_users.remove(target)
-                print(f"friend: {username} was unblocked by {user_instance.username}")
+                print(
+                    f"friend: {username} was unblocked by {user_instance.username}")
                 return JsonResponse(
                     {"message": "friend have been unblocked"}, status=200
                 )
@@ -690,6 +701,7 @@ def manageFriend(request, prefix, action, username):
         except User.DoesNotExist:
             print(f"User not found: {username}")
             return JsonResponse({"error": "user not found"}, status=404)
+
 
 def get_user_conversations(request):
     if request.method == "GET":
