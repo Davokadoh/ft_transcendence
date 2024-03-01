@@ -35,48 +35,32 @@
 				<!-- Onglets -->
 				<ul class="nav nav-tabs userStat flex-wrap" id="myTabs" role="tablist">
 					<li class="nav-item" role="presentation">
-						<a class="nav-link modNavUser customUserTab show active" id="hist-tab" data-bs-toggle="pill" href="#matchHistory"
-							role="tab" aria-controls="matchHistory" aria-selected="false">History</a>
+						<a class="nav-link modNavUser customUserTab show active" id="hist-tab" data-bs-toggle="pill"
+							href="#matchHistory" role="tab" aria-controls="matchHistory"
+							aria-selected="false">History</a>
 					</li>
 					<li class="nav-item" role="presentation">
-						<a class="nav-link modNavUser customUserTab" id="match-tab" data-bs-toggle="pill" href="#match" role="tab"
-							aria-controls="match" aria-selected="false">Match</a>
+						<a class="nav-link modNavUser customUserTab" id="match-tab" data-bs-toggle="pill" href="#match"
+							role="tab" aria-controls="match" aria-selected="false">Match</a>
 					</li>
 					<li class="nav-item" role="presentation">
-						<a class="nav-link modNavUser customUserTab" id="win-tab" data-bs-toggle="pill" href="#win" role="tab"
-							aria-controls="win" aria-selected="false">Win</a>
+						<a class="nav-link modNavUser customUserTab" id="win-tab" data-bs-toggle="pill" href="#win"
+							role="tab" aria-controls="win" aria-selected="false">Win</a>
 					</li>
 					<li class="nav-item" role="presentation">
-						<a class="nav-link modNavUser customUserTab" id="ratio-tab" data-bs-toggle="pill" href="#ratio" role="tab"
-							aria-controls="ratio" aria-selected="false">Ratio</a>
+						<a class="nav-link modNavUser customUserTab" id="ratio-tab" data-bs-toggle="pill" href="#ratio"
+							role="tab" aria-controls="ratio" aria-selected="false">Ratio</a>
 					</li>
 				</ul>
 
 				<!-- Contenu des onglets -->
-				<div class="tab-content userStatTab">
+				<div class="tab-content">
 					<div class="tab-pane fade show active tabCustUser active" id="matchHistory" role="tabpanel"
 						aria-labelledby="hist-tab">
-						<div class="matchHistory text-center">
-							<div class="scrollable-container">
-								{% for match in matches %}
-								<div class="match-item">
-									<span class="match-info">{{ match.start_time }}</span>
-									<!-- Date du match -->
-									<span class="match-info">{{ match.style }}</span>
-									<!-- Style de jeu -->
-									<span class="match-info">{{ match.opponent }}</span>
-									<!-- Nom de l'adversaire -->
-									<span class="match-info">{{ match.score }}</span>
-									<!-- Score du match -->
-									<span class="match-info {% if match.result == 'WIN' %}win{% else %}lose{% endif %}">
-										{{ match.result }}
-									</span>
-									<!-- Résultat du match -->
-								</div>
-								{% endfor %}
-							</div>
-						</div>
+						<button type="button" class="col-3 btn bg-vert userBtn" data-bs-toggle="modal"
+							data-bs-target="#matchModal">Match History</button>
 					</div>
+
 					<div class="tab-pane fade tabCustUser" id="match" role="tabpanel" aria-labelledby="match-tab">
 						{{ matches_played }} <!-- (Nbr de match) -->
 					</div>
@@ -92,7 +76,60 @@
 					<button type="button" class="col-lg-6 btn bg-vert userBtn" data-bs-target="#addFriend" alt="Friend
 					request"> Friend request +</button>
 					<br />
-					<button type="button" class="col-lg-6 btn bg-vert userBtn" data-bs-target="#BlockFriend" alt="Remove friend" >Remove friend -</button>
+					<button type="button" class="col-lg-6 btn bg-vert userBtn" data-bs-target="#BlockFriend"
+						alt="Remove friend">Remove friend -</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Bootstrap MATCH FG -->
+	<div class="modal fade overlay" data-bs-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
+		aria-labelledby="matchModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg-custom" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+					<div class="matchHistory text-center">
+						<div class="scrollable-container">
+							<table class="table matchHistTable">
+								<thead>
+									<tr class="cadreTitreHist">
+										<th class="titreHist">Date</th>
+										<th class="titreHist">Game</th>
+										<th class="titreHist">Opponent</th>
+										<th class="titreHist">Score</th>
+										<th class="titreHist">Result</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for match in matches %}
+									<tr>
+										<!-- <div class="match-item"> -->
+										<td class="match-info tabHistory">{{ match.start_time|date }}</td>
+										<!-- Date du match -->
+										<td class="match-info tabHistory">{{ match.style }}</td>
+										<!-- Style de jeu -->
+										<td class="match-info tabHistory">{{ match.opponent }}</td>
+										<!-- Nom de l'adversaire -->
+										<td class="match-info tabHistory">{{ match.score.0 }} - {{ match.score.1 }}</td>
+										<!-- Score du match -->
+										<td class="match-info tabHistory {{match.result}}">
+											{{match.result}}
+										</td>
+										<!-- Résultat du match -->
+										<!-- </div> -->
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -107,8 +144,8 @@
 					</div>
 					<div class="col-lg-6">
 						<div class="input-group input-group-custom">
-							<input type="text" class="form-control" name="username" id="searchInput" placeholder="Search"
-								aria-label="Username" aria-describedby="basic-addon1" />
+							<input type="text" class="form-control" name="username" id="searchInput"
+								placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
 							<div class="input-group-append">
 								<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user"
 									data-link="/user" alt="Check user profil"> 👀 </a>

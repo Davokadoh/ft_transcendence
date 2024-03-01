@@ -54,23 +54,22 @@ def profil(request):
     games = Game.objects.filter(teams__in=user_teams)
 
     matches_played = games.count()
-    # wins = games.filter(result='win').count()
     wins = games.filter(winner=request.user).count()
-    win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
+    win_ratio = round((wins / matches_played) * 100,
+                      2) if matches_played > 0 else 0
 
     matches = Game.objects.filter(teams__in=user_teams).order_by('-start_time')
-    # opponent_games = Game.objects.filter(opponent=request.user)
-    opponent = User.objects.filter(username='player2').first()
 
-    # Pour le champs Result du Match History
-    for game in games:
-        if game.winner == request.user:
-            game.result = 'WIN'
-            # game.color = 'green'
+    for match in matches:
+        match.opponent = match.teams.exclude(
+            users=request.user).first().users.first()
+        print(f"Opp: {match.opponent}")
+        match.score = match.gameteam_set.first().score, match.gameteam_set.last().score
+        print(f"SCORE = {match.score[0]} - {match.score[1]}")
+        if match.winner == request.user:
+            match.result = 'WIN'
         else:
-            game.result = 'LOSE'
-            # game.color = 'red'
-        game.save()
+            match.result = 'LOSE'
 
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.user.profil_picture:
@@ -91,23 +90,45 @@ def profil(request):
             "wins": wins,
             "win_ratio": win_ratio,
             "matches": matches,
-            "opponent": opponent,
             # "game_list": Game.objects.filter(players_contains=request.user),
             # "settings_form": settings_form,
         },
     )
 
 
+
 @login_required
 def user(request, username=None):
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
         user = User.objects.get(username=username)
     except ObjectDoesNotExist:
-        ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
             request, "error.html", {
                 "template": "ajax.html" if ajax else "index.html"}
         )
+
+    # Calcul des statistiques du joueur
+    user_teams = Team.objects.filter(users=user)
+    games = Game.objects.filter(teams__in=user_teams)
+
+    matches_played = games.count()
+    wins = games.filter(winner=user).count()
+    win_ratio = round((wins / matches_played) * 100,
+                        2) if matches_played > 0 else 0
+
+    matches = Game.objects.filter(teams__in=user_teams).order_by('-start_time')
+
+    for match in matches:
+        match.opponent = match.teams.exclude(
+            users=user).first().users.first()
+        print(f"Opp: {match.opponent}")
+        match.score = match.gameteam_set.first().score, match.gameteam_set.last().score
+        print(f"SCORE = {match.score[0]} - {match.score[1]}")
+        if match.winner == user:
+            match.result = 'WIN'
+        else:
+            match.result = 'LOSE'
 
     if user.profil_picture:
         profil_picture_url = user.profil_picture.url
@@ -116,29 +137,17 @@ def user(request, username=None):
     else:
         profil_picture_url = "/static/img/profil/image-defaut.png"
 
-    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-
     context = {
         'messages': messages.get_messages(request),
         "template": "ajax.html" if ajax else "index.html",
         "user": user,
-        "profil_picture_url": profil_picture_url
+        "profil_picture_url": profil_picture_url,
+        "matches_played": matches_played,
+        "wins": wins,
+        "win_ratio": win_ratio,
+        "matches": matches,
     }
     return render(request, "user.html", context)
-
-
-# def profil(request):
-#     print("URL: " + request.user.profilPictureUrl)
-#     user_profile, created = User.objects.get_or_create(user=request.user)
-#     if request.method == 'POST':
-#         # Suppose que vous avez un formulaire pour ajuster la vitesse des paddles
-#         paddle_speed = request.POST.get('paddle_speed')
-#         user_profile.paddle_speed = paddle_speed
-#         user_profile.save()
-#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-#     return render(
-#         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
-#     )
 
 
 @login_required
@@ -191,7 +200,6 @@ def lobby(request, gameId=None, invitedPlayer2=None):
             style="Quick Play",
             opponent=request.POST.get('player2'),
             score=request.POST.get('scoreText', '0 - 0'),
-            # score=request.POST.get('scoreText', 0),
         )
         team = Team.objects.create()
         team.save()
@@ -545,28 +553,31 @@ def get_scores(request, gameId=None):
     if request.method == "GET":
         data = {
             "player1Score": game.gameteam_set.first().score,
-            "player2Score": game.gameteam_set.first().score,
+            "player2Score": game.gameteam_set.last().score,
         }
         return JsonResponse(data)
     if request.method == "POST":
         data = json.loads(request.body)
-        player1Score = data.get("player1Score")
-        player2Score = data.get("player2Score")
-        # print("PLAYER 1 ", player1Score)
-        # print("PLAYER 2 ", player2Score)
-        game.gameteam_set.first().score = player1Score
-        game.gameteam_set.last().score = player2Score
-        print(f"{game.teams.first().users.first().username}: {player1Score}")
-        print(f"{game.teams.last().users.first().username}: {player2Score}")
+        gameteam1 = GameTeam.objects.filter(game=game).first()
+        gameteam1.score = data.get("player1Score")
+        gameteam1.save()
+        gameteam2 = GameTeam.objects.filter(game=game).last()
+        gameteam2.score = data.get("player2Score")
+        gameteam2.save()
+        game.save()
+        game.refresh_from_db()
+        print(f"{game.teams.first().users.first().username}: {gameteam1.score}")
+        print(f"{game.teams.last().users.first().username}: {gameteam2.score}")
         game.winner = game.teams.first().users.first(
-        ) if player1Score > player2Score else game.teams.last().users.first()
+        ) if gameteam1.score > gameteam2.score else game.teams.last().users.first()
         # print(game.winner.username)
         game.save()
         data = {
-            "player1Score": game.gameteam_set.first().score,
-            "player2Score": game.gameteam_set.first().score,
+            "player1Score": gameteam1.score,
+            "player2Score": gameteam2.score,
         }
         return JsonResponse(data)
+
 
 
 @csrf_exempt

@@ -950,9 +950,17 @@
 
 
 .WIN {
-    color: rgb(30, 211, 30);
+    color: rgb(30, 211, 30) !important;
 }
 
 .LOSE {
-    color: red;
+    color: red !important;
+}
+
+.night-mode .WIN {
+    color: white !important;
+}
+
+.night-mode .LOSE {
+    color:  rgb(223, 216, 216) !important;
 }

@@ -340,13 +340,13 @@
 										<!-- Date du match -->
 										<td class="match-info tabHistory">{{ match.style }}</td>
 										<!-- Style de jeu -->
-										<td class="match-info tabHistory">{{ match.opponent.user }}</td>
+										<td class="match-info tabHistory">{{ match.opponent }}</td>
 										<!-- Nom de l'adversaire -->
-										<td class="match-info tabHistory">{{ match.score }}</td>
+										<td class="match-info tabHistory">{{ match.score.0 }} - {{ match.score.1 }}</td>
 										<!-- Score du match -->
 										<td
-											class="match-info tabHistory {% if match.result == 'WIN' %}WIN{% else %}LOSE{% endif %}">
-											{{ match.result }}
+											class="match-info tabHistory {{match.result}}">
+											{{match.result}}
 										</td>
 										<!-- Résultat du match -->
 										<!-- </div> -->

@@ -132,14 +132,12 @@ class Game(models.Model):
     # Match History
     start_time = models.DateTimeField(auto_now_add=True)
     style = models.CharField(max_length=100, default='not defined')
-    # opponent = models.CharField(max_length=255, null=True, default=None)
     opponent = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='opponent_games', null=True)
+        User, on_delete=models.CASCADE, related_name='opponent', null=True)
     score = models.CharField(max_length=5, default="0 - 0")
     winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     result = models.CharField(max_length=4, choices=[(
         'WIN', 'Win'), ('LOSE', 'Lose')], default='LOSE')
-    # color = models.CharField(max_length=20, default='')
 
     def __str__(self):
         return f"Stats for {self.player.username}"
