@@ -908,59 +908,117 @@
 
 /* Redéfinition des couleurs par défaut pour la barre de defilement*/
 :root {
-    --scrollbar-track-color: var(--violet); /* Couleur de fond de la barre de défilement */
-    --scrollbar-thumb-color: var(--vert); /* Couleur de la barre de défilement */
-    --scrollbar-thumb-hover-color: var(--bleu); /* Couleur de la barre de défilement lorsqu'elle est survolée */
+	--scrollbar-track-color: var(--violet);
+	/* Couleur de fond de la barre de défilement */
+	--scrollbar-thumb-color: var(--vert);
+	/* Couleur de la barre de défilement */
+	--scrollbar-thumb-hover-color: var(--bleu);
+	/* Couleur de la barre de défilement lorsqu'elle est survolée */
 }
 
 /* Barre de défilement principale */
 ::-webkit-scrollbar {
-    width: 5px;
-    /* Largeur de la barre de défilement */
+	width: 5px;
+	/* Largeur de la barre de défilement */
 }
 
 /* Barre de défilement track */
 ::-webkit-scrollbar-track {
-    background: var(--scrollbar-track-color);
-    /* Couleur de fond */
+	background: var(--scrollbar-track-color);
+	/* Couleur de fond */
 }
 
 /* Barre de défilement thumb */
 ::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb-color);
-    /* Couleur de la barre de défilement */
-    border-radius: 5px;
-    /* Coins arrondis */
+	background: var(--scrollbar-thumb-color);
+	/* Couleur de la barre de défilement */
+	border-radius: 5px;
+	/* Coins arrondis */
 }
 
 /* Barre de défilement thumb lorsqu'elle est survolée */
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover-color);
-    /* Couleur de la barre de défilement lorsqu'elle est survolée */
+	background: var(--scrollbar-thumb-hover-color);
+	/* Couleur de la barre de défilement lorsqu'elle est survolée */
 }
 
 /* NIGHT MODE */
 /* Modification des couleurs pour le mode nuit */
 .night-mode {
-    --scrollbar-track-color: white; /* Nouvelle couleur de fond de la barre de défilement track*/
-    --scrollbar-thumb-color: rgb(59, 59, 59); /* Nouvelle couleur de la barre de défilement thumb*/
-    --scrollbar-thumb-hover-color: grey; /* Nouvelle couleur de la barre de défilement lorsqu'elle est survolée hover*/
+	--scrollbar-track-color: white;
+	/* Nouvelle couleur de fond de la barre de défilement track*/
+	--scrollbar-thumb-color: rgb(59, 59, 59);
+	/* Nouvelle couleur de la barre de défilement thumb*/
+	--scrollbar-thumb-hover-color: grey;
+	/* Nouvelle couleur de la barre de défilement lorsqu'elle est survolée hover*/
 }
 
 
 
 .WIN {
-    color: rgb(30, 211, 30) !important;
+	color: rgb(30, 211, 30) !important;
 }
 
 .LOSE {
-    color: red !important;
+	color: red !important;
 }
 
 .night-mode .WIN {
-    color: white !important;
+	color: white !important;
 }
 
 .night-mode .LOSE {
-    color:  rgb(223, 216, 216) !important;
+	color: rgb(223, 216, 216) !important;
+}
+
+/*raph added*/
+.list-contact {
+	position: absolute;
+	height: auto;
+	overflow-y: auto;
+	width: 234px;
+
+	.contact {
+		border-top: 0px !important;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+
+		.profile-image {
+			margin-left: 20px;
+			width: 30px;
+			height: 30px;
+			border-radius: 25px;
+		}
+
+		.text {
+			margin-left: 30px;
+
+			text-align: center;
+			color: black;
+			font-weight: 8px;
+
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: var(--violet);
+		}
+	}
+}
+
+.invisible-y {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(0);
+}
+
+.visible-y {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(-100%);
+	transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
+}
+
+.hide {
+	display: none !important;
 }

@@ -86,6 +86,10 @@
 						<p class="findFriend">Find a friend</p>
 					</div>
 					<div class="col-lg-6">
+						<!-- raph ajout -->
+						<div class="list-contact invisible-y" id="listContact" list-contact-container>
+						</div>
+
 						<div class="input-group input-group-custom">
 							<input type="text" class="form-control" name="username" id="searchInput"
 								placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
@@ -344,8 +348,7 @@
 										<!-- Nom de l'adversaire -->
 										<td class="match-info tabHistory">{{ match.score.0 }} - {{ match.score.1 }}</td>
 										<!-- Score du match -->
-										<td
-											class="match-info tabHistory {{match.result}}">
+										<td class="match-info tabHistory {{match.result}}">
 											{{match.result}}
 										</td>
 										<!-- Résultat du match -->
