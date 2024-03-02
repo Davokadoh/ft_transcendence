@@ -13,20 +13,7 @@ export function profil() {
 	let visibleList = false;
 	let templateContactList = document.createElement("template");
 
-	fetchTemplate()
-		.then(() => {
-			// create list contact directly
-			createListContact()
-				.then(() => {
-					console.log("List contacts loaded: ", document.getElementById('listContact').innerHTML);
-				})
-				.catch(error => {
-					console.error('Creation list contact failed :', error);
-				});
-		})
-		.catch(error => {
-			console.error('fetch template failed :', error);
-		});
+	fetchTemplate();
 
 	settingsModal.addEventListener('hidden.bs.modal', function () {
 		settingsForm.reset();
@@ -201,24 +188,20 @@ export function profil() {
 	});
 
 	async function fetchTemplate() {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const response = await fetch('/chat/chat-tmp/');
+		try {
+			const response = await fetch('/chat/chat-tmp/');
 
-				if (!response.ok)
-					throw new Error('fetch chat/template : ERROR');
+			if (!response.ok)
+				throw new Error('fetch chat/template : ERROR');
 
-				const htmlContent = await response.text();
-				const parser = new DOMParser();
-				const doc = parser.parseFromString(htmlContent, 'text/html');
-				templateContactList = doc.querySelector('template[list-contact-template]');
-				resolve();
-				console.log("fetch: chat-tmp.html: success!");
-			} catch (error) {
-				reject(error);
-				console.error('fetch chat/template : ERROR', error);
-			}
-		});
+			const htmlContent = await response.text();
+			const parser = new DOMParser();
+			const doc = parser.parseFromString(htmlContent, 'text/html');
+			templateContactList = doc.querySelector('template[list-contact-template]');
+			console.log("fetch: chat-tmp.html: success!");
+		} catch (error) {
+			console.error('fetch chat/template : ERROR', error);
+		}
 	}
 
 	function createListContact() {
@@ -252,6 +235,7 @@ export function profil() {
 							tpl.querySelector(".contact").id = `${user.username}-contact-id`;
 							tpl.querySelector("[data-image]").src = user.profil_picture;
 							tpl.querySelector("[data-name]").textContent = truncUsername(user.username);
+							tpl.querySelector("[data-full-name]").textContent = user.username;
 
 							// Set the status indicator @Verena Status
 							let statusIndicator = tpl.querySelector(".status-indicator");
@@ -302,7 +286,7 @@ export function profil() {
 		contact.addEventListener('click', () => {
 
 			console.log("CLICK on CONTACT");
-			const contactName = contact.querySelector("[data-name]").textContent;
+			const contactName = contact.querySelector("[data-full-name]").textContent;
 			const img = contact.querySelector("[data-image]").src;
 			//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
 			searched_username.value = contactName;

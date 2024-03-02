@@ -372,6 +372,7 @@
 /* BARRE D'INFO */
 
 .container-info {
+	position: relative;
 	height: 93px;
 }
 
@@ -976,6 +977,7 @@
 /*raph added*/
 .list-contact-profile {
 	position: absolute;
+	bottom: 75%;
 	height: auto;
 	overflow-y: auto;
 	width: 234px;
@@ -983,6 +985,7 @@
 	background-color: rgba(255, 255, 255, 0.8);
 
 	.contact {
+		position: relative;
 		border-top: 0px !important;
 		white-space: nowrap;
 		overflow: hidden;
@@ -1015,11 +1018,11 @@
 /* Verena modif status */
 .status-indicator {
 	/* Styles de la pastille de statut */
+	position: absolute;
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	margin-left: 10px;
-	/* Ajustez la marge pour positionner la pastille à droite du nom */
+	right: 8%;
 }
 
 /* Styles pour différents états */
@@ -1087,14 +1090,15 @@
 .invisible-profile-y {
 	opacity: 0;
 	visibility: hidden;
-	transform: translateY(0);
+	/*transform: translateY(100%);*/
 }
 
 .visible-profile-y {
 	opacity: 1;
 	visibility: visible;
-	transform: translateY(-100%);
-	transition: opacity 0.8s, transform 0.8s cubic-bezier(.5, 0, 0, 1);
+	transition: opacity 0.8s;
+	/*transform: translateY(0);*/
+	/* transform 0.8s cubic-bezier(.5, 0, 0, 1);*/
 }
 
 .hide-profile {

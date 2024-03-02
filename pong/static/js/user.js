@@ -23,23 +23,11 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     let visibleList = false;
     let templateContactList = document.createElement("template");
 
-    fetchTemplate()
-        .then(() => {
-            // create list contact directly
-            createListContact()
-                .then(() => {
-                    console.log("List contacts loaded: ", document.getElementById('listContact').innerHTML);
-                })
-                .catch(error => {
-                    console.error('Creation list contact failed :', error);
-                });
-        })
-        .catch(error => {
-            console.error('fetch template failed :', error);
-        });
+    fetchTemplate();
 
+    // POUR LE FORM USER profil et user ?
     let user = document.getElementById('user');
-    // let searched_username = document.getElementById('searchInput');
+    let searched_username = document.getElementById('searchInput');
 
     searched_username.addEventListener("keypress", (e) => {
         if (e.key == "Enter")
@@ -84,24 +72,20 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     });
 
     async function fetchTemplate() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await fetch('/chat/chat-tmp/');
+        try {
+            const response = await fetch('/chat/chat-tmp/');
 
-                if (!response.ok)
-                    throw new Error('fetch chat/template : ERROR');
+            if (!response.ok)
+                throw new Error('fetch chat/template : ERROR');
 
-                const htmlContent = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
-                templateContactList = doc.querySelector('template[list-contact-template]');
-                resolve();
-                console.log("fetch: chat-tmp.html: success!");
-            } catch (error) {
-                reject(error);
-                console.error('fetch chat/template : ERROR', error);
-            }
-        });
+            const htmlContent = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            templateContactList = doc.querySelector('template[list-contact-template]');
+            console.log("fetch: chat-tmp.html: success!");
+        } catch (error) {
+            console.error('fetch chat/template : ERROR', error);
+        }
     }
 
     function createListContact() {
@@ -126,7 +110,9 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     console.log('Response server _data_ : users/list : ', data.user_list);
                     // clear contact list on document
                     document.getElementById("listContact").innerHTML = "";
-                    var myUsername = document.getElementById("id_nickname").value;
+
+                    //#check#user
+                    var myUsername = "test";//document.getElementById("id_nickname").value;
                     data.user_list.map(user => {
 
                         if (myUsername != user.username) {
@@ -134,7 +120,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                             var tpl = templateContactList.content.cloneNode(true);
                             tpl.querySelector(".contact").id = `${user.username}-contact-id`;
                             tpl.querySelector("[data-image]").src = user.profil_picture;
-                            tpl.querySelector("[data-name]").textContent = user.username;
+                            tpl.querySelector("[data-name]").textContent = truncUsername(user.username);
+                            tpl.querySelector("[data-full-name]").textContent = user.username;
 
                             // Set the status indicator @Verena Status
                             let statusIndicator = tpl.querySelector(".status-indicator");
@@ -171,12 +158,21 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         });
     }
 
+    function truncUsername(username) {
+
+        if (username.length > 7) {
+            username = username.substring(0, 7) + "...";
+            console.log(`truncUsername: ${username}`);
+        }
+        return username;
+    }
+
     function handle_click_contact(contact) {
 
         contact.addEventListener('click', () => {
 
             console.log("CLICK on CONTACT");
-            const contactName = contact.querySelector("[data-name]").textContent;
+            const contactName = contact.querySelector("[data-full-name]").textContent;
             const img = contact.querySelector("[data-image]").src;
             //console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
             searched_username.value = contactName;
@@ -227,4 +223,5 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                 });
         }
     }
+
 }
