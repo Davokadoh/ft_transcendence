@@ -623,7 +623,7 @@ export function chat() {
 
 						//take template
 						var tpl = templateContactList.content.cloneNode(true);
-						// tpl.querySelector(".contact").id = `${user.username}-contact-id`;
+						tpl.querySelector("[contact-container]").id = `${user.username}-contact-id`;
 						tpl.querySelector("[data-image]").src = user.profil_picture;
 						tpl.querySelector("[data-name]").textContent = user.username;
 
@@ -689,12 +689,18 @@ export function chat() {
 				const data = await response.json();
 
 				console.log('Response server _data_ : conversations List : ', data.conversations);
+
 				data.conversations.forEach(conversation => {
+
 					//load conversation
-					const takeImg = document.querySelector(`#${conversation.name}-contact-id .profile-image`).getAttribute("src");
+					var imgSrc = "";
+					const target = document.getElementById(`${conversation.name}-contact-id`);
+					if (target) {
+						imgSrc = target.querySelector("[data-image]").src;
+					}
 					const obj = {
 						"name": conversation.name,
-						"img": takeImg,
+						"imgSrc": imgSrc,
 					}
 					//createConversation(obj);
 					//var state = conversation.unread;
