@@ -20,6 +20,9 @@ import requests
 # import json
 import os
 import base64
+from django.dispatch import receiver
+from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.dispatch import Signal
 
 
 @receiver(user_logged_in)

@@ -153,6 +153,8 @@ export function profil() {
 		console.log("Le bouton a été cliqué !");
 		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
 	};
+
+	// POUR LE FORM USER profil et user ?
 	let user = document.getElementById('user');
 	let searched_username = document.getElementById('searchInput');
 
