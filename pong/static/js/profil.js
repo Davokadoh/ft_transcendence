@@ -251,7 +251,7 @@ export function profil() {
 							var tpl = templateContactList.content.cloneNode(true);
 							tpl.querySelector(".contact").id = `${user.username}-contact-id`;
 							tpl.querySelector("[data-image]").src = user.profil_picture;
-							tpl.querySelector("[data-name]").textContent = user.username;
+							tpl.querySelector("[data-name]").textContent = truncUsername(user.username);
 
 							// Set the status indicator @Verena Status
 							let statusIndicator = tpl.querySelector(".status-indicator");
@@ -286,6 +286,15 @@ export function profil() {
 					reject(error);
 				});
 		});
+	}
+
+	function truncUsername(username) {
+
+		if (username.length > 7) {
+			username = username.substring(0, 7) + "...";
+			console.log(`truncUsername: ${username}`);
+		}
+		return username;
 	}
 
 	function handle_click_contact(contact) {
