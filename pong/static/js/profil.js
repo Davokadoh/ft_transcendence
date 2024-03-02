@@ -16,13 +16,13 @@ export function profil() {
 	fetchTemplate()
 		.then(() => {
 			// create list contact directly
-			/*createListContact()
+			createListContact()
 				.then(() => {
 					console.log("List contacts loaded: ", document.getElementById('listContact').innerHTML);
 				})
 				.catch(error => {
 					console.error('Creation list contact failed :', error);
-				});*/
+				});
 		})
 		.catch(error => {
 			console.error('fetch template failed :', error);
@@ -250,6 +250,22 @@ export function profil() {
 							tpl.querySelector(".contact").id = `${user.username}-contact-id`;
 							tpl.querySelector("[data-image]").src = user.profil_picture;
 							tpl.querySelector("[data-name]").textContent = user.username;
+
+							// Set the status indicator @Verena Status
+							let statusIndicator = tpl.querySelector(".status-indicator");
+							statusIndicator.textContent = user.status; // Assuming user.status contains the status
+							statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
+
+							// Modify the status indicator color based on status
+							if (user.status === 'online') {
+								statusIndicator.classList.add('online');
+							} else if (user.status === 'offline') {
+								statusIndicator.classList.add('offline');
+							} else if (user.status === 'playing') {
+								statusIndicator.classList.add('playing');
+							} else if (user.status === '') {
+								statusIndicator.classList.add('empty');
+							}
 
 							//insert contact 
 							document.getElementById("listContact").append(tpl);
