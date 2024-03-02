@@ -1,5 +1,5 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .models import Message, User
+from .models import User
 
 
 class Consumer(AsyncJsonWebsocketConsumer):
@@ -52,9 +52,6 @@ class Consumer(AsyncJsonWebsocketConsumer):
         else:
             await self.user.chats.aadd(chat)
         await self.channel_layer.group_add(f"chat_{chat.pk}", self.channel_name)
-        await Message.objects.acreate(
-            sender=self.user, target=chat, message=content.get("message")
-        )
         await self.channel_layer.group_send(f"chat_{chat.pk}", content)
 
     async def chat_message(self, content):

@@ -1,4 +1,3 @@
-import json
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,12 +6,10 @@ from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
-from django.core.serializers import serialize
 from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import GameTeam, Tournament, User, Team, Game, Remote
+from .models import GameTeam, Tournament, User, Team, Game
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
@@ -29,8 +26,7 @@ def index(request, page_name=None):
 def home(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "home.html", {
-            "template": "ajax.html" if ajax else "index.html"}
+        request, "home.html", {"template": "ajax.html" if ajax else "index.html"}
     )
 
 
@@ -38,8 +34,7 @@ def home(request):
 def play(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
-        request, "play.html", {
-            "template": "ajax.html" if ajax else "index.html"}
+        request, "play.html", {"template": "ajax.html" if ajax else "index.html"}
     )
 
 
@@ -53,7 +48,6 @@ def profil(request):
     user_teams = Team.objects.filter(users=request.user)
     games = Game.objects.filter(teams__in=user_teams)
     matches_played = games.count()
-    # wins = games.filter(result='win').count()
     wins = games.filter(winner=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
@@ -78,15 +72,9 @@ def profil(request):
             "wins": wins,
             "win_ratio": win_ratio,
             "matches": matches,
-            # "game_list": Game.objects.filter(players_contains=request.user),
-            # "settings_form": settings_form,
         },
     )
 
-def temp(request):
-    user_teams = Team.objects.filter(users=request.user)
-    games = Game.objects.filter(teams__in=user_teams)
-    return JsonResponse(list(games.values()), safe=False)
 
 @login_required
 def user(request, username=None):
@@ -95,8 +83,7 @@ def user(request, username=None):
     except ObjectDoesNotExist:
         ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
-            request, "error.html", {
-                "template": "ajax.html" if ajax else "index.html"}
+            request, "error.html", {"template": "ajax.html" if ajax else "index.html"}
         )
 
     if user.profil_picture:
@@ -109,26 +96,12 @@ def user(request, username=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
     context = {
-        'messages': messages.get_messages(request),
+        "messages": messages.get_messages(request),
         "template": "ajax.html" if ajax else "index.html",
         "user": user,
-        "profil_picture_url": profil_picture_url
+        "profil_picture_url": profil_picture_url,
     }
     return render(request, "user.html", context)
-
-
-# def profil(request):
-#     print("URL: " + request.user.profilPictureUrl)
-#     user_profile, created = User.objects.get_or_create(user=request.user)
-#     if request.method == 'POST':
-#         # Suppose que vous avez un formulaire pour ajuster la vitesse des paddles
-#         paddle_speed = request.POST.get('paddle_speed')
-#         user_profile.paddle_speed = paddle_speed
-#         user_profile.save()
-#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-#     return render(
-#         request, "profil.html", {"template": "ajax.html" if ajax else "index.html"}
-#     )
 
 
 @login_required
@@ -150,8 +123,7 @@ def username(request):
 @login_required
 def profilPicture(request):
     if request.method == "POST":
-        form = ProfilPictureForm(
-            request.POST, request.FILES, instance=request.user)
+        form = ProfilPictureForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponse()
@@ -166,8 +138,7 @@ def chat(request):
         return render(request, "chat-tmp.html")
     else:
         return render(
-            request, "chat.html", {
-                "template": "ajax.html" if ajax else "index.html"}
+            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
         )
 
 
@@ -175,15 +146,8 @@ def chat(request):
 def lobby(request, gameId=None, invitedPlayer2=None):
     if gameId is None:
         game = Game.objects.create(
-            start_time=timezone.now(),  # Utilisez le module timezone pour obtenir l'heure actuelle
-            # Récupérez le style à partir des données POST
-            # style=request.POST.get('style', ''),
             style="Quick Play",
-            # Récupérez l'opposant à partir des données POST
-            opponent=request.POST.get('player2', ''),
-            # Récupérez le score à partir des données POST, par défaut 0
-            score=request.POST.get('scoreText', 0),
-            # Récupérez le résultat à partir des données POST
+            opponent=request.POST.get("player2", ""),
         )
         team = Team.objects.create()
         team.save()
@@ -197,15 +161,18 @@ def lobby(request, gameId=None, invitedPlayer2=None):
         return render(
             request,
             "lobby.html",
-            {"template": "ajax.html" if ajax else "index.html",
-                "gameId": gameId, "invitedPlayer2": invitedPlayer2},
+            {
+                "template": "ajax.html" if ajax else "index.html",
+                "gameId": gameId,
+                "invitedPlayer2": invitedPlayer2,
+            },
         )
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
             username = data.get("username")
             user = User.objects.get(username=username)
-            if (user is None):
+            if user is None:
                 return JsonResponse({"error_message": "user not found"})
             team2 = Team.objects.create()
             team2.save()
@@ -248,15 +215,18 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
         return render(
             request,
             "remLobby.html",
-            {"template": "ajax.html" if ajax else "index.html",
-                "remoteId": remoteId, "invitedPlayer2": invitedPlayer2},
+            {
+                "template": "ajax.html" if ajax else "index.html",
+                "remoteId": remoteId,
+                "invitedPlayer2": invitedPlayer2,
+            },
         )
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
             username = data.get("username")
             user = User.objects.get(username=username)
-            if (user is None):
+            if user is None:
                 return JsonResponse({"error_message": "user not found"})
             return JsonResponse({"username": user.username})
         except ObjectDoesNotExist:
@@ -282,47 +252,42 @@ def remote(request, remoteId=None):
 
 
 @login_required
-def tourLobby(request, tournamentId=None, invitedPlayer2=None, invitedPlayer3=None, invitedPlayer4=None):
+def tourLobby(request, tournamentId=None):
     if tournamentId is None:
         tournament = Tournament.objects.create()
         return redirect(tourLobby, tournament.pk)
-
-    tournament = get_object_or_404(Tournament, pk=tournamentId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-
     if request.method == "GET":
         return render(
             request,
             "tourLobby.html",
-            {
-                "template": "ajax.html" if ajax else "index.html", "tournamentId": tournamentId,
-                "invitedPlayer2": invitedPlayer2, "invitedPlayer3": invitedPlayer3, "invitedPlayer4": invitedPlayer4
-            },
+            {"template": "ajax.html" if ajax else "index.html"},
         )
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            player2Username = data.get("p2Username")
-            player3Username = data.get("p3Username")
-            player4Username = data.get("p4Username")
-
-            player2 = User.objects.filter(username=player2Username).first()
-            player3 = User.objects.filter(username=player3Username).first()
-            player4 = User.objects.filter(username=player4Username).first()
-
-            if player2 is None:
-                return JsonResponse({"error_message": "Player 2 not found"})
-            elif player3 is None:
-                return JsonResponse({"error_message": "Player 3 not found"})
-            elif player4 is None:
-                return JsonResponse({"error_message": "Player 4 not found"})
-            return JsonResponse({
-                "p2Username": player2.username,
-                "p3Username": player3.username,
-                "p4Username": player4.username,
-            })
+            usernames = [value for key, value in data.items()]
+            users = User.objects.filter(username__in=usernames)
+            if users.exists():
+                for user in users:
+                    print("---")
+                    print(user)
+                    print("---")
+            else:
+                return JsonResponse({"error_message": "No users found with the provided usernames"})
+            tournament = Tournament.objects.get(pk=tournamentId)
+            for user in users:
+                team = Team.objects.create()
+                team.users.add(user)
+                team.save()
+                tournament.register_team(team)
+            tournament.save()
+            print(tournament)
+            return JsonResponse(data)
         except ObjectDoesNotExist as e:
-            return JsonResponse({"error_message": str(e), "invalidUsername": data.get("username")})
+            return JsonResponse(
+                {"error_message": str(e), "invalidUsername": data.get("username")}
+            )
 
 
 @login_required
@@ -332,25 +297,80 @@ def tournament(request, tournamentId=None):
 
     try:
         tournament = Tournament.objects.get(pk=tournamentId)
+        game = tournament.next_game()
     except Tournament.DoesNotExist:
         raise Http404("Tournament does not exist")
 
-    # if tournament is None:
-    #     return redirect(home)
+    print(game)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     return render(
         request,
         "tournament.html",
         {
             "template": "ajax.html" if ajax else "index.html",
-            "tournamentId": tournamentId,
+            "tournamentId": game.pk,
         },
     )
 
 
-def logoutview(request):
-    logout(request)
-    return loginview(request)
+def get_tour_scores(request, tournamentId=None):
+    if tournamentId is None:
+        return JsonResponse({"error": "Invalid request"})
+    tournament = Tournament.objects.get(pk=tournamentId)
+    game = tournament.next_game()
+    team1 = GameTeam.objects.filter(game=game).first()
+    team2 = GameTeam.objects.filter(game=game).last()
+    if request.method == "GET":
+        data = {
+            "player1": {"username": team1.team.users.first().username, "score": team1.score},
+            "player2": {"username": team2.team.users.first().username, "score": team2.score},
+        }
+        return JsonResponse(data)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        team1.score = data.get("player1Score")
+        team1.save()
+        team2.score = data.get("player2Score")
+        team2.save()
+        game.winner = (
+            game.teams.first().users.first()
+            if team1.score > team2.score
+            else game.teams.last().users.first()
+        )
+        game.save()
+        next = game.tournament_round.tournament.next_game()
+        data = {
+            "player1Score": team1.score,
+            "player2Score": team2.score,
+            "nextGame": next.pk,
+        }
+        return JsonResponse(data)
+
+
+def get_tour_usernames(request, tournamentId=None):
+    if tournamentId is None:
+        return JsonResponse({"error": "Invalid request"})
+    tournament = Tournament.objects.get(pk=tournamentId)
+    if request.method == "GET":
+        game = tournament.next_game()
+        data = {
+            "player1_username": game.teams.first().users.first().username,
+            "player2_username": game.teams.last().users.first().username,
+        }
+        return JsonResponse(data)
+
+
+# def get_tour_usernames(request, tournamentId=None):
+#     if tournamentId is None:
+#         return JsonResponse({"error": "Invalid request"})
+#     game = Tournament.objects.get(pk=tournamentId)
+#     player1_username = game.teams.first().users.first().username
+#     player2_username = game.teams.last().users.first().username
+#     data = {
+#         "player1_username": player1_username,
+#         "player2_username": player2_username,
+#     }
+#     return JsonResponse(data)
 
 
 def logoutview(request):
@@ -376,15 +396,13 @@ def loginview(request):
             return redirect("/home" if next is None else next)
         else:
             load_dotenv()
-            request.session['state'] = base64.b64encode(
-                os.urandom(100)).decode('ascii')
+            request.session["state"] = base64.b64encode(os.urandom(100)).decode("ascii")
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
                 os.getenv("OAUTH_URL"),
                 os.getenv("OAUTH_ID"),
-                requests.utils.quote(
-                    "http://localhost:8000/accounts/callback/"),
+                requests.utils.quote("http://localhost:8000/accounts/callback/"),
                 "public",
-                request.session['state'],  # state
+                request.session["state"],  # state
             )
             return redirect(auth_url)
 
@@ -428,7 +446,6 @@ def callback(request):
 
     user.access_token = access_token
     login(request, user)
-    # return render(request, "callback.html", {"access_token": access_token})
     return redirect(home)
 
 
@@ -462,7 +479,7 @@ def create_fake_user(request):
         username="user123",
         email="user123@example.com",
         password="password123",
-        profil_picture=STATIC_URL("./img/profil/image-defaut.png"),
+        profil_picture=STATIC_URL + "./img/profil/image-defaut.png",
     )
     fake_user.first_name = "John"
     fake_user.last_name = "Doe"
@@ -524,17 +541,6 @@ def get_usernames(request, gameId=None):
     }
     return JsonResponse(data)
 
-def get_tour_usernames(request, tournamentId=None):
-    if tournamentId is None:
-        return JsonResponse({"error": "Invalid request"})
-    game = Tournament.objects.get(pk=tournamentId)
-    player1_username = game.teams.first().users.first().username
-    player2_username = game.teams.last().users.first().username
-    data = {
-        "player1_username": player1_username,
-        "player2_username": player2_username,
-    }
-    return JsonResponse(data)
 
 def get_scores(request, gameId=None):
     if gameId is None:
@@ -543,54 +549,30 @@ def get_scores(request, gameId=None):
     if request.method == "GET":
         data = {
             "player1Score": game.gameteam_set.first().score,
-            "player2Score": game.gameteam_set.first().score,
+            "player2Score": game.gameteam_set.last().score,
         }
         return JsonResponse(data)
     if request.method == "POST":
         data = json.loads(request.body)
-        player1Score = data.get("player1Score")
-        player2Score = data.get("player2Score")
-        # print("PLAYER 1 ", player1Score)
-        # print("PLAYER 2 ", player2Score)
-        game.gameteam_set.first().score = player1Score
-        game.gameteam_set.last().score = player2Score
-        print(f"{game.teams.first().users.first().username}: {player1Score}")
-        print(f"{game.teams.last().users.first().username}: {player2Score}")
-        game.winner = game.teams.first().users.first() if player1Score > player2Score else game.teams.last().users.first()
-        # print(game.winner.username)
+        gameteam1 = GameTeam.objects.filter(game=game).first()
+        gameteam1.score = data.get("player1Score")
+        gameteam1.save()
+        gameteam2 = GameTeam.objects.filter(game=game).last()
+        gameteam2.score = data.get("player2Score")
+        gameteam2.save()
+        game.save()
+        game.refresh_from_db()
+        print(f"{game.teams.first().users.first().username}: {gameteam1.score}")
+        print(f"{game.teams.last().users.first().username}: {gameteam2.score}")
+        game.winner = (
+            game.teams.first().users.first()
+            if gameteam1.score > gameteam2.score
+            else game.teams.last().users.first()
+        )
         game.save()
         data = {
-            "player1Score": game.gameteam_set.first().score,
-            "player2Score": game.gameteam_set.first().score,
-        }
-        return JsonResponse(data)
-    
-def get_tour_scores(request, tournamentId=None):
-    if tournamentId is None:
-        return JsonResponse({"error": "Invalid request"})
-    game = Tournament.objects.get(pk=tournamentId)
-    if request.method == "GET":
-        data = {
-            "player1Score": game.gameteam_set.first().score,
-            "player2Score": game.gameteam_set.first().score,
-        }
-        return JsonResponse(data)
-    if request.method == "POST":
-        data = json.loads(request.body)
-        player1Score = data.get("player1Score")
-        player2Score = data.get("player2Score")
-        # print("PLAYER 1 ", player1Score)
-        # print("PLAYER 2 ", player2Score)
-        game.gameteam_set.first().score = player1Score
-        game.gameteam_set.last().score = player2Score
-        print(f"{game.teams.first().users.first().username}: {player1Score}")
-        print(f"{game.teams.last().users.first().username}: {player2Score}")
-        game.winner = game.teams.first().users.first() if player1Score > player2Score else game.teams.last().users.first()
-        # print(game.winner.username)
-        game.save()
-        data = {
-            "player1Score": game.gameteam_set.first().score,
-            "player2Score": game.gameteam_set.first().score,
+            "player1Score": gameteam1.score,
+            "player2Score": gameteam2.score,
         }
         return JsonResponse(data)
 
@@ -617,8 +599,6 @@ def get_users(request):
         return JsonResponse({"error": "User not found"}, status=404)
 
 
-# FOR MATCH HISTORY
 def profil_view(request):
-    # Récupérer tous les matchs associés à l'utilisateur
     matches = Game.objects.filter(teams__users=request.user)
-    return render(request, 'profil.html', {'matches': matches})
+    return render(request, "profil.html", {"matches": matches})
