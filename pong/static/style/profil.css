@@ -918,8 +918,9 @@
 
 /* Barre de défilement principale */
 ::-webkit-scrollbar {
-	width: 5px;
+	width: 8px;
 	/* Largeur de la barre de défilement */
+	height: 5px;
 }
 
 /* Barre de défilement track */
@@ -934,6 +935,7 @@
 	/* Couleur de la barre de défilement */
 	border-radius: 5px;
 	/* Coins arrondis */
+	height: 10px;
 }
 
 /* Barre de défilement thumb lorsqu'elle est survolée */
@@ -977,6 +979,7 @@
 	height: auto;
 	overflow-y: auto;
 	width: 234px;
+	border-radius: 5px;
 
 	.contact {
 		border-top: 0px !important;
@@ -992,7 +995,7 @@
 		}
 
 		.text {
-			margin-left: 10px;
+			margin-left: 30px;
 
 			text-align: center;
 			color: black;
@@ -1002,9 +1005,81 @@
 
 		&:hover {
 			cursor: pointer;
-			background-color: rgba(255, 255, 255, 0.5);
-			/*var(--violet);*/
+			/* background-color: var(--violet); */
+			background-color: white;
 		}
+	}
+}
+
+/* Verena modif status */
+.status-indicator {
+	/* Styles de la pastille de statut */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	margin-left: 10px;
+	/* Ajustez la marge pour positionner la pastille à droite du nom */
+}
+
+/* Styles pour différents états */
+.online {
+	background-color: var(--vert);
+	color: transparent;
+	font-size: 0px;
+}
+
+.offline {
+	background-color: grey;
+	color: transparent;
+	font-size: 0px;
+}
+
+.playing {
+	background-color: var(--violet);
+	color: transparent;
+	font-size: 0px;
+}
+
+.empty {
+	background-color: black;
+	color: transparent;
+	font-size: 0px;
+}
+
+/* Styles pour différents états en version mode nuit adapte */
+.night-mode {
+	.online {
+		background-color: transparent;
+		color: black;
+		font-size: 15px;
+	}
+
+	.offline {
+		background-color: transparent;
+		color: black;
+		font-size: 15px;
+	}
+
+	.playing {
+		background-color: transparent;
+		color: black;
+		font-size: 15px;
+	}
+
+	/* .empty {background-color: black; color: black; font-size: 15px;} */
+}
+
+
+
+/* Verena modif night mode pour lisibilite */
+.night-mode {
+	.list-contact {
+		background-color: rgba(255, 255, 255, 0.8);
+		border-radius: 5px;
+	}
+
+	.list-contact .text {
+		color: black;
 	}
 }
 
