@@ -52,6 +52,7 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "username"
     friends = models.ManyToManyField("self")
     blocked_users = models.ManyToManyField("self")
+    status = models.CharField(max_length=10) 
 
     objects = UserManager()
 

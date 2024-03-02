@@ -8,8 +8,8 @@ from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
-from django.core.serializers import serialize
+# from django.views.decorators.http import require_http_methods
+# from django.core.serializers import serialize
 from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
@@ -17,9 +17,51 @@ from .models import GameTeam, Tournament, User, Team, Game, Remote
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
-import json
+# import json
 import os
 import base64
+
+
+@receiver(user_logged_in)
+def user_logged_in_handler(sender, request, user, **kwargs):
+    # Met à jour le statut du userok à "online"
+    user.status = "online"
+    user.save()
+
+
+@receiver(user_logged_out)
+def user_logged_out_handler(sender, request, user, **kwargs):
+    # Met à jour le statut du userok à "offline"
+    user.status = "offline"
+    user.save()
+
+
+# Défini un signal pour indiquer que le user est en train de jouer
+user_playing_mode = Signal()
+
+
+@receiver(user_playing_mode)
+def user_playing_mode_handler(sender, request, user, **kwargs):
+    # request = kwargs.get('request')
+    # user = kwargs.get('user')
+    user.status = "playing"
+    user.save()
+
+# Défini un signal pour indiquer que le user n'est plus en train de jouer
+# user_stopped_playing_mode = Signal()
+
+# @receiver(user_stopped_playing_mode)
+# def user_stopped_playing_mode_handler(sender, request, user, **kwargs):
+#     user.status = "online"
+#     user.save()
+
+
+@login_required
+def update_status(request):
+    # Met à jour le statut de l'utilisateur en ligne apres la fonction endGame
+    request.user.status = "online"
+    request.user.save()
+    return JsonResponse({'message': 'User status updated successfully'}, status=200)
 
 
 def index(request, page_name=None):
@@ -80,6 +122,9 @@ def profil(request):
     win_ratio = round((wins / matches_played) * 100,
                       2) if matches_played > 0 else 0
 
+    status = request.user.status
+    # user_status = request.user.status
+
     if request.user.profil_picture:
         profil_picture_url = request.user.profil_picture.url
     elif request.user.profil_picture_oauth:
@@ -98,6 +143,8 @@ def profil(request):
             "wins": wins,
             "win_ratio": win_ratio,
             "matches": matches,
+            "status": status,
+            # "user_status": user_status,
         },
     )
 
@@ -248,6 +295,8 @@ def game(request, gameId=None):
     if game is None:
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    # envoi du signal pour le mode de jeu "playing"
+    user_playing_mode.send(sender=None, request=request, user=request.user)
     return render(
         request,
         "game.html",
@@ -261,8 +310,8 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
         game = Game.objects.create(
             start_time=timezone.now(),
             style="Remote Play",
-            opponent=request.POST.get('player2', ''),
-            score=request.POST.get('scoreText', 0),
+            # opponent=request.POST.get('player2', ''),
+            # score=request.POST.get('scoreText', 0),
         )
         team = Team.objects.create()
         team.save()
@@ -375,20 +424,29 @@ def tournament(request, tournamentId=None):
         },
     )
 
+# ajout du status en ligne ou hors ligne
+
 
 def logoutview(request):
     logout(request)
+    if user is not None:
+        login(request, user)
+        user_logged_in_handler(sender=None, request=request, user=user)
     return loginview(request)
 
 
 def logoutview(request):
     logout(request)
+    # user_logged_out_handler(sender=None, request=request, user=request.user)
     return loginview(request)
 
 
 def loginview(request):
     token = request.headers.get("Authorization")
     if request.user.is_authenticated:
+        # Appel à la fonction pour mettre à jour le statut de l'utilisateur
+        # user_logged_in_handler(sender=None, request=request, user=request.user)
+        # puis Redirection vers la page d'accueil
         redirect("/home")
     if request.method == "GET":
         ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
@@ -400,6 +458,7 @@ def loginview(request):
     elif request.method == "POST":
         user = CustomAuthenticationBackend.authenticate(request, token)
         if user is not None:
+            # user_logged_in_handler(sender=None, request=request, user=user)
             next = request.POST.get("next")
             return redirect("/home" if next is None else next)
         else:
@@ -525,7 +584,7 @@ def UpdateUserSettingsView(request):
         return redirect(profil)
     else:
         return HttpResponseBadRequest("Invalid request method")
-
+    
 
 @login_required
 def getUserData(request):
@@ -598,6 +657,7 @@ def get_users(request):
             user_info = {
                 "username": user.username,
                 "profil_picture": user.profil_picture_oauth,
+                "status": user.status,
                 # add other field if necessary
             }
             user_list.append(user_info)
@@ -628,6 +688,7 @@ def getList(request, prefix, type):
                     user_info = {
                         "username": user.username,
                         "profil_picture": user.profil_picture_oauth,
+                        "status": user.status  # recuperer le status @test Verena
                         # add other field if necessary
                     }
                     user_list.append(user_info)
@@ -642,6 +703,7 @@ def getList(request, prefix, type):
                     friend_info = {
                         "username": friend.username,
                         "profil_picture": friend.profil_picture_oauth,
+                        "status": user.status,
                     }
                     friend_list.append(friend_info)
                 context = {"friend_list": friend_list}
@@ -674,7 +736,8 @@ def manageFriend(request, prefix, action, username):
             if action == "add":
                 if not user_instance.friends.filter(username=target.username).exists():
                     user_instance.friends.add(target)
-                    print(f"friend: {username} added by {user_instance.username}")
+                    print(
+                        f"friend: {username} added by {user_instance.username}")
                     print("*****:", user_instance.friends.all())
                     return JsonResponse({"message": "friend have been added"}, status=200)
                 else:
@@ -691,7 +754,7 @@ def manageFriend(request, prefix, action, username):
 
             elif action == "block":
                 if user_instance.friends.filter(username=target.username).exists() and \
-                    not user_instance.blocked_users.filter(username=target.username).exists():
+                        not user_instance.blocked_users.filter(username=target.username).exists():
                     user_instance.blocked_users.add(target)
                     print(
                         f"friend: {username} was blocked by {user_instance.username}")
@@ -700,7 +763,7 @@ def manageFriend(request, prefix, action, username):
                     return JsonResponse({"message": "friend doesn't exist or already blocked"}, status=200)
             elif action == "unblock":
                 if user_instance.friends.filter(username=target.username).exists() and \
-                    user_instance.blocked_users.filter(username=target.username).exists():
+                        user_instance.blocked_users.filter(username=target.username).exists():
                     user_instance.blocked_users.remove(target)
                     print(
                         f"friend: {username} was unblocked by {user_instance.username}")

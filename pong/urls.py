@@ -41,6 +41,7 @@ urlpatterns = [
      path("<path:prefix>/getList/<str:type>", views.getList),
     path("chat/conversations/", views.get_user_conversations),
     path("<path:prefix>/manageFriend/<str:action>/<str:username>/", views.manageFriend),
+    path('update-status/', views.update_status, name='update_status'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
