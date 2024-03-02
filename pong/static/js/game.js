@@ -265,7 +265,7 @@ export function game(gameId) {
 			return;
 		}
 		if (player1Score >= 1 || player2Score >= 1) { //pour les tests plus rapide
-		// if (player1Score >= 5 || player2Score >= 5) {
+			// if (player1Score >= 5 || player2Score >= 5) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
@@ -296,6 +296,17 @@ export function game(gameId) {
 				.then(result => {
 					console.log("score_end:", player1Score);
 					console.log("score_end:", player2Score);
+					// met à jour le statut du user en ligne a la fin du jeu
+					fetch('/update-status/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRFToken': csrftoken,
+						}
+					})
+						.then(response => response.json())
+						.then(data => console.log(data))
+						.catch(error => console.error('Error updating user status:', error));
 				})
 				.catch(error => {
 					console.error('Error Fetch request :', error);

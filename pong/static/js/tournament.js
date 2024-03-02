@@ -229,20 +229,40 @@ export function tournament(tournamentId){
 		gameRunning = false;
 	}
 
+	function updateStatus() {
+		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		if (!csrftoken) {
+			console.error('CSRF token not found');
+			return;
+		}
+
+		fetch('/update-status/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRFToken': csrftoken,
+			}
+		})
+			.then(response => response.json())
+			.then(data => console.log(data))
+			.catch(error => console.error('Error updating user status:', error));
+	}
+
 	function endGame() {
 		if (player1Score >= 5 || player2Score >= 5) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
-				winnerMessage += player1 + " wins!";
+				winnerMessage += "Player 1 wins!";
 			} else if (player2Score > player1Score) {
-				winnerMessage += player2 + " wins!";
+				winnerMessage += "Player 2 wins!";
 			} else {
 				winnerMessage += "It's a draw!";
 			}
 
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
+			updateStatus();
 		}
 	}
 
