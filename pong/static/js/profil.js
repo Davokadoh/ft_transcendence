@@ -226,37 +226,34 @@ export function profil() {
 					console.log('Response server _data_ : users/list : ', data.user_list);
 					// clear contact list on document
 					document.getElementById("listContact").innerHTML = "";
-					var myUsername = document.getElementById("id_nickname").value;
 					data.user_list.map(user => {
 
-						if (myUsername != user.username) {
-							//take template
-							var tpl = templateContactList.content.cloneNode(true);
-							tpl.querySelector(".contact").id = `${user.username}-contact-id`;
-							tpl.querySelector("[data-image]").src = user.profil_picture;
-							tpl.querySelector("[data-name]").textContent = truncUsername(user.username);
-							tpl.querySelector("[data-full-name]").textContent = user.username;
+						//take template
+						var tpl = templateContactList.content.cloneNode(true);
+						tpl.querySelector(".contact").id = `${user.username}-contact-id`;
+						tpl.querySelector("[data-image]").src = user.profil_picture;
+						tpl.querySelector("[data-name]").textContent = truncUsername(user.username);
+						tpl.querySelector("[data-full-name]").textContent = user.username;
 
-							// Set the status indicator @Verena Status
-							let statusIndicator = tpl.querySelector(".status-indicator");
-							statusIndicator.textContent = user.status; // Assuming user.status contains the status
-							statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
+						// Set the status indicator @Verena Status
+						let statusIndicator = tpl.querySelector(".status-indicator");
+						statusIndicator.textContent = user.status; // Assuming user.status contains the status
+						statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
 
-							// Modify the status indicator color based on status
-							if (user.status === 'online') {
-								statusIndicator.classList.add('online');
-							} else if (user.status === 'offline') {
-								statusIndicator.classList.add('offline');
-							} else if (user.status === 'playing') {
-								statusIndicator.classList.add('playing');
-							} else if (user.status === '') {
-								statusIndicator.classList.add('empty');
-							}
-
-							//insert contact 
-							document.getElementById("listContact").append(tpl);
-							handle_click_contact(document.getElementById("listContact").lastElementChild);
+						// Modify the status indicator color based on status
+						if (user.status === 'online') {
+							statusIndicator.classList.add('online');
+						} else if (user.status === 'offline') {
+							statusIndicator.classList.add('offline');
+						} else if (user.status === 'playing') {
+							statusIndicator.classList.add('playing');
+						} else if (user.status === '') {
+							statusIndicator.classList.add('empty');
 						}
+
+						//insert contact 
+						document.getElementById("listContact").append(tpl);
+						handle_click_contact(document.getElementById("listContact").lastElementChild);
 
 					});
 					console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
