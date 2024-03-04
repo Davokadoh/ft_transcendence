@@ -240,9 +240,10 @@ body-msg {
 .--onhover {
 
     &:hover {
-        background-color: var(--bleu);
         cursor: pointer;
-
+        background-color: rgb(135, 211, 0, 0.5);
+        /* background-color: var(--vert); */
+        /* opacity: 0.5; */
         p,
         h6,
         .time-msg {
