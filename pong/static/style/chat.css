@@ -81,6 +81,7 @@ body-msg {
         &:hover {
             color: var(--bleu) !important;
             cursor: pointer;
+            border-radius: 5px;
         }
     }
 }
@@ -196,6 +197,7 @@ body-msg {
             position: relative;
             overflow: visible;
             width: 100%;
+            border-radius: 5px;
         }
 
         .dropdown-menu {
@@ -390,6 +392,9 @@ body-msg {
     /*Ypadding: 0 30px;  X*/
     /*margin-top: 19px;*/
     align-items: center;
+    /* border-radius: 5px; */
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 
     .inputCustom {
         margin: 0 15px;
@@ -485,6 +490,10 @@ body-msg {
 .bgVert {
     background-color: var(--vert) !important;
     color: var(--violet);
+}
+
+.bottomR20 {
+    border-bottom-right-radius: 15px;
 }
 
 .t-vert {
