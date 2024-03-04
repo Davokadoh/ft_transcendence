@@ -12,8 +12,21 @@ export function profil() {
 
 	let visibleList = false;
 	let templateContactList = document.createElement("template");
+	let modalContactsBtn = document.getElementById("contactsModal");
+	let modalBlockedBtn = document.getElementById("modalBlocked");
 
 	fetchTemplate();
+
+
+
+	modalContactsBtn.addEventListener("show.bs.modal", () => {
+		console.log("display contact modal");
+		createListFriends();
+	});
+	modalBlockedBtn.addEventListener("show.bs.modal", () => {
+		console.log("display contact Blocked modal");
+		createListBlocked();
+	});
 
 	settingsModal.addEventListener('hidden.bs.modal', function () {
 		settingsForm.reset();
@@ -183,7 +196,8 @@ export function profil() {
 	document.getElementById("ladder").addEventListener("click", () => {
 		console.log("click on ladder");
 
-		testManageFriend("add");
+		if (searched_username.value)
+			manageFriend("add", searched_username.value);
 		searched_username.value = "";
 	});
 
@@ -202,6 +216,97 @@ export function profil() {
 		} catch (error) {
 			console.error('fetch chat/template : ERROR', error);
 		}
+	}
+
+	function createListFriends() {
+
+		console.log("==createListFriends FUNCTION==");
+		fetch("getList/friends", {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('fetch getList/friends : ERROR');
+				}
+				return response.json();
+			})
+			.then(data => {
+
+				console.log('Response server _data_ : users/friends : ', data.friend_list);
+				// clear friends list on document
+				document.getElementById("modalBodyContact").innerHTML = "";
+				let modalTmp = document.createElement("p");
+				modalTmp.className = "pseudoBlock d-flex align-items-end"
+				data.friend_list.forEach(friend => {
+
+					//let username = truncUsername(friend.username);
+					modalTmp.innerHTML = `
+						${friend.username}
+						<button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip"
+							data-bs-placement="top" title="Invite the contact"
+							alt="Button to invite the contact" id="btnInvite"></button>
+						<button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip"
+							data-bs-placement="top" title="Block the contact"
+							alt="Button to block the contact" id="btnBlock"></button>
+						`
+					document.getElementById("modalBodyContact").append(modalTmp);
+					//document.getElementById("btnInvite").addEventListener("click", invitationFunct);
+					document.getElementById("btnBlock").addEventListener("click", (e) => {
+						manageFriend("block", e.target.closest(".modal-body").innerText);
+					});
+				});
+			})
+			.catch(error => {
+				console.error('request error: Fetch', error);
+			});
+	}
+
+	function createListBlocked() {
+
+		console.log("==createListFriends FUNCTION==");
+		fetch("getList/blocked", {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('fetch getList/blocked : ERROR');
+				}
+				return response.json();
+			})
+			.then(data => {
+
+				console.log('Response server _data_ : users/blocked : ', data.users_blocked);
+				// clear friends list on document
+				document.getElementById("modalBodyBlocked").innerHTML = "";
+				let modalTmp = document.createElement("p");
+				modalTmp.className = "pseudoBlock d-flex align-items-end"
+				data.users_blocked.forEach(user => {
+
+					//let username = truncUsername(friend.username);
+					modalTmp.innerHTML = `
+						${user.username}
+						<button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip"
+							data-bs-placement="top" title="Unblock the contact"
+							alt="Button to unblock the contact" id="btnUnblock"></button>
+						`
+					document.getElementById("modalBodyBlocked").append(modalTmp);
+					document.getElementById("btnUnblock").addEventListener("click", (e) => {
+						manageFriend("unblock", e.target.closest(".pseudoBlock").innerText);
+						e.target.closest(".pseudoBlock").remove();
+
+					});
+
+				})
+			})
+			.catch(error => {
+				console.error('request error: Fetch', error);
+			});
 	}
 
 	function createListContact() {
@@ -309,30 +414,29 @@ export function profil() {
 	}
 
 	//test de Raph:
-	function testManageFriend(action) {
+	function manageFriend(action, target) {
 
-		if (searched_username.value != "") {
-			fetch(`manageFriend/${action}/${searched_username.value}/`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+
+		fetch(`manageFriend/${action}/${target}/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.status);
+				}
+				return response.json();
 			})
-				.then(response => {
-					if (!response.ok) {
-						throw new Error(response.status);
-					}
-					return response.json();
-				})
-				.then(data => {
-					// test
-					console.log(data.message);
-				})
-				.catch(error => {
-					// Le traitement des erreurs ici
-					console.error('Request fetch Error:', error);
-				});
-		}
+			.then(data => {
+				// test
+				console.log(data.message);
+			})
+			.catch(error => {
+				// Le traitement des erreurs ici
+				console.error('Request fetch Error:', error);
+			});
 	}
 
 };
