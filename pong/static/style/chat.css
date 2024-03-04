@@ -318,7 +318,7 @@ body-msg {
 }
 
 .chat-bubble--blue {
-    background: #74b9ff;
+    background: var(--bleu);
     color: #fff;
 }
 
@@ -326,7 +326,7 @@ body-msg {
 
     &::after {
         right: 0;
-        border-left-color: #74b9ff;
+        border-left-color: var(--bleu)gt;
         border-right: 0;
         margin-right: -20px;
     }
@@ -429,4 +429,42 @@ body-msg {
 
 .read-on {
     background-color: red;
+}
+
+.bgVert {
+    background-color: var(--vert) !important;
+    color: var(--violet);
+}
+
+.t-vert {
+    color: var(--vert) !important;
+}
+
+.bgViolet {
+    background-color: var(--violet);
+    color: var(--vert) !important;
+}
+
+.bgBleu {
+    background-color: var(--bleu);
+    color: white;
+}
+
+.night-mode {
+    .rien {}
+    .t-vert { color: white !important;}
+    .bgVert {
+        background-color: black;
+        color: white;
+    }
+
+    .bgViolet {
+        background-color: black;
+        color: white;
+    }
+
+    .bgBleu {
+        background-color: black;
+        color: white;
+    }
 }

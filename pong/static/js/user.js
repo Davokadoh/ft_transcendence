@@ -112,7 +112,9 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     document.getElementById("listContact").innerHTML = "";
 
                     //#check#user
-                    var myUsername = "test";//document.getElementById("id_nickname").value;
+                    var myUsername = document.getElementById("searchInput").value;
+                    // var myUsername = document.getElementById("searchInput").value;
+                    //document.getElementById("id_nickname").value;
                     data.user_list.map(user => {
 
                         if (myUsername != user.username) {
@@ -127,6 +129,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                             let statusIndicator = tpl.querySelector(".status-indicator");
                             statusIndicator.textContent = user.status; // Assuming user.status contains the status
                             statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
+
+                            // document.getElementById("listContact").appendChild(tpl);
 
                             // Modify the status indicator color based on status
                             if (user.status === 'online') {
