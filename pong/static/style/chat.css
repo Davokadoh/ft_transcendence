@@ -407,7 +407,7 @@ body-msg {
         color: rgb(100, 96, 96);
 
         &:focus {
-            outline-color: rgb(161, 13, 161);
+            outline-color: var(--violet);
         }
     }
 
@@ -425,6 +425,10 @@ body-msg {
     .i-send {
         transform: rotate(45deg);
     }
+}
+
+.night-mode .chat-box .inputCustom:focus {
+    outline-color: var(--gray);
 }
 
 .disabled {
