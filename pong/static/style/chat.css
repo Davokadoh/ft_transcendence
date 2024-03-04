@@ -204,7 +204,6 @@ body-msg {
             top: 10px;
             left: 100px;
             width: 100%;
-            /* Ajustez la largeur selon vos besoins */
         }
     }
 }
@@ -258,6 +257,8 @@ body-msg {
 .dropdown-item {
     font-family: "Spoof", sans-serif;
     background-color: var(--violet);
+    /* --bs-dropdown-bg: ; */
+    color: white;
 }
 
 .dropdown-menu-dark {
