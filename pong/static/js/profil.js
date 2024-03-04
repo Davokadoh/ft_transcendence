@@ -239,8 +239,8 @@ export function profil() {
 
 							// Set the status indicator @Verena Status
 							let statusIndicator = tpl.querySelector(".status-indicator");
-							statusIndicator.textContent = user.status; // Assuming user.status contains the status
-							statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
+							statusIndicator.textContent = user.status;
+							statusIndicator.setAttribute('data-status', user.status);
 
 							// Modify the status indicator color based on status
 							if (user.status === 'online') {

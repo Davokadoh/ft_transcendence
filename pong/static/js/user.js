@@ -127,7 +127,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
 
                             // Set the status indicator @Verena Status
                             let statusIndicator = tpl.querySelector(".status-indicator");
-                            statusIndicator.textContent = user.status; // Assuming user.status contains the status
+                            statusIndicator.textContent = user.status; // user.status contains the status
                             statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
 
                             // document.getElementById("listContact").appendChild(tpl);
