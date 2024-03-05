@@ -26,39 +26,39 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import Signal
 
 
-# @receiver(user_logged_in)
-# def user_logged_in_handler(sender, request, user, **kwargs):
-#     # Met à jour le statut du userok à "online"
-#     user.status = "online"
-#     user.save()
+@receiver(user_logged_in)
+def user_logged_in_handler(sender, request, user, **kwargs):
+    # Met à jour le statut du userok à "online"
+    user.status = "online"
+    user.save()
 
 
-# @receiver(user_logged_out)
-# def user_logged_out_handler(sender, request, user, **kwargs):
-#     # Met à jour le statut du userok à "offline"
-#     user.status = "offline"
-#     user.save()
+@receiver(user_logged_out)
+def user_logged_out_handler(sender, request, user, **kwargs):
+    # Met à jour le statut du userok à "offline"
+    user.status = "offline"
+    user.save()
 
 
-# # Défini un signal pour indiquer que le user est en train de jouer
-# user_playing_mode = Signal()
+# Défini un signal pour indiquer que le user est en train de jouer
+user_playing_mode = Signal()
 
 
-# @receiver(user_playing_mode)
-# def user_playing_mode_handler(sender, request, user, **kwargs):
-#     # request = kwargs.get('request')
-#     # user = kwargs.get('user')
-#     user.status = "playing"
-#     user.save()
+@receiver(user_playing_mode)
+def user_playing_mode_handler(sender, request, user, **kwargs):
+    # request = kwargs.get('request')
+    # user = kwargs.get('user')
+    user.status = "playing"
+    user.save()
 
 
 # Défini un signal pour indiquer que le user n'est plus en train de jouer
-# user_stopped_playing_mode = Signal()
+user_stopped_playing_mode = Signal()
 
-# @receiver(user_stopped_playing_mode)
-# def user_stopped_playing_mode_handler(sender, request, user, **kwargs):
-#     user.status = "online"
-#     user.save()
+@receiver(user_stopped_playing_mode)
+def user_stopped_playing_mode_handler(sender, request, user, **kwargs):
+    user.status = "online"
+    user.save()
 
 
 @login_required
@@ -454,6 +454,8 @@ def tournament_game(request, gameId=None):
 
 
 def logoutview(request):
+    if request.user is not None:
+        user_logged_in_handler(sender=None, request=request, user=request.user)
     logout(request)
     return loginview(request)
 
