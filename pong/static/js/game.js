@@ -264,8 +264,8 @@ export function game(gameId) {
 			console.error('CSRF token not found');
 			return;
 		}
-		if (player1Score >= 1 || player2Score >= 1) { //pour les tests plus rapide
-			// if (player1Score >= 5 || player2Score >= 5) {
+		// if (player1Score >= 5 || player2Score >= 5) {
+		if (player1Score >= 1 || player2Score >= 1) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
