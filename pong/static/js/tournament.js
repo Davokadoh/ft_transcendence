@@ -40,6 +40,8 @@ export function tournament(gameId) {
 		scoreText = document.getElementById("scoreText");
 		gameWidth = gameBoard.width;
 		gameHeight = gameBoard.height;
+		player1 = document.getElementById("player1").textContent;
+		player2 = document.getElementById("player2").textContent;
 		player1Score = 0;
 		player2Score = 0;
 		paddle1 = { width: 25, height: 100, x: 10, y: 5 };
