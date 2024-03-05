@@ -28,6 +28,20 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     // POUR LE FORM USER profil et user ?
     let user = document.getElementById('user');
     let searched_username = document.getElementById('searchInput');
+    let removeFriendBtn = document.getElementById('removeFriend');
+    let addFriendBtn = document.getElementById('addFriend');
+
+    removeFriendBtn.onclick = (e) => {
+        let target = e.target.closest(".container").querySelector("#username").innerText;
+        console.log("click remove friend: ", target);
+        manageFriend("remove", target);
+    };
+
+    addFriendBtn.onclick = (e) => {
+        let target = e.target.closest(".container").querySelector("#username").innerText;
+        console.log("click remove friend: ", target);
+        manageFriend("add", target);
+    };
 
     searched_username.addEventListener("keypress", (e) => {
         if (e.key == "Enter")
@@ -67,7 +81,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     document.getElementById("ladder").addEventListener("click", () => {
         console.log("click on ladder");
 
-        testManageFriend("add");
+        if (searched_username.value)
+            manageFriend("add", searched_username.value);
         searched_username.value = "";
     });
 
@@ -112,7 +127,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     document.getElementById("listContact").innerHTML = "";
 
                     //#check#user
-                    var myUsername = "test";//document.getElementById("id_nickname").value;
+
+                    var myUsername = document.getElementById("searchInput").value;
                     data.user_list.map(user => {
 
                         if (myUsername != user.username) {
@@ -125,8 +141,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
 
                             // Set the status indicator @Verena Status
                             let statusIndicator = tpl.querySelector(".status-indicator");
-                            statusIndicator.textContent = user.status; // Assuming user.status contains the status
-                            statusIndicator.setAttribute('data-status', user.status); // Set data-status attribute
+                            statusIndicator.textContent = user.status;
+                            statusIndicator.setAttribute('data-status', user.status);
 
                             // Modify the status indicator color based on status
                             if (user.status === 'online') {
@@ -198,30 +214,28 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     }
 
     //test de Raph:
-    function testManageFriend(action) {
+    function manageFriend(action, target) {
 
-        if (searched_username.value != "") {
-            fetch(`manageFriend/${action}/${searched_username.value}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+        fetch(`manageFriend/${action}/${target}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+                return response.json();
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // test
-                    console.log(data.message);
-                })
-                .catch(error => {
-                    // Le traitement des erreurs ici
-                    console.error('Request fetch Error:', error);
-                });
-        }
+            .then(data => {
+                // test
+                console.log(data.message);
+            })
+            .catch(error => {
+                // Le traitement des erreurs ici
+                console.error('Request fetch Error:', error);
+            });
     }
 
 }

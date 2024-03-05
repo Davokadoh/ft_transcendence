@@ -835,6 +835,7 @@ def get_user_conversations(request):
                 {
                     "name": conversation.participants.username,
                     "messages": messages,
+                    "status" : conversation.participants.status,
                     # "unread": conversation.unread,
                 }
             )

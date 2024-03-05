@@ -15,7 +15,8 @@
     <div class="conversation friend --onhover d-flex" id="">
         <img src="" alt="Friend photo" class="profile-image" data-image>
         <div class="text" data-text>
-            <h6></h6>
+            <span class="status-indicator" id="onLineStatus" data-status="{{ user.status }}"></span>
+            <h6 class="t-bleu"></h6>
             <p class="text-muted" id="textMuted"></p>
         </div>
         <div class="ms-auto">
@@ -39,20 +40,20 @@
     <!-- nested row1 -->
     <div class="row row-trayRight g-0">
         <div class="col-md-12">
-            <div class="settings-tray settings-tray--right d-flex align-items-center" id="settingsTrayId">
+            <div class="settings-tray settings-tray--right d-flex align-items-center bgViolet" id="settingsTrayId">
                 <img class="profile-image" id="contactImgProfil" src="" alt="Friend Image" data-toggle="tooltip"
                     title="Detail du profil" data-image>
                 <div class="text" data-text>
-                    <h6></h6>
+                    <h6 class="t-vert" ></h6>
                 </div>
 
                 <span class="dropdown ms-auto">
-                    <i class="bi bi-three-dots-vertical" data-toggle="tooltip" title="Menu" id="menuButtonRight"
+                    <i class="bi bi-three-dots-vertical bi-da-violet" data-toggle="tooltip" title="Menu" id="menuButtonRight"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     </i>
-                    <ul class="dropdown-menu" aria-labelledby="menuButtonRight">
-                        <li><a class="dropdown-item" href="#">Invitation</a></li>
-                        <li><a class="dropdown-item" href="#">Block contact</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="menuButtonRight" style="--bs-dropdown-bg: var(--violet);">
+                        <li><a class="dropdown-item daFront" href="#">Invitation</a></li>
+                        <li><a class="dropdown-item daFront" href="#">Block contact</a></li>
                     </ul>
                 </span>
             </div>
@@ -61,9 +62,9 @@
 
     <!-- nested row2 -->
     <div class="row row-chatPanel g-0" id="rowChatPanel">
-        <div class="col-md-12">
+        <div class="col-md-12 siteDa">
 
-            <div class="contact-profil d-flex flex-column align-items justify-content-between invisible-y"
+            <div class="contact-profil d-flex flex-column align-items justify-content-between invisible-y bgVert bottomR20"
                 id="contactProfil">
                 <div class="row align-items-center justify-content-between">
                     <form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
