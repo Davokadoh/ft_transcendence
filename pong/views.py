@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import GameTeam, Tournament, User, Team, Game, Remote
+from .models import GameTeam, Tournament, User, Team, Game
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
@@ -53,12 +53,12 @@ def user_playing_mode_handler(sender, request, user, **kwargs):
 
 
 # Défini un signal pour indiquer que le user n'est plus en train de jouer
-# user_stopped_playing_mode = Signal()
+user_stopped_playing_mode = Signal()
 
-# @receiver(user_stopped_playing_mode)
-# def user_stopped_playing_mode_handler(sender, request, user, **kwargs):
-#     user.status = "online"
-#     user.save()
+@receiver(user_stopped_playing_mode)
+def user_stopped_playing_mode_handler(sender, request, user, **kwargs):
+    user.status = "online"
+    user.save()
 
 
 @login_required
@@ -108,7 +108,7 @@ def profil(request):
                     match.gameteam_set.last().score,
                 )
                 print(f"SCORE = {match.score[0]} - {match.score[1]}")
-                if match.winner == request.user:
+                if match.winner.users.first() == request.user:
                     match.result = "WIN"
                 else:
                     match.result = "LOSE"
@@ -123,7 +123,7 @@ def profil(request):
     profil_picture_form = ProfilPictureForm(instance=request.user)
 
     matches_played = games.count()
-    wins = games.filter(winner=request.user).count()
+    wins = games.filter(winner__users=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
     status = request.user.status
@@ -184,7 +184,7 @@ def user(request, username=None):
         )
 
     matches_played = games.count()
-    wins = games.filter(winner=user).count()
+    wins = games.filter(winner__users=user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
     if user.profil_picture:
@@ -300,7 +300,7 @@ def game(request, gameId=None):
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     # envoi du signal pour le mode de jeu "playing"
-    user_playing_mode.send(sender=None, request=request, user=request.user)
+    # user_playing_mode.send(sender=None, request=request, user=request.user)
     return render(
         request,
         "game.html",
@@ -366,56 +366,39 @@ def remote(request, remoteId=None):
 
 
 @login_required
-def tourLobby(
-    request,
-    tournamentId=None,
-    invitedPlayer2=None,
-    invitedPlayer3=None,
-    invitedPlayer4=None,
-):
+def tourLobby(request, tournamentId=None):
     if tournamentId is None:
         tournament = Tournament.objects.create()
         return redirect(tourLobby, tournament.pk)
-
-    tournament = get_object_or_404(Tournament, pk=tournamentId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-
+    context = {
+        "tournamentId": tournamentId,
+        "template": "ajax.html" if ajax else "index.html",
+    }
     if request.method == "GET":
-        return render(
-            request,
-            "tourLobby.html",
-            {
-                "template": "ajax.html" if ajax else "index.html",
-                "tournamentId": tournamentId,
-                "invitedPlayer2": invitedPlayer2,
-                "invitedPlayer3": invitedPlayer3,
-                "invitedPlayer4": invitedPlayer4,
-            },
-        )
+        return render(request, "tourLobby.html", context)
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            player2Username = data.get("p2Username")
-            player3Username = data.get("p3Username")
-            player4Username = data.get("p4Username")
-
-            player2 = User.objects.filter(username=player2Username).first()
-            player3 = User.objects.filter(username=player3Username).first()
-            player4 = User.objects.filter(username=player4Username).first()
-
-            if player2 is None:
-                return JsonResponse({"error_message": "Player 2 not found"})
-            elif player3 is None:
-                return JsonResponse({"error_message": "Player 3 not found"})
-            elif player4 is None:
-                return JsonResponse({"error_message": "Player 4 not found"})
-            return JsonResponse(
-                {
-                    "p2Username": player2.username,
-                    "p3Username": player3.username,
-                    "p4Username": player4.username,
-                }
-            )
+            usernames = [value for key, value in data.items()]
+            users = User.objects.filter(username__in=usernames)
+            if not users.exists():
+                return JsonResponse(
+                    {"error_message": "No users found with the provided usernames"}
+                )
+            tournament = Tournament.objects.get(pk=tournamentId)
+            team = Team.objects.create()
+            team.users.add(request.user)
+            team.save()
+            tournament.register_team(team)
+            for user in users:
+                team = Team.objects.create()
+                team.users.add(user)
+                team.save()
+                tournament.register_team(team)
+            tournament.save()
+            print(tournament)
+            return JsonResponse(data)
         except ObjectDoesNotExist as e:
             return JsonResponse(
                 {"error_message": str(e), "invalidUsername": data.get("username")}
@@ -423,42 +406,57 @@ def tourLobby(
 
 
 @login_required
-def tournament(request, tournamentId=None):
-    if tournamentId is None:
-        return redirect(home)
-
+def tournament_next(request, tournamentId=None):
     try:
         tournament = Tournament.objects.get(pk=tournamentId)
-    except Tournament.DoesNotExist:
-        raise Http404("Tournament does not exist")
+        game = tournament.next_game()
+    except Tournament.DoesNotExist or Game.DoesNotExist:
+        raise Http404("Game does not exist")
+    return redirect(tournament_game, gameId=game.pk)
 
-    # if tournament is None:
-    #     return redirect(home)
+
+@login_required
+def tournament_game(request, gameId=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    return render(
-        request,
-        "tournament.html",
-        {
-            "template": "ajax.html" if ajax else "index.html",
-            "tournamentId": tournamentId,
-        },
-    )
-
-
-# ajout du status en ligne ou hors ligne
+    try:
+        game = Game.objects.get(pk=gameId)
+    except Game.DoesNotExist:
+        raise Http404("Game does not exist")
+    team1 = GameTeam.objects.filter(game=game).first()
+    team2 = GameTeam.objects.filter(game=game).last()
+    context = {
+        "game": game,
+        "player1": team1.team.users.first(),
+        "player2": team2.team.users.first(),
+        "template": "ajax.html" if ajax else "index.html",
+    }
+    if request.method == "GET":
+        return render(request, "tournament.html", context)
+    elif request.method == "POST":
+        data = json.loads(request.body)
+        team1.score = data.get("player1Score")
+        team2.score = data.get("player2Score")
+        team1.save()
+        team2.save()
+        game.winner = team1.team if team1.score > team2.score else team2.team
+        game.status = "END"
+        game.save()
+        tournament_round = game.tournament_round
+        if tournament_round:
+            next = tournament_round.tournament.next_game()
+            if next:
+                print(f"Next game {next.pk}")
+                return JsonResponse({"nextGame": next.pk})
+            else:
+                return redirect(home)
+                # return render(request, "win.html", context)
+        return redirect(home)
 
 
 def logoutview(request):
+    if request.user is not None:
+        user_logged_in_handler(sender=None, request=request, user=request.user)
     logout(request)
-    if user is not None:
-        login(request, user)
-        user_logged_in_handler(sender=None, request=request, user=user)
-    return loginview(request)
-
-
-def logoutview(request):
-    logout(request)
-    # user_logged_out_handler(sender=None, request=request, user=request.user)
     return loginview(request)
 
 
@@ -651,14 +649,11 @@ def get_scores(request, gameId=None):
         gameteam2.save()
         game.save()
         game.refresh_from_db()
-        print(f"{game.teams.first().users.first().username}: {gameteam1.score}")
-        print(f"{game.teams.last().users.first().username}: {gameteam2.score}")
         game.winner = (
-            game.teams.first().users.first()
+            gameteam1.team
             if gameteam1.score > gameteam2.score
-            else game.teams.last().users.first()
+            else gameteam2.teagamem
         )
-        # print(game.winner.username)
         game.save()
         data = {
             "player1Score": gameteam1.score,

@@ -1,5 +1,7 @@
-export function tournament(tournamentId){
-    let gameBoard;
+import { router } from "./router.js";
+
+export function tournament(gameId) {
+	let gameBoard;
 	let ctx;
 	let scoreText;
 	let gameWidth;
@@ -26,11 +28,11 @@ export function tournament(tournamentId){
 	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
 	let keyState = {
-        'w': false,
-        's': false,
-        'ArrowUp': false,
-        'ArrowDown': false,
-    };
+		'w': false,
+		's': false,
+		'ArrowUp': false,
+		'ArrowDown': false,
+	};
 
 	function initializeGame() {
 		gameBoard = document.getElementById("gameBoard");
@@ -38,6 +40,8 @@ export function tournament(tournamentId){
 		scoreText = document.getElementById("scoreText");
 		gameWidth = gameBoard.width;
 		gameHeight = gameBoard.height;
+		player1 = document.getElementById("player1").textContent;
+		player2 = document.getElementById("player2").textContent;
 		player1Score = 0;
 		player2Score = 0;
 		paddle1 = { width: 25, height: 100, x: 10, y: 5 };
@@ -53,7 +57,7 @@ export function tournament(tournamentId){
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
-		document.querySelector('.modalButton').addEventListener('click', function() {
+		document.querySelector('.modalButton').addEventListener('click', function () {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
@@ -62,24 +66,6 @@ export function tournament(tournamentId){
 	document.getElementById("start-game").addEventListener("click", startGame);
 	document.getElementById("stop-game").addEventListener("click", stopGame);
 	document.getElementById("reset-game").addEventListener("click", resetGame);
-
-	fetch(`/tournament/${tournamentId}/get-username/`)
-    .then(response => response.json())
-    .then(data => {
-        var player1 = data.player1_username;
-        var player2 = data.player2_username;
-        var player3 = data.player3_username; // Ajout de la récupération du nom du joueur 3
-        console.log(player1);
-        console.log(player2);
-        console.log(player3); // Affichage du nom du joueur 3 dans la console
-        document.getElementById('player1').textContent = player1;
-        document.getElementById('player2').textContent = player2;
-        document.getElementById('player3').textContent = player3; // Mise à jour du texte pour le joueur 3
-    })
-    .catch(error => {
-        // Gérer les erreurs survenues lors de la requête
-        console.error('Erreur lors de la requête AJAX :', error);
-    });
 
 	function draw() {
 		if (!gameRunning) {
@@ -178,33 +164,33 @@ export function tournament(tournamentId){
 	}
 
 	function changeDirection(event) {
-        const keyPressed = event.key;
+		const keyPressed = event.key;
 
-        if (keyPressed in keyState) {
-            keyState[keyPressed] = (event.type === 'keydown');
+		if (keyPressed in keyState) {
+			keyState[keyPressed] = (event.type === 'keydown');
 
-            if (keyState['w'] && !keyState['s']) {
-                if (paddle1.y > 0) {
-                    paddle1.y -= paddleSpeed;
-                }
-            } else if (!keyState['w'] && keyState['s']) {
-                if (paddle1.y < gameHeight - paddle1.height) {
-                    paddle1.y += paddleSpeed;
-                }
-            }
+			if (keyState['w'] && !keyState['s']) {
+				if (paddle1.y > 0) {
+					paddle1.y -= paddleSpeed;
+				}
+			} else if (!keyState['w'] && keyState['s']) {
+				if (paddle1.y < gameHeight - paddle1.height) {
+					paddle1.y += paddleSpeed;
+				}
+			}
 
-            if (keyState['ArrowUp'] && !keyState['ArrowDown']) {
-                if (paddle2.y > 0) {
-                    paddle2.y -= paddleSpeed;
-                }
-            } else if (!keyState['ArrowUp'] && keyState['ArrowDown']) {
-                if (paddle2.y < gameHeight - paddle2.height) {
-                    paddle2.y += paddleSpeed;
-                }
-            }
-        }
-    }
-	
+			if (keyState['ArrowUp'] && !keyState['ArrowDown']) {
+				if (paddle2.y > 0) {
+					paddle2.y -= paddleSpeed;
+				}
+			} else if (!keyState['ArrowUp'] && keyState['ArrowDown']) {
+				if (paddle2.y < gameHeight - paddle2.height) {
+					paddle2.y += paddleSpeed;
+				}
+			}
+		}
+	}
+
 	function updateScore() {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
@@ -229,40 +215,66 @@ export function tournament(tournamentId){
 		gameRunning = false;
 	}
 
-	function updateStatus() {
-		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-		if (!csrftoken) {
-			console.error('CSRF token not found');
-			return;
-		}
+	// function updateStatus() {
+	// 	const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+	// 	if (!csrftoken) {
+	// 		console.error('CSRF token not found');
+	// 		return;
+	// 	}
 
-		fetch('/update-status/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-CSRFToken': csrftoken,
-			}
-		})
-			.then(response => response.json())
-			.then(data => console.log(data))
-			.catch(error => console.error('Error updating user status:', error));
-	}
+	// 	fetch('/update-status/', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			'X-CSRFToken': csrftoken,
+	// 		}
+	// 	})
+	// 		.then(response => response.json())
+	// 		.then(data => console.log(data))
+	// 		.catch(error => console.error('Error updating user status:', error));
+	// }
+
 
 	function endGame() {
-		if (player1Score >= 5 || player2Score >= 5) {
+		if (player1Score >= 1 || player2Score >= 1) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
-				winnerMessage += "Player 1 wins!";
+				winnerMessage += player1 + " wins!";
 			} else if (player2Score > player1Score) {
-				winnerMessage += "Player 2 wins!";
+				winnerMessage += player2 + " wins!";
 			} else {
 				winnerMessage += "It's a draw!";
 			}
-
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
-			updateStatus();
+			var data = {
+				player1Score: player1Score,
+				player2Score: player2Score,
+			};
+
+			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+			fetch(`/tournament/game/${gameId}/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRFToken': csrftoken,
+				},
+				body: JSON.stringify(data),
+			})
+				.then(response => response.json())
+				.then(data => {
+					let url = location.pathname.replace(/\d+/, data.nextGame);
+					console.log(data.nextGame);
+					console.log(url);
+					history.pushState(null, null, url);
+					router();
+				})
+				.catch(error => {
+					console.error('Error Fetch request :', error);
+				});
+			// updateStatus();
 		}
 	}
 

@@ -1,8 +1,6 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import Message, User, Conversation
-from asgiref.sync import sync_to_async
 from datetime import datetime
-
 
 
 class Consumer(AsyncJsonWebsocketConsumer):
@@ -15,20 +13,13 @@ class Consumer(AsyncJsonWebsocketConsumer):
         self.user = self.scope["user"]
         if not self.user.is_authenticated:
             return
-        print("connection: ", self.user.pk)
-        # async for chat in User.objects.filter(chats=self.user):
-        #     await self.channel_layer.group_add(f"chat_{chat.pk}", self.channel_name)
-        #     print("user {} added to user {}'s channel group".format(self.user, chat.pk))
-        user = await sync_to_async(User.objects.get)(username=self.user.pk)
+        user = await User.objects.aget(username=self.user.pk)
         user.channel_name = self.channel_name
-        await sync_to_async(user.save)()
-
+        await user.asave()
         await self.channel_layer.group_add("server", self.channel_name)
         await self.accept()
 
     async def disconnect(self, close_code):
-        # async for chat in User.objects.filter(chats=self.user):
-        #     await self.channel_layer.group_discard(f"chat_{chat.pk}", self.channel_name)
         await self.channel_layer.group_discard("server", self.channel_name)
 
     async def receive_json(self, content):
@@ -51,11 +42,9 @@ class Consumer(AsyncJsonWebsocketConsumer):
             print("Type not found")
 
     async def receive_chat(self, content):
-        print("==receive_chat FUNCTION==")
-
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
-        target_instance = await sync_to_async(User.objects.get)(username=target)
+        target_instance = await User.objects.aget(username=target)
 
         await self.channel_layer.send(
             self.channel_name,
@@ -68,9 +57,9 @@ class Consumer(AsyncJsonWebsocketConsumer):
             },
         )
 
-        blocked_users = await sync_to_async(
-            target_instance.blocked_users.filter(pk=self.user.pk).exists
-        )()
+        blocked_users = await target_instance.blocked_users.filter(
+            pk=self.user.pk
+        ).aexists()
         # check before send a message if sender was blocked
         if not blocked_users:
             await self.channel_layer.send(
@@ -85,7 +74,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
             )
 
         # save conversations
-        messages = await sync_to_async(Message.objects.create)(
+        messages = await Message.objects.acreate(
             sender=self.user,
             target=target_instance,
             # conversation=conversation,
@@ -95,7 +84,6 @@ class Consumer(AsyncJsonWebsocketConsumer):
         await self.update_or_create_conversation(target_instance, messages)
 
     async def chat_message(self, event):
-        print("send message...")
         await self.send_json(
             {
                 "type": event["type"],
@@ -105,49 +93,43 @@ class Consumer(AsyncJsonWebsocketConsumer):
                 "timestamp": event["timestamp"],
             }
         )
-    
+
     async def update_or_create_conversation(self, target_instance, messages):
-        existing_conversation_sender = await sync_to_async(
-            self.user.conversations.filter(participants=target_instance).exists
-        )()
+        existing_conversation_sender = await self.user.conversations.filter(
+            participants=target_instance
+        ).aexists()
 
         if existing_conversation_sender:
             # update
-            existing_conversation = await sync_to_async(
-                self.user.conversations.filter(participants=target_instance).first
-            )()
-            await sync_to_async(existing_conversation.messages.add)(messages)
+            existing_conversation = await self.user.conversations.filter(
+                participants=target_instance
+            ).afirst()
+            await existing_conversation.messages.aadd(messages)
         else:
             # create
-            new_conversation = await sync_to_async(Conversation.objects.create)(
+            new_conversation = await Conversation.objects.acreate(
                 participants=target_instance
             )
-            await sync_to_async(new_conversation.messages.add)(messages)
-            await sync_to_async(self.user.conversations.add)(new_conversation)
+            await new_conversation.messages.aadd(messages)
+            await self.user.conversations.aadd(new_conversation)
 
-        blocked_users = await sync_to_async(
-            target_instance.blocked_users.filter(pk=self.user.pk).exists
-        )()
+        blocked_users = await target_instance.blocked_users.filter(pk=self.user.pk).aexists()
         if not blocked_users:
-            existing_conversation_target = await sync_to_async(
-                target_instance.conversations.filter(participants=self.user).exists
-            )()
+            existing_conversation_target = await target_instance.conversations.filter(participants=self.user).aexists()
 
             if existing_conversation_target:
                 # update
-                existing_conversation = await sync_to_async(
-                    target_instance.conversations.filter(participants=self.user).first
-                )()
-                await sync_to_async(existing_conversation.messages.add)(messages)
+                existing_conversation = await target_instance.conversations.filter(participants=self.user).afirst()
+                await existing_conversation.messages.aadd(messages)
             else:
                 # create
-                new_conversation = await sync_to_async(Conversation.objects.create)(
+                new_conversation = await Conversation.objects.acreate(
                     participants=self.user
                 )
-                await sync_to_async(new_conversation.messages.add)(messages)
-                await sync_to_async(target_instance.conversations.add)(new_conversation)
+                await new_conversation.messages.aadd(messages)
+                await target_instance.conversations.aadd(new_conversation)
         else:
-            await sync_to_async(print)("Blocked Users:", blocked_users)
+            print("Blocked Users:", blocked_users)
             # displays
             # mess = await sync_to_async(list)(existing_conversation.messages.all())
             # for mes in mess:
@@ -158,23 +140,19 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
     async def manage_conversation(self, content):
         print("==manage_conversation==: ")
-        target = await sync_to_async(User.objects.get)(username=content["target"])
+        target = await User.objects.aget(username=content["target"])
 
         if content["action"] == "#remove":
             print("In remove conversation: ", content["target"])
 
-            target = await sync_to_async(User.objects.get)(username=content["target"])
+            target = await User.objects.aget(username=content["target"])
 
-            exist = await sync_to_async(
-                self.user.conversations.filter(participants=target).exists
-            )()
+            exist = await self.user.conversations.filter(participants=target).aexists()
 
             if exist:
-                instance = await sync_to_async(
-                    self.user.conversations.filter(participants=target).first
-                )()
+                instance = await self.user.conversations.filter(participants=target).afirst()
 
-                await sync_to_async(self.user.conversations.remove)(instance)
+                await self.user.conversations.aremove(instance)
                 print(
                     f"{self.user.pk}: Conversation with {target.username} was removed"
                 )

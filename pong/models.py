@@ -1,15 +1,11 @@
-from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractBaseUser, UserManager
-from django.db.models.signals import pre_delete
-import random
-from channels.layers import get_channel_layer
-from .player import Player
-from .ball import Ball
-import pathlib
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.db import models
+import pathlib
+import random
 import os
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class OverwriteStorage(FileSystemStorage):
@@ -44,25 +40,26 @@ class User(AbstractBaseUser):
     is_staff = models.CharField(max_length=255)
     is_superuser = models.CharField(max_length=255)
     is_active = models.CharField(max_length=255)
-    chats = models.ForeignKey(
-        "self", on_delete=models.SET_NULL, null=True, blank=True)
+    chats = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
     conversations = models.ManyToManyField("Conversation")
 
     channel_name = models.CharField(max_length=255)
     USERNAME_FIELD = "username"
     friends = models.ManyToManyField("self")
     blocked_users = models.ManyToManyField("self")
-    status = models.CharField(max_length=10) 
+    status = models.CharField(max_length=10)
 
     objects = UserManager()
 
     paddleSpeed = models.IntegerField(
-        default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
+        default=50, validators=[MinValueValidator(1), MaxValueValidator(100)]
+    )
     ballSpeed = models.IntegerField(
-        default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
-    paddleColor = models.CharField(default='#feffff', max_length=50, blank=True)
-    ballColor = models.CharField(default='#feffff', max_length=50, blank=True)
-    backgroundColor = models.CharField(default='#000000', max_length=50, blank=True)
+        default=5, validators=[MinValueValidator(1), MaxValueValidator(10)]
+    )
+    paddleColor = models.CharField(default="#feffff", max_length=50, blank=True)
+    ballColor = models.CharField(default="#feffff", max_length=50, blank=True)
+    backgroundColor = models.CharField(default="#000000", max_length=50, blank=True)
 
     # game settings
     # paddle_speed = models.IntegerField(default=12)
@@ -78,10 +75,18 @@ class User(AbstractBaseUser):
             self.nickname = self.username
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.username
+
+
 class Conversation(models.Model):
     participants = models.ForeignKey(User, on_delete=models.CASCADE)
     messages = models.ManyToManyField("Message")
     # unread = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.participants
+
 
 class Message(models.Model):
     sender = models.ForeignKey(
@@ -93,19 +98,25 @@ class Message(models.Model):
     message = models.TextField(null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.sender}@{self.timestamp}"
+
 
 class GameTeam(models.Model):
     team = models.ForeignKey("Team", on_delete=models.CASCADE)
     game = models.ForeignKey("Game", on_delete=models.CASCADE)
     score = models.PositiveSmallIntegerField(default=0)
 
+    def __str__(self):
+        return f"Team: {self.team}, Game: {self.game}, Score: {self.score}"
+
 
 class Team(models.Model):
     users = models.ManyToManyField(User)
-    max_player = 2
+    max_player = models.PositiveSmallIntegerField(default=2)
 
     def add_player(self, player_id):
-        if self.users.size() < self.max_player:
+        if self.users.count() < self.max_player:
             self.users.add(player_id)
 
     # @target(pre_delete, sender=User)
@@ -114,128 +125,117 @@ class Team(models.Model):
     #     for team in team_list:
     #         team.delete()
 
-
-Status = models.IntegerChoices("Status", "LOBBY PLAY PAUSE END")
+    def __str__(self):
+        return f"Members: {', '.join([user.username for user in self.users.all()])}"
 
 
 class Game(models.Model):
+    STATUS_CHOICES = [
+        ("LOBBY", "Lobby"),
+        ("PLAY", "Play"),
+        ("PAUSE", "Pause"),
+        ("END", "End"),
+    ]
+    status = models.CharField(
+        max_length=5,
+        choices=STATUS_CHOICES,
+        default="LOBBY",
+    )
+    tournament_round = models.ForeignKey("Round", on_delete=models.CASCADE, null=True)
     teams = models.ManyToManyField(
         Team, through=GameTeam, through_fields=("game", "team")
     )
-    # start_time = models.DateTimeField(auto_now_add=True)
-    end_time = models.DateTimeField(null=True, blank=True)
-    status = models.IntegerField(choices=Status, default=Status.LOBBY)
-    max_points = 2
-    max_pause_per_player = 1
-    players = list[Player]
-    # balls = list[Ball]
-
-    # Match History
-    start_time = models.DateTimeField(auto_now_add=True)
-    style = models.CharField(max_length=100, default='not defined')
-    opponent = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='opponent', null=True)
+    max_points = models.PositiveSmallIntegerField(default=5)
     score = models.CharField(max_length=5, default="0 - 0")
-    winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    result = models.CharField(max_length=4, choices=[(
-        'WIN', 'Win'), ('LOSE', 'Lose')], default='LOSE')
+    style = models.CharField(max_length=100, default="not defined")
+    opponent = models.CharField(max_length=255, null=True, default=None)
+    winner = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name="games_won", null=True
+    )
+
+    start_time = models.DateTimeField(auto_now_add=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    style = models.CharField(max_length=100, default="not defined")
+    winner = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name="games_won", null=True
+    )
 
     def __str__(self):
-        return f"Stats for {self.player.username}"
+        return f"Game: {self.id}, Status: {self.status}"
 
 
-# class Game(models.Model):
-#     teams = models.ManyToManyField(Team)
-#     start_time = models.DateTimeField(auto_now_add=True)
-#     end_time = models.DateTimeField(null=True, blank=True)
+class Round(models.Model):
+    tournament = models.ForeignKey("Tournament", on_delete=models.CASCADE)
+    teams = models.ManyToManyField(Team)
 
-#     winners = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         related_name="games_won",
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#     )
-#     losers = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         related_name="games_lost",
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#     )
+    def create_games(self):
+        teams = list(self.teams.all())
+        for team1, team2 in zip(teams[::2], teams[1::2]):
+            game = Game.objects.create(tournament_round=self)
+            game.teams.add(team1, team2)
+            game.save()
 
-#     def add_team(self):
-#         new_team = Team.objects.create()
-#         self.teams.add(new_team)
+    def get_winners(self):
+        winners = [game.winner for game in self.game_set.all()]
+        return winners
 
-#     def add_player(self, player_id):
-#         self.teams.first().add_player(player_id)
-
-#     @receiver(pre_delete, sender=Team)
-#     def pre_delete_team_in_game(sender, instance, created, **kwargs):
-#         games_list = Game.objects.filter(teams=None)
-#         for game in games_list:
-#             game.delete()
-
-# Class Game sur branche tournament :
-# class Game(models.Model):
-#     field = {"width": 800, "height": 600}
-#     teams = models.ManyToManyField(
-#         Team, through=GameTeam, through_fields=("game", "team")
-#     )
-#     start_time = models.DateTimeField(auto_now_add=True)
-#     end_time = models.DateTimeField(null=True, blank=True)
-#     status = models.IntegerField(choices=Status, default=Status.LOBBY)
-#     max_points = 2
-#     max_pause_per_player = 1
-#     players = list[Player]
-#     # balls = list[Ball]
-#     ball = Ball(field["width"] / 2, field["height"] / 2)
-
-class Remote(models.Model):
-    field = {"width": 800, "height": 600}
-    # teams = models.ManyToManyField(
-    #     Team, through=GameTeam, through_fields=("game", "team")
-    # )
-    start_time = models.DateTimeField(auto_now_add=True)
-    end_time = models.DateTimeField(null=True, blank=True)
-    status = models.IntegerField(choices=Status, default=Status.LOBBY)
-    max_points = 2
-    max_pause_per_player = 1
-    players = list[Player]
-    # balls = list[Ball]
-    ball = Ball(field["width"] / 2, field["height"] / 2)
+    def __str__(self):
+        return f"Round: {self.pk}, {self.tournament}"
 
 
 class Tournament(models.Model):
-    # teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
-    # max_teams = models.PositiveIntegerField(null=True, blank=True)
-    status = "open"
+    STATUS_CHOICES = [
+        ("OPEN", "Open"),
+        ("CLOSED", "Closed"),
+        ("ENDED", "Ended"),
+    ]
+    status = models.CharField(
+        max_length=6,
+        choices=STATUS_CHOICES,
+        default="OPEN",
+    )
+    teams = models.ManyToManyField(Team, related_name="joined_tournaments", blank=True)
+    max_teams = models.PositiveIntegerField(default=4)
 
     def register_team(self, team):
-        if self.status != "open":
-            raise Exception(
-                "Can't add team to tournament: registration is closed")
+        if self.status != "OPEN":
+            raise RegistrationClosedException()
         if self.teams.count() >= self.max_teams:
-            raise Exception("Can't add team to tournament: tournament is full")
+            raise TournamentFullException()
         self.teams.add(team)
+        self.save()
 
-    def setup_games(self):
-        self.status = "closed"
-        games = [Game()]
-        num_teams = self.max_teams
-        while num_teams > 1:
-            round_games = [Game() for _ in range(num_teams // 2)]
-            games.append(round_games)
-            num_teams //= 2
-        return games
+    def next_round(self):
+        last_round = Round.objects.filter(tournament=self).last()
+        winners = last_round.get_winners() if last_round else self.teams.all()
+        if len(winners) == 1:
+            return None
+        next_round = Round.objects.create(tournament=self)
+        next_round.teams.set(winners)
+        next_round.create_games()
+        return next_round
+
+    def next_game(self):
+        last_round = Round.objects.filter(tournament=self).last()
+        if last_round is None:
+            self.start()
+            last_round = Round.objects.filter(tournament=self).last()
+        next_game = last_round.game_set.filter(status="LOBBY").first()
+        if next_game is None:
+            last_round = self.next_round()
+            if last_round is not None:
+                next_game = last_round.game_set.filter(status="LOBBY").first()
+        return next_game
 
     def start(self):
-        self.games = self.setup_games()
-        teams = list(self.teams.all())
-        random.shuffle(teams)
-        for i in range(0, len(teams), 2):
-            self.games[i // 2].add_teams(teams[i], teams[i + 1])
+        self.status = "CLOSED"
+        self.save()
+        first_round = Round.objects.create(tournament=self)
+        first_round.teams.set(self.teams.all())
+        first_round.create_games()
+
+    def __str__(self):
+        return f"Tournament: {self.id}, Status: {self.status}, {[team for team in self.teams.all()]}"
 
     # @target(post_save, sender=Game)
     # def listen_to_games(self, sender, instance, **kwargs):
@@ -248,3 +248,13 @@ class Tournament(models.Model):
     #                     next_game = self.games[round_index + 1][game_index // 2]
     #                     next_game.add_team(instance.winner)
     #                 break
+
+
+class RegistrationClosedException(Exception):
+    def __init__(self, message="Can't add team to tournament: registration is closed"):
+        super().__init__(message)
+
+
+class TournamentFullException(Exception):
+    def __init__(self, message="Can't add team to tournament: tournament is full"):
+        super().__init__(message)
