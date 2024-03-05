@@ -126,7 +126,7 @@ class Team(models.Model):
     #         team.delete()
 
     def __str__(self):
-        return f"Name: {self.name}, Members: {', '.join([user.username for user in self.users.all()])}"
+        return f"Members: {', '.join([user.username for user in self.users.all()])}"
 
 
 class Game(models.Model):
@@ -146,6 +146,7 @@ class Game(models.Model):
         Team, through=GameTeam, through_fields=("game", "team")
     )
     max_points = models.PositiveSmallIntegerField(default=5)
+    score = models.CharField(max_length=5, default="0 - 0")
     style = models.CharField(max_length=100, default="not defined")
     opponent = models.CharField(max_length=255, null=True, default=None)
     winner = models.ForeignKey(
