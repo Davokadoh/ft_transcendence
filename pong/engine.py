@@ -14,7 +14,7 @@ class Engine:
         self.right = self.game.gameteam_set.last()
         self.status = "LOBBY"
         self.width = 800  # Should be getted from game
-        self.height = 450
+        self.height = 650
         self.max_points = 5
         self.max_pause_per_player = 1
         self.players = list()
