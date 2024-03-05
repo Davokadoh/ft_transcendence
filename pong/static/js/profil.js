@@ -193,11 +193,35 @@ export function profil() {
 		}
 	});
 
+	// Function to check if the username is already in the friends list
+	function isFriend(username, friendsList) {
+		return friendsList.includes(username);
+	}
+
 	document.getElementById("ladder").addEventListener("click", () => {
 		console.log("click on ladder");
-
-		if (searched_username.value)
-			manageFriend("add", searched_username.value);
+		const username = searched_username.value.trim(); //@Verena
+		// const currentUser = document.getElementById("current-user").dataset.username;
+		const currentUser = document.getElementById("ladder").dataset.username;
+		if (username) {
+			// Vérifie si l'utilisateur essaie de s'ajouter lui-même
+			if (username === currentUser) {
+				showAlert("You are already your own friend ❤️");
+				return;
+			}
+			// Appel de createListFriends pour obtenir la liste des amis
+			createListFriends().then(friendsList => {
+				if (isFriend(username, friendsList)) {
+					showAlert("Friend already added ❌");
+				} else {
+					manageFriend("add", username);
+					showAlert("Friend added ✅");
+				}
+			}).catch(error => {
+				console.error('Error fetching friends list:', error);
+				showAlert("Error fetching friends list");
+			});
+		}
 		searched_username.value = "";
 	});
 
@@ -217,11 +241,9 @@ export function profil() {
 			console.error('fetch chat/template : ERROR', error);
 		}
 	}
-
 	function createListFriends() {
-
 		console.log("==createListFriends FUNCTION==");
-		fetch("getList/friends", {
+		return fetch("getList/friends", {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -234,33 +256,32 @@ export function profil() {
 				return response.json();
 			})
 			.then(data => {
-
 				console.log('Response server _data_ : users/friends : ', data.friend_list);
 				// clear friends list on document
 				document.getElementById("modalBodyContact").innerHTML = "";
 				let modalTmp = document.createElement("p");
 				modalTmp.className = "pseudoBlock d-flex align-items-end"
 				data.friend_list.forEach(friend => {
-
-					//let username = truncUsername(friend.username);
 					modalTmp.innerHTML = `
-						${friend.username}
-						<button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip"
-							data-bs-placement="top" title="Invite the contact"
-							alt="Button to invite the contact" id="btnInvite"></button>
-						<button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip"
-							data-bs-placement="top" title="Block the contact"
-							alt="Button to block the contact" id="btnBlock"></button>
-						`
+					${friend.username}
+					<button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip"
+						data-bs-placement="top" title="Invite the contact"
+						alt="Button to invite the contact" id="btnInvite"></button>
+					<button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip"
+						data-bs-placement="top" title="Block the contact"
+						alt="Button to block the contact" id="btnBlock"></button>
+					`;
 					document.getElementById("modalBodyContact").append(modalTmp);
 					//document.getElementById("btnInvite").addEventListener("click", invitationFunct);
 					document.getElementById("btnBlock").addEventListener("click", (e) => {
 						manageFriend("block", e.target.closest(".modal-body").innerText);
 					});
 				});
+				return data.friend_list.map(friend => friend.username); // Return the list of usernames
 			})
 			.catch(error => {
 				console.error('request error: Fetch', error);
+				throw error;
 			});
 	}
 
@@ -437,6 +458,41 @@ export function profil() {
 				// Le traitement des erreurs ici
 				console.error('Request fetch Error:', error);
 			});
+	}
+
+	// Fonction pour creer et afficher une alerte personnalisée
+	function showAlert(message) {
+		// Crée un élément d'alerte
+		var alertElement = document.createElement('div');
+		alertElement.className = 'custom-alert';
+
+		// Crée un élément pour le titre
+		var titleElement = document.createElement('div');
+		titleElement.className = 'alert-title';
+		titleElement.textContent = 'Alert information';
+
+		// Crée un bouton de fermeture
+		var closeButton = document.createElement('button');
+		closeButton.textContent = 'X';
+		closeButton.className = 'close-button';
+		closeButton.onclick = function () {
+			document.body.removeChild(alertElement);
+		};
+
+		// Crée un élément pour le message
+		var messageContainer = document.createElement('div');
+		messageContainer.className = 'message-container';
+
+		// Ajoute le texte du message à l'élément de message
+		var messageElement = document.createElement('div');
+		messageElement.textContent = message;
+
+		// Ajoute les éléments au DOM
+		titleElement.appendChild(closeButton);
+		alertElement.appendChild(titleElement);
+		messageContainer.appendChild(messageElement);
+		alertElement.appendChild(messageContainer);
+		document.body.appendChild(alertElement);
 	}
 
 };
