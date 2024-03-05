@@ -5,7 +5,6 @@ export function lobby(gameId) {
     document.getElementById('inviteButton').addEventListener('click', function () {
         var player2Username = document.getElementById('player2').value;
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        player2Username = player2Username.charAt(0).toUpperCase() + player2Username.slice(1);
 
         if (player2Username.trim() !== "") {
             var data = {
