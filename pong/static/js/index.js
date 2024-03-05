@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("click", e => {
     if (e.target.matches("[data-link]")) {
         e.preventDefault();
-        history.pushState(null, null, e.target.href);
+        history.pushState(null, null, e.target.getAttribute("data-link"));
         router();
     }
 });
