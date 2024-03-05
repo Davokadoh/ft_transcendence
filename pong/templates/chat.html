@@ -15,7 +15,7 @@
 				<div class="col-md-12">
 
 					<form action="/accounts/profil/picture/" method="get"
-						class="settings-tray settings-tray--left d-flex align-items-center">
+						class="settings-tray settings-tray--left d-flex align-items-center bgVert">
 						<img class="profile-image" src="{{ request.user.profil_picture_oauth }}" alt="Profile image"
 							title="{{ request.user.username }}">
 						{% csrf_token %}
@@ -35,8 +35,8 @@
 
 						<div class="search" id="searchContactId">
 							<div class="input-wrapper">
-								<i class="search bi-search-heart"></i>
-								<input type="text" id="searchContact" placeholder="Search contact here" data-search>
+								<i class="search bi-search-heart t-violet"></i>
+								<input class="t-violet" type="text" id="searchContact" placeholder="Search contact here" data-search>
 								</input>
 							</div>
 						</div>
