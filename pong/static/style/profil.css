@@ -182,13 +182,13 @@
 
 /*  USER NAME */
 
-.username {
+.nickname {
 	color: var(--bleu) !important;
 	/* width: 210px; */
 	width: 200px;
 }
 
-.night-mode .username {
+.night-mode .nickname {
 	color: black !important;
 }
 

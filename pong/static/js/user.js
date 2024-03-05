@@ -1,20 +1,20 @@
 // export function user() {
 // 	let user = document.getElementById('user');
-// 	let searched_username = document.getElementById('searchInput');
-// 	searched_username.onchange = function() {
-// 		console.log("searched_username JS = ", searched_username.value);
+// 	let searched_nickname = document.getElementById('searchInput');
+// 	searched_nickname.onchange = function() {
+// 		console.log("searched_nickname JS = ", searched_nickname.value);
 // 		// console.log("WINDOW HREF = ", window.location.href);
-// 		user.href = `/user/${searched_username.value}/`;
+// 		user.href = `/user/${searched_nickname.value}/`;
 // 	};
 // }
 
 export function user() { //modif de claire du 26.092.24 pour regler le soucis d'image
     // let user = document.getElementById('user');
     // let profilPicture = document.getElementById('profil-picture');
-    // let searched_username = document.getElementById('searchInput');
-    // if (searched_username) {
-    //     searched_username.onchange = function () {
-    //         console.log("searched_username JS = ", searched_username.value);
+    // let searched_nickname = document.getElementById('searchInput');
+    // if (searched_nickname) {
+    //     searched_nickname.onchange = function () {
+    //         console.log("searched_nickname JS = ", searched_nickname.value);
     //         profilPicture.href = `/user/${searchedUsername.value}/`;
     //     };
     // }
@@ -27,29 +27,29 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
 
     // POUR LE FORM USER profil et user ?
     let user = document.getElementById('user');
-    let searched_username = document.getElementById('searchInput');
+    let searched_nickname = document.getElementById('searchInput');
     let removeFriendBtn = document.getElementById('removeFriend');
     let addFriendBtn = document.getElementById('addFriend');
 
     removeFriendBtn.onclick = (e) => {
-        let target = e.target.closest(".container").querySelector("#username").innerText;
+        let target = e.target.closest(".container").querySelector("#nickname").innerText;
         console.log("click remove friend: ", target);
         manageFriend("remove", target);
     };
 
     addFriendBtn.onclick = (e) => {
-        let target = e.target.closest(".container").querySelector("#username").innerText;
+        let target = e.target.closest(".container").querySelector("#nickname").innerText;
         console.log("click remove friend: ", target);
         manageFriend("add", target);
     };
 
-    searched_username.addEventListener("keypress", (e) => {
+    searched_nickname.addEventListener("keypress", (e) => {
         if (e.key == "Enter")
             user.click();
     });
     user.addEventListener("click", () => {
-        if (searched_username.value)
-            user.href = `/user/${searched_username.value}/`;
+        if (searched_nickname.value)
+            user.href = `/user/${searched_nickname.value}/`;
     });
 
     document.addEventListener("click", (e) => {
@@ -59,7 +59,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         }
     });
 
-    searched_username.addEventListener("click", () => {
+    searched_nickname.addEventListener("click", () => {
 
         console.log("click onsearch");
         if (visibleList == false) {
@@ -81,21 +81,21 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     document.getElementById("ladder").addEventListener("click", () => {
         console.log("click on ladder");
 
-        const username = searched_username.value.trim(); //@Verena
-        // const currentUser = document.getElementById("current-user").dataset.username;
-        const currentUser = document.getElementById("ladder").dataset.username;
-        if (username) {
+        const nickname = searched_nickname.value.trim(); //@Verena
+        // const currentUser = document.getElementById("current-user").dataset.nickname;
+        const currentUser = document.getElementById("ladder").dataset.nickname;
+        if (nickname) {
             // Vérifie si l'utilisateur essaie de s'ajouter lui-même
-            if (username === currentUser) {
+            if (nickname === currentUser) {
                 showAlert("You are already your own friend ❤️");
                 return;
             }
             // Appel de createListFriends pour obtenir la liste des amis
             createListFriends().then(friendsList => {
-                if (isFriend(username, friendsList)) {
+                if (isFriend(nickname, friendsList)) {
                     showAlert("Friend already added ❌");
                 } else {
-                    manageFriend("add", username);
+                    manageFriend("add", nickname);
                     // testManageFriend("add");
                     showAlert("Friend added ✅");
                 }
@@ -105,7 +105,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             });
         }
         testManageFriend("add");
-        searched_username.value = "";
+        searched_nickname.value = "";
     });
 
     async function fetchTemplate() {
@@ -141,7 +141,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             })
             .then(data => {
                 console.log('Response server _data_ : users/friends : ', data.friend_list);
-                return data.friend_list.map(friend => friend.username); // Return the list of usernames
+                return data.friend_list.map(friend => friend.nickname); // Return the list of nicknames
             })
             .catch(error => {
                 console.error('request error: Fetch', error);
@@ -177,13 +177,13 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     var myUsername = document.getElementById("searchInput").value;
                     data.user_list.map(user => {
 
-                        if (myUsername != user.username) {
+                        if (myUsername != user.nickname) {
                             //take template
                             var tpl = templateContactList.content.cloneNode(true);
-                            tpl.querySelector(".contact").id = `${user.username}-contact-id`;
+                            tpl.querySelector(".contact").id = `${user.nickname}-contact-id`;
                             tpl.querySelector("[data-image]").src = user.profil_picture;
-                            tpl.querySelector("[data-name]").textContent = truncUsername(user.username);
-                            tpl.querySelector("[data-full-name]").textContent = user.username;
+                            tpl.querySelector("[data-name]").textContent = truncNickname(user.nickname);
+                            tpl.querySelector("[data-full-name]").textContent = user.nickname;
 
                             // Set the status indicator @Verena Status
                             let statusIndicator = tpl.querySelector(".status-indicator");
@@ -211,7 +211,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     //Listen event about search
                     handle_input_steam();
                     resolve();
-                    return data.friend_list.map(friend => friend.username); // Return the list of usernames not sure is usefull here
+                    return data.friend_list.map(friend => friend.nickname); // Return the list of nicknames not sure is usefull here
                 })
                 .catch(error => {
                     console.error('request error: Fetch', error);
@@ -220,13 +220,13 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         });
     }
 
-    function truncUsername(username) {
+    function truncNickname(nickname) {
 
-        if (username.length > 7) {
-            username = username.substring(0, 7) + "...";
-            console.log(`truncUsername: ${username}`);
+        if (nickname.length > 7) {
+            nickname = nickname.substring(0, 7) + "...";
+            console.log(`truncNickname: ${nickname}`);
         }
-        return username;
+        return nickname;
     }
 
     function handle_click_contact(contact) {
@@ -237,8 +237,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             const contactName = contact.querySelector("[data-full-name]").textContent;
             const img = contact.querySelector("[data-image]").src;
             //console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
-            searched_username.value = contactName;
-            searched_username.focus();
+            searched_nickname.value = contactName;
+            searched_nickname.focus();
             document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
             //isVisibleList = false;
         });
