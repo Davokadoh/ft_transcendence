@@ -5,7 +5,7 @@
     <div class="contact friend --onhover border-top d-flex align-items-center" id="" contact-container>
         <img src="" alt="Friend photo" class="profile-image" data-image>
         <span class="text" data-name></span>
-        <span class="full-username" style="display:none;" data-full-name></span>
+        <span class="full-nickname" style="display:none;" data-full-name></span>
         <span class="status-indicator" id="onLineStatus" data-status="{{ user.status }}"></span>
     </div>
 </template>
@@ -44,14 +44,15 @@
                 <img class="profile-image" id="contactImgProfil" src="" alt="Friend Image" data-toggle="tooltip"
                     title="Detail du profil" data-image>
                 <div class="text" data-text>
-                    <h6 class="t-vert" ></h6>
+                    <h6 class="t-vert"></h6>
                 </div>
 
                 <span class="dropdown ms-auto">
-                    <i class="bi bi-three-dots-vertical bi-da-violet" data-toggle="tooltip" title="Menu" id="menuButtonRight"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical bi-da-violet" data-toggle="tooltip" title="Menu"
+                        id="menuButtonRight" data-bs-toggle="dropdown" aria-expanded="false">
                     </i>
-                    <ul class="dropdown-menu" aria-labelledby="menuButtonRight" style="--bs-dropdown-bg: var(--violet);">
+                    <ul class="dropdown-menu" aria-labelledby="menuButtonRight"
+                        style="--bs-dropdown-bg: var(--violet);">
                         <li><a class="dropdown-item daFront" href="#">Invitation</a></li>
                         <li><a class="dropdown-item daFront" href="#">Block contact</a></li>
                     </ul>
@@ -73,10 +74,10 @@
                         {% csrf_token %}
                         <input id="profil-picture-input" type="file" class="form-control" />
                     </form>
-                    <form action="/accounts/profil/username/" method="post" class="col-8">
+                    <form action="/accounts/profil/nickname/" method="post" class="col-8">
                         {% csrf_token %}
                         <div class="col">
-                            <span class="usernameUser" id="username">{{ request.user.username }}</span>
+                            <span class="nicknameUser" id="nickname">{{ request.user.nickname }}</span>
                         </div>
                     </form>
 

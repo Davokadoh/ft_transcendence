@@ -195,7 +195,7 @@ body-msg {
 
     }
 
-    .night-mode .t-bleu{
+    .night-mode .t-bleu {
         color: #000 !important;
     }
 
@@ -242,6 +242,7 @@ body-msg {
     &:hover {
         cursor: pointer;
         background-color: rgb(135, 211, 0, 0.5);
+
         /* background-color: var(--vert); */
         /* opacity: 0.5; */
         p,
@@ -263,8 +264,7 @@ body-msg {
     }
 }
 
-.night-mode .--onhover:hover
-{
+.night-mode .--onhover:hover {
     background-color: var(--gray) !important;
 }
 
@@ -470,7 +470,7 @@ body-msg {
     transition-duration: 0.8s;
     -webkit-transition-duration: 0.4s;
 
-    /*usernameUser*/
+    /*nicknameUser*/
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

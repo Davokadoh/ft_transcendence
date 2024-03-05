@@ -7,7 +7,6 @@ from datetime import datetime
 
 games = {}
 
-
 class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,7 +18,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         if not self.user.is_authenticated:
             await self.close()
             return
-        user = await User.objects.aget(username=self.user.pk)
+        user = await User.objects.aget(nickname=self.user.nickname)
         user.channel_name = self.channel_name
         await user.asave()
         await self.channel_layer.group_add("server", self.channel_name)
@@ -53,13 +52,13 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def receive_chat(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
-        target_instance = await User.objects.aget(username=target)
+        target_instance = await User.objects.aget(nickname=target)
 
         await self.channel_layer.send(
             self.channel_name,
             {
                 "type": "chat_message",
-                "sender": self.user.username,
+                "sender": self.user.nickname,
                 "target": target,
                 "message": content["message"],
                 "timestamp": time_for_all,
@@ -155,12 +154,12 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
     async def manage_conversation(self, content):
         print("==manage_conversation==: ")
-        target = await User.objects.aget(username=content["target"])
+        target = await User.objects.aget(nickname=content["target"])
 
         if content["action"] == "#remove":
             print("In remove conversation: ", content["target"])
 
-            target = await User.objects.aget(username=content["target"])
+            target = await User.objects.aget(nickname=content["target"])
 
             exist = await self.user.conversations.filter(participants=target).aexists()
 
@@ -171,7 +170,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
                 await self.user.conversations.aremove(instance)
                 print(
-                    f"{self.user.pk}: Conversation with {target.username} was removed"
+                    f"{self.user.pk}: Conversation with {target.nickname} was removed"
                 )
 
     async def join_game(self, content):

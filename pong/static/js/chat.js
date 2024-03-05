@@ -338,7 +338,7 @@ export function chat() {
 			let chatBox = tpl.querySelector("#chatBoxId");
 			img.src = obj.imgSrc;
 			name.textContent = obj.name;
-			if (usersBlocked.find(user => user.username === obj.name))
+			if (usersBlocked.find(user => user.nickname === obj.name))
 				chatBox.classList.toggle("disabled", true);
 			else
 				chatBox.classList.toggle("disabled", false);
@@ -355,7 +355,7 @@ export function chat() {
 			let blockUnblock = tpl.querySelector("#blockUnblockId");
 			let statusIndicator = tpl.querySelector(".status-indicator");
 			// Vérifie si l'utilisateur est bloqué
-			if (usersBlocked.find(user => user.username === obj.name))
+			if (usersBlocked.find(user => user.nickname === obj.name))
 				blockUnblock.innerText = "Unblock contact";
 			else
 				blockUnblock.innerText = "Block contact";
@@ -463,7 +463,7 @@ export function chat() {
 	};
 
 	function parse_msg(data) {
-		if (data.sender == document.getElementById("username").textContent) {
+		if (data.sender == document.getElementById("nickname").textContent) {
 			message_sent(data);
 		}
 		else
@@ -569,7 +569,7 @@ export function chat() {
 			//test websocket/*
 			socket.send(JSON.stringify({
 				'type': 'chat_message',
-				'target': activeChatPanel, //username target
+				'target': activeChatPanel, //nickname target
 				'message': inputField.value
 			}));
 
@@ -654,15 +654,15 @@ export function chat() {
 					console.log('Response server _data_ : users/list : ', data.friend_list);
 					// clear contact list on document
 					document.getElementById("listContact").innerHTML = "";
-					// var myUsername = document.getElementById("id_nickname").value;
+					// var myNickname = document.getElementById("id_nickname").value;
 					data.friend_list.map(user => {
-						// if (myUsername != user.username) {
+						// if (myNickname != user.nickname) {
 						//take template
 						var tpl = templateContactList.content.cloneNode(true);
-						tpl.querySelector("[contact-container]").id = `${user.username}-contact-id`;
+						tpl.querySelector("[contact-container]").id = `${user.nickname}-contact-id`;
 						tpl.querySelector("[data-image]").src = user.profil_picture;
-						tpl.querySelector("[data-name]").textContent = user.username;
-						tpl.querySelector("[data-full-name]").textContent = user.username;
+						tpl.querySelector("[data-name]").textContent = user.nickname;
+						tpl.querySelector("[data-full-name]").textContent = user.nickname;
 
 						// Set the status indicator @Verena Status
 						let statusIndicator = tpl.querySelector(".status-indicator");
@@ -716,7 +716,7 @@ export function chat() {
 			.then(data => {
 				usersBlocked = data.users_blocked.map(user => { return user; });
 				console.log('Response server _data_ : blocked/list : ', usersBlocked);
-				//if (usersBlocked.find(user => user.username == "PongChoRabbit"))
+				//if (usersBlocked.find(user => user.nickname == "PongChoRabbit"))
 				//	console.log("target was blocked");
 			})
 			.catch(error => {
