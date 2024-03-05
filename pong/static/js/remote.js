@@ -1,84 +1,31 @@
-export function remote() {
-	let gameBoard;
-	let ctx;
-	let scoreText;
-	let gameWidth;
-	let gameHeight;
-	let paddle1;
-	let paddle2;
-	let ballX;
-	let ballY;
-	let ballXDirection;
-	let ballYDirection;
-	let player1Score;
-	let player2Score;
-	let ballSpeed;
+import socket from './index.js';
+
+export function remote(game_id) {
+	let gameBoard = document.getElementById("gameBoard");
+	let ctx = gameBoard.getContext("2d");
+	let scoreText = document.getElementById("scoreText");
+	let gameWidth = gameBoard.width;
+	let gameHeight = gameBoard.height;
+	let paddle1 = { width: 20, height: 100, x: 10, y: 5 };
+	let paddle2 = { width: 20, height: 100, x: gameWidth - 30, y: gameHeight - 105 };
+	let ball = { x: gameWidth / 2, y: gameHeight / 2, speed: 1 };
+	let score = [0, 0];
 	const boardBackground = "black";
-	const paddle1Color = "white";
-	const paddle2Color = "white";
-	const paddleBorder = "white";
-	const ballColor = "white";
-	const ballBorderColor = "white";
 	const ballRadius = 12.5;
-	const paddleSpeed = 12;
-	// const paddleSpeed = {{ paddle_speed }};
 	let gameRunning = false;
-	let keyState = {
-		'w': false,
-		's': false,
-		'ArrowUp': false,
-		'ArrowDown': false,
-	};
-
-	function initializeGame() {
-		gameBoard = document.getElementById("gameBoard");
-		ctx = gameBoard.getContext("2d");
-		scoreText = document.getElementById("scoreText");
-		gameWidth = gameBoard.width;
-		gameHeight = gameBoard.height;
-		player1Score = 0;
-		player2Score = 0;
-		paddle1 = { width: 25, height: 100, x: 10, y: 5 };
-		paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 105 };
-		gameRunning = false;
-		ballSpeed = 1;
-		ballX = gameWidth / 2;
-		ballY = gameHeight / 2;
-		ballXDirection = 0;
-		ballYDirection = 0;
-		clearBoard();
-		document.getElementsByClassName("close")[0].addEventListener("click", function () {
-			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
-		});
-		document.querySelector('.modalButton').addEventListener('click', function () {
-			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
-		});
-	}
-
-	document.getElementById("start-game").addEventListener("click", startGame);
-	document.getElementById("stop-game").addEventListener("click", stopGame);
-	document.getElementById("reset-game").addEventListener("click", resetGame);
-
 
 	function draw() {
-		if (!gameRunning) {
-			return;
-		}
-
+		if (!gameRunning) return;
 		clearBoard();
 		drawPaddles();
-		moveBall();
-		drawBall(ballX, ballY);
-		checkCollision();
+		drawBall();
 		requestAnimationFrame(draw);
 	}
 
 	function clearBoard() {
 		ctx.fillStyle = boardBackground;
 		ctx.fillRect(0, 0, gameWidth, gameHeight);
-		ctx.strokeStyle = 'white';
+		ctx.strokeStyle = "white";
 		ctx.beginPath();
 		ctx.moveTo(gameWidth / 2, 0);
 		ctx.lineTo(gameWidth / 2, gameHeight);
@@ -86,167 +33,94 @@ export function remote() {
 	}
 
 	function drawPaddles() {
-		ctx.strokeStyle = paddleBorder;
-
-		ctx.fillStyle = paddle1Color;
+		ctx.strokeStyle = "white";
+		ctx.fillStyle = "white";
 		ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
 		ctx.strokeRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
-
-		ctx.fillStyle = paddle2Color;
+		ctx.fillStyle = "white";
 		ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
 		ctx.strokeRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
 	}
 
-	function moveBall() {
-		ballX += ballSpeed * ballXDirection;
-		ballY += ballSpeed * ballYDirection;
-	}
-
-	function drawBall(ballX, ballY) {
-		ctx.fillStyle = ballColor;
-		ctx.strokeStyle = ballBorderColor;
+	function drawBall() {
+		ctx.fillStyle = "white";
+		ctx.strokeStyle = "white";
 		ctx.lineWidth = 2;
 		ctx.beginPath();
-		ctx.arc(ballX, ballY, ballRadius, 0, 2 * Math.PI);
+		ctx.arc(ball.x, ball.y, ballRadius, 0, 2 * Math.PI);
 		ctx.stroke();
 		ctx.fill();
 	}
 
-	function createBall() {
-		ballSpeed = 2;
-		ballXDirection = Math.random() < 0.5 ? -1 : 1;
-		ballYDirection = Math.random() < 0.5 ? -1 : 1;
-
-		ballX = gameWidth / 2;
-		ballY = gameHeight / 2;
-		drawBall(ballX, ballY);
-	}
-
-	function checkCollision() {
-		if (ballY <= 0 + ballRadius) {
-			ballYDirection *= -1;
-		}
-		if (ballY >= gameHeight - ballRadius) {
-			ballYDirection *= -1;
-		}
-		if (ballX <= 0) {
-			player2Score += 1;
-			updateScore();
-			createBall();
-			return;
-		}
-		if (ballX >= gameWidth) {
-			player1Score += 1;
-			updateScore();
-			createBall();
-			return;
-		}
-		if (ballX <= paddle1.x + paddle1.width + ballRadius) {
-			if (ballY > paddle1.y && ballY < paddle1.y + paddle1.height) {
-				ballX = paddle1.x + paddle1.width + ballRadius;
-				ballXDirection *= -1;
-				ballSpeed += 1;
-			}
-		}
-		if (ballX >= paddle2.x - ballRadius) {
-			if (ballY > paddle2.y && ballY < paddle2.y + paddle2.height) {
-				ballX = paddle2.x - ballRadius;
-				ballXDirection *= -1;
-				ballSpeed += 1;
-			}
-		}
-		endGame()
-	}
-
-	function changeDirection(event) {
-		const keyPressed = event.key;
-
-		if (keyPressed in keyState) {
-			keyState[keyPressed] = (event.type === 'keydown');
-
-			if (keyState['w'] && !keyState['s']) {
-				if (paddle1.y > 0) {
-					paddle1.y -= paddleSpeed;
-				}
-			} else if (!keyState['w'] && keyState['s']) {
-				if (paddle1.y < gameHeight - paddle1.height) {
-					paddle1.y += paddleSpeed;
-				}
-			}
-
-			if (keyState['ArrowUp'] && !keyState['ArrowDown']) {
-				if (paddle2.y > 0) {
-					paddle2.y -= paddleSpeed;
-				}
-			} else if (!keyState['ArrowUp'] && keyState['ArrowDown']) {
-				if (paddle2.y < gameHeight - paddle2.height) {
-					paddle2.y += paddleSpeed;
-				}
-			}
-		}
-	}
-
-	function updateScore() {
-		scoreText.textContent = `${player1Score} : ${player2Score}`;
-	}
-
-	function resetGame() {
-		initializeGame();
-		updateScore();
-	}
+	document.getElementById("start-game").onclick = function () { socket.send(JSON.stringify({ 'type': 'player_ready' })); };
+	document.getElementById("stop-game").onclick = stopGame;
 
 	function startGame() {
 		if (!gameRunning) {
 			gameRunning = true;
-			createBall();
-			document.getElementById("gameBoard").focus(); // Donner le focus au canevas
 			draw();
-			document.getElementById("gameBoard").addEventListener("keydown", changeDirection);
-			document.getElementById("gameBoard").addEventListener("keyup", changeDirection);
+			gameBoard.focus();
+			gameBoard.onkeydown = function (event) {
+				if (event.key == 'w') socket.send(JSON.stringify({ 'type': 'game_move', 'direction': "UP" }));
+				else if (event.key == 's') socket.send(JSON.stringify({ 'type': 'game_move', 'direction': "DOWN" }));
+			};
 		}
 	}
 
 	function stopGame() {
-		gameRunning = false;
-	}
-
-	function updateStatus() {
-		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-		if (!csrftoken) {
-			console.error('CSRF token not found');
-			return;
-		}
-
-		fetch('/update-status/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-CSRFToken': csrftoken,
-			}
-		})
-			.then(response => response.json())
-			.then(data => console.log(data))
-			.catch(error => console.error('Error updating user status:', error));
+		console.log("Asking for pause");
+		socket.send(JSON.stringify({ 'type': 'player_pause' }));
 	}
 
 	function endGame() {
-		if (player1Score >= 5 || player2Score >= 5) {
-			stopGame();
-			let winnerMessage = "Game Over! ";
-			if (player1Score > player2Score) {
-				winnerMessage += "Player 1 wins!";
-			} else if (player2Score > player1Score) {
-				winnerMessage += "Player 2 wins!";
-			} else {
-				winnerMessage += "It's a draw!";
-			}
-
-			document.getElementById("modalGame-message").textContent = winnerMessage;
-			document.getElementById("myModalGame").style.display = "block";
-			updateStatus();
+		gameRunning = false;
+		clearBoard();
+		let winnerMessage = "Game Over!";
+		if (score[0] > score[1]) {
+			winnerMessage += "Player 1 wins!";
+		} else if (score[0] < score[1]) {
+			winnerMessage += "Player 2 wins!";
+		} else {
+			winnerMessage += "It's a draw!";
 		}
+
+		document.getElementById("modalGame-message").textContent = winnerMessage;
+		// document.getElementById("myModalGame").style.display = "block";
+		let myModalGame = new bootstrap.Modal(document.getElementById("myModalGame"), {});
+		// const myModalGame = document.getElementById('myModalGame');
+		myModalGame.show();
 	}
 
-	initializeGame();
+	function updateScore(team) {
+		score[team] += 1;
+		scoreText.textContent = `${score[0]} : ${score[1]}`;
+	}
+
+	function updateGame(state) {
+		ball.x = state.ball_x;
+		ball.y = state.ball_y;
+		paddle1.x = state.player_0_x;
+		paddle1.y = state.player_0_y;
+		paddle2.x = state.player_1_x;
+		paddle2.y = state.player_1_y;
+	}
+
+	function updateStatus(status) {
+		if (status == "PLAY") startGame();
+		else if (status == "PAUSE") stopGame();
+		else if (status == "END") endGame();
+	}
+
+	socket.onmessage = function (event) {
+		const data = JSON.parse(event.data);
+		if (data.type == "game_ready") console.log(`Player ${data.player} is ready`);
+		else if (data.type == "game_status") updateStatus(data.status);
+		else if (data.type == "game_update") updateGame(data.state);
+		else if (data.type == "game_score") updateScore(data.team);
+		else console.log(`Unknown data.type: ${data.type}`)
+	};
+
+	clearBoard();
 	updateScore();
+	socket.send(JSON.stringify({ 'type': 'game_join', 'game_id': game_id }));
 }

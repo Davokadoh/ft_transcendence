@@ -322,7 +322,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
         team.users.add(request.user)
         gt = GameTeam(game=game, team=team)
         gt.save()
-        return redirect(lobby, game.pk)
+        return redirect(remLobby, game.pk)
     game = get_object_or_404(Game, pk=remoteId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
@@ -351,7 +351,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
 def remote(request, remoteId=None):
     if remoteId is None:
         return redirect(home)
-    remote = Remote.objects.get(pk=remoteId)
+    remote = Game.objects.get(pk=remoteId)
     if remote is None:
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"

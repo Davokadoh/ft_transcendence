@@ -1,6 +1,11 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import Message, User, Conversation
+from asgiref.sync import sync_to_async
+from .engine import Engine
+from .player import Player
 from datetime import datetime
+
+games = {}
 
 
 class Consumer(AsyncJsonWebsocketConsumer):
@@ -12,6 +17,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.user = self.scope["user"]
         if not self.user.is_authenticated:
+            await self.close()
             return
         user = await User.objects.aget(username=self.user.pk)
         user.channel_name = self.channel_name
@@ -26,12 +32,15 @@ class Consumer(AsyncJsonWebsocketConsumer):
         print(content)
         if "type" not in content:
             return
-        if content["type"] == "KEY_PRESS":
-            await self.handle_key_press(content["key"])
-        elif content["type"] == "READY":
-            await self.ready()
-        elif content["type"] == "PAUSE":
-            await self.game.pause(self.user)
+        if content["type"] == "game_move":
+            await self.handle_key_press(content.get("direction"))
+        elif content["type"] == "game_join":
+            await self.join_game(content)
+        elif content["type"] == "player_ready":
+            self.player.ready = True
+            await self.game.ready(self.user)
+        elif content["type"] == "player_pause":
+            await self.game.pause(self.player)
         elif content["type"] == "chat_message":
             await self.receive_chat(content)
         elif content["type"] == "manage_conversation":
@@ -39,7 +48,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         elif content["type"] == "game_invite":
             print("Invited received!")
         else:
-            print("Type not found")
+            print(f"Unknown message type: {content['type']}")
 
     async def receive_chat(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
@@ -113,13 +122,19 @@ class Consumer(AsyncJsonWebsocketConsumer):
             await new_conversation.messages.aadd(messages)
             await self.user.conversations.aadd(new_conversation)
 
-        blocked_users = await target_instance.blocked_users.filter(pk=self.user.pk).aexists()
+        blocked_users = await target_instance.blocked_users.filter(
+            pk=self.user.pk
+        ).aexists()
         if not blocked_users:
-            existing_conversation_target = await target_instance.conversations.filter(participants=self.user).aexists()
+            existing_conversation_target = await target_instance.conversations.filter(
+                participants=self.user
+            ).aexists()
 
             if existing_conversation_target:
                 # update
-                existing_conversation = await target_instance.conversations.filter(participants=self.user).afirst()
+                existing_conversation = await target_instance.conversations.filter(
+                    participants=self.user
+                ).afirst()
                 await existing_conversation.messages.aadd(messages)
             else:
                 # create
@@ -150,30 +165,49 @@ class Consumer(AsyncJsonWebsocketConsumer):
             exist = await self.user.conversations.filter(participants=target).aexists()
 
             if exist:
-                instance = await self.user.conversations.filter(participants=target).afirst()
+                instance = await self.user.conversations.filter(
+                    participants=target
+                ).afirst()
 
                 await self.user.conversations.aremove(instance)
                 print(
                     f"{self.user.pk}: Conversation with {target.username} was removed"
                 )
 
-    async def ready(self):
-        self.player.status = True
-        # self.game.send(
-        #     {
-        #         "type": "player_status",
-        #         "user": self.game.pause(self.user),
-        #         "status": "READY",
-        #     }
-        # )
-        # self.game.play()
+    async def join_game(self, content):
+        game_id = content.get("game_id")
+        if game_id not in games:
+            games[game_id] = await sync_to_async(Engine)(game_id)
+        self.game = games[game_id]
+        self.player = Player(self)
+        self.game.players.append(self.player)
+        await self.channel_layer.group_add(f"game_{game_id}", self.channel_name)
 
-    async def handle_key_press(self, key):
-        print("User: {} Key: {}", self.game.pause(self.user), key)
-        if key == "arrowup" or key == "w":
-            self.player.move("UP")
-        elif key == "arrowdown" or key == "s":
-            self.player.move("DOWN")
+    async def leave_game(self):
+        await self.channel_layer.group_discard(
+            f"game_{self.game.pk}", self.channel_name
+        )
 
-    async def game_pause(self, content):
+    async def disconnection(self, content):
         await self.send_json(content)
+
+    async def game_ready(self, content):
+        await self.send_json(content)
+
+    async def pause_refused(self, content):
+        await self.send_json(content)
+
+    async def game_status(self, content):
+        await self.send_json(content)
+
+    async def game_update(self, content):
+        await self.send_json(content)
+
+    async def game_score(self, content):
+        await self.send_json(content)
+
+    async def handle_key_press(self, direction):
+        if direction == "UP":
+            self.player.speed_y = -1
+        elif direction == "DOWN":
+            self.player.speed_y = 1
