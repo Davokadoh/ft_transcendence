@@ -766,7 +766,7 @@ export function chat() {
 						"status": statusClass
 						// modification Verena
 					}
-					console.log("status indicator = ", statusIndicator);
+					//console.log("status indicator = ", statusIndicator);
 					//createConversation(obj);
 					//var state = conversation.unread;
 					mapConversationList.set(conversation.name, setTemplate("conversationList", obj));
