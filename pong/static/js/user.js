@@ -81,8 +81,30 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     document.getElementById("ladder").addEventListener("click", () => {
         console.log("click on ladder");
 
-        if (searched_username.value)
-            manageFriend("add", searched_username.value);
+        const username = searched_username.value.trim(); //@Verena
+        // const currentUser = document.getElementById("current-user").dataset.username;
+        const currentUser = document.getElementById("ladder").dataset.username;
+        if (username) {
+            // Vérifie si l'utilisateur essaie de s'ajouter lui-même
+            if (username === currentUser) {
+                showAlert("You are already your own friend ❤️");
+                return;
+            }
+            // Appel de createListFriends pour obtenir la liste des amis
+            createListFriends().then(friendsList => {
+                if (isFriend(username, friendsList)) {
+                    showAlert("Friend already added ❌");
+                } else {
+                    manageFriend("add", username);
+                    // testManageFriend("add");
+                    showAlert("Friend added ✅");
+                }
+            }).catch(error => {
+                console.error('Error fetching friends list:', error);
+                showAlert("Error fetching friends list");
+            });
+        }
+        testManageFriend("add");
         searched_username.value = "";
     });
 
@@ -101,6 +123,30 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         } catch (error) {
             console.error('fetch chat/template : ERROR', error);
         }
+    }
+
+    function createListFriends() {
+        console.log("==createListFriends FUNCTION==");
+        return fetch("getList/friends", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('fetch getList/friends : ERROR');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response server _data_ : users/friends : ', data.friend_list);
+                return data.friend_list.map(friend => friend.username); // Return the list of usernames
+            })
+            .catch(error => {
+                console.error('request error: Fetch', error);
+                throw error;
+            });
     }
 
     function createListContact() {
@@ -165,7 +211,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     //Listen event about search
                     handle_input_steam();
                     resolve();
-
+                    return data.friend_list.map(friend => friend.username); // Return the list of usernames not sure is usefull here
                 })
                 .catch(error => {
                     console.error('request error: Fetch', error);
@@ -236,6 +282,41 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                 // Le traitement des erreurs ici
                 console.error('Request fetch Error:', error);
             });
+    }
+
+    // Fonction pour creer et afficher une alerte personnalisée
+    function showAlert(message) {
+        // Crée un élément d'alerte
+        var alertElement = document.createElement('div');
+        alertElement.className = 'custom-alert';
+
+        // Crée un élément pour le titre
+        var titleElement = document.createElement('div');
+        titleElement.className = 'alert-title';
+        titleElement.textContent = 'Alert information';
+
+        // Crée un bouton de fermeture
+        var closeButton = document.createElement('button');
+        closeButton.textContent = 'X';
+        closeButton.className = 'close-button';
+        closeButton.onclick = function () {
+            document.body.removeChild(alertElement);
+        };
+
+        // Crée un élément pour le message
+        var messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
+
+        // Ajoute le texte du message à l'élément de message
+        var messageElement = document.createElement('div');
+        messageElement.textContent = message;
+
+        // Ajoute les éléments au DOM
+        titleElement.appendChild(closeButton);
+        alertElement.appendChild(titleElement);
+        messageContainer.appendChild(messageElement);
+        alertElement.appendChild(messageContainer);
+        document.body.appendChild(alertElement);
     }
 
 }
