@@ -7,7 +7,6 @@ import { router } from "./router.js";
 
 const socket = new WebSocket(`ws://${window.location.host}/ws/`);
 
-router();
 document.onpopstate = router;
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);

@@ -13,7 +13,7 @@ export function tourLobby(tournamentId) {
 			var data = {
 				p2Username: player2Username,
 				p3Username: player3Username,
-				p4Username: player4Username
+				p4Username: player4Username,
 			};
 
 			fetch(`/tourLobby/${tournamentId}/`, {
@@ -42,22 +42,18 @@ export function tourLobby(tournamentId) {
 					console.error('Error Fetch request :', error);
 					isUsernameValid = false;
 				});
-
 		} else {
 			showAlert("Please enter the username of the 3 other players before inviting.");
 			isUsernameValid = false;
 		}
 	});
 
-	if (button) {
-		button.addEventListener('click', function () {
-			if (isUsernameValid) {
-				window.location.href = `/tournament/${tournamentId}`;
-			} else {
-				showAlert("Please enter a valid username first.");
-			}
-		});
-	}
+	button.addEventListener('click', e => {
+		if (!isUsernameValid) {
+			e.preventDefault();
+			showAlert("Please enter a valid username first.");
+		}
+	});
 
 	function showAlert(message) {
 		// Créer un élément d'alerte

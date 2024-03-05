@@ -1,4 +1,6 @@
-export function tournament(tournamentId) {
+import { router } from "./router.js";
+
+export function tournament(gameId) {
 	let gameBoard;
 	let ctx;
 	let scoreText;
@@ -33,17 +35,19 @@ export function tournament(tournamentId) {
 	};
 
 	function initializeGame() {
-		fetch(`/tournament/${tournamentId}/tour-get-scores/`)
-			.then(response => response.json())
-			.then(data => {
-				player1Score = data.player1.score;
-				player2Score = data.player2.score;
-				document.getElementById('player1').textContent = data.player1.username;
-				document.getElementById('player2').textContent = data.player2.username;
-			})
-			.catch(error => {
-				console.error('Erreur lors de la requête AJAX :', error);
-			});
+		// fetch(`/tournament/${tournamentId}/tour-get-scores/`)
+		// 	.then(response => response.json())
+		// 	.then(data => {
+		// 		player1 = data.player1.username;
+		// 		player2 = data.player2.username;
+		// 		player1Score = data.player1.score;
+		// 		player2Score = data.player2.score;
+		// 		document.getElementById('player1').textContent = data.player1.username;
+		// 		document.getElementById('player2').textContent = data.player2.username;
+		// 	})
+		// 	.catch(error => {
+		// 		console.error('Erreur lors de la requête AJAX :', error);
+		// 	});
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
 		scoreText = document.getElementById("scoreText");
@@ -60,7 +64,7 @@ export function tournament(tournamentId) {
 		ballXDirection = 0;
 		ballYDirection = 0;
 		clearBoard();
-		document.getElementsByClassName("close")[0].addEventListener("click", function () {
+		document.getElementsByClassName('close')[0].addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
@@ -167,7 +171,7 @@ export function tournament(tournamentId) {
 				ballSpeed += 1;
 			}
 		}
-		endGame()
+		endGame();
 	}
 
 	function changeDirection(event) {
@@ -233,15 +237,15 @@ export function tournament(tournamentId) {
 			} else {
 				winnerMessage += "It's a draw!";
 			}
-
 			document.getElementById("modalGame-message").textContent = winnerMessage;
 			document.getElementById("myModalGame").style.display = "block";
 			var data = {
 				player1Score: player1Score,
-				player2Score: player2Score
+				player2Score: player2Score,
 			};
 
-			fetch(`/tournament/${tournamentId}/tour-get-scores/`, {
+			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+			fetch(`/tournament/game/${gameId}/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -251,10 +255,12 @@ export function tournament(tournamentId) {
 				body: JSON.stringify(data),
 			})
 				.then(response => response.json())
-				.then(result => {
-					console.log("score_end:", player1Score);
-					console.log("score_end:", player2Score);
-					console.log("Next game id:", nextGame)
+				.then(data => {
+					let url = location.pathname.replace(/\d+/, data.nextGame);
+					console.log(data.nextGame);
+					console.log(url);
+					history.pushState(null, null, url);
+					router();
 				})
 				.catch(error => {
 					console.error('Error Fetch request :', error);

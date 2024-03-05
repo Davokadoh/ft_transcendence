@@ -2,10 +2,10 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
@@ -13,9 +13,9 @@ from .models import GameTeam, Tournament, User, Team, Game
 from .forms import ProfilPictureForm, UsernameForm
 from dotenv import load_dotenv
 import requests
+import base64
 import json
 import os
-import base64
 
 
 def index(request, page_name=None):
@@ -186,8 +186,6 @@ def lobby(request, gameId=None, invitedPlayer2=None):
 
 @login_required
 def game(request, gameId=None):
-    if gameId is None:
-        return redirect(home)
     game = Game.objects.get(pk=gameId)
     if game is None:
         return redirect(home)
@@ -257,25 +255,26 @@ def tourLobby(request, tournamentId=None):
         tournament = Tournament.objects.create()
         return redirect(tourLobby, tournament.pk)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    context = {
+        "tournamentId": tournamentId,
+        "template": "ajax.html" if ajax else "index.html",
+    }
     if request.method == "GET":
-        return render(
-            request,
-            "tourLobby.html",
-            {"template": "ajax.html" if ajax else "index.html"},
-        )
+        return render(request, "tourLobby.html", context)
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
             usernames = [value for key, value in data.items()]
             users = User.objects.filter(username__in=usernames)
-            if users.exists():
-                for user in users:
-                    print("---")
-                    print(user)
-                    print("---")
-            else:
-                return JsonResponse({"error_message": "No users found with the provided usernames"})
+            if not users.exists():
+                return JsonResponse(
+                    {"error_message": "No users found with the provided usernames"}
+                )
             tournament = Tournament.objects.get(pk=tournamentId)
+            team = Team.objects.create()
+            team.users.add(request.user)
+            team.save()
+            tournament.register_team(team)
             for user in users:
                 team = Team.objects.create()
                 team.users.add(user)
@@ -290,27 +289,55 @@ def tourLobby(request, tournamentId=None):
             )
 
 
-@login_required
-def tournament(request, tournamentId=None):
-    if tournamentId is None:
-        return redirect(home)
-
+def tournament_next(request, tournamentId=None):
     try:
         tournament = Tournament.objects.get(pk=tournamentId)
         game = tournament.next_game()
-    except Tournament.DoesNotExist:
-        raise Http404("Tournament does not exist")
+    except Tournament.DoesNotExist or Game.DoesNotExist:
+        raise Http404("Game does not exist")
+    return redirect(tournament_game, gameId=game.pk)
 
-    print(game)
+
+@login_required
+def tournament_game(request, gameId=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    return render(
-        request,
-        "tournament.html",
-        {
-            "template": "ajax.html" if ajax else "index.html",
-            "tournamentId": game.pk,
-        },
-    )
+    try:
+        game = Game.objects.get(pk=gameId)
+    except Game.DoesNotExist:
+        raise Http404("Game does not exist")
+    team1 = GameTeam.objects.filter(game=game).first()
+    team2 = GameTeam.objects.filter(game=game).last()
+    context = {
+        "game": game,
+        "player1": team1.team.users.first(),
+        "player2": team2.team.users.first(),
+        "template": "ajax.html" if ajax else "index.html",
+    }
+    if request.method == "GET":
+        return render(request, "tournament.html", context)
+    elif request.method == "POST":
+        data = json.loads(request.body)
+        team1.score = data.get("player1Score")
+        team2.score = data.get("player2Score")
+        team1.save()
+        team2.save()
+        game.winner = (
+            team1.team
+            if team1.score > team2.score
+            else team2.team
+        )
+        game.status = "END"
+        game.save()
+        tournament_round = game.tournament_round
+        if tournament_round:
+            next = tournament_round.tournament.next_game()
+            if next:
+                print(f"Next game {next.pk}")
+                return JsonResponse({"nextGame": next.pk})
+            else:
+                return redirect(home)
+                # return render(request, "win.html", context)
+        return redirect(home)
 
 
 def get_tour_scores(request, tournamentId=None):
@@ -322,15 +349,21 @@ def get_tour_scores(request, tournamentId=None):
     team2 = GameTeam.objects.filter(game=game).last()
     if request.method == "GET":
         data = {
-            "player1": {"username": team1.team.users.first().username, "score": team1.score},
-            "player2": {"username": team2.team.users.first().username, "score": team2.score},
+            "player1": {
+                "username": team1.team.users.first().username,
+                "score": team1.score,
+            },
+            "player2": {
+                "username": team2.team.users.first().username,
+                "score": team2.score,
+            },
         }
         return JsonResponse(data)
     if request.method == "POST":
         data = json.loads(request.body)
         team1.score = data.get("player1Score")
-        team1.save()
         team2.score = data.get("player2Score")
+        team1.save()
         team2.save()
         game.winner = (
             game.teams.first().users.first()
@@ -344,36 +377,11 @@ def get_tour_scores(request, tournamentId=None):
             "player2Score": team2.score,
             "nextGame": next.pk,
         }
-        return JsonResponse(data)
-
-
-def get_tour_usernames(request, tournamentId=None):
-    if tournamentId is None:
-        return JsonResponse({"error": "Invalid request"})
-    tournament = Tournament.objects.get(pk=tournamentId)
-    if request.method == "GET":
-        game = tournament.next_game()
-        data = {
-            "player1_username": game.teams.first().users.first().username,
-            "player2_username": game.teams.last().users.first().username,
-        }
-        return JsonResponse(data)
-
-
-# def get_tour_usernames(request, tournamentId=None):
-#     if tournamentId is None:
-#         return JsonResponse({"error": "Invalid request"})
-#     game = Tournament.objects.get(pk=tournamentId)
-#     player1_username = game.teams.first().users.first().username
-#     player2_username = game.teams.last().users.first().username
-#     data = {
-#         "player1_username": player1_username,
-#         "player2_username": player2_username,
-#     }
-#     return JsonResponse(data)
+        return redirect(f"/game/{next.pk}")
 
 
 def logoutview(request):
+    # request.user.remove("access_token")
     logout(request)
     return loginview(request)
 
@@ -381,7 +389,7 @@ def logoutview(request):
 def loginview(request):
     token = request.headers.get("Authorization")
     if request.user.is_authenticated:
-        redirect("/home")
+        return redirect("/home" if next is None else next)
     if request.method == "GET":
         ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
@@ -391,10 +399,7 @@ def loginview(request):
         )
     elif request.method == "POST":
         user = CustomAuthenticationBackend.authenticate(request, token)
-        if user is not None:
-            next = request.POST.get("next")
-            return redirect("/home" if next is None else next)
-        else:
+        if user is None:
             load_dotenv()
             request.session["state"] = base64.b64encode(os.urandom(100)).decode("ascii")
             auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
@@ -402,7 +407,7 @@ def loginview(request):
                 os.getenv("OAUTH_ID"),
                 requests.utils.quote("http://localhost:8000/accounts/callback/"),
                 "public",
-                request.session["state"],  # state
+                request.session["state"],
             )
             return redirect(auth_url)
 
@@ -435,7 +440,6 @@ def callback(request):
         user = User.objects.get(username=response.json()["login"])
     except User.DoesNotExist:
         user = User.objects.create_user(username=response.json()["login"])
-        print("USER CREATED")
         try:
             user.profilPictureUrl = response.json()["image"]["link"]
         except KeyError:

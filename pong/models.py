@@ -77,7 +77,7 @@ class Team(models.Model):
             self.users.add(player_id)
 
     def __str__(self):
-        return f"Team Name: {self.name}, Members: {', '.join([user.username for user in self.users.all()])}"
+        return f"Name: {self.name}, Members: {', '.join([user.username for user in self.users.all()])}"
 
 
 class Game(models.Model):
@@ -102,7 +102,7 @@ class Game(models.Model):
     style = models.CharField(max_length=100, default="not defined")
     opponent = models.CharField(max_length=255, null=True, default=None)
     winner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
+        Team, on_delete=models.CASCADE, related_name="games_won", null=True
     )
 
     def __str__(self):
@@ -118,8 +118,7 @@ class Round(models.Model):
         for team1, team2 in zip(teams[::2], teams[1::2]):
             game = Game.objects.create(tournament_round=self)
             game.teams.add(team1, team2)
-            GameTeam.objects.create(game=game, team=team1)
-            GameTeam.objects.create(game=game, team=team2)
+            game.save()
 
     def get_winners(self):
         winners = [game.winner for game in self.game_set.all()]
@@ -144,7 +143,6 @@ class Tournament(models.Model):
     max_teams = models.PositiveIntegerField(default=4)
 
     def register_team(self, team):
-        print("Adding team ", team)
         if self.status != "OPEN":
             raise RegistrationClosedException()
         if self.teams.count() >= self.max_teams:
@@ -169,7 +167,9 @@ class Tournament(models.Model):
             last_round = Round.objects.filter(tournament=self).last()
         next_game = last_round.game_set.filter(status="LOBBY").first()
         if next_game is None:
-            next_game = self.next_round().game_set.filter(status="LOBBY").first()
+            last_round = self.next_round()
+            if last_round is not None:
+                next_game = last_round.game_set.filter(status="LOBBY").first()
         return next_game
 
     def start(self):
@@ -180,7 +180,7 @@ class Tournament(models.Model):
         first_round.create_games()
 
     def __str__(self):
-        return f"Tournament: {self.id}, Status: {self.status}, {self.teams}"
+        return f"Tournament: {self.id}, Status: {self.status}, {[team for team in self.teams.all()]}"
 
 
 class RegistrationClosedException(Exception):
