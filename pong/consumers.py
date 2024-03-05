@@ -129,7 +129,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
                 await new_conversation.messages.aadd(messages)
                 await target_instance.conversations.aadd(new_conversation)
         else:
-            await sync_to_async(print)("Blocked Users:", blocked_users)
+            print("Blocked Users:", blocked_users)
             # displays
             # mess = await sync_to_async(list)(existing_conversation.messages.all())
             # for mes in mess:
