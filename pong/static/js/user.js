@@ -112,7 +112,8 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     document.getElementById("listContact").innerHTML = "";
 
                     //#check#user
-                    var myUsername = "test";//document.getElementById("id_nickname").value;
+
+                    var myUsername = document.getElementById("searchInput").value;
                     data.user_list.map(user => {
 
                         if (myUsername != user.username) {
