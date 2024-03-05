@@ -49,10 +49,9 @@ export function tourLobby(tournamentId) {
 		}
 	});
 
-	button.addEventListener('click', function () {
-		if (isUsernameValid) {
-			window.location.href = `/tournament/${tournamentId}`;
-		} else {
+	button.addEventListener('click', e => {
+		if (!isUsernameValid) {
+			e.preventDefault();
 			showAlert("Please enter a valid username first.");
 		}
 	});
