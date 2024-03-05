@@ -380,6 +380,8 @@ footer {
 	/* Aligne en bas de la fenêtre */
 	width: 100%;
 	/* Occupe toute la largeur de la fenêtre */
+	z-index: 3000;
+	/* le place au dessus de tout, partout */
 }
 
 .container {

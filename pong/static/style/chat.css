@@ -73,14 +73,27 @@ body-msg {
 
     i {
         font-size: 25px;
-        color: #000;
-        opacity: 0.7;
+        color: var(--vert);
+        /* opacity: 0.7; */
 
         margin-right: 20px;
 
         &:hover {
-            color: #74b9ff;
+            color: var(--bleu) !important;
             cursor: pointer;
+            border-radius: 5px;
+        }
+    }
+}
+
+.night-mode .settings-tray {
+    .rien {}
+
+    i {
+        color: white !important;
+
+        &hover {
+            color: rgb(10, 10, 10) !important;
         }
     }
 }
@@ -130,7 +143,7 @@ body-msg {
             background: #eee;
 
             &::placeholder {
-                color: purple;
+                color: var(--bleu);
                 font-weight: 400;
                 opacity: 0.3;
             }
@@ -142,6 +155,14 @@ body-msg {
     }
 }
 
+/* .night-mode .search .input::placeholder {
+    color: var(--gray)
+} */
+
+.night-mode .search .input-wrapper input::placeholder {
+    color: var(--gray) !important;
+    opacity: 0.5;
+}
 
 .chat {
 
@@ -157,9 +178,10 @@ body-msg {
             width: 70%;
 
             h6 {
-                color: rgb(26, 25, 25);
+                color: var(--bleu);
                 margin-top: 6px;
                 margin-bottom: 0;
+                font-family: "Spoof", sans-serif;
             }
 
             p {
@@ -173,6 +195,9 @@ body-msg {
 
     }
 
+    .night-mode .t-bleu{
+        color: #000 !important;
+    }
 
     .conversation-list {
         overflow-y: auto;
@@ -183,6 +208,7 @@ body-msg {
             position: relative;
             overflow: visible;
             width: 100%;
+            border-radius: 5px;
         }
 
         .dropdown-menu {
@@ -191,7 +217,6 @@ body-msg {
             top: 10px;
             left: 100px;
             width: 100%;
-            /* Ajustez la largeur selon vos besoins */
         }
     }
 }
@@ -215,9 +240,10 @@ body-msg {
 .--onhover {
 
     &:hover {
-        background-color: #74b9ff;
         cursor: pointer;
-
+        background-color: rgb(135, 211, 0, 0.5);
+        /* background-color: var(--vert); */
+        /* opacity: 0.5; */
         p,
         h6,
         .time-msg {
@@ -237,6 +263,29 @@ body-msg {
     }
 }
 
+.night-mode .--onhover:hover
+{
+    background-color: var(--gray) !important;
+}
+
+.dropdown-item {
+    font-family: "Spoof", sans-serif;
+    background-color: var(--violet);
+    /* --bs-dropdown-bg: ; */
+    color: white;
+}
+
+.dropdown-menu-dark {
+    --bs-dropdown-bg: var(--violet);
+}
+
+.night-mode .dropdown-menu-dark {
+    --bs-dropdown-bg: black;
+}
+
+.night-mode .dropdown-item {
+    background-color: initial;
+}
 
 .hide {
     display: none !important;
@@ -318,7 +367,7 @@ body-msg {
 }
 
 .chat-bubble--blue {
-    background: #74b9ff;
+    background: var(--bleu);
     color: #fff;
 }
 
@@ -326,19 +375,38 @@ body-msg {
 
     &::after {
         right: 0;
-        border-left-color: #74b9ff;
+        border-left-color: var(--bleu);
         border-right: 0;
         margin-right: -20px;
     }
 }
 
+.night-mode .chat-bubble--blue {
+    background: black;
+    color: #fff;
+}
+
+.night-mode .chat-bubble--right {
+
+    &::after {
+        border-left-color: black;
+    }
+}
+
+.night-mode .chat-box {
+    background-color: #000;
+}
+
 .chat-box {
     border-top: 1px solid #ddd;
-    background: #eee;
+    background: var(--violet);
     height: 100%;
     /*Ypadding: 0 30px;  X*/
     /*margin-top: 19px;*/
     align-items: center;
+    /* border-radius: 5px; */
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 
     .inputCustom {
         margin: 0 15px;
@@ -351,17 +419,17 @@ body-msg {
         color: rgb(100, 96, 96);
 
         &:focus {
-            outline-color: rgb(161, 13, 161);
+            outline-color: var(--violet);
         }
     }
 
     i {
-        color: rgb(100, 96, 96);
+        color: white;
         vertical-align: middle;
         font-size: 25px;
 
         &:hover {
-            color: #74b9ff;
+            color: var(--gris);
             cursor: pointer;
         }
     }
@@ -369,6 +437,10 @@ body-msg {
     .i-send {
         transform: rotate(45deg);
     }
+}
+
+.night-mode .chat-box .inputCustom:focus {
+    outline-color: var(--gray);
 }
 
 .disabled {
@@ -429,4 +501,82 @@ body-msg {
 
 .read-on {
     background-color: red;
+}
+
+.bgVert {
+    background-color: var(--vert) !important;
+    color: var(--violet);
+}
+
+.bottomR20 {
+    border-bottom-right-radius: 15px;
+}
+
+.t-vert {
+    color: var(--vert) !important;
+    font-family: "Spoof", sans-serif;
+}
+
+.t-bleu {
+    color: var(--bleu) !important;
+    font-family: "Spoof", sans-serif;
+}
+
+.night-mode .t-bleu {
+    color: black !important;
+    font-family: "Spoof", sans-serif;
+}
+
+.t-violet {
+    color: var(--violet) !important;
+    font-family: "Spoof", sans-serif;
+}
+
+.night-mode .t-violet {
+    color: black !important;
+    font-family: "Spoof", sans-serif;
+}
+
+.bgViolet {
+    background-color: var(--violet);
+    color: var(--vert) !important;
+}
+
+.bi-da-violet {
+    color: var(--vert) !important;
+}
+
+.bi-da-violet :hover {
+    color: var(--bleu) !important;
+}
+
+.daFront {
+    font-family: "Spoof", sans-serif;
+}
+
+.bgBleu {
+    background-color: var(--bleu);
+    color: white;
+}
+
+.night-mode {
+    .rien {}
+
+    .t-vert {
+        color: white !important;
+    }
+
+    .bgVert {
+        background-color: grey !important;
+    }
+
+    .bgViolet {
+        background-color: black;
+        color: white;
+    }
+
+    .bgBleu {
+        background-color: black;
+        color: white;
+    }
 }
