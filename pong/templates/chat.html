@@ -17,12 +17,12 @@
 					<form action="/accounts/profil/picture/" method="get"
 						class="settings-tray settings-tray--left d-flex align-items-center bgVert">
 						<img class="profile-image" src="{{ request.user.profil_picture_oauth }}" alt="Profile image"
-							title="{{ request.user.username }}">
+							title="{{ request.user.nickname }}">
 						{% csrf_token %}
 					</form>
-					<form action="/accounts/profil/username/" method="get" class="test">
+					<form action="/accounts/profil/nickname/" method="get" class="test">
 						{% csrf_token %}
-						<span class="usernameUser" id="username">{{ request.user.username }}</span>
+						<span class="nicknameUser" id="nickname">{{ request.user.nickname }}</span>
 					</form>
 				</div>
 			</div>
@@ -36,7 +36,8 @@
 						<div class="search" id="searchContactId">
 							<div class="input-wrapper">
 								<i class="search bi-search-heart t-violet"></i>
-								<input class="t-violet" type="text" id="searchContact" placeholder="Search contact here" data-search>
+								<input class="t-violet" type="text" id="searchContact" placeholder="Search contact here"
+									data-search>
 								</input>
 							</div>
 						</div>

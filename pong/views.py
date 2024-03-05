@@ -125,7 +125,7 @@ def profil(request):
             request, "error.html", {
                 "template": "ajax.html" if ajax else "index.html"}
         )
-    username_form = UsernameForm(instance=request.user)
+    nickname_form = UsernameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
 
     matches_played = games.count()
@@ -149,7 +149,7 @@ def profil(request):
             "template": "ajax.html" if ajax else "index.html",
             "profil_picture_url": profil_picture_url,
             "profil_picture_form": profil_picture_form,
-            "username_form": username_form,
+            "nickname_form": nickname_form,
             "matches_played": matches_played,
             "wins": wins,
             "win_ratio": win_ratio,
@@ -221,17 +221,17 @@ def user(request, username=None):
 
 
 @login_required
-def username(request):
+def nickname(request):
     if request.method == "GET":
-        return JsonResponse({"username": request.user.username})
+        return JsonResponse({"nickname": request.user.nickname})
     elif request.method == "POST":
         form = UsernameForm(request.POST, instance=request.user)
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return JsonResponse({"message": "Username updated successfully"})
+            return JsonResponse({"message": "nickname updated successfully"})
         else:
-            return JsonResponse({"error": "New username is required"}, status=400)
+            return JsonResponse({"error": "New nickname is required"}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
@@ -554,13 +554,13 @@ def callback(request):
     return redirect(home)
 
 
-def get_user_info(request, username):
+def get_user_info(request, nickname):
     if request.method == "GET":
-        # username = request.GET.get('username')
-        # username = request.GET.get('profil_picture')
-        print("username GET =", username)
+        # nickname = request.GET.get('nickname')
+        # nickname = request.GET.get('profil_picture')
+        print("nickname GET =", nickname)
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(nickname=nickname)
             user_info = {
                 "username": user.username,
                 "nickname": user.nickname,
@@ -721,7 +721,7 @@ def getList(request, prefix, type):
                 user_list = []
                 for user in users:
                     user_info = {
-                        "username": user.username,
+                        "nickname": user.nickname,
                         "profil_picture": user.profil_picture_oauth,
                         "status": user.status,  # recuperer le status @test Verena
                         # add other field if necessary
@@ -736,7 +736,7 @@ def getList(request, prefix, type):
                 friend_list = []
                 for friend in friends:
                     friend_info = {
-                        "username": friend.username,
+                        "nickname": friend.nickname,
                         "profil_picture": friend.profil_picture_oauth,
                         "status": friend.status,
                     }
@@ -750,7 +750,7 @@ def getList(request, prefix, type):
                 blocked_list = []
                 for user in users:
                     user = {
-                        "username": user.username,
+                        "nickname": user.nickname,
                     }
                     blocked_list.append(user)
                 context = {"users_blocked": blocked_list}
@@ -761,18 +761,22 @@ def getList(request, prefix, type):
 
 
 @csrf_exempt
-def manageFriend(request, prefix, action, username):
+def manageFriend(request, prefix, action, nickname):
     print("[manageFriend FUNCTION]")
     if request.method == "POST":
         try:
             user_instance = request.user
-            target = User.objects.get(username=username)
+            target = User.objects.get(nickname=nickname)
 
             if action == "add":
-                if not user_instance.friends.filter(username=target.username).exists():
+                if (
+                    request.user.nickname != target.nickname
+                    and not user_instance.friends.filter(
+                        nickname=target.nickname
+                    ).exists()
+                ):
                     user_instance.friends.add(target)
-                    print(
-                        f"friend: {username} added by {user_instance.username}")
+                    print(f"friend: {nickname} added by {user_instance.nickname}")
                     print("*****:", user_instance.friends.all())
                     return JsonResponse(
                         {"message": "friend have been added"}, status=200
@@ -782,11 +786,10 @@ def manageFriend(request, prefix, action, username):
                         {"message": "friend already present"}, status=200
                     )
             elif action == "remove":
-                if user_instance.friends.filter(username=target.username).exists():
+                if user_instance.friends.filter(nickname=target.nickname).exists():
                     user_instance.friends.remove(target)
                     print("*****:", user_instance.friends.all())
-                    print(
-                        f"friend: {username} removed by {user_instance.username}")
+                    print(f"friend: {nickname} removed by {user_instance.nickname}")
                     return JsonResponse(
                         {"message": "friend have been removed"}, status=200
                     )
@@ -795,15 +798,13 @@ def manageFriend(request, prefix, action, username):
 
             elif action == "block":
                 if (
-                    user_instance.friends.filter(
-                        username=target.username).exists()
+                    user_instance.friends.filter(nickname=target.nickname).exists()
                     and not user_instance.blocked_users.filter(
-                        username=target.username
+                        nickname=target.nickname
                     ).exists()
                 ):
                     user_instance.blocked_users.add(target)
-                    print(
-                        f"friend: {username} was blocked by {user_instance.username}")
+                    print(f"friend: {nickname} was blocked by {user_instance.nickname}")
                     return JsonResponse(
                         {"message": "friend have been blocked"}, status=200
                     )
@@ -814,15 +815,14 @@ def manageFriend(request, prefix, action, username):
                     )
             elif action == "unblock":
                 if (
-                    user_instance.friends.filter(
-                        username=target.username).exists()
+                    user_instance.friends.filter(nickname=target.nickname).exists()
                     and user_instance.blocked_users.filter(
-                        username=target.username
+                        nickname=target.nickname
                     ).exists()
                 ):
                     user_instance.blocked_users.remove(target)
                     print(
-                        f"friend: {username} was unblocked by {user_instance.username}"
+                        f"friend: {nickname} was unblocked by {user_instance.nickname}"
                     )
                     return JsonResponse(
                         {"message": "friend have been unblocked"}, status=200
@@ -835,7 +835,7 @@ def manageFriend(request, prefix, action, username):
                 return JsonResponse({"message": "action not recognize"}, status=200)
 
         except User.DoesNotExist:
-            print(f"User not found: {username}")
+            print(f"User not found: {nickname}")
             return JsonResponse({"error": "user not found"}, status=404)
 
 
@@ -849,8 +849,8 @@ def get_user_conversations(request):
             messages = [
                 {
                     "type": "chat_message",
-                    "sender": message.sender.username,
-                    "target": message.target.username,
+                    "sender": message.sender.nickname,
+                    "target": message.target.nickname,
                     "message": message.message,
                     "timestamp": message.timestamp,
                 }
@@ -858,7 +858,7 @@ def get_user_conversations(request):
             ]
             serialized_conversations.append(
                 {
-                    "name": conversation.participants.username,
+                    "name": conversation.participants.nickname,
                     "messages": messages,
                     "status": conversation.participants.status,
                     # "unread": conversation.unread,

@@ -46,16 +46,16 @@
 						{{ field }}
 						{% endfor %}
 					</form>
-					<form id="username-form" action="/accounts/profil/username/" method="post" class="col-8">
+					<form id="nickname-form" action="/accounts/profil/nickname/" method="post" class="col-8">
 						{% csrf_token %}
 						<div class="row align-items-center justify-content-between">
 							<div class="col justify-content-start">
-								{% for field in username_form %}
+								{% for field in nickname_form %}
 								<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
 								{{ field }}
 								{% endfor %}
 							</div>
-							<button id="modifyUsernameButton" class="btn bg-vert col-4 d-flex" type="submit">✓</button>
+							<button id="modifyNicknameButton" class="btn bg-vert col-4 d-flex" type="submit">✓</button>
 						</div>
 						<div class="justify-content-start">
 							<button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img
@@ -91,8 +91,8 @@
 						</div>
 
 						<div class="input-group input-group-custom">
-							<input type="text" class="form-control" name="username" id="searchInput"
-								placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
+							<input type="text" class="form-control" name="nickname" id="searchInput"
+								placeholder="Search" aria-label="Nickname" aria-describedby="basic-addon1" />
 							<div class="input-group-append">
 								<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user"
 									data-link="/user" alt="Check user profil"> 👀 </a>
