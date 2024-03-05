@@ -13,7 +13,7 @@ export function tourLobby(tournamentId) {
 			var data = {
 				p2Username: player2Username,
 				p3Username: player3Username,
-				p4Username: player4Username
+				p4Username: player4Username,
 			};
 
 			fetch(`/tourLobby/${tournamentId}/`, {
@@ -49,15 +49,13 @@ export function tourLobby(tournamentId) {
 		}
 	});
 
-	if (button) {
-		button.addEventListener('click', function () {
-			if (isUsernameValid) {
-				window.location.href = `/tournament/${tournamentId}`;
-			} else {
-				showAlert("Please enter a valid username first.");
-			}
-		});
-	}
+	button.addEventListener('click', function () {
+		if (isUsernameValid) {
+			window.location.href = `/tournament/${tournamentId}`;
+		} else {
+			showAlert("Please enter a valid username first.");
+		}
+	});
 
 	// Fonction pour creer et afficher une alerte personnalisée
 	function showAlert(message) {
