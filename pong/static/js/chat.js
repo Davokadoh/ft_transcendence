@@ -131,23 +131,24 @@ export function chat() {
 			console.log("CLICK on CONTACT");
 			const contactName = contact.querySelector("[data-name]").textContent;
 			const img = contact.querySelector("[data-image]").src;
+			// let tpl = templateConversationHistory.content.cloneNode(true);
 			// const statusLog = contact.querySelector(["data-status"]).value
-			let statusIndicator = tpl.querySelector(".status-indicator");
-			statusIndicator.textContent = user.status;
-			statusIndicator.setAttribute('data-status', user.status);
+			// let statusIndicator = tpl.querySelector(".status-indicator");
+			// statusIndicator.textContent = contact.status;
+			// statusIndicator.setAttribute('data-status', contact.status);
 			//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
 			searchInput.value = "";
 
-			// Modify the status indicator color based on status
-			if (user.status === 'online') {
-				statusIndicator.classList.add('online');
-			} else if (user.status === 'offline') {
-				statusIndicator.classList.add('offline');
-			} else if (user.status === 'playing') {
-				statusIndicator.classList.add('playing');
-			} else if (user.status === '') {
-				statusIndicator.classList.add('empty');
-			}
+			// // Modify the status indicator color based on status
+			// if (contact.status === 'online') {
+			// 	statusIndicator.classList.add('online');
+			// } else if (contact.status === 'offline') {
+			// 	statusIndicator.classList.add('offline');
+			// } else if (contact.status === 'playing') {
+			// 	statusIndicator.classList.add('playing');
+			// } else if (contact.status === '') {
+			// 	statusIndicator.classList.add('empty');
+			// }
 
 			//visibleAllContact();
 			console.log("find conversation result:  ", findConversation(contactName));
@@ -158,7 +159,7 @@ export function chat() {
 				const obj = {
 					name: contactName,
 					imgSrc: img,
-					status: statusIndicator,
+					// status: statusIndicator,
 				};
 				createConversation(obj);
 				createChatPanel(obj);
@@ -352,6 +353,7 @@ export function chat() {
 			let name = tpl.querySelector("[data-text] h6");
 			let img = tpl.querySelector("[data-image]");
 			let blockUnblock = tpl.querySelector("#blockUnblockId");
+			let statusIndicator = tpl.querySelector(".status-indicator");
 			// Vérifie si l'utilisateur est bloqué
 			if (usersBlocked.find(user => user.username === obj.name))
 				blockUnblock.innerText = "Unblock contact";
@@ -360,12 +362,22 @@ export function chat() {
 			// Défini le nom et l'image
 			name.textContent = obj.name;
 			img.src = obj.imgSrc;
-			// Crée la pastille d'état
-			const statusIndicator = document.createElement("span");
-			statusIndicator.className = "status-indicator";
-			statusIndicator.setAttribute('data-status', obj.status);
-			// Ajouter la pastille à côté du nom
-			name.appendChild(statusIndicator);
+			statusIndicator = obj.status;
+			// // Set the status indicator @Verena Status
+			// let statusIndicator = tpl.querySelector(".status-indicator");
+			// statusIndicator.textContent = user.status;
+			// statusIndicator.setAttribute('data-status', user.status);
+
+			// // Modify the status indicator color based on status
+			// if (user.status === 'online') {
+			// 	statusIndicator.classList.add('online');
+			// } else if (user.status === 'offline') {
+			// 	statusIndicator.classList.add('offline');
+			// } else if (user.status === 'playing') {
+			// 	statusIndicator.classList.add('playing');
+			// } else if (user.status === '') {
+			// 	statusIndicator.classList.add('empty');
+			// }
 			return tpl;
 		}
 	}
@@ -731,7 +743,16 @@ export function chat() {
 				console.log('Response server _data_ : conversations List : ', data.conversations);
 
 				data.conversations.forEach(conversation => {
-
+					let statusClass = '';
+					if (conversation.status === 'online') {
+						statusClass = 'online';
+					} else if (conversation.status === 'offline') {
+						statusClass = 'offline';
+					} else if (conversation.status === 'playing') {
+						statusClass = 'playing';
+					} else if (conversation.status === '') {
+						statusClass = 'empty';
+					}
 					//load conversation
 					var imgSrc = "";
 					const target = document.getElementById(`${conversation.name}-contact-id`);
@@ -741,9 +762,11 @@ export function chat() {
 					const obj = {
 						"name": conversation.name,
 						"imgSrc": imgSrc,
-						"status": statusIndicator, 
+						// "status": conversation.statusIndicator,
+						"status": statusClass
 						// modification Verena
 					}
+					console.log("status indicator = ", statusIndicator);
 					//createConversation(obj);
 					//var state = conversation.unread;
 					mapConversationList.set(conversation.name, setTemplate("conversationList", obj));

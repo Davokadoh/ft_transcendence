@@ -841,6 +841,7 @@ def get_user_conversations(request):
             serialized_conversations.append(
                 {
                     "name": conversation.participants.username,
+                    "status": conversation.participants.status,
                     "messages": messages,
                     # "unread": conversation.unread,
                 }
