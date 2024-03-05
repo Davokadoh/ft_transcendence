@@ -200,7 +200,7 @@ export function profil() {
 
 	document.getElementById("ladder").addEventListener("click", () => {
 		console.log("click on ladder");
-		const nicknama = searched_nickname.value.trim(); //@Verena
+		const nickname = searched_nickname.value.trim(); //@Verena
 		// const currentUser = document.getElementById("current-user").dataset.nickname;
 		const currentUser = document.getElementById("ladder").dataset.nickname;
 		if (nickname) {
