@@ -22,14 +22,9 @@ export function router() {
 		document.title = doc.title;
 		document.querySelector("#app").innerHTML = doc.querySelector("#app").innerHTML;
 		document.dispatchEvent(new Event("DOMContentLoaded"));
-		// console.log("target: " + target);
-		// console.log("target split: " + target.split("/"));
-		// let gameId = target.split("/");
-		// gameId.pop();
-		// gameId = parseInt(gameId.pop());
-		// console.log("gameId: " + gameId);
-
-		let gameId = parseInt(target.split("/").pop());
+		let gameId = target.split("/");
+		gameId.pop();
+		gameId = parseInt(gameId.pop());
 		if (target.startsWith("/game")) game(gameId);
 		else if (target.startsWith("/remote")) remote(gameId);
 		else if (target.startsWith("/tournament")) tournament(gameId);

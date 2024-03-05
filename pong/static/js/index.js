@@ -11,11 +11,15 @@ document.onpopstate = router;
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("click", e => {
-    if (e.target.matches("[data-link]")) {
-        e.preventDefault();
-        history.pushState(null, null, e.target.getAttribute("data-link"));
-        router();
-    }
+	if (e.target.hasAttribute("url")) {
+		e.preventDefault();
+		history.pushState(null, null, e.target.getAttribute("url"));
+		router();
+	} else if (e.target.matches("[data-link]")) {
+		e.preventDefault();
+		history.pushState(null, null, e.target.getAttribute("data-link"));
+		router();
+	}
 });
 
 console.log('index called');
@@ -23,53 +27,53 @@ console.log('index called');
 
 // < !--SCRIPT BOUTON NB / COLOR-- >
 document.addEventListener('DOMContentLoaded', function () {
-    const toggleSwitch = document.getElementById('toggle-switch');
-    const nightModeOn = document.getElementById('nightModeOn');
-    const nightModeOff = document.getElementById('nightModeOff');
-    const separator = document.querySelector('.separator');
+	const toggleSwitch = document.getElementById('toggle-switch');
+	const nightModeOn = document.getElementById('nightModeOn');
+	const nightModeOff = document.getElementById('nightModeOff');
+	const separator = document.querySelector('.separator');
 
-    nightModeOn.addEventListener('click', function () {
-        if (!toggleSwitch.checked) {
-            toggleSwitch.checked = false;
-            document.body.classList.add('night-mode');
-            separator.style.background = 'black'; // Change la couleur de la ligne de séparation
-            toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour activer le mode nuit
-        }
-    });
+	nightModeOn.addEventListener('click', function () {
+		if (!toggleSwitch.checked) {
+			toggleSwitch.checked = false;
+			document.body.classList.add('night-mode');
+			separator.style.background = 'black'; // Change la couleur de la ligne de séparation
+			toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour activer le mode nuit
+		}
+	});
 
-    nightModeOff.addEventListener('click', function () {
-        if (toggleSwitch.checked) {
-            toggleSwitch.checked = true;
-            document.body.classList.remove('night-mode');
-            separator.style.background = ''; // Change la couleur de la ligne de séparation
-            toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour désactiver le mode nuit
-        }
-    });
+	nightModeOff.addEventListener('click', function () {
+		if (toggleSwitch.checked) {
+			toggleSwitch.checked = true;
+			document.body.classList.remove('night-mode');
+			separator.style.background = ''; // Change la couleur de la ligne de séparation
+			toggleSwitch.dispatchEvent(new Event('change')); // Déclenche l'événement de changement pour désactiver le mode nuit
+		}
+	});
 });
 
 // < !--SCRIPT BOUTON MENU-- >
 function toggleNavbar() {
-    console.log('Toggle Navbar function called');
+	console.log('Toggle Navbar function called');
 
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarNav = document.querySelector('#navbarNav');
+	const navbarToggler = document.querySelector('.navbar-toggler');
+	const navbarNav = document.querySelector('#navbarNav');
 
-    // Vérifie si le menu est ouvert
-    const isOpen = navbarNav.classList.contains('show');
+	// Vérifie si le menu est ouvert
+	const isOpen = navbarNav.classList.contains('show');
 
-    // Si le menu est ouvert, retire la classe active du bouton
-    if (isOpen) {
-        navbarToggler.classList.remove('active');
-    } else {
-        // Si le menu est fermé, ajoute la classe active au bouton
-        navbarToggler.classList.add('active');
-    }
+	// Si le menu est ouvert, retire la classe active du bouton
+	if (isOpen) {
+		navbarToggler.classList.remove('active');
+	} else {
+		// Si le menu est fermé, ajoute la classe active au bouton
+		navbarToggler.classList.add('active');
+	}
 }
 // Fonction pour récupérer le jeton CSRF depuis les cookies
 function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 // document.addEventListener('DOMContentLoaded', function () {
