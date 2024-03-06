@@ -14,7 +14,7 @@ from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, User, Team, Game
-from .forms import ProfilPictureForm, UsernameForm
+from .forms import ProfilPictureForm, NicknameForm
 from dotenv import load_dotenv
 import requests
 
@@ -125,7 +125,7 @@ def profil(request):
             request, "error.html", {
                 "template": "ajax.html" if ajax else "index.html"}
         )
-    username_form = UsernameForm(instance=request.user)
+    nickname_form = NicknameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
 
     matches_played = games.count()
@@ -148,7 +148,7 @@ def profil(request):
             "template": "ajax.html" if ajax else "index.html",
             "profil_picture_url": profil_picture_url,
             "profil_picture_form": profil_picture_form,
-            "username_form": username_form,
+            "nickname_form": nickname_form,
             "matches_played": matches_played,
             "wins": wins,
             "win_ratio": win_ratio,
@@ -219,9 +219,10 @@ def user(request, nickname=None):
 @login_required
 def username(request):
     if request.method == "GET":
-        return JsonResponse({"username": request.user.username, "nickname": {"nickname": request.user.nickname}})
+        # return JsonResponse({"username": request.user.username, "nickname": {"nickname": request.user.nickname}})
+        return JsonResponse({"nickname": request.user.nickname})
     elif request.method == "POST":
-        form = UsernameForm(request.POST, instance=request.user)
+        form = NicknameForm(request.POST, instance=request.user)
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
@@ -391,11 +392,11 @@ def tourLobby(request, tournamentId=None):
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            usernames = [value for key, value in data.items()]
-            users = User.objects.filter(username__in=usernames)
+            nicknames = [value for key, value in data.items()]
+            users = User.objects.filter(nickname__in=nicknames)
             if not users.exists():
                 return JsonResponse(
-                    {"error_message": "No users found with the provided usernames"}
+                    {"error_message": "No users found with the provided nicknames"}
                 )
             tournament = Tournament.objects.get(pk=tournamentId)
             team = Team.objects.create()
@@ -413,7 +414,7 @@ def tourLobby(request, tournamentId=None):
         except ObjectDoesNotExist as e:
             return JsonResponse(
                 {"error_message": str(
-                    e), "invalidUsername": data.get("username")}
+                    e), "invalidNickname": data.get("nickname")}
             )
 
 

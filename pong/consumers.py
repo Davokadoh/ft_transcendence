@@ -53,13 +53,13 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def receive_chat(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
-        target_instance = await User.objects.aget(username=target)
+        target_instance = await User.objects.aget(nickname=target)
 
         await self.channel_layer.send(
             self.channel_name,
             {
                 "type": "chat_message",
-                "sender": self.user.username,
+                "sender": self.user.nickname,
                 "target": target,
                 "message": content["message"],
                 "timestamp": time_for_all,
@@ -171,7 +171,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
                 await self.user.conversations.aremove(instance)
                 print(
-                    f"{self.user.pk}: Conversation with {target.username} was removed"
+                    f"{self.user.pk}: Conversation with {target.nickname} was removed"
                 )
 
     async def join_game(self, content):
