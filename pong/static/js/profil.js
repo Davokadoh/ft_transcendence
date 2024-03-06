@@ -99,8 +99,8 @@ export function profil() {
 	// 		});
 	// 	});
 
-	let nicknameInput = document.getElementById('id_nickname');
-	let nicknameForm = document.getElementById('nickname-form');
+	let nicknameInput = document.getElementById('username-form');
+	let nicknameForm = document.getElementById('username-form');
 	let nicknameButton = document.getElementById('modifyNicknameButton');
 
 	nicknameButton.onclick = function (event) {
@@ -117,11 +117,12 @@ export function profil() {
 			method: form.method,
 			body: formData,
 			mode: 'same-origin',
-		}).then(response => response.json()).then(data => {
+		})
+		.then(response => response.json())
+		.then(data => {
 			console.log("message: " + data.message);
-			localStorage.setItem('savedNickname', newNickname);
-
-			nicknameInput.value = newNickname;
+			localStorage.setItem('savedNickname', data.nickname);
+			nicknameInput.value = data.nickname;
 			nicknameInput.classList.add('nickname-updated');
 		}).catch(error => {
 			console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
@@ -134,17 +135,19 @@ export function profil() {
 		.then(data => {
 			let savedNickname = localStorage.getItem('savedNickname');
 			let savedImage = localStorage.getItem('image');
+			let defaultUsername = data.username;
 
-			// let profileImage = document.getElementById('profileImage');
-			let defaultNickname = data.nickname;
-
-			if (savedNickname && !nicknameInput.classList.contains('nickname-updated')) nicknameInput.value = savedNickname;
-			// else if (defaultNickname) nicknameInput.value = defaultNickname; // erreur dans la console traiter par creyt
-			else if (defaultNickname && nicknameInput) {
-				nicknameInput.value = defaultNickname;
+			if (data && data.username && data.nickname !== null) {
+				localStorage.setItem('savedNickname', data.nickname);
+				nicknameInput.value = data.nickname;
+				nicknameInput.classList.add('nickname-updated');
+			} else {
+				console.error('Erreur: Aucun utilisateur ou pseudonyme dans la réponse.');
 			}
-
-			// if (savedImage) profileImage.src = savedImage;
+			console.log(data);
+		})
+		.catch(error => {
+			console.error('Erreur lors de la récupération des données du profil :', error);
 		});
 
 	const modifyImageButton = document.getElementById('modifyImageButton');
@@ -194,8 +197,8 @@ export function profil() {
 	});
 
 	// Function to check if the username is already in the friends list
-	function isFriend(username, friendsList) {
-		return friendsList.includes(username);
+	function isFriend(nickname, friendsList) {
+		return friendsList.includes(nickname);
 	}
 
 	document.getElementById("ladder").addEventListener("click", () => {
@@ -277,7 +280,7 @@ export function profil() {
 						manageFriend("block", e.target.closest(".modal-body").innerText);
 					});
 				});
-				return data.friend_list.map(friend => friend.username); // Return the list of usernames
+				return data.friend_list.map(friend => friend.nickname); // Return the list of usernames
 			})
 			.catch(error => {
 				console.error('request error: Fetch', error);
@@ -309,7 +312,7 @@ export function profil() {
 				modalTmp.className = "pseudoBlock d-flex align-items-end"
 				data.users_blocked.forEach(user => {
 
-					//let nickname = truncNickname(friend.nickname);
+					//let username = truncNickname(friend.username);
 					modalTmp.innerHTML = `
 						${user.nickname}
 						<button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip"

@@ -51,11 +51,11 @@ export function game(gameId) {
 				console.error('Erreur lors de la requête AJAX :', error);
 			});
 
-		fetch(`/game/${gameId}/get-username/`)
+		fetch(`/game/${gameId}/get-nickname/`)
 			.then(response => response.json())
 			.then(data => {
-				player1 = data.player1_username;
-				player2 = data.player2_username;
+				player1 = data.player1_nickname;
+				player2 = data.player2_nickname;
 				console.log(player1);
 				console.log(player2);
 				document.getElementById('player1').textContent = player1;

@@ -15,7 +15,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     // if (searched_nickname) {
     //     searched_nickname.onchange = function () {
     //         console.log("searched_nickname JS = ", searched_nickname.value);
-    //         profilPicture.href = `/user/${searchedNickname.value}/`;
+    //         profilPicture.href = `/user/${searchedUsername.value}/`;
     //     };
     // }
 
@@ -81,7 +81,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     document.getElementById("ladder").addEventListener("click", () => {
         console.log("click on ladder");
 
-        const nickname = searched_username.value.trim(); //@Verena
+        const nickname = searched_nickname.value.trim(); //@Verena
         // const currentUser = document.getElementById("current-user").dataset.nickname;
         const currentUser = document.getElementById("ladder").dataset.nickname;
         if (nickname) {
@@ -141,7 +141,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             })
             .then(data => {
                 console.log('Response server _data_ : users/friends : ', data.friend_list);
-                return data.friend_list.map(friend => friend.username); // Return the list of usernames
+                return data.friend_list.map(friend => friend.nickname); // Return the list of nicknames
             })
             .catch(error => {
                 console.error('request error: Fetch', error);
@@ -177,7 +177,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     var myNickname = document.getElementById("searchInput").value;
                     data.user_list.map(user => {
 
-                        if (myNickname != user.nickname) {
+                        if (myUsername != user.nickname) {
                             //take template
                             var tpl = templateContactList.content.cloneNode(true);
                             tpl.querySelector(".contact").id = `${user.nickname}-contact-id`;
@@ -211,7 +211,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     //Listen event about search
                     handle_input_steam();
                     resolve();
-                    return data.friend_list.map(friend => friend.username); // Return the list of usernames not sure is usefull here
+                    return data.friend_list.map(friend => friend.nickname); // Return the list of nicknames not sure is usefull here
                 })
                 .catch(error => {
                     console.error('request error: Fetch', error);
