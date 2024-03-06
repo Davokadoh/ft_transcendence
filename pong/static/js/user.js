@@ -31,17 +31,21 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     let removeFriendBtn = document.getElementById('removeFriend');
     let addFriendBtn = document.getElementById('addFriend');
 
-    removeFriendBtn.onclick = (e) => {
-        let target = e.target.closest(".container").querySelector("#nickname").innerText;
-        console.log("click remove friend: ", target);
-        manageFriend("remove", target);
-    };
+    if (removeFriendBtn){
+        removeFriendBtn.onclick = (e) => {
+            let target = e.target.closest(".container").querySelector("#nickname").innerText;
+            console.log("click remove friend: ", target);
+            manageFriend("remove", target);
+        };
+    }
 
-    addFriendBtn.onclick = (e) => {
-        let target = e.target.closest(".container").querySelector("#nickname").innerText;
-        console.log("click remove friend: ", target);
-        manageFriend("add", target);
-    };
+    if (addFriendBtn){
+        addFriendBtn.onclick = (e) => {
+            let target = e.target.closest(".container").querySelector("#nickname").innerText;
+            console.log("click remove friend: ", target);
+            manageFriend("add", target);
+        };
+    }
 
     searched_nickname.addEventListener("keypress", (e) => {
         if (e.key == "Enter")

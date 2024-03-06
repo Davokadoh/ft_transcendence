@@ -126,7 +126,7 @@ class Team(models.Model):
     #         team.delete()
 
     def __str__(self):
-        return f"Members: {', '.join([user.username for user in self.users.all()])}"
+        return f"Members: {', '.join([user.nickname for user in self.users.all()])}"
 
 
 class Game(models.Model):

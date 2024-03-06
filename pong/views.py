@@ -14,7 +14,7 @@ from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, User, Team, Game
-from .forms import ProfilPictureForm, UsernameForm
+from .forms import ProfilPictureForm, NicknameForm
 from dotenv import load_dotenv
 import requests
 
@@ -125,7 +125,7 @@ def profil(request):
             request, "error.html", {
                 "template": "ajax.html" if ajax else "index.html"}
         )
-    nickname_form = UsernameForm(instance=request.user)
+    nickname_form = NicknameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
 
     matches_played = games.count()
@@ -164,7 +164,6 @@ def user(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
         user = User.objects.get(nickname=nickname)
-        userProfil = User.objects.get(nickname=request.user)
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
@@ -213,7 +212,6 @@ def user(request, nickname=None):
         "wins": wins,
         "win_ratio": win_ratio,
         "matches": matches,
-        "userProfil": userProfil,
     }
     return render(request, "user.html", context)
 
@@ -221,9 +219,10 @@ def user(request, nickname=None):
 @login_required
 def nickname(request):
     if request.method == "GET":
-        return JsonResponse({"username": request.user.username, "nickname": {"nickname": request.user.nickname}})
+        # return JsonResponse({"username": request.user.username, "nickname": {"nickname": request.user.nickname}})
+        return JsonResponse({"nickname": request.user.nickname})
     elif request.method == "POST":
-        form = UsernameForm(request.POST, instance=request.user)
+        form = NicknameForm(request.POST, instance=request.user)
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
@@ -393,11 +392,11 @@ def tourLobby(request, tournamentId=None):
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            usernames = [value for key, value in data.items()]
-            users = User.objects.filter(username__in=usernames)
+            nicknames = [value for key, value in data.items()]
+            users = User.objects.filter(nickname__in=nicknames)
             if not users.exists():
                 return JsonResponse(
-                    {"error_message": "No users found with the provided usernames"}
+                    {"error_message": "No users found with the provided nicknames"}
                 )
             tournament = Tournament.objects.get(pk=tournamentId)
             team = Team.objects.create()
@@ -415,7 +414,7 @@ def tourLobby(request, tournamentId=None):
         except ObjectDoesNotExist as e:
             return JsonResponse(
                 {"error_message": str(
-                    e), "invalidUsername": data.get("username")}
+                    e), "invalidNickname": data.get("nickname")}
             )
 
 
