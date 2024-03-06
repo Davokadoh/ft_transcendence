@@ -60,6 +60,13 @@ class Engine:
         self.players.clear()
         for p in self.players:
             await p.consumer.leave_game()
+        if self.left.score > self.right.score:
+            self.game.winner = await self.game.teams.afirst()
+        else:
+            self.game.winner = await self.game.teams.alast()
+        await self.game.asave()
+        await self.left.asave()
+        await self.right.asave()
 
     async def reset(self):
         self.players[0].pos_x = 10
