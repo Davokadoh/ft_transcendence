@@ -182,7 +182,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     var myNickname = document.getElementById("searchInput").value;
                     data.user_list.map(user => {
 
-                        if (myUsername != user.nickname) {
+                        if (myNickname != user.nickname) {
                             //take template
                             var tpl = templateContactList.content.cloneNode(true);
                             tpl.querySelector(".contact").id = `${user.nickname}-contact-id`;
