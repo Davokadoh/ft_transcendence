@@ -1,14 +1,14 @@
 export function remLobby(remoteId) {
     let button = document.getElementById('startButton');
-    let isUsernameValid = false;
+    let isNicknameValid = false;
 
     document.getElementById('inviteButton').addEventListener('click', function () {
-        var player2Username = document.getElementById('player2').value;
+        var player2Nickname = document.getElementById('player2').value;
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        if (player2Username.trim() !== "") {
+        if (player2Nickname.trim() !== "") {
             var data = {
-                username: player2Username
+                nickname: player2Nickname
             };
 
             fetch(`/remLobby/${remoteId}/`, {
@@ -25,26 +25,26 @@ export function remLobby(remoteId) {
                     console.log(result);
                     if (result.error_message) {
                         showAlert(result.error_message);
-                        isUsernameValid = false;
+                        isNicknameValid = false;
                     } else {
                         document.getElementById('onlineFriend').textContent = result.username;
-                        isUsernameValid = true;
+                        isNicknameValid = true;
                     }
                 })
                 .catch(error => {
                     console.error('Error Fetch request :', error);
-                    isUsernameValid = false;
+                    isNicknameValid = false;
                 });
 
         } else {
             showAlert("Please enter the username of player 2 before inviting.");
-            isUsernameValid = false;
+            isNicknameValid = false;
         }
     });
 
     if (button) {
         button.addEventListener('click', function () {
-            if (isUsernameValid) {
+            if (isNicknameValid) {
                 window.location.href = `/remote/${remoteId}`;
             } else {
                 showAlert("Please enter a valid username first.");

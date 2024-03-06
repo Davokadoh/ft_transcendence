@@ -1,19 +1,19 @@
 export function tourLobby(tournamentId) {
 	let button = document.getElementById('startButton');
-	let isUsernameValid = false;
+	let isNicknameValid = false;
 
 	document.getElementById('inviteButton').addEventListener('click', function () {
-		var player2Username = document.getElementById('playerInput2').value;
-		var player3Username = document.getElementById('playerInput3').value;
-		var player4Username = document.getElementById('playerInput4').value;
+		var player2Nickname = document.getElementById('playerInput2').value;
+		var player3Nickname = document.getElementById('playerInput3').value;
+		var player4Nickname = document.getElementById('playerInput4').value;
 
 		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-		if (player2Username.trim() !== "" && player3Username.trim() !== "" && player4Username.trim() !== "") {
+		if (player2Nickname.trim() !== "" && player3Nickname.trim() !== "" && player4Nickname.trim() !== "") {
 			var data = {
-				p2Username: player2Username,
-				p3Username: player3Username,
-				p4Username: player4Username,
+				p2Nickname: player2Nickname,
+				p3Nickname: player3Nickname,
+				p4Nickname: player4Nickname,
 			};
 
 			fetch(`/tourLobby/${tournamentId}/`, {
@@ -30,27 +30,27 @@ export function tourLobby(tournamentId) {
 					console.log(result);
 					if (result.error_message) {
 						showAlert(`Invalid username: ${result.error_message}`);
-						isUsernameValid = false;
+						isNicknameValid = false;
 					} else {
-						document.getElementById('onFr2').textContent = result.p2Username;
-						document.getElementById('onFr3').textContent = result.p3Username;
-						document.getElementById('onFr4').textContent = result.p4Username;
-						isUsernameValid = true;
+						document.getElementById('onFr2').textContent = result.p2Nickname;
+						document.getElementById('onFr3').textContent = result.p3Nickname;
+						document.getElementById('onFr4').textContent = result.p4Nickname;
+						isNicknameValid = true;
 					}
 				})
 				.catch(error => {
 					console.error('Error Fetch request :', error);
-					isUsernameValid = false;
+					isNicknameValid = false;
 				});
 
 		} else {
 			showAlert("Please enter the username of the 3 other players before inviting.");
-			isUsernameValid = false;
+			isNicknameValid = false;
 		}
 	});
 
 	button.addEventListener('click', e => {
-		if (!isUsernameValid) {
+		if (!isNicknameValid) {
 			e.preventDefault();
 			showAlert("Please enter a valid username first.");
 		}
