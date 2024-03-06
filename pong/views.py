@@ -354,6 +354,11 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             user = User.objects.get(nickname=nickname)
             if user is None:
                 return JsonResponse({"error_message": "user not found"})
+            team = Team.objects.create()
+            team.save()
+            team.users.add(user)
+            gt = GameTeam(game=game, team=team)
+            gt.save()
             return JsonResponse({"nickname": user.nickname})
         except ObjectDoesNotExist:
             return JsonResponse({"error_message": "Missing valid player nickname"})
@@ -361,12 +366,18 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
 
 @login_required
 def remote(request, remoteId=None):
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if remoteId is None:
         return redirect(home)
     remote = Game.objects.get(pk=remoteId)
     if remote is None:
         return redirect(home)
-    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    players = list()
+    for team in remote.teams.all():
+        print(team.users.first())
+        players.append(team.users.first())
+    if request.user not in players:
+        return redirect(home)
     return render(
         request,
         "remote.html",
