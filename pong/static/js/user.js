@@ -54,6 +54,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     user.addEventListener("click", () => {
         if (searched_nickname.value)
             user.href = `/user/${searched_nickname.value}/`;
+            user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
     });
 
     document.addEventListener("click", (e) => {
