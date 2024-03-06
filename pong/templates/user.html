@@ -26,7 +26,7 @@
 					<form action="/accounts/profil/username/" method="post" class="col-8">
 						{% csrf_token %}
 						<div class="col">
-							<span class="usernameUser" id="username">{{ user.username }}</span>
+							<span class="nicknameUser" id="nickname">{{ user.nickname }}</span>
 						</div>
 					</form>
 				</div>
@@ -148,13 +148,13 @@
 						</div>
 
 						<div class="input-group input-group-custom">
-							<input type="text" class="form-control" name="username" id="searchInput"
+							<input type="text" class="form-control" name="nickname" id="searchInput"
 								placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
 							<div class="input-group-append">
 								<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user"
 									data-link="/user" alt="Check user profil"> 👀 </a>
 								<button type="button" class="btn btn-dark imgButton" id="ladder"
-									alt="Add user as a friend" data-username="{{ userProfil.username }}"></button>
+									alt="Add user as a friend" data-nickname="{{ userProfil.nickname }}"></button>
 							</div>
 						</div>
 					</div>

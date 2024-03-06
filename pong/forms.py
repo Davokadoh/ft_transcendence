@@ -2,9 +2,9 @@ from django.forms import ModelForm, ImageField, FileInput
 from .models import User
 
 
-class UsernameForm(ModelForm):
+class NicknameForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(UsernameForm, self).__init__(*args, **kwargs)
+        super(NicknameForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control form-control-sm"
 

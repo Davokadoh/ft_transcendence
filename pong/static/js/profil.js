@@ -99,8 +99,8 @@ export function profil() {
 	// 		});
 	// 	});
 
-	let nicknameInput = document.getElementById('username-form');
-	let nicknameForm = document.getElementById('username-form');
+	let nicknameInput = document.getElementById('nickname-form');
+	let nicknameForm = document.getElementById('nickname-form');
 	let nicknameButton = document.getElementById('modifyNicknameButton');
 
 	nicknameButton.onclick = function (event) {
@@ -141,9 +141,10 @@ export function profil() {
 				localStorage.setItem('savedNickname', data.nickname);
 				nicknameInput.value = data.nickname;
 				nicknameInput.classList.add('nickname-updated');
-			} else {
-				console.error('Erreur: Aucun utilisateur ou pseudonyme dans la réponse.');
-			}
+			} 
+			// else {
+			// 	console.error('Erreur: Aucun utilisateur ou pseudonyme dans la réponse.');
+			// }
 			console.log(data);
 		})
 		.catch(error => {
