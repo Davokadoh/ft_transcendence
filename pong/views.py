@@ -393,7 +393,11 @@ def tourLobby(request, tournamentId=None):
         try:
             data = json.loads(request.body)
             nicknames = [value for key, value in data.items()]
-            users = User.objects.filter(nickname__in=nicknames)
+            users = User.objects.filter(nickname__in=nicknames).distinct()
+            if users.count() < 4:
+                return JsonResponse(
+                    {"error_message": "Not enough distinct players"}
+                )
             if not users.exists():
                 return JsonResponse(
                     {"error_message": "No users found with the provided nicknames"}
