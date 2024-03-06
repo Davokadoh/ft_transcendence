@@ -52,6 +52,7 @@ export function tourLobby(tournamentId) {
 	button.addEventListener('click', e => {
 		if (!isNicknameValid) {
 			e.preventDefault();
+			e.stopPropagation();
 			showAlert("Please enter a valid username first.");
 		}
 	});

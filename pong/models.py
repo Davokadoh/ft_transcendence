@@ -24,7 +24,6 @@ def user_directory_path(instance, filename):
 class User(AbstractBaseUser):
     username = models.CharField(max_length=255, primary_key=True)
     nickname = models.CharField(max_length=255, unique=True, null=True)
-    access_token = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     profil_picture = models.ImageField(

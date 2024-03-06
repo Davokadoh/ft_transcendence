@@ -479,16 +479,13 @@ def logoutview(request):
     if request.user is not None:
         user_logged_in_handler(sender=None, request=request, user=request.user)
     logout(request)
-    return loginview(request)
+    return redirect(loginview)
 
 
 def loginview(request):
-    token = request.headers.get("Authorization")
     if request.user.is_authenticated:
-        # Appel à la fonction pour mettre à jour le statut de l'utilisateur
-        # user_logged_in_handler(sender=None, request=request, user=request.user)
-        # puis Redirection vers la page d'accueil
-        redirect("/home")
+        user_logged_in_handler(sender=None, request=request, user=request.user)
+        redirect(home)
     if request.method == "GET":
         ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         return render(
@@ -497,22 +494,16 @@ def loginview(request):
             {"template": "ajax.html" if ajax else "index.html"},
         )
     elif request.method == "POST":
-        user = CustomAuthenticationBackend.authenticate(request, token)
-        if user is not None:
-            # user_logged_in_handler(sender=None, request=request, user=user)
-            next = request.POST.get("next")
-            return redirect("/home" if next is None else next)
-        else:
-            load_dotenv()
-            request.session["state"] = base64.b64encode(os.urandom(100)).decode("ascii")
-            auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
-                os.getenv("OAUTH_URL"),
-                os.getenv("OAUTH_ID"),
-                requests.utils.quote("http://localhost:8000/accounts/callback/"),
-                "public",
-                request.session["state"],  # state
-            )
-            return redirect(auth_url)
+        load_dotenv()
+        request.session["state"] = base64.b64encode(os.urandom(100)).decode("ascii")
+        auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
+            os.getenv("OAUTH_URL"),
+            os.getenv("OAUTH_ID"),
+            requests.utils.quote("http://localhost:8000/accounts/callback/"),
+            "public",
+            request.session["state"],
+        )
+        return redirect(auth_url)
 
 
 def callback(request):
@@ -552,9 +543,7 @@ def callback(request):
             )
         user.save()
 
-    user.access_token = access_token
     login(request, user)
-    # return render(request, "callback.html", {"access_token": access_token})
     return redirect(home)
 
 
