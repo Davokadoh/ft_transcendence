@@ -27,7 +27,7 @@ export function remLobby(remoteId) {
 						showAlert(result.error_message);
 						isNicknameValid = false;
 					} else {
-						document.getElementById('onlineFriend').textContent = result.username;
+						document.getElementById('onlineFriend').textContent = result.nickname;
 						isNicknameValid = true;
 					}
 				})
@@ -37,7 +37,7 @@ export function remLobby(remoteId) {
 				});
 
 		} else {
-			showAlert("Please enter the username of player 2 before inviting.");
+			showAlert("Please enter the nickname of player 2 before inviting.");
 			isNicknameValid = false;
 		}
 	});
@@ -46,7 +46,7 @@ export function remLobby(remoteId) {
 		if (isNicknameValid == false) {
 			e.preventDefault();
 			e.stopPropagation();
-			showAlert("Please enter a valid username first.");
+			showAlert("Please enter a valid nickname first.");
 		}
 	});
 
