@@ -15,6 +15,7 @@ urlpatterns = [
     path("accounts/profil/", views.profil),
     path("accounts/profil/picture/", views.profilPicture),
     path("accounts/profil/nickname/", views.nickname),
+    path("accounts/profil/username/", views.username),
     path("home/", views.home),
     path("chat/", views.chat),
     path("chat/chat-tmp/", views.chat),
@@ -31,8 +32,8 @@ urlpatterns = [
     path("tourLobby/<int:tournamentId>/", views.tourLobby),
     path("tournament/<int:tournamentId>/next/", views.tournament_next),
     path("tournament/game/<int:gameId>/", views.tournament_game),
-    path('user/<str:nickname>/', views.user),
-    path('api/create-fake-user/', create_fake_user, name='create_fake_user'),
+    path("user/<str:nickname>/", views.user),
+    path("api/create-fake-user/", create_fake_user, name="create_fake_user"),
     path("accounts/profil/settings/", views.UpdateUserSettingsView),
     path("accounts/profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),
@@ -42,6 +43,10 @@ urlpatterns = [
     path("<path:prefix>/getList/<str:type>", views.getList),
     path("chat/conversations/", views.get_user_conversations),
     path("<path:prefix>/manageFriend/<str:action>/<str:nickname>/", views.manageFriend),
+    path(
+        "<path:prefix>/manageFriendChat/<str:action>/<str:username>/",
+        views.manageFriendChat,
+    ),
     path("update-status/", views.update_status, name="update_status"),
 ]
 

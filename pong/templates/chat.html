@@ -20,9 +20,9 @@
 							title="{{ request.user.nickname }}">
 						{% csrf_token %}
 					</form>
-					<form action="/accounts/profil/nickname/" method="get" class="test">
+					<form action="/accounts/profil/username/" method="get" class="test">
 						{% csrf_token %}
-						<span class="nicknameUser" id="nickname">{{ request.user.nickname }}</span>
+						<span class="nicknameUser" id="userId">{{ request.user.username }}</span>
 					</form>
 				</div>
 			</div>

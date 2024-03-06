@@ -129,6 +129,7 @@ export function chat() {
 		contact.addEventListener('click', () => {
 
 			console.log("CLICK on CONTACT");
+			const contactId = contact.id;
 			const contactName = contact.querySelector("[data-name]").textContent;
 			const img = contact.querySelector("[data-image]").src;
 			// let tpl = templateConversationHistory.content.cloneNode(true);
@@ -151,12 +152,13 @@ export function chat() {
 			// }
 
 			//visibleAllContact();
-			console.log("find conversation result:  ", findConversation(contactName));
-			if (findConversation(contactName)) {
-				selectConversation(contactName);
+			console.log("find conversation result:  ", findConversation(contactId));
+			if (findConversation(contactId)) {
+				selectConversation(contactId);
 
 			} else {
 				const obj = {
+					id: contactId,
 					name: contactName,
 					imgSrc: img,
 					// status: statusIndicator,
@@ -194,10 +196,10 @@ export function chat() {
 		}
 		else {
 
-			const contactName = event.currentTarget.querySelector(".text h6").textContent;
-			console.log("click on conversation: ", contactName);
+			const contactId = event.currentTarget.id;
+			console.log("click on conversation: ", contactId);
 			// if the target is not dropdown
-			selectConversation(contactName);
+			selectConversation(contactId);
 		}
 	}
 
@@ -230,9 +232,9 @@ export function chat() {
 
 		myTarget.querySelector(".dropdown .dropdown-menu").addEventListener("click", function (e) {
 			e.stopImmediatePropagation();
-			const contactName = myTarget.querySelector(".text h6").textContent;
+			const conversationId = myTarget.id;
 			console.log("click action: ", e.target.id);
-			console.log("Target: ", contactName);
+			console.log("Target: ", conversationId);
 
 
 
@@ -240,16 +242,16 @@ export function chat() {
 				socket.send(JSON.stringify({
 					'type': 'manage_conversation',
 					'action': '#remove',
-					'target': contactName,
+					'target': conversationId,
 				}));
 				myTarget.remove();
-				if (activeChatPanel === contactName) {
+				if (activeChatPanel === conversationId) {
 					document.querySelector(".conversation-history").innerHTML = "";
 					document.getElementById('panelPrincipalId').classList.toggle('hide', false);
 					activeChatPanel = null;
 				}
-				mapChatHistory.delete(contactName);
-				mapConversationList.delete(contactName);
+				mapChatHistory.delete(conversationId);
+				mapConversationList.delete(conversationId);
 				if (mapConversationList.size === 0) {
 					activeChatPanel = null;
 					conversationExist = false;
@@ -257,22 +259,22 @@ export function chat() {
 			} else if (e.target.id === "blockUnblockId") {
 				const blockUnblockElement = e.target;
 				if (blockUnblockElement.textContent === "Block contact") {
-					blockContact(contactName, true);
+					blockContact(conversationId, true);
 					blockUnblockElement.textContent = "Unblock contact";
-					testManageFriend("block", contactName);
+					manageFriend("block", conversationId);
 					console.log("contact was blocked");
 				} else {
-					blockContact(contactName, false);
+					blockContact(conversationId, false);
 					blockUnblockElement.textContent = "Block contact";
-					testManageFriend("unblock", contactName);
+					manageFriend("unblock", conversationId);
 					console.log("contact unblocked");
 				}
 			}
 		});
 	}
 
-	function blockContact(contactName, bool) {
-		const chatBoxElement = (activeChatPanel === contactName) ? document.getElementById('chatBoxId') : mapChatHistory.get(contactName).querySelector("#chatBoxId");
+	function blockContact(contactId, bool) {
+		const chatBoxElement = (activeChatPanel === contactId) ? document.getElementById('chatBoxId') : mapChatHistory.get(contactId).querySelector("#chatBoxId");
 		chatBoxElement.classList.toggle("disabled", bool);
 	}
 
@@ -281,18 +283,18 @@ export function chat() {
 		dropdown.hide();
 	}
 
-	function selectConversation(contactName) {
+	function selectConversation(contactId) {
 
 		console.log("==selectConversation FUNCTION==");
 
-		console.log(`select: ${contactName}`);
+		console.log(`select: ${contactId}`);
 		console.log(`active chat: ${activeChatPanel}`);
 
-		if (activeChatPanel != contactName) {
+		if (activeChatPanel != contactId) {
 			document.querySelector(".conversation-history").innerHTML = "";
-			document.querySelector(".conversation-history").append(mapChatHistory.get(contactName));
+			document.querySelector(".conversation-history").append(mapChatHistory.get(contactId));
 
-			console.log(mapChatHistory.get(contactName));
+			console.log(mapChatHistory.get(contactId));
 			document.querySelector(".conversation-history").addEventListener("click", handle_click_history);
 			document.getElementById("input-id").addEventListener("keypress", sendByMe);
 
@@ -301,7 +303,7 @@ export function chat() {
 			document.getElementById('chatBoxId').classList.toggle('hide', false);
 
 
-			activeChatPanel = contactName;
+			activeChatPanel = contactId;
 			conversationExist = true;
 		}
 	}
@@ -334,11 +336,12 @@ export function chat() {
 			let tpl = templateConversationHistory.content.cloneNode(true);
 			let settingsTray = tpl.querySelector(".settings-tray");
 			let img = settingsTray.querySelector("[data-image]");
+			settingsTray.querySelector("[data-text]").id = obj.id;
 			let name = settingsTray.querySelector("[data-text] h6");
 			let chatBox = tpl.querySelector("#chatBoxId");
 			img.src = obj.imgSrc;
 			name.textContent = obj.name;
-			if (usersBlocked.find(user => user.nickname === obj.name))
+			if (usersBlocked.find(user => user.username === obj.id))
 				chatBox.classList.toggle("disabled", true);
 			else
 				chatBox.classList.toggle("disabled", false);
@@ -349,13 +352,13 @@ export function chat() {
 			//take template
 			let tpl = templateConversation.content.cloneNode(true);
 			//set value
-			tpl.querySelector(".conversation").id = obj.name;
+			tpl.querySelector(".conversation").id = obj.id;
 			let name = tpl.querySelector("[data-text] h6");
 			let img = tpl.querySelector("[data-image]");
 			let blockUnblock = tpl.querySelector("#blockUnblockId");
 			let statusIndicator = tpl.querySelector(".status-indicator");
 			// Vérifie si l'utilisateur est bloqué
-			if (usersBlocked.find(user => user.nickname === obj.name))
+			if (usersBlocked.find(user => user.username === obj.id))
 				blockUnblock.innerText = "Unblock contact";
 			else
 				blockUnblock.innerText = "Block contact";
@@ -384,9 +387,10 @@ export function chat() {
 
 	function createChatPanel(obj) {
 
-		console.log("===createChatPanel FUNCTION===: ", obj.name);
+		console.log("===createChatPanel FUNCTION===: ", obj.id);
 		const contactName = obj.name;
-		if (activeChatPanel != contactName) {
+		const contactId = obj.id;
+		if (activeChatPanel != obj.id) {
 
 			document.querySelector(".conversation-history").innerHTML = "";
 			document.querySelector(".conversation-history").append(setTemplate("chatHistory", obj));
@@ -398,7 +402,7 @@ export function chat() {
 			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
 			document.getElementById('chatBoxId').classList.toggle('hide', false);
 
-			activeChatPanel = contactName;
+			activeChatPanel = obj.id;
 			conversationExist = true;
 		}
 	}
@@ -422,33 +426,39 @@ export function chat() {
 		return mapConversationList.has(name);
 	}
 
-	function updateChatHistory(contactName) {
+	function updateChatHistory(contactId) {
 		const element = document.createElement("div");
 		element.innerHTML = document.querySelector(".conversation-history").innerHTML;
-		mapChatHistory.set(contactName, element);
+		mapChatHistory.set(contactId, element);
 		console.log("MAP length: ", mapChatHistory.size);
-		console.log("MAP key: ", contactName);
+		console.log("MAP key: ", contactId);
 	}
 
 	function updateConversations(data, type) {
 		var msg = data.message;
 		var shortText = msg.length < 21 ? msg : msg.substring(0, 20) + ' ...';
-		var conversation = "";
-		if (type == "receive")
-			conversation = data.sender;
-		else
-			conversation = data.target
+		var conversation_id = "";
+		var conversation_name = "";
+		if (type == "receive") {
+			conversation_id = data.sender;
+			conversation_name = data.sender_nickname;
+		}
+		else if (type == "sent") {
+			conversation_id = data.target;
+			conversation_name = data.target_nickname;
+		}
 
-		if (document.getElementById(conversation)) {
-			const element = document.getElementById(conversation);
+		if (document.querySelector(`.conversation-list #${conversation_id}`)) {
+			const element = document.querySelector(`.conversation-list #${conversation_id}`);
+			element.querySelector(".text h6").textContent = conversation_name;
 			element.querySelector("#textMuted").innerText = shortText;
 			element.querySelector("#timeMsg").innerText = data.timestamp;
-			mapConversationList.set(data.target, element);
+			mapConversationList.set(conversation_id, element);
 			//update map
 		}
-		else if (mapConversationList.has(conversation)) {
-			mapConversationList.get(conversation).querySelector("#textMuted").innerText = shortText;
-			mapConversationList.get(conversation).querySelector("#timeMsg").innerText = data.timestamp;
+		else if (mapConversationList.has(conversation_id)) {
+			mapConversationList.get(conversation_id).querySelector("#textMuted").innerText = shortText;
+			mapConversationList.get(conversation_id).querySelector("#timeMsg").innerText = data.timestamp;
 		}
 
 		console.log("===mapConversationsList updated!===");
@@ -463,7 +473,9 @@ export function chat() {
 	};
 
 	function parse_msg(data) {
-		if (data.sender == document.getElementById("nickname").textContent) {
+		let userId = document.getElementById("userId").textContent;
+		console.log(`parse_map: sender: ${data.sender}; userId: ${userId}`)
+		if (data.sender == userId) {
 			message_sent(data);
 		}
 		else
@@ -492,26 +504,31 @@ export function chat() {
 		console.log("active chat dans message_receive: ", activeChatPanel);
 
 		if (findConversation(data.sender)) {
-
 			if (data.sender == activeChatPanel) {
+				document.querySelector(".conversation-history [data-text] h6").textContent = data.sender_nickname;
 				document.getElementById("chatPanelId").append(element);
 				scrollUp(document.getElementById("rowChatPanel"));
 				updateChatHistory(activeChatPanel);
 			}
 			else {
+
+
+				mapChatHistory.get(data.sender).querySelector("[data-text] h6").textContent = data.sender_nickname;
 				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
 				//document.getElementById(data.sender).classList.toggle("read-on", true);
+
 			}
 			updateConversations(data, "receive");
 		}
 		else {
 
 			//test take img by list friends
-			// const takeImg = document.querySelector(`#${data.sender}-contact-id .profile-image`).getAttribute("src");
-			const takeImg = "";
+			let takeImg = document.querySelector(`.list-contact #${data.sender} .profile-image`).getAttribute("src");
+			takeImg = takeImg ? takeImg : "";
 			console.log("takeImg: ", takeImg);
 			const obj = {
-				name: data.sender,
+				id: data.sender,
+				name: data.sender_nickname,
 				imgSrc: takeImg,
 				//time msg
 				// few line of the last message
@@ -519,7 +536,7 @@ export function chat() {
 			createConversation(obj);
 			//document.getElementById(data.sender).classList.toggle("read-on", true);
 			updateConversations(data, "receive");
-			mapConversationList.set(obj.name, setTemplate("conversationList", obj));
+			mapConversationList.set(data.sender, setTemplate("conversationList", obj));
 			mapChatHistory.set(data.sender, setTemplate("chatHistory", obj));
 			mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
 
@@ -555,8 +572,6 @@ export function chat() {
 		}
 		updateConversations(data, "sent");
 		console.log("active chat dans message_sent: ", activeChatPanel);
-
-
 	}
 
 	function sendByMe(event) {
@@ -659,7 +674,7 @@ export function chat() {
 						// if (myNickname != user.nickname) {
 						//take template
 						var tpl = templateContactList.content.cloneNode(true);
-						tpl.querySelector("[contact-container]").id = `${user.nickname}-contact-id`;
+						tpl.querySelector("[contact-container]").id = `${user.username}`;
 						tpl.querySelector("[data-image]").src = user.profil_picture;
 						tpl.querySelector("[data-name]").textContent = user.nickname;
 						tpl.querySelector("[data-full-name]").textContent = user.nickname;
@@ -754,14 +769,14 @@ export function chat() {
 						statusClass = 'empty';
 					}
 					//load conversation
-					var imgSrc = "";
-					const target = document.getElementById(`${conversation.name}-contact-id`);
-					if (target) {
-						imgSrc = target.querySelector("[data-image]").src;
-					}
+					let takeImg = document.querySelector(`.list-contact #${conversation.id} .profile-image`).getAttribute("src");
+					takeImg = takeImg ? takeImg : "";
+					console.log(`takeImg: ${takeImg}`);
+
 					const obj = {
+						"id": conversation.id,
 						"name": conversation.name,
-						"imgSrc": imgSrc,
+						"imgSrc": takeImg,
 						// "status": conversation.statusIndicator,
 						"status": statusClass
 						// modification Verena
@@ -769,9 +784,10 @@ export function chat() {
 					//console.log("status indicator = ", statusIndicator);
 					//createConversation(obj);
 					//var state = conversation.unread;
-					mapConversationList.set(conversation.name, setTemplate("conversationList", obj));
+
+					mapConversationList.set(conversation.id, setTemplate("conversationList", obj));
 					//mapConversationList.get(conversation.name).classList.toggle("read-on", !state);
-					mapChatHistory.set(conversation.name, setTemplate("chatHistory", obj));
+					mapChatHistory.set(conversation.id, setTemplate("chatHistory", obj));
 					//document.getElementById("conversationListId").append(setTemplate("conversationList", obj));
 
 					conversation.messages.forEach(message => {
@@ -779,8 +795,8 @@ export function chat() {
 						//load the messages within conversation
 						message.timestamp = formatageTime(message.timestamp);
 						parse_msg(message);
-						console.log("dans fetch sender: ", message.sender);
-						console.log("dans fetch target: ", message.target);
+						console.log("dans fetch sender: ", message.sender_nickname);
+						console.log("dans fetch target: ", message.target_nickname);
 						console.log("dans fetch message: ", message.message);
 
 					});
@@ -793,9 +809,9 @@ export function chat() {
 		});
 	}
 
-	function testManageFriend(action, target) {
+	function manageFriend(action, target) {
 
-		fetch(`manageFriend/${action}/${target}/`, {
+		fetch(`manageFriendChat/${action}/${target}/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
