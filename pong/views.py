@@ -461,9 +461,9 @@ def tournament_game(request, gameId=None):
                 print(f"Next game {next.pk}")
                 return JsonResponse({"nextGame": next.pk})
             else:
-                return redirect(home)
+                return HttpResponseBadRequest()
                 # return render(request, "win.html", context)
-        return redirect(home)
+        return HttpResponseBadRequest()
 
 
 def logoutview(request):

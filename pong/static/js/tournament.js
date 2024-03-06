@@ -57,7 +57,7 @@ export function tournament(gameId) {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
-		document.querySelector('.modalButton').addEventListener('click', function () {
+		document.querySelector(".modalButton").addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
 			resetGame();
 		});
@@ -160,7 +160,7 @@ export function tournament(gameId) {
 				ballSpeed += 1;
 			}
 		}
-		endGame()
+		endGame();
 	}
 
 	function changeDirection(event) {
@@ -247,35 +247,43 @@ export function tournament(gameId) {
 				winnerMessage += "It's a draw!";
 			}
 			document.getElementById("modalGame-message").textContent = winnerMessage;
-			document.getElementById("myModalGame").style.display = "block";
-			var data = {
-				player1Score: player1Score,
-				player2Score: player2Score,
-			};
-
-			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-			fetch(`/tournament/game/${gameId}/`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Requested-With': 'XMLHttpRequest',
-					'X-CSRFToken': csrftoken,
-				},
-				body: JSON.stringify(data),
+			// const myModalGame = document.getElementById("myModalGame").style.display = "block";
+			const myModalGameEl = document.getElementById("myModalGame");
+			const myModalGame = new bootstrap.Modal('#myModalGame');
+			myModalGame.toggle();
+			myModalGameEl.addEventListener('hidden.bs.modal', function () {
+				nextGame();
 			})
-				.then(response => response.json())
-				.then(data => {
-					let url = location.pathname.replace(/\d+/, data.nextGame);
-					console.log(data.nextGame);
-					console.log(url);
-					history.pushState(null, null, url);
-					router();
-				})
-				.catch(error => {
-					console.error('Error Fetch request :', error);
-				});
 			// updateStatus();
 		}
+	}
+
+	function nextGame() {
+		var data = {
+			player1Score: player1Score,
+			player2Score: player2Score,
+		};
+
+		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		fetch(`/tournament/game/${gameId}/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'X-CSRFToken': csrftoken,
+			},
+			body: JSON.stringify(data),
+		}).then(response => response.json()).then(data => {
+			let url = location.pathname.replace(/\d+/, data.nextGame);
+			console.log(data.nextGame);
+			console.log(url);
+			history.pushState(null, null, url);
+			router();
+		}).catch(error => {
+			console.error('Error Fetch request :', error);
+			history.pushState(null, null, window.location.origin);
+			router();
+		});
 	}
 
 	document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
