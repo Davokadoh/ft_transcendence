@@ -89,6 +89,7 @@ def play(request):
         request, "play.html", {"template": "ajax.html" if ajax else "index.html"}
     )
 
+# from django.db.models import Q
 
 @login_required
 def profil(request):
@@ -97,7 +98,10 @@ def profil(request):
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=request.user)
         games = Game.objects.filter(teams__in=user_teams)
-        matches = Game.objects.filter(teams__in=user_teams).order_by("-start_time")
+        # matches = Game.objects.filter(teams__in=user_teams).order_by("-start_time")
+        # Filtrer les matchs avec résultat
+        # matches = Game.objects.filter(result__isnull=True).order_by("-start_time")
+        matches = Game.objects.filter(teams__in=user_teams).filter(status="END").order_by("-start_time")
         for match in matches:
             try:
                 match.opponent = (
@@ -162,7 +166,8 @@ def user(request, nickname=None):
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
-        matches = Game.objects.filter(teams__in=user_teams).order_by("-start_time")
+        # matches = Game.objects.filter(teams__in=user_teams).order_by("-start_time")
+        matches = Game.objects.filter(teams__in=user_teams).filter(status="END").order_by("-start_time")
         for match in matches:
             try:
                 match.opponent = match.teams.exclude(users=user).first().users.first()
@@ -658,11 +663,12 @@ def get_scores(request, gameId=None):
         gameteam2 = GameTeam.objects.filter(game=game).last()
         gameteam2.score = data.get("player2Score")
         gameteam2.save()
-        game.save()
-        game.refresh_from_db()
+        # game.save()
+        # game.refresh_from_db()
         game.winner = (
-            gameteam1.team if gameteam1.score > gameteam2.score else gameteam2.teagamem
+            gameteam1.team if gameteam1.score > gameteam2.score else gameteam2.team
         )
+        game.status = "END"
         game.save()
         data = {
             "player1Score": gameteam1.score,
