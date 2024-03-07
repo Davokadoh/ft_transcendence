@@ -118,15 +118,15 @@ export function profil() {
 			body: formData,
 			mode: 'same-origin',
 		})
-		.then(response => response.json())
-		.then(data => {
-			console.log("message: " + data.message);
-			localStorage.setItem('savedNickname', data.nickname);
-			nicknameInput.value = data.nickname;
-			nicknameInput.classList.add('nickname-updated');
-		}).catch(error => {
-			console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
-		});
+			.then(response => response.json())
+			.then(data => {
+				console.log("message: " + data.message);
+				localStorage.setItem('savedNickname', data.nickname);
+				nicknameInput.value = data.nickname;
+				nicknameInput.classList.add('nickname-updated');
+			}).catch(error => {
+				console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
+			});
 	}
 
 
@@ -141,7 +141,7 @@ export function profil() {
 				localStorage.setItem('savedNickname', data.nickname);
 				nicknameInput.value = data.nickname;
 				nicknameInput.classList.add('nickname-updated');
-			} 
+			}
 			// else {
 			// 	console.error('Erreur: Aucun utilisateur ou pseudonyme dans la réponse.');
 			// }
@@ -169,7 +169,7 @@ export function profil() {
 	user.addEventListener("click", () => {
 		if (searched_nickname.value)
 			user.href = `/user/${searched_nickname.value}/`;
-			user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
 	});
 
 	document.addEventListener("click", (e) => {
@@ -467,6 +467,12 @@ export function profil() {
 
 	// Fonction pour creer et afficher une alerte personnalisée
 	function showAlert(message) {
+
+		// Crée un élément semi-transparent pour recouvrir la page
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay-alert';
+		document.body.appendChild(overlay);
+
 		// Crée un élément d'alerte
 		var alertElement = document.createElement('div');
 		alertElement.className = 'custom-alert';
@@ -481,6 +487,7 @@ export function profil() {
 		closeButton.textContent = 'X';
 		closeButton.className = 'close-button';
 		closeButton.onclick = function () {
+			document.body.removeChild(overlay);
 			document.body.removeChild(alertElement);
 		};
 
@@ -498,6 +505,7 @@ export function profil() {
 		messageContainer.appendChild(messageElement);
 		alertElement.appendChild(messageContainer);
 		document.body.appendChild(alertElement);
+		document.body.appendChild(overlay);
 	}
 
 };
