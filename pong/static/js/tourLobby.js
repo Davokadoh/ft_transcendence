@@ -59,6 +59,12 @@ export function tourLobby(tournamentId) {
 
 	// Fonction pour creer et afficher une alerte personnalisée
 	function showAlert(message) {
+
+		// Crée un élément semi-transparent pour recouvrir la page
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay-alert';
+		document.body.appendChild(overlay);
+
 		// Crée un élément d'alerte
 		var alertElement = document.createElement('div');
 		alertElement.className = 'custom-alert';
@@ -73,6 +79,7 @@ export function tourLobby(tournamentId) {
 		closeButton.textContent = 'X';
 		closeButton.className = 'close-button';
 		closeButton.onclick = function () {
+			document.body.removeChild(overlay);
 			document.body.removeChild(alertElement);
 		};
 
@@ -90,5 +97,6 @@ export function tourLobby(tournamentId) {
 		messageContainer.appendChild(messageElement);
 		alertElement.appendChild(messageContainer);
 		document.body.appendChild(alertElement);
+		document.body.appendChild(overlay);
 	}
 }

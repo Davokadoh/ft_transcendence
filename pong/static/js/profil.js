@@ -211,16 +211,16 @@ export function profil() {
 		if (nickname) {
 			// Vérifie si l'utilisateur essaie de s'ajouter lui-même
 			if (nickname === currentUser) {
-				showAlert("You are already your own friend ❤️");
+				showAlert("You are already your own friend ♥︎");
 				return;
 			}
 			// Appel de createListFriends pour obtenir la liste des amis
 			createListFriends().then(friendsList => {
 				if (isFriend(nickname, friendsList)) {
-					showAlert("Friend already added ❌");
+					showAlert("Friend already added ✕");
 				} else {
 					manageFriend("add", nickname);
-					showAlert("Friend added ✅");
+					showAlert("Friend added ✔︎");
 				}
 			}).catch(error => {
 				console.error('Error fetching friends list:', error);
@@ -507,5 +507,4 @@ export function profil() {
 		document.body.appendChild(alertElement);
 		document.body.appendChild(overlay);
 	}
-
 };

@@ -31,7 +31,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     let removeFriendBtn = document.getElementById('removeFriend');
     let addFriendBtn = document.getElementById('addFriend');
 
-    if (removeFriendBtn){
+    if (removeFriendBtn) {
         removeFriendBtn.onclick = (e) => {
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
             console.log("click remove friend: ", target);
@@ -39,7 +39,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         };
     }
 
-    if (addFriendBtn){
+    if (addFriendBtn) {
         addFriendBtn.onclick = (e) => {
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
             console.log("click remove friend: ", target);
@@ -54,7 +54,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
     user.addEventListener("click", () => {
         if (searched_nickname.value)
             user.href = `/user/${searched_nickname.value}/`;
-            user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+        user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
     });
 
     document.addEventListener("click", (e) => {
@@ -83,6 +83,11 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         }
     });
 
+    // Function to check if the username is already in the friends list
+    function isFriend(nickname, friendsList) {
+        return friendsList.includes(nickname);
+    }
+
     document.getElementById("ladder").addEventListener("click", () => {
         console.log("click on ladder");
 
@@ -92,17 +97,17 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         if (nickname) {
             // Vérifie si l'utilisateur essaie de s'ajouter lui-même
             if (nickname === currentUser) {
-                showAlert("You are already your own friend ❤️");
+                showAlert("You are already your own friend ♥︎");
                 return;
             }
             // Appel de createListFriends pour obtenir la liste des amis
             createListFriends().then(friendsList => {
                 if (isFriend(nickname, friendsList)) {
-                    showAlert("Friend already added ❌");
+                    showAlert("Friend already added ✕");
                 } else {
                     manageFriend("add", nickname);
                     // testManageFriend("add");
-                    showAlert("Friend added ✅");
+                    showAlert("Friend added ✔︎");
                 }
             }).catch(error => {
                 console.error('Error fetching friends list:', error);
