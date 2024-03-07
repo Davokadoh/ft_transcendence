@@ -81,16 +81,16 @@ export function chat() {
 
 	//click manage
 	document.addEventListener("click", (e) => {
-		e.stopImmediatePropagation();
+		//e.stopImmediatePropagation();
 
 		console.log("e.target***: ", e.target);
 		console.log("e.curtarget***: ", e.currentTarget);
 		console.log("activeChatPanel by listener click: ", activeChatPanel);
 
-		if (!e.currentTarget.getElementById("searchContact").contains(e.target))
+		if (e.currentTarget.id != "searchContactId")
 			refresh_display();
-		if (e.currentTarget.getElementById("searchContact").contains(e.target))
-			search_contact();
+		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
+			search_contact();*/
 	});
 
 	// click on search
