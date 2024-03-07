@@ -158,7 +158,7 @@ export function profil() {
 		profilPictureInput.click(); // Ouvre le sélecteur de fichier pour choisir une nouvelle image
 	};
 
-	// POUR LE FORM USER profil et user ?
+	// POUR LE FORM USER profil et user
 	let user = document.getElementById('user');
 	let searched_nickname = document.getElementById('searchInput');
 
