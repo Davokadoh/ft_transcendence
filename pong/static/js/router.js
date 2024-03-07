@@ -13,7 +13,7 @@ export function router() {
 	fetch(target, {
 		headers: { "X-Requested-With": "XMLHttpRequest", },
 	}).then(response => {
-		if (response.redirected) history.pushState(null, null, response.url.replace("/page", ""));
+		if (response.redirected) history.replaceState(null, null, response.url);
 		target = location.pathname;
 		return response.text();
 	}).then(html => {
