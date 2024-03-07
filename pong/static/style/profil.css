@@ -1070,6 +1070,12 @@
 		font-size: 15px;
 	}
 
+	.status-indicator {
+		display: block;
+		width: 16%;
+		text-align: center;
+	}
+
 	/* .empty {background-color: black; color: black; font-size: 15px;} */
 }
 
