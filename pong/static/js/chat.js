@@ -404,6 +404,7 @@ export function chat() {
 
 			activeChatPanel = obj.id;
 			conversationExist = true;
+
 		}
 	}
 
@@ -415,7 +416,7 @@ export function chat() {
 			console.log("click img contact");
 			document.getElementById("contactProfil").classList.toggle("invisible-y");
 		}
-		else if (event.target.classList.contains("i-send"))
+		else if (event.target.classList.contains("invitation") || event.target.classList.contains("i-send"))
 			sendByMe(event);
 	}
 
@@ -493,15 +494,25 @@ export function chat() {
 		const element = document.createElement("div");
 
 		element.className = "row g-0";
-		element.innerHTML = `
+		if (data.type == "chat_message") {
+			element.innerHTML = `
 			<!--msg from friend-->
 			<div class="col-md-3 d-flex">
 				<div class="chat-bubble chat-bubble--left" id="msgByOtherId">
 					${data.message}
 				</div>
 			</div>`;
-
-		console.log("active chat dans message_receive: ", activeChatPanel);
+			console.log("active chat dans message_receive: ", activeChatPanel);
+		}
+		else if (data.type == "game_invitation") {
+			element.innerHTML = `
+			<!--msg from friend-->
+			<div class="col-md-12 d-flex">
+				<div class="chat-invitation mx-auto" id="msgByOtherId">
+					<small class="text">Invitation has been sent</small>
+				</div>
+			</div>`;
+		}
 
 		if (findConversation(data.sender)) {
 			if (data.sender == activeChatPanel) {
@@ -555,12 +566,26 @@ export function chat() {
 		const element = document.createElement("div");
 
 		element.className = "row g-0";
-		element.innerHTML = `
+
+		if (data.type == "chat_message") {
+			element.innerHTML = `
 			<div class="col-md-3 offset-md-9 d-flex">
 				<div class="chat-bubble chat-bubble--blue chat-bubble--right ms-auto" id="msgByMeId">
 					${data.message}
 				</div>
 			</div>`;
+		}
+		else if (data.type == "game_invitation") {
+			element.innerHTML = `
+				<!--msg from friend-->
+				<div class="col-md-12 d-flex">
+					<div class="chat-invitation mx-auto" id="msgByOtherId">
+						<small class="text">Invitation has been sent</small>
+					</div>
+				</div>`;
+		}
+
+
 		if (activeChatPanel) {
 			document.getElementById("chatPanelId").append(element);
 			scrollUp(document.getElementById("rowChatPanel"));
@@ -578,7 +603,16 @@ export function chat() {
 		console.log("Click from input chat: ", event.type);
 		const inputField = document.getElementById("input-id");
 
-		if ((event.type === "click" || event.key === "Enter") && inputField.value) {
+
+		if (event.target.classList.contains("invitation")) {
+			console.log("Invitation have sent");
+			/*socket.send(JSON.stringify({
+				'type': 'game_invitation',
+				'target': activeChatPanel, //nickname target
+				'message': "#invitation to play"
+			}));*/
+		}
+		else if ((event.type === "click" || event.key === "Enter") && inputField.value) {
 			console.log(`message sent: ${inputField.value}`);
 
 			//test websocket/*

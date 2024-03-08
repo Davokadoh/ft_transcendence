@@ -371,6 +371,24 @@ body-msg {
     color: #fff;
 }
 
+.chat-invitation {
+
+    /*border-radius: 20%;*/
+    padding: 5px 5px;
+    margin: 50px 0;
+    border-radius: 9px;
+    /*height: 30px;*/
+    background: grey;
+
+    .text {
+        font-weight: bold;
+        color: black;
+        opacity: 0.5;
+        /*font-family: Georgia, serif;*/
+        font-feature-settings: "smcp", "zero";
+    }
+}
+
 .chat-bubble--right {
 
     &::after {
