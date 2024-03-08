@@ -97,7 +97,11 @@ def profil(request):
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=request.user)
         games = Game.objects.filter(teams__in=user_teams)
-        matches = Game.objects.filter(teams__in=user_teams).filter(status="END").order_by("-start_time")
+        matches = (
+            Game.objects.filter(teams__in=user_teams)
+            .filter(status="END")
+            .order_by("-start_time")
+        )
         for match in matches:
             try:
                 match.opponent = (
@@ -162,7 +166,11 @@ def user(request, nickname=None):
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
-        matches = Game.objects.filter(teams__in=user_teams).filter(status="END").order_by("-start_time")
+        matches = (
+            Game.objects.filter(teams__in=user_teams)
+            .filter(status="END")
+            .order_by("-start_time")
+        )
         for match in matches:
             try:
                 match.opponent = match.teams.exclude(users=user).first().users.first()
@@ -716,7 +724,7 @@ def getList(request, prefix, type):
                     user_info = {
                         # "username": user.username,
                         "nickname": user.nickname,
-                        "profil_picture": user.profil_picture_oauth,
+                        "profil_picture": user.profil_picture.url,
                         "status": user.status,  # recuperer le status @test Verena
                         # add other field if necessary
                     }
@@ -732,7 +740,7 @@ def getList(request, prefix, type):
                     friend_info = {
                         "username": friend.username,
                         "nickname": friend.nickname,
-                        "profil_picture": friend.profil_picture_oauth,
+                        "profil_picture": friend.profil_picture.url,
                         "status": friend.status,
                     }
                     friend_list.append(friend_info)
