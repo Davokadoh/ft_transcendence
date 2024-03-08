@@ -13,18 +13,39 @@
         <button id="reset-game" class="btn bg-vert">Reset</button>
       </div>
     </div>
-    <div class="col-md-4 d-flex align-items-center justify-content-center mt-3">
+    <div class="col-md-4 d-flex align-items-center justify-content-center mt-3 position-relative">
       <div id="boardGame" class="gameContainer">
         <canvas id="gameBoard" width="800" height="650" tabindex="0" class="mx-auto"></canvas>
       </div>
     </div>
-    <div class="col-md-4 d-flex align-items-center justify-content-center">
-      <div id="scoreText" class="text-center">0 : 0</div>
+    <div class="col-md-4 d-flex flex-column align-items-end justify-content-start mt-3">
+      <div class="score-container d-flex row">
+        <div id="scoreText" class="text-center score">
+          <p>0 : 0</p>
+        </div>
+        {% csrf_token %}
+        <div class="pseudoGame d-flex justify-content-around mt-2">
+          <span id="player1" class="badge">Player1</span>
+          <span id="player2" class="badge">Player2</span>
+        </div>
+
+      </div>
+      <div class="col-md-12 rule blackboard">
+        <button class="close-button" id="closeRulesButton">-</button>
+        <hr class="toggle-line">
+        <h2>Rules ☟</h2>
+        <div id="rulesContent">
+          <p>1. Player 1 : use WS direction keys.</p>
+          <p>2. Player 2 : use ↑↓ direction keys.</p>
+          <p>3. The aim of the game: to score more points than the opponent by bouncing the ball off the racket and
+            returning it to the opponent's court without missing.</p>
+        </div>
+      </div>
     </div>
   </div>
 
 
-<!-- Modal Bootstrap -->
+  <!-- Modal Bootstrap -->
   <div id="myModalGame" class="modal modalGame overlay" data-bs-backdrop="static" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content custom-modal nightModalMod">
@@ -38,7 +59,8 @@
           <p id="modalGame-message"></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal" aria-label="close">
+          <button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"
+            aria-label="close">
             Close
           </button>
         </div>
