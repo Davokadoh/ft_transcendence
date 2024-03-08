@@ -1,0 +1,1106 @@
+/* pour enlever les boutons moches du formulaire */
+#id_profil_picture.form-control.form-control-sm {
+	display: none !important;
+}
+
+#profil-picture-input {
+	display: none;
+}
+
+.profile-image-set {
+	background-color: white;
+	border-radius: 10%;
+	border: 2px solid #ffffff;
+}
+
+.sepLigne {
+	border: none;
+	/* Supprime la bordure par défaut */
+	height: 3px;
+	/* Épaisseur de la ligne */
+	background-color: white;
+	/* Couleur de fond de la ligne */
+	margin: 20px auto;
+	/* Marge top et bottom et auto pour aligner au centre */
+	border-radius: 5px;
+	/* Bords arrondis */
+	opacity: 0.8;
+	/* Opacité complète a 1*/
+	position: relative;
+	/* Position relative pour les animations */
+	animation: changeColor 20s infinite;
+	/* Animation de changement de couleur */
+}
+
+/* Animation de changement de couleur */
+@keyframes changeColor {
+	0% {
+		background-color: white;
+		/* Début: blanc */
+	}
+
+	25% {
+		background-color: var(--violet);
+		/* Violet après 5 secondes */
+	}
+
+	50% {
+		background-color: var(--bleu);
+		/* Vert après 10 secondes */
+	}
+
+	75% {
+		background-color: black;
+		/* Bleu après 20 secondes */
+	}
+
+	95% {
+		background-color: var(--violet);
+		/* Noir après 15 secondes */
+	}
+
+	100% {
+		background-color: white;
+		/* Bleu après 20 secondes */
+	}
+}
+
+.night-mode .sepLigne {
+	background-color: white !important;
+}
+
+.container-option {
+	border-radius: 30px;
+	background-color: #9016B2;
+	padding: 40px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 400px;
+	height: 300px;
+	font-family: 'Titan One', sans-serif;
+	color: #87d300;
+	margin: 5% 0;
+}
+
+.container-option button {
+	border: 2px solid #ffffff;
+	background-color: #87d300;
+	color: #9016B2;
+	transition: all 0.3s;
+	font-family: 'Titan One', sans-serif;
+	font-size: 15px;
+	width: auto;
+}
+
+.container-option button:hover {
+	color: #ffffff;
+	background-color: #87d300;
+	border-color: #ffffff;
+}
+
+.container-option button:active {
+	background-color: #87d300;
+	color: #9016B2;
+	border: none;
+}
+
+.night-mode .container-option {
+	background-color: black;
+	color: #fff;
+}
+
+.icon {
+	filter: invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+	.night-mode .container-option {
+		border: 3px solid white;
+	}
+}
+
+/* plus utile */
+.modImg {
+	background-image: url('../img/ajouter-une-image.png');
+	background-color: transparent !important;
+	color: transparent !important;
+	background-size: cover;
+	border: none !important;
+	height: 15px !important;
+	width: 15px !important;
+}
+
+.modImg:hover {
+
+	background-color: transparent;
+	filter: contrast(175%) brightness(3%);
+	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--bleu));
+}
+
+.modImg:active {
+	filter: drop-shadow(3px 3px var(--violet));
+}
+
+.nameID {
+	display: block;
+}
+
+.custom-div-align {
+	width: 250px;
+	height: fit-content;
+	display: inline;
+}
+
+/* Styles pour aligner verticalement le label et le champ d'entrée */
+.aligthisfs {
+	display: relative;
+	flex-direction: column;
+	align-items: right;
+}
+
+/* CHANGER NICKNAME PROFIL */
+.modUser {
+	background-image: url('../img/cocher.png');
+	margin-left: 150px !important;
+	width: 30px;
+	height: 30px;
+	/* align-items: end !important; */
+}
+
+.night-mode .modImg {
+	filter: invert(1);
+	/* Pour passer  une image noir en blanc ! :) */
+}
+
+.night-mode .modImg:hover {
+	/* filter: grayscale(100%); */
+	filter: invert(70%);
+}
+
+.night-mode .profile-image-set {
+	filter: grayscale(100%);
+}
+
+/*  USER NAME */
+
+.nickname {
+	color: var(--bleu) !important;
+	/* width: 210px; */
+	width: 200px;
+}
+
+.night-mode .nickname {
+	color: black !important;
+}
+
+/* Style for the profile section */
+.profile-section {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.container_prof {
+	margin-top: 100px;
+	margin-right: 50px;
+	margin-left: 150px;
+}
+
+.container-profil {
+	border-radius: 30px;
+	background-color: #87d300;
+	padding: 40px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 400px;
+	height: 300px;
+	font-family: 'Titan One', sans-serif;
+	color: #9016B2;
+	margin: 5% 0;
+	overflow: auto;
+	overflow-y: hidden;
+}
+
+.container-profil button {
+	border: 2px solid #ffffff;
+	background-color: #9016B2;
+	color: #87d300;
+	transition: all 0.3s;
+	font-family: 'Titan One', sans-serif;
+	font-size: 15px;
+	width: fit-content;
+}
+
+.container-profil button:hover {
+	color: #ffffff;
+	background-color: #9016B2;
+	border-color: #ffffff;
+}
+
+.container-profil button:active {
+	background-color: #87d300;
+	color: #87d300;
+	border: none;
+}
+
+.ajust-btn {
+	margin-top: 20px !important;
+	margin-right: 50px !important;
+	align-items: start
+}
+
+.night-mode .container-profil {
+	background-color: black;
+	color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+	.night-mode .container-profil {
+		border: 3px solid white;
+	}
+}
+
+@media (max-width: 1160px) {
+	.flex-container {
+		flex-direction: column;
+	}
+
+	.container_opt,
+	.container_prof {
+		margin: 10px;
+	}
+}
+
+@media (max-width: 990px) {
+	.miniMode {
+		margin-top: 0px;
+		margin-bottom: 25px;
+	}
+}
+
+.night-mode .container-option button {
+	border: 2px solid #ffffff;
+	background-color: black;
+	color: white;
+}
+
+.night-mode .container-profil button {
+	border: 2px solid #ffffff;
+	background-color: black;
+	color: white;
+}
+
+.night-mode .container-option button:hover {
+	color: black;
+	background-color: white;
+	border-color: #ffffff;
+}
+
+.night-mode .container-profil button:hover {
+	color: black;
+	background-color: white;
+	border-color: #ffffff;
+}
+
+.night-mode .container-option button:active {
+	background-color: black;
+	color: white;
+	border: none;
+}
+
+.night-mode .container-profil button:active {
+	background-color: black;
+	color: white;
+	border: none;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin: auto;
+	--bs-modal-header-border-width: var(--bs-border-width);
+	/* hauteur de la ligne de sep */
+	--bs-modal-header-border-color: var(--vert);
+	/* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--vert);
+	/* couleur de la ligne de sep basse */
+	--bs-modal-footer-border-width: var(--bs-border-width);
+	/* hauteur de la ligne de sep basse*/
+}
+
+.night-mode .modal {
+	--bs-modal-header-border-color: var(--gris);
+	/* couleur de la ligne de sep haute*/
+	--bs-modal-footer-border-color: var(--gris);
+	/* couleur de la ligne de sep basse */
+}
+
+/* Ajoutez ces styles pour centrer le modal horizontalement */
+.modal-dialog {
+	margin: auto;
+}
+
+/* Ajoutez ces styles pour centrer le contenu du modal verticalement */
+.modal-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: auto;
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #00BAB9D3;
+}
+
+.night-mode .overlay {
+	background: var(--gris);
+}
+
+/* Ajoutez ces styles pour ajuster la position du bouton de fermeture */
+.close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+/* BARRE D'INFO */
+
+.container-info {
+	position: relative;
+	height: 93px;
+}
+
+#modifyNicknameButton {
+	object-fit: contain;
+}
+
+.imgButton {
+	background-image: url('../img/ajouter-le-contact.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border: none;
+	margin-left: 0px;
+	z-index: 0 !important;
+	/* align-items: start !important; */
+}
+
+.imgButton:hover {
+	background-color: transparent;
+	filter: contrast(175%) brightness(3%);
+	filter: drop-shadow(3px 3px var(--violet)) drop-shadow(-3px -3px var(--vert));
+}
+
+.imgButton:active {
+	background-color: transparent !important;
+	filter: drop-shadow(3px 3px var(--violet));
+}
+
+.night-mode .imgButton {
+	filter: invert(1);
+}
+
+.night-mode .imgButton:hover {
+	filter: invert(70%);
+}
+
+
+.findFriend {
+	justify-content: end !important;
+	align-items: end !important;
+	text-align: end !important;
+}
+
+.form-control {
+	margin: auto;
+	width: 100%;
+	margin-right: 0px;
+	border-radius: var(--bs-border-radius) !important;
+}
+
+.input-group-custom {
+	width: 350px;
+}
+
+.input-group-append {
+	/* width: 300px; */
+	margin-left: 15px !important;
+	overflow: auto;
+
+}
+
+.btnCustomProfil {
+	font-size: 20px;
+	z-index: 0 !important;
+}
+
+.night-mode .btnCustomProfil {
+	filter: grayscale(100%);
+}
+
+/*  Pour avoir les bords de droite du formulaire arrondis */
+.input-group.custom-input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
+.input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
+.input-group.custom-input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select,
+.input-group.custom-input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+	border-top-right-radius: none;
+	border-bottom-right-radius: none;
+}
+
+
+/* CUSTOM MODALS */
+/* Modal Contact */
+
+/* Style personnalisé pour la modale du bouton contact FD*/
+.custom-modal {
+	background-color: var(--violet);
+	/* Couleur de fond */
+	padding: 20px;
+	/* Espacement intérieur */
+	border-radius: 20px;
+	/* Coins arrondis */
+	font-family: 'Spoof', sans-serif;
+	color: #87d300;
+
+	/* Fond personnalisé derrière la modale
+	&::before {
+		content: "";
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(0, 186, 185, 0.7);
+		z-index: -100;
+	} */
+}
+
+.blockBtn {
+	background-image: url('../img/contacts/blockVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 41px;
+	height: 42px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
+}
+
+.blockBtn:hover {
+	background-image: url('../img/contacts/blockBC.png');
+	filter: none !important;
+}
+
+.blockBtn:active {
+	background-image: url('../img/contacts/unHappyVert.png');
+	filter: none;
+	/* filter: invert(1) brightness(100%) hue-rotate(360); */
+	width: 42px;
+	height: 42px;
+}
+
+.inviteContact {
+	background-image: url('../img/contacts/envoyeVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 40px;
+	height: 40px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
+}
+
+.inviteContact:hover {
+	background-image: url('../img/contacts/envoyeBC.png');
+}
+
+.inviteContact:active {
+	background-image: url('../img/contacts/sendVert.png');
+	width: 40px;
+	height: 40px;
+}
+
+.night-mode .inviteContact {
+	background-image: url('../img/contacts/envoyeBC.png');
+}
+
+.night-mode .inviteContact:hover {
+	filter: grayscale(70%) contrast(0);
+}
+
+.night-mode .inviteContact:active {
+	filter: none;
+	background-image: url('../img/contacts/sendBC.png');
+}
+
+.night-mode .blockBtn {
+	background-image: url('../img/contacts/blockBC.png');
+}
+
+.night-mode .blockBtn:hover {
+	filter: grayscale(70%) contrast(0) !important;
+}
+
+.night-mode .blockBtn:active {
+	background-image: url('../img/contacts/unHappyBC.png');
+	filter: none !important;
+}
+
+.pseudoBlock {
+	font-family: 'Spooft', sans-serif;
+	font-size: 21px;
+}
+
+/* MODAL BLOCKED*/
+
+.blockedModalCustom {
+	width: 400px;
+	height: fit-content;
+}
+
+.pseudoBlock {
+	font-family: 'Spooft', sans-serif;
+}
+
+.unblockBtn {
+	background-image: url('../img/debloquerVert.png');
+	background-color: transparent;
+	background-size: cover;
+	width: 41px;
+	height: 40px;
+	border: none;
+	margin-left: 12px;
+	margin-bottom: auto;
+}
+
+.unblockBtn:hover {
+	background-image: url('../img/debloquer_BC.png');
+}
+
+.unblockBtn:active {
+	background-image: url('../img/happyVert.png');
+	filter: invert(1) brightness(100%) hue-rotate(360);
+	width: 38px;
+	height: 40px;
+}
+
+.night-mode .unblockBtn {
+	background-image: url('../img/debloquer_BC.png');
+}
+
+.night-mode .unblockBtn:hover {
+	filter: grayscale(70%) contrast(0);
+}
+
+.night-mode .unblockBtn:active {
+	filter: none;
+	background-image: url('../img/happyBC.png');
+}
+
+.night-mode .nightModalMod {
+	background-color: black;
+	border: 2px solid white;
+	color: white;
+}
+
+.modal-title {
+	font-family: 'Titan One', sans-serif;
+}
+
+/* creer des boutons pour ces modes et integrer les variables aux boutons */
+.modalCloseButton {
+	background-color: transparent;
+	color: #87d300;
+	border: none;
+	font-family: 'Tahoma', sans-serif;
+	font-size: 34px;
+	padding-top: 0px;
+	padding-right: 14px;
+
+
+}
+
+.night-mode .modalCloseButton {
+	color: white;
+}
+
+.modalButton {
+	background-color: var(--vert);
+	color: var(--violet);
+	margin: auto;
+}
+
+.modalButton:hover {
+	/* background-color: rgba(135, 211, 0, 0.8); */
+	border: solid 1px var(--vert);
+}
+
+.night-mode .modalNightButton {
+	background-color: white;
+	color: black;
+}
+
+.night-mode .modalNightButton:hover {
+	border: solid 1px white;
+	background-color: transparent;
+	color: white;
+}
+
+/* MODAL SETTINGS FG */
+
+.rangCust {
+	font-family: 'Titan One', sans-serif;
+	font-size: 16px;
+}
+
+.crochets {
+	font-family: 'Titan One', sans-serif;
+	font-size: 18px;
+}
+
+/* Styles pour le curseur de la plage (range) - WebKit (Chrome, Safari) */
+.rangeCustom::-webkit-slider-thumb {
+	margin-top: -2px;
+	/* Ajuster la position verticale du curseur */
+	-webkit-appearance: none;
+	appearance: none;
+	/* width: 0; */
+	/* height: 0; */
+	background: transparent !important;
+	background-color: var(--bleu) !important;
+	border: 2px solid white !important;
+	/* Ajout d'une bordure */
+	border-radius: 50% !important;
+	/* Rendre le curseur circulaire */
+	height: 17px;
+	/* Ajuster la hauteur du curseur */
+	width: 17px;
+	/* Ajuster la largeur du curseur */
+}
+
+.rangeCustom::-moz-range-thumb {
+	/* background-color: transparent; */
+	border: 2px solid white;
+	border-radius: 50% !important;
+	height: 15;
+	width: 15;
+}
+
+.rangeCustom::-ms-thumb {
+	background-color: var(--bleu) !important;
+	border: 2px solid white !important;
+	border-radius: 50% !important;
+	height: 20px;
+	width: 20px;
+}
+
+/* Styles pour la plage (track) */
+.rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	/* Rendre les bords de la barre arrondis */
+	height: 13px;
+	/* Ajuster la hauteur de la barre */
+}
+
+.rangeCustom::-moz-range-track {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	height: 13px;
+}
+
+.rangeCustom::-ms-track {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	height: 13px;
+}
+
+.rangeCustom::-ms-fill-lower,
+.rangeCustom::-ms-fill-upper {
+	background-color: var(--bleu) !important;
+	border-radius: 13px !important;
+	height: 13px;
+}
+
+/* night mode */
+.night-mode .rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-webkit-slider-thumb {
+	background-color: var(--gris) !important;
+	/* Rend le curseur transparent */
+	border: 2px solid var(--gris);
+	/* Ajout d'une bordure */
+}
+
+.night-mode .rangeCustom::-moz-range-thumb {
+	/* background-color: var(--gris) !important; */
+	background-color: var(--gris) !important;
+	border: 2px solid white !important;
+}
+
+.night-mode .rangeCustom::-ms-thumb {
+	background-color: var(--gris) !important;
+	border: 2px solid white !important;
+}
+
+/* Styles pour couleur de la barre (track) */
+.night-mode .rangeCustom::-webkit-slider-runnable-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-moz-range-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-ms-track {
+	background-color: var(--gris) !important;
+}
+
+.night-mode .rangeCustom::-ms-fill-lower,
+.night-mode .rangeCustom::-ms-fill-upper {
+	background-color: var(--gris) !important;
+}
+
+
+.formGroupCustom {
+	padding: 3px;
+}
+
+.formCheckCustom {
+	padding-top: 3px;
+	/* padding-bottom: 3px; */
+}
+
+/* SAVE BUTTON */
+
+.btn-register {
+	background-color: var(--bleu);
+	color: white;
+	border: solit 1px transparent !important;
+	margin-top: 5px;
+}
+
+.btn-register:hover {
+	border: solid 1px white;
+	background-color: none !important;
+	color: white;
+}
+
+
+/* NAV TAN FENETRE GAUCHE STAT */
+
+.modNav {
+	color: #87d300 !important;
+	font-size: 21px;
+}
+
+.night-mode .modNav {
+	color: var(--gris) !important;
+}
+
+.night-mode .modNav:focus {
+	color: black !important;
+}
+
+.night-mode .modNav:active {
+	color: white !important;
+}
+
+
+.tabCust {
+	margin-top: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 36px;
+	font-family: 'Titan One', sans-serif;
+}
+
+/* NAV TAN FENETRE GAUCHE FEATS */
+
+.featModal {
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.featImg {
+	width: 52px;
+	height: auto;
+	margin-left: 15px;
+	filter: invert(1);
+	/* si actif et si pas actif en gris et flou */
+}
+
+
+/* MATCH HISTORY */
+.scrollable-container {
+	max-height: 200px;
+	overflow-y: auto;
+	/* Ajoute la barre de défilement verticale */
+	overflow-x: hidden;
+	/* Supprime la barre horizontal */
+}
+
+.match-item {
+	display: flex;
+	/* Affiche les éléments sur une seule ligne */
+	justify-content: space-between;
+	/* Espace uniformément sur la ligne */
+	padding: 5px 0;
+	/* Ajoute un peu d'espacement entre chaque élément */
+}
+
+.match-info {
+	flex: 1;
+	/* Fait en sorte que chaque élément prenne autant d'espace que possible */
+	text-align: center;
+	/* Centre le texte horizontalement dans chaque élément */
+	white-space: nowrap;
+	/* empeche le retur a la ligne */
+}
+
+.tabHistory {
+	background-color: transparent !important;
+	color: #fff !important;
+	width: fit-content;
+}
+
+.cadreTitreHist {
+	position: sticky;
+	/* pour que la barre de titre passe par dessus */
+	top: 0;
+	background-color: #fff;
+	z-index: 1000;
+}
+
+.cadreTitreHist th:first-child {
+	border-top-left-radius: 10px;
+}
+
+.cadreTitreHist th:last-child {
+	border-top-right-radius: 10px;
+}
+
+.titreHist {
+	background-color: #fff;
+	color: #9016B2 !important;
+	font-family: "Titan One", sans-serif;
+}
+
+.night-mode .titreHist {
+	background-color: #fff;
+	color: black !important;
+	font-family: "Titan One", sans-serif;
+}
+
+/* .matchHistTable {} */
+
+.modal-lg-custom .modal-content {
+	width: 550px;
+}
+
+/* Redéfinition des couleurs par défaut pour la barre de defilement*/
+:root {
+	--scrollbar-track-color: var(--violet);
+	/* Couleur de fond de la barre de défilement */
+	--scrollbar-thumb-color: var(--vert);
+	/* Couleur de la barre de défilement */
+	--scrollbar-thumb-hover-color: var(--bleu);
+	/* Couleur de la barre de défilement lorsqu'elle est survolée */
+}
+
+/* Barre de défilement principale */
+::-webkit-scrollbar {
+	width: 8px;
+	/* Largeur de la barre de défilement */
+	height: 5px;
+}
+
+/* Barre de défilement track */
+::-webkit-scrollbar-track {
+	background: var(--scrollbar-track-color);
+	/* Couleur de fond */
+}
+
+/* Barre de défilement thumb */
+::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb-color);
+	/* Couleur de la barre de défilement */
+	border-radius: 5px;
+	/* Coins arrondis */
+	height: 10px;
+}
+
+/* Barre de défilement thumb lorsqu'elle est survolée */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollbar-thumb-hover-color);
+	/* Couleur de la barre de défilement lorsqu'elle est survolée */
+}
+
+/* NIGHT MODE */
+/* Modification des couleurs pour le mode nuit */
+.night-mode {
+	--scrollbar-track-color: white;
+	/* Nouvelle couleur de fond de la barre de défilement track*/
+	--scrollbar-thumb-color: rgb(59, 59, 59);
+	/* Nouvelle couleur de la barre de défilement thumb*/
+	--scrollbar-thumb-hover-color: grey;
+	/* Nouvelle couleur de la barre de défilement lorsqu'elle est survolée hover*/
+}
+
+
+
+.WIN {
+	color: rgb(30, 211, 30) !important;
+}
+
+.LOSE {
+	color: red !important;
+}
+
+.night-mode .WIN {
+	color: white !important;
+}
+
+.night-mode .LOSE {
+	color: rgb(223, 216, 216) !important;
+}
+
+/*raph added*/
+.list-contact-profile {
+	position: absolute;
+	bottom: 75%;
+	height: auto;
+	overflow-y: auto;
+	width: 234px;
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.8);
+
+	.contact {
+		position: relative;
+		border-top: 0px !important;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		.profile-image {
+			margin-left: 15px;
+			width: 30px;
+			height: 30px;
+			border-radius: 25px;
+		}
+
+		.text {
+			margin-left: 20px;
+
+			text-align: center;
+			color: black;
+			font-weight: 8px;
+
+		}
+
+		&:hover {
+			cursor: pointer;
+			/* background-color: var(--violet); */
+			background-color: white;
+		}
+	}
+}
+
+/* Verena modif status */
+.status-indicator {
+	/* Styles de la pastille de statut */
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	right: 8%;
+}
+
+/* Styles pour différents états */
+.online {
+	background-color: var(--vert);
+	color: transparent;
+	font-size: 0px;
+}
+
+.offline {
+	background-color: grey;
+	color: transparent;
+	font-size: 0px;
+}
+
+.playing {
+	background-color: var(--violet);
+	color: transparent;
+	font-size: 0px;
+}
+
+.empty {
+	background-color: black;
+	color: transparent;
+	font-size: 0px;
+}
+
+/* Styles pour différents états en version mode nuit adapte */
+.night-mode {
+	.online {
+		background-color: transparent;
+		color: black;
+		font-size: 15px;
+	}
+
+	.offline {
+		background-color: transparent;
+		color: black;
+		font-size: 15px;
+	}
+
+	.playing {
+		background-color: transparent;
+		color: black;
+		font-size: 15px;
+	}
+
+	/* .empty {background-color: black; color: black; font-size: 15px;} */
+}
+
+
+
+/* Verena modif night mode pour lisibilite */
+.night-mode {
+	.list-contact {
+		background-color: rgba(255, 255, 255, 0.8);
+		border-radius: 5px;
+	}
+
+	.list-contact .text {
+		color: black;
+	}
+}
+
+.invisible-profile-y {
+	opacity: 0;
+	visibility: hidden;
+	/*transform: translateY(100%);*/
+}
+
+.visible-profile-y {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity 0.8s;
+	/*transform: translateY(0);*/
+	/* transform 0.8s cubic-bezier(.5, 0, 0, 1);*/
+}
+
+.hide-profile {
+	display: none !important;
+}

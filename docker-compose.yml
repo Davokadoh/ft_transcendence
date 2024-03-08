@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  django:
+    build:
+      context: ./django
+    container_name: django
+    ports:
+      - "443:443"
+    environment:
+      DJANGO_DEBUG: "False"
+      DJANGO_SETTINGS_MODULE: "ftt.settings"
+      DJANGO_ALLOW_ASYNC_UNSAFE: "true"
+    env_file: .env
+    networks:
+      - my-network
+    volumes:
+      - ./django:/ftt
+    # depends_on:
+      # - db
+    # restart: unless-stopped
+
+  # db:
+  #   image: postgres:latest
+  #   env_file: .env.prod
+  #   container_name: db-container
+  #   ports:
+  #     - "5433:5432"
+  #   networks:
+  #     - my-network
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+
+# volumes:
+#   backend_static:
+#   db-data:
+#   media_volume:
+#   nginx_log:
+
+networks:
+  my-network:
+    driver: bridge
