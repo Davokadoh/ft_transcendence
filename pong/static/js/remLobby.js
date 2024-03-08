@@ -1,4 +1,4 @@
-export function remLobby(remoteId) {
+export function remLobby(gameId) {
 	let button = document.getElementById('startButton');
 	let isNicknameValid = false;
 
@@ -11,7 +11,7 @@ export function remLobby(remoteId) {
 				nickname: player2Nickname
 			};
 
-			fetch(`/remLobby/${remoteId}/`, {
+			fetch(`/remLobby/${gameId}/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

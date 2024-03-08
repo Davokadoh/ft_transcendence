@@ -38,6 +38,7 @@ urlpatterns = [
     path("accounts/profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),
     path("game/<int:gameId>/get-nickname/", views.get_nicknames),
+    path("tournament/<int:gameId>/get-nickname/", views.get_nicknames),
     path("game/<int:gameId>/get-scores/", views.get_scores),
     path("accounts/profil/", views.profil_view, name="profil_view"),
     path("<path:prefix>/getList/<str:type>", views.getList),
