@@ -1,4 +1,4 @@
-export function tourLobby(tournamentId) {
+export function tourLobby(gameId) {
 	let button = document.getElementById('startButton');
 	let isNicknameValid = false;
 
@@ -16,7 +16,7 @@ export function tourLobby(tournamentId) {
 				p4Nickname: player4Nickname,
 			};
 
-			fetch(`/tourLobby/${tournamentId}/`, {
+			fetch(`/tourLobby/${gameId}/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -35,13 +35,27 @@ export function tournament(gameId) {
 	};
 
 	function initializeGame() {
+		fetch(`/tournament/${gameId}/get-nickname/`)
+			.then(response => response.json())
+			.then(data => {
+				player1 = data.player1_nickname;
+				player2 = data.player2_nickname;
+				console.log(player1);
+				console.log(player2);
+				document.getElementById('player1').textContent = player1;
+				document.getElementById('player2').textContent = player2;
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
 		gameBoard = document.getElementById("gameBoard");
 		ctx = gameBoard.getContext("2d");
 		scoreText = document.getElementById("scoreText");
 		gameWidth = gameBoard.width;
 		gameHeight = gameBoard.height;
-		player1 = document.getElementById("player1").textContent;
-		player2 = document.getElementById("player2").textContent;
+		// player1 = document.getElementById("player1").textContent;
+		// player2 = document.getElementById("player2").textContent;
 		player1Score = 0;
 		player2Score = 0;
 		paddle1 = { width: 25, height: 100, x: 10, y: 5 };
