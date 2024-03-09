@@ -127,7 +127,8 @@ def profil(request):
     wins = games.filter(winner__users=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
-    status = request.user.status
+    # status = request.user.status
+    status = request.nickname.status
     # user_status = request.user.status
 
     if request.user.profil_picture:
@@ -172,7 +173,7 @@ def user(request, nickname=None):
                     match.gameteam_set.last().score,
                 )
                 print(f"SCORE = {match.score[0]} - {match.score[1]}")
-                if match.winner == user:
+                if match.winner == nickname:
                     match.result = "WIN"
                 else:
                     match.result = "LOSE"
