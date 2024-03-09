@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.contrib import messages
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 # from django.views.decorators.http import require_http_methods
@@ -493,7 +494,7 @@ def loginview(request):
         auth_url = "{}/oauth/authorize?client_id={}&redirect_uri={}&scope={}&state={}&response_type=code".format(
             os.getenv("OAUTH_URL"),
             os.getenv("OAUTH_ID"),
-            requests.utils.quote("http://localhost:8000/accounts/callback/"),
+            reverse(callback),
             "public",
             request.session["state"],
         )
@@ -510,7 +511,7 @@ def callback(request):
             "client_id": os.getenv("OAUTH_ID"),
             "client_secret": os.getenv("OAUTH_SECRET"),
             "code": code,
-            "redirect_uri": "http://localhost:8000/accounts/callback/",
+            "redirect_uri": reverse(callback),
             "state": state,
         },
         headers={"Accept": "application/json"},
