@@ -97,7 +97,11 @@ def profil(request):
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=request.user)
         games = Game.objects.filter(teams__in=user_teams)
-        matches = Game.objects.filter(teams__in=user_teams).filter(status="END").order_by("-start_time")
+        matches = (
+            Game.objects.filter(teams__in=user_teams)
+            .filter(status="END")
+            .order_by("-start_time")
+        )
         for match in matches:
             try:
                 match.opponent = (
@@ -162,7 +166,11 @@ def user(request, nickname=None):
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
-        matches = Game.objects.filter(teams__in=user_teams).filter(status="END").order_by("-start_time")
+        matches = (
+            Game.objects.filter(teams__in=user_teams)
+            .filter(status="END")
+            .order_by("-start_time")
+        )
         for match in matches:
             try:
                 match.opponent = match.teams.exclude(users=user).first().users.first()
@@ -913,7 +921,8 @@ def get_user_conversations(request):
         for conversation in conversations:
             messages = [
                 {
-                    "type": "chat_message",
+                    "type": message.type,
+                    "id": message.id_msg,
                     "sender": message.sender.username,
                     "sender_nickname": message.sender.nickname,
                     "target": message.target.username,

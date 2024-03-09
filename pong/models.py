@@ -95,6 +95,8 @@ class Message(models.Model):
         User, on_delete=models.CASCADE, null=False, blank=False, related_name="target"
     )
     message = models.TextField(null=False, blank=False)
+    id_msg = models.TextField(null=False, blank=False)
+    type = models.TextField(null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

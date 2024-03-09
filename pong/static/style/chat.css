@@ -375,7 +375,7 @@ body-msg {
 
     /*border-radius: 20%;*/
     padding: 5px 5px;
-    margin: 50px 0;
+    margin: 10px 0;
     border-radius: 9px;
     /*height: 30px;*/
     background: grey;
@@ -386,6 +386,26 @@ body-msg {
         opacity: 0.5;
         /*font-family: Georgia, serif;*/
         font-feature-settings: "smcp", "zero";
+    }
+}
+
+.chat-invitation--receive {
+
+    .btn-group {
+        margin-top: 5px;
+        height: 30px;
+    }
+
+    .accept-btn {
+        color: white;
+
+        &:active {
+            color: green;
+        }
+    }
+
+    .decline-btn {
+        color: red;
     }
 }
 
@@ -596,5 +616,11 @@ body-msg {
     .bgBleu {
         background-color: black;
         color: white;
+    }
+}
+
+.toast {
+    .toast-body {
+        color: black;
     }
 }

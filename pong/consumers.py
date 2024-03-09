@@ -45,8 +45,9 @@ class Consumer(AsyncJsonWebsocketConsumer):
             await self.receive_chat(content)
         elif content["type"] == "manage_conversation":
             await self.manage_conversation(content)
-        elif content["type"] == "game_invite":
+        elif content["type"] == "game_invitation":
             print("Invited received!")
+            await self.game_invitation(content)
         else:
             print(f"Unknown message type: {content['type']}")
 
@@ -89,6 +90,57 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
         # save conversations
         messages = await Message.objects.acreate(
+            type=content["type"],
+            sender=self.user,
+            target=target_instance,
+            # conversation=conversation,
+            message=content["message"],
+            timestamp=time_for_all,
+        )
+        await self.update_or_create_conversation(target_instance, messages)
+
+    async def game_invitation(self, content):
+        time_for_all = datetime.now().strftime("%H:%M")
+        target = content["target"]
+        target_instance = await User.objects.aget(username=target)
+        sender_instance = await User.objects.aget(pk=self.user.pk)
+
+        await self.channel_layer.send(
+            self.channel_name,
+            {
+                "type": "chat_invitation",
+                "id": content["id"],
+                "sender": sender_instance.username,
+                "sender_nickname": sender_instance.nickname,
+                "target": target_instance.username,
+                "target_nickname": target_instance.nickname,
+                "message": content["message"],
+                "timestamp": time_for_all,
+            },
+        )
+
+        blocked_users = await target_instance.blocked_users.filter(
+            pk=self.user.pk
+        ).aexists()
+        # check before send a message if sender was blocked
+        if not blocked_users:
+            await self.channel_layer.send(
+                target_instance.channel_name,
+                {
+                    "type": "chat_invitation",
+                    "id": content["id"],
+                    "sender": sender_instance.username,
+                    "sender_nickname": sender_instance.nickname,
+                    "target": target_instance.username,
+                    "target_nickname": target_instance.nickname,
+                    "message": content["message"],
+                    "timestamp": time_for_all,
+                },
+            )
+        # save conversations
+        messages = await Message.objects.acreate(
+            id_msg=content["id"],
+            type=content["type"],
             sender=self.user,
             target=target_instance,
             # conversation=conversation,
@@ -99,9 +151,25 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
     async def chat_message(self, event):
         print("send message...")
+        if event["type"] == "chat_message":
+            await self.send_json(
+                {
+                    "type": event["type"],
+                    "sender": event["sender"],
+                    "sender_nickname": event["sender_nickname"],
+                    "target": event["target"],
+                    "target_nickname": event["target_nickname"],
+                    "message": event["message"],
+                    "timestamp": event["timestamp"],
+                }
+            )
+
+    async def chat_invitation(self, event):
+        print("send message chat invitation...")
         await self.send_json(
             {
-                "type": event["type"],
+                "type": "game_invitation",
+                "id": event["id"],
                 "sender": event["sender"],
                 "sender_nickname": event["sender_nickname"],
                 "target": event["target"],

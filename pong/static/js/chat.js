@@ -490,6 +490,10 @@ export function chat() {
 	function message_receive(data) {
 		console.log("==message_receive FUNCTION==");
 
+		/*if (data.type == "tournament_alert") {
+			showToast();
+			return;
+		}*/
 
 		const element = document.createElement("div");
 
@@ -505,13 +509,34 @@ export function chat() {
 			console.log("active chat dans message_receive: ", activeChatPanel);
 		}
 		else if (data.type == "game_invitation") {
-			element.innerHTML = `
-			<!--msg from friend-->
-			<div class="col-md-12 d-flex">
-				<div class="chat-invitation mx-auto" id="msgByOtherId">
-					<small class="text">Invitation has been sent</small>
-				</div>
-			</div>`;
+			if (data.message == "#invitation") {
+				console.log("receive id: ", data.id);
+
+				element.innerHTML = `
+				<!--msg from friend-->
+				<div class="col-md-12 d-flex">
+					<div class="chat-invitation chat-invitation--receive mx-auto" id="${data.id}">
+						<div class="text">Invitation to Play</div>
+						<div id="btnGroup" class="btn-group btn-grouo-sm d-flex align-items-center" role="group" aria-label="Basic example" style="width: 100%;">
+							<button type="button" class="btn btn-secondary accept-btn" id="accept">✔</button>
+							<button type="button" class="btn btn-secondary decline-btn" id="decline">✖</button>
+						</div>
+					</div>
+				</div>`;
+				element.querySelector("#accept").addEventListener("click", sendResponseInvitation);
+				element.querySelector("#decline").addEventListener("click", sendResponseInvitation);
+
+			}
+			else if (data.message == "#accept" || data.message == "#decline") {
+				let msg = (data.message == "#accept") ? "Invitation has been accepted" : "Invitation was declined";
+				element.innerHTML = `
+				<!--msg from friend-->
+				<div class="col-md-12 d-flex">
+					<div class="chat-invitation mx-auto" id="msgByOtherId">
+						<small class="text">${msg}</small>
+					</div>
+				</div>`;
+			}
 		}
 
 		if (findConversation(data.sender)) {
@@ -520,6 +545,10 @@ export function chat() {
 				document.getElementById("chatPanelId").append(element);
 				scrollUp(document.getElementById("rowChatPanel"));
 				updateChatHistory(activeChatPanel);
+				if (data.type == "game_invitation" && data.message == "#accept") {
+					//#redirection
+					window.location.href = `/lobby`;
+				}
 			}
 			else {
 
@@ -576,11 +605,16 @@ export function chat() {
 			</div>`;
 		}
 		else if (data.type == "game_invitation") {
+			let msg;
+			if (data.message == "#invitation")
+				msg = "Invitation has been sent";
+			else if (data.message == "#accept" || data.message == "#decline")
+				msg = (data.message == "#accept") ? "Invitation accepted" : "Invitation declined";
 			element.innerHTML = `
 				<!--msg from friend-->
 				<div class="col-md-12 d-flex">
-					<div class="chat-invitation mx-auto" id="msgByOtherId">
-						<small class="text">Invitation has been sent</small>
+					<div class="chat-invitation mx-auto" id="${data.id}">
+						<small class="text">${msg}</small>
 					</div>
 				</div>`;
 		}
@@ -589,11 +623,30 @@ export function chat() {
 		if (activeChatPanel) {
 			document.getElementById("chatPanelId").append(element);
 			scrollUp(document.getElementById("rowChatPanel"));
+			//delete invitation after decision 
+			if (data.type == "game_invitation" && data.message == "#accept" || data.message == "#decline") {
+				document.getElementById(`${data.id}`).remove();
+				//#redirection
+				if (data.message == "#accept")
+					window.location.href = `/lobby`;
+			}
 			updateChatHistory(activeChatPanel);
 		}
 		else {
-			if (findConversation(data.target))
-				mapChatHistory.get(data.target).querySelector("#chatPanelId").append(element);
+			if (findConversation(data.target)) {
+
+				let panel = mapChatHistory.get(data.target).querySelector("#chatPanelId");
+				//delete invitation after decision 
+				if (data.type == "game_invitation" && data.message == "#accept" || data.message == "#decline") {
+					console.log("sent id: ", data.id);
+					console.log("sent element: ", panel.innerHTML);
+
+					let myEl = panel.querySelector(`#${data.id}`);
+					let parent = myEl.parentElement;
+					parent.remove();
+				}
+				panel.append(element);
+			}
 		}
 		updateConversations(data, "sent");
 		console.log("active chat dans message_sent: ", activeChatPanel);
@@ -601,16 +654,18 @@ export function chat() {
 
 	function sendByMe(event) {
 		console.log("Click from input chat: ", event.type);
+
 		const inputField = document.getElementById("input-id");
 
 
 		if (event.target.classList.contains("invitation")) {
 			console.log("Invitation have sent");
-			/*socket.send(JSON.stringify({
+			socket.send(JSON.stringify({
 				'type': 'game_invitation',
+				'id': "id" + Math.random().toString(16).slice(2),
 				'target': activeChatPanel, //nickname target
-				'message': "#invitation to play"
-			}));*/
+				'message': "#invitation"
+			}));
 		}
 		else if ((event.type === "click" || event.key === "Enter") && inputField.value) {
 			console.log(`message sent: ${inputField.value}`);
@@ -625,6 +680,20 @@ export function chat() {
 			//just for test receive and send 
 			inputField.value = "";
 		}
+	}
+
+	function sendResponseInvitation(event) {
+		let decision;
+
+		decision = (event.target.classList.contains("accept-btn")) ? "#accept" : "#decline";
+		let id_tmp = event.currentTarget.closest(".chat-invitation--receive").id;
+		console.log(`Click on ${decision}`);
+		socket.send(JSON.stringify({
+			'type': 'game_invitation',
+			'id': id_tmp,
+			'target': activeChatPanel, //nickname target
+			'message': decision
+		}));
 	}
 
 	function scrollUp(element) {
@@ -656,6 +725,14 @@ export function chat() {
 				user.classList.toggle("hide", !isVisible);
 			});
 		});
+	}
+
+	function showToast() {
+		const toastElement = document.getElementById('liveToast');
+		toastElement.querySelector('.toast-body').textContent = "You are expected for the pong tournament";
+
+		const toast = new bootstrap.Toast(toastElement);
+		toast.show();
 	}
 
 	async function fetchTemplate() {
