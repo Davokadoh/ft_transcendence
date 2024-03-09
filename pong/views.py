@@ -721,10 +721,16 @@ def getList(request, prefix, type):
                 users = User.objects.all()
                 user_list = []
                 for user in users:
+                    if user.profil_picture:
+                        profil_picture_url = user.profil_picture.url
+                    elif user.profil_picture_oauth:
+                        profil_picture_url = user.profil_picture_oauth
+                    else:
+                        profil_picture_url = "/static/img/profil/image-defaut.png"
                     user_info = {
                         # "username": user.username,
                         "nickname": user.nickname,
-                        "profil_picture": user.profil_picture.url,
+                        "profil_picture": profil_picture_url,
                         "status": user.status,  # recuperer le status @test Verena
                         # add other field if necessary
                     }
@@ -737,10 +743,16 @@ def getList(request, prefix, type):
                 friends = user_instance.friends.all()
                 friend_list = []
                 for friend in friends:
+                    if friend.profil_picture:
+                        profil_picture_url = friend.profil_picture.url
+                    elif friend.profil_picture_oauth:
+                        profil_picture_url = friend.profil_picture_oauth
+                    else:
+                        profil_picture_url = "/static/img/profil/image-defaut.png"
                     friend_info = {
                         "username": friend.username,
                         "nickname": friend.nickname,
-                        "profil_picture": friend.profil_picture.url,
+                        "profil_picture": profil_picture_url,
                         "status": friend.status,
                     }
                     friend_list.append(friend_info)
