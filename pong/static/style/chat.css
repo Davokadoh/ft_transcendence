@@ -393,6 +393,25 @@ body-msg {
     border: 2px solid var(--vert) !important;
 }
 
+
+.night-mode {
+    .invitation {
+        border: 2px solid white;
+        background-color: black;
+        color: white;
+    }
+
+    .invitation:hover {
+        background-color: grey;
+    }
+
+    .invitation:active {
+        background-color: black !important;
+        color: white !important;
+        border: 2px solid white !important;
+    }
+}
+
 .chat-invitation {
 
     /*border-radius: 20%;*/
@@ -413,7 +432,7 @@ body-msg {
 }
 
 .night-mode .chat-invitation {
-    background: grey; 
+    background: grey;
 }
 
 .chat-invitation--receive {
@@ -460,30 +479,32 @@ body-msg {
 
 
 
-    .accept-btn:hover {
-        color: white;
-        background-color: var(--gray);
+.accept-btn:hover {
+    color: white;
+    background-color: var(--gray);
 
-        &:active {
-            color: black;
-        }
+    &:active {
+        color: black;
     }
+}
 
 .decline-btn:hover {
-    background-color: grey;;
+    background-color: grey;
+    ;
 }
 
 .night-mode .accept-btn:hover {
-        color: white;
-        background-color: var(--gray);
+    color: white;
+    background-color: var(--gray);
 
-        &:active {
-            color: black;
-        }
+    &:active {
+        color: black;
     }
+}
 
 .night-mode .decline-btn:hover {
-    background-color: grey;;
+    background-color: grey;
+    ;
 }
 
 .chat-bubble--right {
