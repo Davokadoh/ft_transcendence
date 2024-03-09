@@ -1,6 +1,6 @@
 import socket from './index.js';
 
-export function remote(game_id) {
+export function remote(gameId) {
 	let gameBoard = document.getElementById("gameBoard");
 	let ctx = gameBoard.getContext("2d");
 	let scoreText = document.getElementById("scoreText");
@@ -120,7 +120,21 @@ export function remote(game_id) {
 		else console.log(`Unknown data.type: ${data.type}`)
 	};
 
+	document.getElementById("closeRulesButton").addEventListener("click", toggleRules);
+
+	function toggleRules() {
+		var rulesContent = document.getElementById("rulesContent");
+		var closeButton = document.getElementById("closeRulesButton");
+		if (rulesContent.style.display === "none") {
+			rulesContent.style.display = "block";
+			closeButton.textContent = "✗";
+		} else {
+			rulesContent.style.display = "none";
+			closeButton.textContent = "-";
+		}
+	}
+
 	clearBoard();
 	updateScore();
-	socket.send(JSON.stringify({ 'type': 'game_join', 'game_id': game_id }));
+	socket.send(JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
 }
