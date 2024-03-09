@@ -414,6 +414,9 @@ export function chat() {
 
 		if (event.target.classList.contains("profile-image")) {
 			console.log("click img contact");
+
+			// Met à jour le contenu de l'élément avec le nickname de l'ami
+			// document.getElementById("nickname").textContent = nickname;
 			document.getElementById("contactProfil").classList.toggle("invisible-y");
 		}
 		else if (event.target.classList.contains("invitation") || event.target.classList.contains("i-send"))

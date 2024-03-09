@@ -14,6 +14,7 @@ urlpatterns = [
     path("accounts/logout/", views.logoutview),
     path("accounts/profil/", views.profil),
     path("accounts/profil/picture/", views.profilPicture),
+    # path("accounts/profil/nickname/<str:nickname>/", views.nickname),
     path("accounts/profil/nickname/", views.nickname),
     path("accounts/profil/username/", views.username),
     path("home/", views.home),

@@ -40,6 +40,10 @@
     margin-right: 10px;
 }
 
+.night-mode .nicknameUser {
+	color: white;
+}
+
 
 .modNavUser {
 	color: var(--violet) !important;

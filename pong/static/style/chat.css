@@ -612,6 +612,10 @@ body-msg {
     text-overflow: ellipsis;
 }
 
+.marginLeftNameChatProfil {
+    margin-left: 10px;
+
+}
 
 .contact-profil button {
     border: 2px solid #ffffff;
@@ -646,6 +650,7 @@ body-msg {
 
 .bottomR20 {
     border-bottom-right-radius: 15px;
+    /* z-index: 100; */
 }
 
 .t-vert {

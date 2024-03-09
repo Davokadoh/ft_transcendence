@@ -163,6 +163,7 @@ def user(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
         user = User.objects.get(nickname=nickname)
+        print("REQUEST nick : ", nickname)
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
@@ -220,9 +221,11 @@ def user(request, nickname=None):
 @login_required
 def nickname(request):
     if request.method == "GET":
+        print("REQUEST USER : ", request.user)
         # return JsonResponse({"username": request.user.username, "nickname": {"nickname": request.user.nickname}})
         return JsonResponse({"nickname": request.user.nickname})
     elif request.method == "POST":
+        print("REQUEST USER : ", request.user)
         form = NicknameForm(request.POST, instance=request.user)
         if form.is_valid():
             print(form.cleaned_data)
@@ -286,7 +289,7 @@ def profilPicture(request):
 
 
 @login_required
-def chat(request):
+def chat(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.path == "/chat/chat-tmp/":
         return render(request, "chat-tmp.html")
@@ -300,7 +303,7 @@ def chat(request):
             else:
                 profil_picture_url = "/chemin/vers/image/par/defaut.png"
         return render(
-            request, "chat.html", {"template": "ajax.html" if ajax else "index.html", "profil_picture_url": profil_picture_url}
+            request, "chat.html", {"template": "ajax.html" if ajax else "index.html", "profil_picture_url": profil_picture_url,}
         )
 
 
