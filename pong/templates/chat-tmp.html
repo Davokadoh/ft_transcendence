@@ -73,17 +73,17 @@
 
             <div class="contact-profil d-flex flex-column align-items justify-content-between invisible-y bgVert bottomR20"
                 id="contactProfil">
-                <div class="row align-items-center justify-content-between">
-                    <form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
+                <div class="row justify-content-end">
+                    <!-- <form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
                         class="col justify-content-start">
                         <img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
                         {% csrf_token %}
                         <input id="profil-picture-input" type="file" class="form-control" />
-                    </form>
+                    </form> -->
                     <form action="/accounts/profil/nickname/" method="post" class="col-8">
                         {% csrf_token %}
                         <div class="col">
-                            <span class="nicknameUser" id="nickname">{{ request.user.nickname }}</span>
+                            <span class="nicknameUser marginLeftNameChatProfil" id="nickname">{{ request.user.nickname }}</span>
                         </div>
                     </form>
 
