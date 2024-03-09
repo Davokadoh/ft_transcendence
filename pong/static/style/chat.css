@@ -371,6 +371,28 @@ body-msg {
     color: #fff;
 }
 
+.invitation {
+    border: 2px solid #ffffff;
+    background-color: #87d300;
+    color: #9016B2;
+    transition: all 0.3s;
+    font-family: 'Titan One', sans-serif;
+    font-size: 15px;
+    width: auto;
+}
+
+.invitation:hover {
+    border: 2px solid #ffffff;
+    background-color: #87d300;
+    color: white;
+}
+
+.invitation:active {
+    background-color: #9016B2 !important;
+    color: #87d300 !important;
+    border: 2px solid var(--vert) !important;
+}
+
 .chat-invitation {
 
     /*border-radius: 20%;*/
@@ -378,15 +400,20 @@ body-msg {
     margin: 10px 0;
     border-radius: 9px;
     /*height: 30px;*/
-    background: grey;
+    /* background: grey; */
+    background: var(--bleu);
 
     .text {
         font-weight: bold;
-        color: black;
-        opacity: 0.5;
-        /*font-family: Georgia, serif;*/
+        color: white;
+        opacity: 0.8;
+        font-family: "Spoof", sans-serif;
         font-feature-settings: "smcp", "zero";
     }
+}
+
+.night-mode .chat-invitation {
+    background: grey; 
 }
 
 .chat-invitation--receive {
@@ -397,16 +424,66 @@ body-msg {
     }
 
     .accept-btn {
-        color: white;
+        color: white !important;
+        background-color: var(--vert);
 
         &:active {
-            color: green;
+            color: var(--vert);
         }
     }
 
     .decline-btn {
-        color: red;
+        background-color: var(--violet);
+        color: white;
     }
+}
+
+.night-mode .chat-invitation--receive {
+
+    .btn-group {
+        margin-top: 5px;
+        height: 30px;
+    }
+
+    .accept-btn {
+        background-color: rgb(51, 50, 50);
+
+        &:active {
+            color: var(--grey);
+        }
+    }
+
+    .decline-btn {
+        background-color: black;
+    }
+}
+
+
+
+    .accept-btn:hover {
+        color: white;
+        background-color: var(--gray);
+
+        &:active {
+            color: black;
+        }
+    }
+
+.decline-btn:hover {
+    background-color: grey;;
+}
+
+.night-mode .accept-btn:hover {
+        color: white;
+        background-color: var(--gray);
+
+        &:active {
+            color: black;
+        }
+    }
+
+.night-mode .decline-btn:hover {
+    background-color: grey;;
 }
 
 .chat-bubble--right {
@@ -538,7 +615,7 @@ body-msg {
 }
 
 .read-on {
-    background-color: red;
+    background-color: var(--violet);
 }
 
 .bgVert {
@@ -567,6 +644,11 @@ body-msg {
 
 .t-violet {
     color: var(--violet) !important;
+    font-family: "Spoof", sans-serif;
+}
+
+.t-bc {
+    color: white !important;
     font-family: "Spoof", sans-serif;
 }
 

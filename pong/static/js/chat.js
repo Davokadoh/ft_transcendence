@@ -518,8 +518,8 @@ export function chat() {
 					<div class="chat-invitation chat-invitation--receive mx-auto" id="${data.id}">
 						<div class="text">Invitation to Play</div>
 						<div id="btnGroup" class="btn-group btn-grouo-sm d-flex align-items-center" role="group" aria-label="Basic example" style="width: 100%;">
-							<button type="button" class="btn btn-secondary accept-btn" id="accept">✔</button>
-							<button type="button" class="btn btn-secondary decline-btn" id="decline">✖</button>
+							<button type="button" class="btn btn-secondary accept-btn t-bc" id="accept">✔</button>
+							<button type="button" class="btn btn-secondary decline-btn t-bc" id="decline">✖</button>
 						</div>
 					</div>
 				</div>`;
@@ -606,18 +606,53 @@ export function chat() {
 		}
 		else if (data.type == "game_invitation") {
 			let msg;
-			if (data.message == "#invitation")
+			let bgClass; // Variable pour la classe CSS du fond
+		
+			if (data.message == "#invitation") {
 				msg = "Invitation has been sent";
-			else if (data.message == "#accept" || data.message == "#decline")
-				msg = (data.message == "#accept") ? "Invitation accepted" : "Invitation declined";
+				bgClass = "bgBleu"; // Pas de classe spécifique pour le fond
+			} else if (data.message == "#accept") {
+				msg = "Invitation accepted";
+				bgClass = "bgVert"; // Fond vert pour l'invitation acceptée
+			} else if (data.message == "#decline") {
+				msg = "Invitation declined";
+				bgClass = "bgViolet"; // Fond violet pour l'invitation refusée
+			}
+		
 			element.innerHTML = `
 				<!--msg from friend-->
 				<div class="col-md-12 d-flex">
-					<div class="chat-invitation mx-auto" id="${data.id}">
-						<small class="text">${msg}</small>
+					<div class="chat-invitation mx-auto ${bgClass}" id="${data.id}">
+						<small class="text t-bc">${msg}</small>
 					</div>
 				</div>`;
 		}
+		
+		
+		
+
+		// else if (data.type == "game_invitation") {
+		// 	let msg;
+		// 	if (data.message == "#invitation") {
+		// 		msg = "Invitation has been sent";
+		// 	element.innerHTML = `
+		// 	<!--msg from friend-->
+		// 	<div class="col-md-12 d-flex">
+		// 		<div class="chat-invitation mx-auto bgBleu" id="${data.id}">
+		// 			<small class="text t-bc">${msg}</small>
+		// 		</div>
+		// 	</div>`;
+		// 	}
+		// 	else if (data.message == "#accept" || data.message == "#decline")
+		// 		msg = (data.message == "#accept") ? "Invitation accepted" : "Invitation declined";
+		// 	element.innerHTML = `
+		// 		<!--msg from friend-->
+		// 		<div class="col-md-12 d-flex">
+		// 			<div class="chat-invitation mx-auto bgVert" id="${data.id}">
+		// 				<small class="text t-bc">${msg}</small>
+		// 			</div>
+		// 		</div>`;
+		// }
 
 
 		if (activeChatPanel) {

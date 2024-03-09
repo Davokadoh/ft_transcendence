@@ -254,14 +254,53 @@ def profilPicture(request):
         return JsonResponse({"profilPicture": request.user.profil_picture_oauth})
 
 
+# @login_required
+# def chat(request):
+#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+#     if request.path == "/chat/chat-tmp/":
+#         return render(request, "chat-tmp.html")
+#     else:
+#         return render(
+#             request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+#         )
+
+# @login_required
+# def chat(request):
+#     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+#     profil_picture_form = ProfilPictureForm(instance=request.user)
+
+#     if request.path == "/chat/chat-tmp/":
+#         return render(request, "chat-tmp.html")
+#     else:
+#         profil_picture_url = None
+#         if request.user.profil_picture:
+#             request.profil_picture .url = request.user.profil_picture.url
+#         else:
+#             if request.user.profil_picture_oauth:
+#                 profil_picture_url = request.user.profil_picture_oauth
+#             else:
+#                 profil_picture_url = "chemin/vers/image/par/defaut.png"
+#         return render(
+#             request, "chat.html", {"template": "ajax.html" if ajax else "index.html", "profil_picture_url": profil_picture_url, "profil_picture_form": profil_picture_form}
+#         )
+
+
 @login_required
 def chat(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.path == "/chat/chat-tmp/":
         return render(request, "chat-tmp.html")
     else:
+        # profil_picture_url = None
+        if request.user.profil_picture:
+            profil_picture_url = request.user.profil_picture.url
+        else:
+            if request.user.profil_picture_oauth:
+                profil_picture_url = request.user.profil_picture_oauth
+            else:
+                profil_picture_url = "/chemin/vers/image/par/defaut.png"
         return render(
-            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+            request, "chat.html", {"template": "ajax.html" if ajax else "index.html", "profil_picture_url": profil_picture_url}
         )
 
 
