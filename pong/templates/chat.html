@@ -16,7 +16,7 @@
 
 					<form action="/accounts/profil/picture/" method="get"
 						class="settings-tray settings-tray--left d-flex align-items-center bgVert">
-						<img class="profile-image" src="{{ request.user.profil_picture_url }}" alt="Profile image"
+						<img class="profile-image" src="{{ profil_picture_url }}" alt="Profile image"
 							title="{{ request.user.nickname }}">
 						{% csrf_token %}
 					</form>

@@ -259,8 +259,20 @@ def chat(request):
     if request.path == "/chat/chat-tmp/":
         return render(request, "chat-tmp.html")
     else:
+        if request.user.profil_picture:
+            profil_picture_url = request.user.profil_picture.url
+        else:
+            if request.user.profil_picture_oauth:
+                profil_picture_url = request.user.profil_picture_oauth
+            else:
+                profil_picture_url = "/chemin/vers/image/par/defaut.png"
         return render(
-            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+            request,
+            "chat.html",
+            {
+                "template": "ajax.html" if ajax else "index.html",
+                "profil_picture_url": profil_picture_url,
+            },
         )
 
 
