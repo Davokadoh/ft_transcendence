@@ -3,7 +3,7 @@
 <!-- contacts list -->
 <template list-contact-template>
     <div class="contact friend --onhover border-top d-flex align-items-center" id="" contact-container>
-        <img src="" alt="Friend photo" class="profile-image" data-image>
+        <img src="{{ profil_picture_url }}" alt="Friend photo" class="profile-image" data-image>
         <span class="text" data-name></span>
         <span class="full-nickname" style="display:none;" data-full-name></span>
         <span class="status-indicator" id="onLineStatus" data-status="{{ user.status }}"></span>
@@ -13,7 +13,7 @@
 <!-- conversations list -->
 <template conversation-template>
     <div class="conversation friend --onhover d-flex" id="">
-        <img src="" alt="Friend photo" class="profile-image" data-image>
+        <img src="{{ profil_picture_url }}" alt="Friend photo" class="profile-image" data-image>
         <div class="text" data-text>
             <span class="status-indicator" id="onLineStatus" data-status="{{ user.status }}"></span>
             <h6 class="t-bleu"></h6>
@@ -41,8 +41,8 @@
     <div class="row row-trayRight g-0 setTray">
         <div class="col-md-12">
             <div class="settings-tray settings-tray--right d-flex align-items-center bgViolet" id="settingsTrayId">
-                <img class="profile-image" id="contactImgProfil" src="" alt="Friend Image" data-toggle="tooltip"
-                    title="Detail du profil" data-image>
+                <img class="profile-image" id="contactImgProfil" src="{{ profil_picture_url }}" alt="Friend Image"
+                    data-toggle="tooltip" title="Detail du profil" data-image>
                 <div class="text" id="setName" data-text>
                     <h6 class="t-vert"></h6>
                 </div>

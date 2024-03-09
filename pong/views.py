@@ -180,7 +180,8 @@ def user(request, nickname=None):
                     match.gameteam_set.last().score,
                 )
                 print(f"SCORE = {match.score[0]} - {match.score[1]}")
-                if match.winner == user:
+                # if match.winner == user:
+                if match.winner.users.last() == user:
                     match.result = "WIN"
                 else:
                     match.result = "LOSE"
@@ -259,8 +260,20 @@ def chat(request):
     if request.path == "/chat/chat-tmp/":
         return render(request, "chat-tmp.html")
     else:
+        if request.user.profil_picture:
+            profil_picture_url = request.user.profil_picture.url
+        else:
+            if request.user.profil_picture_oauth:
+                profil_picture_url = request.user.profil_picture_oauth
+            else:
+                profil_picture_url = "/chemin/vers/image/par/defaut.png"
         return render(
-            request, "chat.html", {"template": "ajax.html" if ajax else "index.html"}
+            request,
+            "chat.html",
+            {
+                "template": "ajax.html" if ajax else "index.html",
+                "profil_picture_url": profil_picture_url,
+            },
         )
 
 
@@ -721,10 +734,16 @@ def getList(request, prefix, type):
                 users = User.objects.all()
                 user_list = []
                 for user in users:
+                    if user.profil_picture:
+                        profil_picture_url = user.profil_picture.url
+                    elif user.profil_picture_oauth:
+                        profil_picture_url = user.profil_picture_oauth
+                    else:
+                        profil_picture_url = "/static/img/profil/image-defaut.png"
                     user_info = {
                         # "username": user.username,
                         "nickname": user.nickname,
-                        "profil_picture": user.profil_picture_oauth,
+                        "profil_picture": profil_picture_url,
                         "status": user.status,  # recuperer le status @test Verena
                         # add other field if necessary
                     }
@@ -737,10 +756,16 @@ def getList(request, prefix, type):
                 friends = user_instance.friends.all()
                 friend_list = []
                 for friend in friends:
+                    if friend.profil_picture:
+                        profil_picture_url = friend.profil_picture.url
+                    elif friend.profil_picture_oauth:
+                        profil_picture_url = friend.profil_picture_oauth
+                    else:
+                        profil_picture_url = "/static/img/profil/image-defaut.png"
                     friend_info = {
                         "username": friend.username,
                         "nickname": friend.nickname,
-                        "profil_picture": friend.profil_picture_oauth,
+                        "profil_picture": profil_picture_url,
                         "status": friend.status,
                     }
                     friend_list.append(friend_info)
