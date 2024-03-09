@@ -180,7 +180,8 @@ def user(request, nickname=None):
                     match.gameteam_set.last().score,
                 )
                 print(f"SCORE = {match.score[0]} - {match.score[1]}")
-                if match.winner == user:
+                # if match.winner == user:
+                if match.winner.users.last() == user:
                     match.result = "WIN"
                 else:
                     match.result = "LOSE"
