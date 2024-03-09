@@ -1,6 +1,19 @@
+import socket from './index.js';
+import { router } from './router.js';
+
 export function remLobby(gameId) {
 	let button = document.getElementById('startButton');
 	let isNicknameValid = false;
+
+	socket.onmessage = function (event) {
+		const data = JSON.parse(event.data);
+		if (data.type == "game_invitation" && data.message.includes("#accept")) {
+			const gameId = parseInt(data.message.split(' ')[1]);
+			history.pushState(null, null, `/remote/${gameId}/`);
+			router();
+		}
+	};
+
 
 	document.getElementById('inviteButton').addEventListener('click', function () {
 		var player2Nickname = document.getElementById('player2').value;
@@ -29,6 +42,12 @@ export function remLobby(gameId) {
 					} else {
 						document.getElementById('onlineFriend').textContent = result.nickname;
 						isNicknameValid = true;
+						socket.send(JSON.stringify({
+							'type': 'game_invitation',
+							'id': "id" + Math.random().toString(16).slice(2),
+							'target': result.nickname, //nickname target
+							'message': `#invitation ${gameId}`
+						}));
 					}
 				})
 				.catch(error => {

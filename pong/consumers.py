@@ -1,5 +1,6 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .models import Message, User, Conversation
+from .models import Message, User, Conversation, GameTeam, Team, Game
+from django.utils import timezone
 from asgiref.sync import sync_to_async
 from .engine import Engine
 from .player import Player
@@ -102,8 +103,19 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def game_invitation(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
-        target_instance = await User.objects.aget(username=target)
         sender_instance = await User.objects.aget(pk=self.user.pk)
+        target_instance = await User.objects.aget(username=target)
+
+        if "#invitation" in content["message"]:
+            tab = content["message"].split(" ")
+            if len(tab) == 2:
+                target_instance = await User.objects.aget(nickname=target)
+
+        elif "#accept" in content["message"]:
+            tab = content["message"].split(" ")
+            if len(tab) == 1:
+                gameId = " " + await self.createGameId(content)
+                content["message"] += gameId
 
         await self.channel_layer.send(
             self.channel_name,
@@ -229,6 +241,31 @@ class Consumer(AsyncJsonWebsocketConsumer):
             #         f"\n\nother Message: {await sync_to_async(lambda: mes.message)()} ]"
             #     )
 
+    async def createGameId(self, content):
+        game = await Game.objects.acreate(
+            start_time=timezone.now(),
+            style="Remote Play",
+            # opponent=request.POST.get("player2"),
+            # score=request.POST.get("scoreText", "0 - 0"),
+        )
+
+        team = await Team.objects.acreate()
+        await team.asave()
+        await team.users.aadd(self.user)
+        gt = GameTeam(game=game, team=team)
+        await gt.asave()
+
+        # find by username for request from chat
+        target = await User.objects.aget(username=content["target"])
+        team2 = await Team.objects.acreate()
+        await team2.asave()
+        await team2.users.aadd(target)
+        gt = GameTeam(game=game, team=team2)
+        await gt.asave()
+        await game.asave()
+
+        return str(game.pk)
+
     async def manage_conversation(self, content):
         print("==manage_conversation==: ")
         target = await User.objects.aget(username=content["target"])
@@ -248,13 +285,14 @@ class Consumer(AsyncJsonWebsocketConsumer):
                 )
 
     async def join_game(self, content):
-        game_id = content.get("game_id")
-        if game_id not in games:
-            games[game_id] = await sync_to_async(Engine)(game_id)
-        self.game = games[game_id]
+        gameId = content.get("gameId")
+        print(gameId)
+        if gameId not in games:
+            games[gameId] = await sync_to_async(Engine)(gameId)
+        self.game = games[gameId]
         self.player = Player(self)
         self.game.players.append(self.player)
-        await self.channel_layer.group_add(f"game_{game_id}", self.channel_name)
+        await self.channel_layer.group_add(f"game_{gameId}", self.channel_name)
 
     async def leave_game(self):
         await self.channel_layer.group_discard(

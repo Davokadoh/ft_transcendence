@@ -1,4 +1,5 @@
 import socket from './index.js';
+import { router } from './router.js';
 
 export function chat() {
 
@@ -509,13 +510,15 @@ export function chat() {
 			console.log("active chat dans message_receive: ", activeChatPanel);
 		}
 		else if (data.type == "game_invitation") {
-			if (data.message == "#invitation") {
+			if (data.message.includes("#invitation")) {
 				console.log("receive id: ", data.id);
-
+				let gameId = (data.message.split(' ').length === 2) ? data.message.split(' ')[1] : "";
+				console.log("gameId: ", gameId);
 				element.innerHTML = `
 				<!--msg from friend-->
 				<div class="col-md-12 d-flex">
 					<div class="chat-invitation chat-invitation--receive mx-auto" id="${data.id}">
+						<span class="gameId hide">${gameId}</span>
 						<div class="text">Invitation to Play</div>
 						<div id="btnGroup" class="btn-group btn-grouo-sm d-flex align-items-center" role="group" aria-label="Basic example" style="width: 100%;">
 							<button type="button" class="btn btn-secondary accept-btn" id="accept">✔</button>
@@ -527,8 +530,8 @@ export function chat() {
 				element.querySelector("#decline").addEventListener("click", sendResponseInvitation);
 
 			}
-			else if (data.message == "#accept" || data.message == "#decline") {
-				let msg = (data.message == "#accept") ? "Invitation has been accepted" : "Invitation was declined";
+			else if (data.message.includes("#accept") || data.message == "#decline") {
+				let msg = (data.message.includes("#accept")) ? "Invitation has been accepted" : "Invitation was declined";
 				element.innerHTML = `
 				<!--msg from friend-->
 				<div class="col-md-12 d-flex">
@@ -545,9 +548,12 @@ export function chat() {
 				document.getElementById("chatPanelId").append(element);
 				scrollUp(document.getElementById("rowChatPanel"));
 				updateChatHistory(activeChatPanel);
-				if (data.type == "game_invitation" && data.message == "#accept") {
-					//#redirection
-					window.location.href = `/lobby`;
+				//#redirection
+				if (data.type == "game_invitation" && data.message.includes("#accept")) {
+					const gameId = parseInt(data.message.split(' ')[1]);
+					history.pushState(null, null, `/remote/${gameId}/`);
+					router();
+					// window.location.href = `/remote/${gameId}/`;
 				}
 			}
 			else {
@@ -605,11 +611,11 @@ export function chat() {
 			</div>`;
 		}
 		else if (data.type == "game_invitation") {
-			let msg;
-			if (data.message == "#invitation")
+			let msg = "";
+			if (data.message.includes("#invitation"))
 				msg = "Invitation has been sent";
-			else if (data.message == "#accept" || data.message == "#decline")
-				msg = (data.message == "#accept") ? "Invitation accepted" : "Invitation declined";
+			else if (data.message.includes("#accept") || data.message == "#decline")
+				msg = (data.message.includes("#accept")) ? "Invitation accepted" : "Invitation declined";
 			element.innerHTML = `
 				<!--msg from friend-->
 				<div class="col-md-12 d-flex">
@@ -624,11 +630,16 @@ export function chat() {
 			document.getElementById("chatPanelId").append(element);
 			scrollUp(document.getElementById("rowChatPanel"));
 			//delete invitation after decision 
-			if (data.type == "game_invitation" && data.message == "#accept" || data.message == "#decline") {
+			if (data.type == "game_invitation" && data.message.includes("#accept") || data.message == "#decline") {
 				document.getElementById(`${data.id}`).remove();
 				//#redirection
-				if (data.message == "#accept")
-					window.location.href = `/lobby`;
+				if (data.message.includes("#accept")) {
+					const gameId = parseInt(data.message.split(' ')[1]);
+					history.pushState(null, null, `/remote/${gameId}/`);
+					router();
+					// window.location.href = `/remote/${gameId}/`;
+
+				}
 			}
 			updateChatHistory(activeChatPanel);
 		}
@@ -686,11 +697,14 @@ export function chat() {
 		let decision;
 
 		decision = (event.target.classList.contains("accept-btn")) ? "#accept" : "#decline";
-		let id_tmp = event.currentTarget.closest(".chat-invitation--receive").id;
-		console.log(`Click on ${decision}`);
+		let id_tmp = event.currentTarget.closest(".chat-invitation--receive");
+		let gameId = id_tmp.querySelector(".gameId").innerText;
+		console.log(`Click on ${decision}: GameId: ${gameId}`);
+		if (gameId && decision == "#accept")
+			decision += ` ${gameId}`;
 		socket.send(JSON.stringify({
 			'type': 'game_invitation',
-			'id': id_tmp,
+			'id': id_tmp.id,
 			'target': activeChatPanel, //nickname target
 			'message': decision
 		}));
