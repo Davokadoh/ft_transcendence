@@ -1,17 +1,19 @@
-version: "3.8"
+version: "3.9"
 
 services:
   django:
+    container_name: django
     build:
       context: ./django
-    container_name: django
-    ports:
-      - "443:443"
+      args:
+        DOMAIN:
     environment:
       DJANGO_DEBUG: "False"
       DJANGO_SETTINGS_MODULE: "ftt.settings"
       DJANGO_ALLOW_ASYNC_UNSAFE: "true"
     env_file: .env
+    ports:
+      - "443:443"
     networks:
       - my-network
     volumes:
