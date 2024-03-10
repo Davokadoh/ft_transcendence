@@ -32,6 +32,49 @@ export function game(gameId) {
 		'ArrowDown': false,
 	};
 
+	// Fonction pour creer et afficher une alerte personnalisée
+	function showAlert(message) {
+
+		// Crée un élément semi-transparent pour recouvrir la page
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay-alert';
+		document.body.appendChild(overlay);
+
+		// Crée un élément d'alerte
+		var alertElement = document.createElement('div');
+		alertElement.className = 'custom-alert';
+
+		// Crée un élément pour le titre
+		var titleElement = document.createElement('div');
+		titleElement.className = 'alert-title';
+		titleElement.textContent = 'Alert information';
+
+		// Crée un bouton de fermeture
+		var closeButton = document.createElement('button');
+		closeButton.textContent = 'X';
+		closeButton.className = 'close-button';
+		closeButton.onclick = function () {
+			document.body.removeChild(overlay);
+			document.body.removeChild(alertElement);
+		};
+
+		// Crée un élément pour le message
+		var messageContainer = document.createElement('div');
+		messageContainer.className = 'message-container';
+
+		// Ajoute le texte du message à l'élément de message
+		var messageElement = document.createElement('div');
+		messageElement.textContent = message;
+
+		// Ajoute les éléments au DOM
+		titleElement.appendChild(closeButton);
+		alertElement.appendChild(titleElement);
+		messageContainer.appendChild(messageElement);
+		alertElement.appendChild(messageContainer);
+		document.body.appendChild(alertElement);
+		document.body.appendChild(overlay);
+	}
+
 	function initializeGame() {
 		fetch('/accounts/profil/settings/data/')
 			.then(response => response.json())

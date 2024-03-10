@@ -295,6 +295,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
     game = get_object_or_404(Game, pk=gameId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
+        player1_username = request.user.username
         return render(
             request,
             "lobby.html",
@@ -302,6 +303,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
                 "template": "ajax.html" if ajax else "index.html",
                 "gameId": gameId,
                 "invitedPlayer2": invitedPlayer2,
+                "player1_username": player1_username,
             },
         )
     elif request.method == "POST":
