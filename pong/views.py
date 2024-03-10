@@ -358,6 +358,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
     game = get_object_or_404(Game, pk=remoteId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
+        player1_username = request.user.nickname
         return render(
             request,
             "remLobby.html",
@@ -365,6 +366,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
                 "template": "ajax.html" if ajax else "index.html",
                 "remoteId": remoteId,
                 "invitedPlayer2": invitedPlayer2,
+                "player1_username": player1_username,
             },
         )
     elif request.method == "POST":
