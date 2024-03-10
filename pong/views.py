@@ -257,6 +257,9 @@ def profilPicture(request):
 @login_required
 def chat(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.method == "GET":
+            user_chat = request.user
+            render(request, "chat.html", {"template": "ajax.html" if ajax else "index.html", "user_chat": user_chat})
     if request.path == "/chat/chat-tmp/":
         return render(request, "chat-tmp.html")
     else:

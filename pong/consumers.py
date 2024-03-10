@@ -177,6 +177,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
             )
 
     async def chat_invitation(self, event):
+        # if event["type"] == "game_invitation":
         print("send message chat invitation...")
         await self.send_json(
             {

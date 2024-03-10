@@ -25,7 +25,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
 
     fetchTemplate();
 
-    // POUR LE FORM USER profil et user ?
+    // POUR LE FORM USER profil et user et chat
     let user = document.getElementById('user');
     let searched_nickname = document.getElementById('searchInput');
     let removeFriendBtn = document.getElementById('removeFriend');
@@ -51,6 +51,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         if (e.key == "Enter")
             user.click();
     });
+    
     user.addEventListener("click", () => {
         if (searched_nickname.value)
             user.href = `/user/${searched_nickname.value}/`;
