@@ -295,7 +295,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
     game = get_object_or_404(Game, pk=gameId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
-        player1_username = request.user.username
+        player1_username = request.user.nickname
         return render(
             request,
             "lobby.html",
@@ -419,7 +419,13 @@ def tourLobby(request, tournamentId=None):
         "template": "ajax.html" if ajax else "index.html",
     }
     if request.method == "GET":
-        return render(request, "tourLobby.html", context)
+        player1_username = request.user.nickname
+        context["player1_username"] = player1_username
+        return render(
+            request, "tourLobby.html", context)
+        # return render(
+        #     request, 
+        #     "tourLobby.html", {"player1_username": player1_username }, context)
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
