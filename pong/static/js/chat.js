@@ -1,4 +1,4 @@
-import socket from './index.js';
+import { socket } from './index.js';
 import { router } from './router.js';
 
 export function chat() {
@@ -79,21 +79,98 @@ export function chat() {
 		});
 
 
+	// // Sélectionnez le bouton par son ID
+	// const checkProfilButton = document.getElementById('checkProfil');
 
-	//click manage
-	document.addEventListener("click", (e) => {
-		//e.stopImmediatePropagation();
+	// // Ajoutez un écouteur d'événements pour l'événement "click"
+	// checkProfilButton.addEventListener('click', function () {
+	// 	console.log("click on checkProfilButton");
+	// 	let nickname = activeChatPanel;
+	// 	console.log("NICKNAME: ", nickname);
 
-		console.log("e.target***: ", e.target);
-		console.log("e.curtarget***: ", e.currentTarget);
-		console.log("activeChatPanel by listener click: ", activeChatPanel);
+	// 	// redir du user vers la page user avec le nickname
+	// 	if (nickname)
+	// 		// window.location.href = `/user/${nickname}`;
+	// 		checkProfil.href = `/user/${nickname}/`;
+	// 	checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+	// 	return;
+	// });
+	
 
-		if (e.currentTarget.id != "searchContactId")
-			refresh_display();
-		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
-			search_contact();*/
+	// //click manage fonction originale
+	// document.addEventListener("click", (e) => {
+	// 	//e.stopImmediatePropagation();
+
+	// 	console.log("e.target***: ", e.target);
+	// 	console.log("e.curtarget***: ", e.currentTarget);
+	// 	console.log("activeChatPanel by listener click: ", activeChatPanel);
+
+	// 	if (e.currentTarget.id != "searchContactId")
+	// 		refresh_display();
+	// 	/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
+	// 		search_contact();*/
+	// });
+
+	// //click manage semble logique mais ne fonctionne pas
+	// document.addEventListener("click", (e) => {
+	// 	//e.stopImmediatePropagation();
+
+	// 	console.log("e.target***: ", e.target);
+	// 	console.log("e.curtarget***: ", e.currentTarget);
+	// 	console.log("activeChatPanel by listener click: ", activeChatPanel);
+	// 	console.log("e.target.id: ", e.target.id);
+	// 	if (e.target.id === "checkProfil") {
+	// 		const checkProfilButton = document.getElementById('checkProfil');
+
+	// 		checkProfilButton.addEventListener('click', function () {
+	// 			console.log("ACTIVE CHAT PANEL DANS LA FONCTION: ", activeChatPanel);
+	// 			console.log("click on checkProfilButton");
+	// 			let nickname = activeChatPanel;
+
+	// 			// redir du user vers la page user avec le nickname
+	// 			if (nickname)
+	// 				// window.location.href = `/user/${nickname}`;
+	// 				checkProfil.href = `/user/${nickname}/`;
+	// 			checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+	// 			return;
+	// 		});
+	// 		return;
+	// 	}
+	// 	if (e.currentTarget.id != "searchContactId")
+	// 		refresh_display();
+	// });
+
+
+	//click manage foctionne mais envoi un message d invitation a jouer
+document.addEventListener("click", (e) => {
+	//e.stopImmediatePropagation();
+
+	console.log("e.target***: ", e.target);
+	console.log("e.curtarget***: ", e.currentTarget);
+	console.log("activeChatPanel by listener click: ", activeChatPanel);
+
+	if (e.currentTarget.id != "searchContactId")
+		refresh_display();
+	/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
+		search_contact();*/
+
+	const checkProfilButton = document.getElementById('checkProfil');
+
+	//probeleme sur cet événement "click" ??
+	checkProfilButton.addEventListener('click', function () {
+		console.log("click on checkProfilButton");
+		// obtien le nickname ici 
+		let nickname = activeChatPanel;
+
+		// redir du user vers la page user avec le nickname
+		if (nickname)
+			// window.location.href = `/user/${nickname}`;
+			checkProfil.href = `/user/${nickname}/`;
+		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+		return;
+
 	});
-
+});
 	// click on search
 	document.getElementById("searchContactId").addEventListener("click", search_contact);
 
@@ -133,24 +210,9 @@ export function chat() {
 			const contactId = contact.id;
 			const contactName = contact.querySelector("[data-name]").textContent;
 			const img = contact.querySelector("[data-image]").src;
-			// let tpl = templateConversationHistory.content.cloneNode(true);
-			// const statusLog = contact.querySelector(["data-status"]).value
-			// let statusIndicator = tpl.querySelector(".status-indicator");
-			// statusIndicator.textContent = contact.status;
-			// statusIndicator.setAttribute('data-status', contact.status);
-			//console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
-			searchInput.value = "";
+			const contactNickname = contact.getAttribute('[data-nickname]');
 
-			// // Modify the status indicator color based on status
-			// if (contact.status === 'online') {
-			// 	statusIndicator.classList.add('online');
-			// } else if (contact.status === 'offline') {
-			// 	statusIndicator.classList.add('offline');
-			// } else if (contact.status === 'playing') {
-			// 	statusIndicator.classList.add('playing');
-			// } else if (contact.status === '') {
-			// 	statusIndicator.classList.add('empty');
-			// }
+			searchInput.value = "";
 
 			//visibleAllContact();
 			console.log("find conversation result:  ", findConversation(contactId));
@@ -162,11 +224,15 @@ export function chat() {
 					id: contactId,
 					name: contactName,
 					imgSrc: img,
-					// status: statusIndicator,
 				};
 				createConversation(obj);
 				createChatPanel(obj);
 			}
+
+			document.getElementById('friendName').textContent = contactNickname;
+			console.log("friendName: ", contactNickname);
+			console.log("Name: ", name);
+			console.log("Contact name: ", contactName);
 			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
 			document.getElementById('conversationListId').classList.toggle('hide', false);
 			isVisibleList = false;
@@ -367,21 +433,6 @@ export function chat() {
 			name.textContent = obj.name;
 			img.src = obj.imgSrc;
 			statusIndicator = obj.status;
-			// // Set the status indicator @Verena Status
-			// let statusIndicator = tpl.querySelector(".status-indicator");
-			// statusIndicator.textContent = user.status;
-			// statusIndicator.setAttribute('data-status', user.status);
-
-			// // Modify the status indicator color based on status
-			// if (user.status === 'online') {
-			// 	statusIndicator.classList.add('online');
-			// } else if (user.status === 'offline') {
-			// 	statusIndicator.classList.add('offline');
-			// } else if (user.status === 'playing') {
-			// 	statusIndicator.classList.add('playing');
-			// } else if (user.status === '') {
-			// 	statusIndicator.classList.add('empty');
-			// }
 			return tpl;
 		}
 	}
@@ -415,6 +466,7 @@ export function chat() {
 
 		if (event.target.classList.contains("profile-image")) {
 			console.log("click img contact");
+			handle_click_contact(event.target.parentElement);
 			document.getElementById("contactProfil").classList.toggle("invisible-y");
 		}
 		else if (event.target.classList.contains("invitation") || event.target.classList.contains("i-send"))
@@ -812,6 +864,8 @@ export function chat() {
 						tpl.querySelector("[data-name]").textContent = user.nickname;
 						tpl.querySelector("[data-full-name]").textContent = user.nickname;
 
+
+
 						// Set the status indicator @Verena Status
 						let statusIndicator = tpl.querySelector(".status-indicator");
 						statusIndicator.textContent = user.status;
@@ -845,6 +899,7 @@ export function chat() {
 				});
 		});
 	}
+
 
 	function fetchUsersBlocked() {
 		console.log("==fetch users_blocked==");
@@ -965,4 +1020,57 @@ export function chat() {
 				console.error('Request fetch Error:', error);
 			});
 	}
+
+
+	// POUR LE FORM USER profil et user et chat VERENA bouton check user profil
+
+	// function redirectToProfile() {
+	// 	const nickname = prompt("Enter the user's nickname:"); // Demander le nickname à l'utilisateur
+	// 	if (nickname) {
+	// 		window.location.href = `/user/${nickname}/`;
+	// 	}
+	// }
+
+	// document.addEventListener("DOMContentLoaded", function () {
+
+	// });
+
+	let user = document.getElementById('user');
+	let searched_nickname = document.getElementById('searchInput');
+	let removeFriendBtn = document.getElementById('removeFriend');
+	let addFriendBtn = document.getElementById('addFriend');
+
+	if (removeFriendBtn) {
+		removeFriendBtn.onclick = (e) => {
+			let target = e.target.closest(".container").querySelector("#nickname").innerText;
+			console.log("click remove friend: ", target);
+			manageFriend("remove", target);
+		};
+	}
+
+	if (addFriendBtn) {
+		addFriendBtn.onclick = (e) => {
+			let target = e.target.closest(".container").querySelector("#nickname").innerText;
+			console.log("click remove friend: ", target);
+			manageFriend("add", target);
+		};
+	}
+
+	searched_nickname.addEventListener("keypress", (e) => {
+		if (e.key == "Enter")
+			user.click();
+	});
+	user.addEventListener("click", () => {
+		if (searched_nickname.value)
+			user.href = `/user/${searched_nickname.value}/`;
+		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+	});
+
+	document.addEventListener("click", (e) => {
+		if (visibleList && !e.target.classList.contains("text")) {
+			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
+			visibleList = false;
+		}
+	});
+
 }

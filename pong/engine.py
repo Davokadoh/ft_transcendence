@@ -1,5 +1,5 @@
 from channels.layers import get_channel_layer
-from pong.models import Game
+from pong.models import Game, User
 from .ball import Ball
 import asyncio
 import time
@@ -10,6 +10,8 @@ Status = {"LOBBY", "PLAY", "PAUSE", "END"}
 class Engine:
     def __init__(self, gameId):
         self.game = Game.objects.get(pk=gameId)
+        self.users = User.objects.filter(team__gameteam__game=self.game)
+        self.players = list()
         self.left = self.game.gameteam_set.first()
         self.right = self.game.gameteam_set.last()
         self.status = "LOBBY"
@@ -17,7 +19,6 @@ class Engine:
         self.height = 650
         self.max_points = 5
         self.max_pause_per_player = 1
-        self.players = list()
         self.ball = Ball(self.width / 2, self.height / 2)
         self.background_tasks = set()
         self.state = {}
@@ -26,8 +27,11 @@ class Engine:
         await get_channel_layer().group_send(f"game_{self.game.pk}", content)
 
     async def ready(self, player):
+        print(f"u: {await self.users.acount()}, p: {len(self.players)}")
+        if (await self.users.acount()) > len(self.players):
+            return
         for p in self.players:
-            print(f"{p.consumer.user.username}:{' not' if not p.ready else ''} ready")
+            print(f"{p.consumer.user.nickname}:{' not' if not p.ready else ''} ready")
         await self.send({"type": "game_ready", "player": player.username})
         if self.status == "LOBBY" or self.status == "PAUSE":
             await self.play()

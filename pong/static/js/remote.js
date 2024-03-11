@@ -1,4 +1,4 @@
-import socket from './index.js';
+import { socket, sendMessage } from './index.js';
 
 export function remote(gameId) {
 	let gameBoard = document.getElementById("gameBoard");
@@ -13,6 +13,29 @@ export function remote(gameId) {
 	const boardBackground = "black";
 	const ballRadius = 12.5;
 	let gameRunning = false;
+	let player1;
+	let player2;
+
+	function updatePlayerNames() {
+		document.getElementById('player1').textContent = player1;
+		document.getElementById('player2').textContent = player2;
+	}
+
+	function fetchPlayerNames() {
+		
+		fetch(`/game/${gameId}/get-nickname/`)
+			.then(response => response.json())
+			.then(data => {
+				player1 = data.player1_nickname;
+				player2 = data.player2_nickname;
+				console.log(player1);
+				console.log(player2);
+				updatePlayerNames();
+			})
+			.catch(error => {
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
+	}
 
 	function draw() {
 		if (!gameRunning) return;
@@ -77,9 +100,9 @@ export function remote(gameId) {
 		clearBoard();
 		let winnerMessage = "Game Over!";
 		if (score[0] > score[1]) {
-			winnerMessage += "Player 1 wins!";
+			winnerMessage += player1 + " wins!";
 		} else if (score[0] < score[1]) {
-			winnerMessage += "Player 2 wins!";
+			winnerMessage += player2 + " wins!";
 		} else {
 			winnerMessage += "It's a draw!";
 		}
@@ -134,7 +157,9 @@ export function remote(gameId) {
 		}
 	}
 
+	fetchPlayerNames();
 	clearBoard();
 	updateScore();
-	socket.send(JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
+	sendMessage(socket, JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
+	// socket.send(JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
 }
