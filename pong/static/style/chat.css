@@ -412,6 +412,47 @@ body-msg {
     }
 }
 
+.invitationBtn {
+    border: 2px solid #ffffff;
+    background-color: #87d300;
+    color: #9016B2;
+    transition: all 0.3s;
+    font-family: 'Titan One', sans-serif;
+    font-size: 15px;
+    width: auto;
+}
+
+.invitationBtn:hover {
+    border: 2px solid #ffffff;
+    background-color: #87d300;
+    color: white;
+}
+
+.invitationBtn:active {
+    background-color: #9016B2 !important;
+    color: #87d300 !important;
+    border: 2px solid var(--vert) !important;
+}
+
+
+.night-mode {
+    .invitationBtn {
+        border: 2px solid white;
+        background-color: black;
+        color: white;
+    }
+
+    .invitationBtn:hover {
+        background-color: grey;
+    }
+
+    .invitationBtn:active {
+        background-color: black !important;
+        color: white !important;
+        border: 2px solid white !important;
+    }
+}
+
 .chat-invitation {
 
     /*border-radius: 20%;*/
@@ -649,6 +690,7 @@ body-msg {
 
 .bottomR20 {
     border-bottom-right-radius: 15px;
+    height: fit-content;
 }
 
 .t-vert {
