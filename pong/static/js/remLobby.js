@@ -1,4 +1,4 @@
-import socket from './index.js';
+import { socket } from './index.js';
 import { router } from './router.js';
 
 export function remLobby(gameId) {

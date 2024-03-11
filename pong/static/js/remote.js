@@ -1,4 +1,4 @@
-import socket from './index.js';
+import { socket, sendMessage } from './index.js';
 
 export function remote(gameId) {
 	let gameBoard = document.getElementById("gameBoard");
@@ -136,5 +136,6 @@ export function remote(gameId) {
 
 	clearBoard();
 	updateScore();
-	socket.send(JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
+	sendMessage(socket, JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
+	// socket.send(JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
 }
