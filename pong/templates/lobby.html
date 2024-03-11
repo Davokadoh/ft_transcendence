@@ -17,6 +17,8 @@
 				<p class="text-center invitFriend">Invite a friend to play</p>
 				<div class="row justify-content-between custom-line">
 					{% csrf_token %}
+					<div class="list-contact-profile invisible-profile-y" id="listContact" list-contact-container>
+					</div>
 					<input type="text" id="player2" class="col-3 form-control formCust"
 						placeholder="Player 2's nickname" aria-label="Username" aria-describedby="basic-addon1" />
 					<!-- for lobby.js alerte : can't play against yourself -->
