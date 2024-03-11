@@ -79,40 +79,53 @@ export function chat() {
 		});
 
 
-	
+
 	//click manage 
-document.addEventListener("click", (e) => {
-	//e.stopImmediatePropagation();
+	document.addEventListener("click", (e) => {
+		//e.stopImmediatePropagation();
 
-	console.log("e.target***: ", e.target);
-	console.log("e.curtarget***: ", e.currentTarget);
-	console.log("activeChatPanel by listener click: ", activeChatPanel);
+		console.log("e.target***: ", e.target);
+		console.log("e.curtarget***: ", e.currentTarget);
+		console.log("activeChatPanel by listener click: ", activeChatPanel);
 
-	if (e.currentTarget.id != "searchContactId")
-		refresh_display();
-	/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
-		search_contact();*/
+		if (e.currentTarget.id != "searchContactId")
+			refresh_display();
+		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
+			search_contact();*/
 
-	const checkProfilButton = document.getElementById('checkProfil');
+		const checkProfilButton = document.getElementById('checkProfil');
 
-	//bouton check profil renvoi sur user
-	checkProfilButton.addEventListener('click', function () {
-		console.log("click on checkProfilButton");
-		// obtien le nickname ici 
-		// let nickname = activeChatPanel; //non car username et pas nickname
-		let nickname = document.getElementById('friendName').textContent;
-		console.log("nickname: ", nickname);
+		//bouton check profil renvoi sur user
+		checkProfilButton.addEventListener('click', function () {
+			console.log("click on checkProfilButton");
+			// obtien le nickname ici 
+			// let nickname = activeChatPanel; //non car username et pas nickname
+			// let nickname = document.getElementById('friendName').textContent;
+			// let friendNameElement = document.getElementById('friendName');
+			// let nickname = friendNameElement.textContent.trim();
 
+			let nickname = document.querySelector("[data-text]").textContent.trim();
 
-		// redir du user vers la page user avec le nickname
-		if (nickname)
-			// window.location.href = `/user/${nickname}`;
-			checkProfil.href = `/user/${nickname}/`;
-		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-		return;
+			console.log(" !!! nickname: ", nickname);
+			console.log(" !!! active chat panel: ", activeChatPanel);
 
+			if (nickname === "" && activeChatPanel !== null) {
+				console.log("Using nickname from friendName: ", activeChatPanel);
+				redirectToUserProfile(activeChatPanel);
+			} else {
+				console.log("Using activeChatPanel as nickname: ", nickname);
+				redirectToUserProfile(nickname);
+			}
+		});
+		function redirectToUserProfile(nickname) {
+			if (nickname)
+				// window.location.href = `/user/${nickname}`;
+				checkProfil.href = `/user/${nickname}/`;
+			checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+			return;
+
+		}
 	});
-});
 	// click on search
 	document.getElementById("searchContactId").addEventListener("click", search_contact);
 
