@@ -999,7 +999,7 @@ document.addEventListener("click", (e) => {
 
 	function manageFriend(action, target) {
 
-		fetch(`manageFriendChat/${action}/${target}/`, {
+		fetch(`manageFriend/${action}/${target}/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
