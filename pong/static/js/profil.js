@@ -269,7 +269,7 @@ export function profil() {
 				data.friend_list.forEach(friend => {
 					modalTmp.innerHTML = `
 					${friend.nickname}
-					<button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip"
+					<button class="inviteContact" type="button" class="btn invitation" data-bs-toggle="tooltip"
 						data-bs-placement="top" title="Invite the contact"
 						alt="Button to invite the contact" id="btnInvite"></button>
 					<button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip"
@@ -507,4 +507,5 @@ export function profil() {
 		document.body.appendChild(alertElement);
 		document.body.appendChild(overlay);
 	}
+	
 };

@@ -45,11 +45,11 @@
                     src="{{ profil_picture_url }}" alt="Friend Image" data-toggle="tooltip" title="Detail du profil"
                     data-image>
                 <div class="text" id="setName" data-text>
-                    <h6 class="t-vert"></h6>
+                    <h6 class="t-vert" id="friendName"></h6>
                 </div>
 
                 <button type="button" class="btn btn-dark ms-auto invitation" data-toggle="button" aria-pressed="false"
-                    autocomplete="off" id="invitationBtn">
+                    autocomplete="off" id="invitation">
                     Invitation
                 </button>
                 <!--
@@ -79,10 +79,9 @@
                         User Profil !</a> <br>
                 <!-- <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="checkProfil" data-bs-target="#goToProfil">Click Here to Check the User Profil !</button> -->
                 <div class="row align-items-center justify-content-around">
-                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" data-bs-target="#addFriend">Friend
-                        request</button>
+                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" data-bs-target="#BlockFriend">Block Friend</button>
                     <br />
-                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" data-bs-target="#BlockFriend">Remove
+                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="delId">Remove
                         friend</button>
                 </div>
             </div>
