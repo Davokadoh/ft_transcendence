@@ -816,11 +816,11 @@ def manageFriend(request, prefix, action, nickname):
                     print(f"friend: {nickname} added by {user_instance.nickname}")
                     print("*****:", user_instance.friends.all())
                     return JsonResponse(
-                        {"message": "friend have been added"}, status=200
+                        {"message": "Friend has been added ✔︎"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend already present"}, status=200
+                        {"message": "Friend already present"}, status=200
                     )
             elif action == "remove":
                 if user_instance.friends.filter(nickname=target.nickname).exists():
@@ -828,10 +828,10 @@ def manageFriend(request, prefix, action, nickname):
                     print("*****:", user_instance.friends.all())
                     print(f"friend: {nickname} removed by {user_instance.nickname}")
                     return JsonResponse(
-                        {"message": "friend have been removed"}, status=200
+                        {"message": "Friend has been removed"}, status=200
                     )
                 else:
-                    return JsonResponse({"message": "friend doesn't exist"}, status=200)
+                    return JsonResponse({"message": "Friend doesn't exist or has been removed"}, status=200)
 
             elif action == "block":
                 if (
@@ -843,11 +843,11 @@ def manageFriend(request, prefix, action, nickname):
                     user_instance.blocked_users.add(target)
                     print(f"friend: {nickname} was blocked by {user_instance.nickname}")
                     return JsonResponse(
-                        {"message": "friend have been blocked"}, status=200
+                        {"message": "Friend has been blocked"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend doesn't exist or already blocked"},
+                        {"message": "Friend is already blocked"},
                         status=200,
                     )
             elif action == "unblock":
@@ -859,14 +859,14 @@ def manageFriend(request, prefix, action, nickname):
                 ):
                     user_instance.blocked_users.remove(target)
                     print(
-                        f"friend: {nickname} was unblocked by {user_instance.nickname}"
+                        f"Friend: {nickname} was unblocked by {user_instance.nickname}"
                     )
                     return JsonResponse(
-                        {"message": "friend have been unblocked"}, status=200
+                        {"message": "Friend have been unblocked"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend doesn't exist or not blocked"}, status=200
+                        {"message": "Friend is unblocked"}, status=200
                     )
             else:
                 return JsonResponse({"message": "action not recognize"}, status=200)
@@ -890,11 +890,11 @@ def manageFriendChat(request, prefix, action, username):
                     print(f"friend: {username} added by {user_instance.username}")
                     print("*****:", user_instance.friends.all())
                     return JsonResponse(
-                        {"message": "friend have been added"}, status=200
+                        {"message": "Friend have been added"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend already present"}, status=200
+                        {"message": "Friend already present"}, status=200
                     )
             elif action == "remove":
                 if user_instance.friends.filter(username=target.username).exists():
@@ -902,10 +902,10 @@ def manageFriendChat(request, prefix, action, username):
                     print("*****:", user_instance.friends.all())
                     print(f"friend: {username} removed by {user_instance.username}")
                     return JsonResponse(
-                        {"message": "friend have been removed"}, status=200
+                        {"message": "Friend has been removed"}, status=200
                     )
                 else:
-                    return JsonResponse({"message": "friend doesn't exist"}, status=200)
+                    return JsonResponse({"message": "Friend doesn't exist or has been removed"}, status=200)
 
             elif action == "block":
                 if (
@@ -917,11 +917,11 @@ def manageFriendChat(request, prefix, action, username):
                     user_instance.blocked_users.add(target)
                     print(f"friend: {username} was blocked by {user_instance.username}")
                     return JsonResponse(
-                        {"message": "friend have been blocked"}, status=200
+                        {"message": "Friend has been blocked"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend doesn't exist or already blocked"},
+                        {"message": "Friend doesn't exist or already blocked"},
                         status=200,
                     )
             elif action == "unblock":
@@ -933,17 +933,17 @@ def manageFriendChat(request, prefix, action, username):
                 ):
                     user_instance.blocked_users.remove(target)
                     print(
-                        f"friend: {username} was unblocked by {user_instance.username}"
+                        f"Friend: {username} was unblocked by {user_instance.username}"
                     )
                     return JsonResponse(
-                        {"message": "friend have been unblocked"}, status=200
+                        {"message": "Friend have been unblocked"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend doesn't exist or not blocked"}, status=200
+                        {"message": "Friend doesn't exist or isn't blocked"}, status=200
                     )
             else:
-                return JsonResponse({"message": "action not recognize"}, status=200)
+                return JsonResponse({"message": "Action not recognized"}, status=200)
 
         except User.DoesNotExist:
             print(f"User not found: {username}")

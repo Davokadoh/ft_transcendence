@@ -107,7 +107,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                 } else {
                     manageFriend("add", nickname);
                     // testManageFriend("add");
-                    showAlert("Friend added ✔︎");
+                    // showAlert("Friend added ✔︎");
                 }
             }).catch(error => {
                 console.error('Error fetching friends list:', error);
@@ -287,6 +287,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             .then(data => {
                 // test
                 console.log(data.message);
+                showAlert(data.message);
             })
             .catch(error => {
                 // Le traitement des erreurs ici

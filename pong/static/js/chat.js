@@ -95,21 +95,18 @@ export function chat() {
 
 		//pour les boutons
 		let removeFriendBtn = document.getElementById('removeFriend');
-		let addFriendBtn = document.getElementById('addFriend');
+		let unBlockFriend = document.getElementById('unBlockFriend');
 		let nickname = document.querySelector("[data-text]").textContent.trim();
-		console.log("DADADA ON CLICK");
+
 		removeFriendBtn.onclick = (e) => {
 			console.log("remove with active panel: ", activeChatPanel);
 			manageFriend("remove", activeChatPanel);
 		};
 
-		if (addFriendBtn) {
-			addFriendBtn.onclick = (e) => {
-				let target = e.target.closest(".container").querySelector("#nickname").innerText;
-				console.log("click remove friend: ", target);
-				manageFriend("add", target);
-			};
-		}
+		unBlockFriend.onclick = (e) => {
+			manageFriend("unblock", activeChatPanel);
+		};
+
 
 		const checkProfilButton = document.getElementById('checkProfil');
 
@@ -988,6 +985,7 @@ export function chat() {
 			.then(data => {
 				// test
 				console.log(data.message);
+				showAlert(data.message);
 			})
 			.catch(error => {
 				// Le traitement des erreurs ici
@@ -1011,14 +1009,14 @@ export function chat() {
 
 	let user = document.getElementById('user');
 	let searched_nickname = document.getElementById('searchInput');
-	let removeFriendBtn = document.getElementById('removeFriend');
+	// let removeFriendBtn = document.getElementById('removeFriend');
 	let addFriendBtn = document.getElementById('addFriend');
-	console.log("DADADA");
-	removeFriendBtn.onclick = (e) => {
-		let target = e.target.closest(".container").querySelector("#nickname").innerText;
-		console.log("click remove friend: ", target);
-		manageFriend("remove", target);
-	};
+	// console.log("DADADA");
+	// removeFriendBtn.onclick = (e) => {
+	// 	let target = e.target.closest(".container").querySelector("#nickname").innerText;
+	// 	console.log("click remove friend: ", target);
+	// 	manageFriend("remove", target);
+	// };
 
 	if (addFriendBtn) {
 		addFriendBtn.onclick = (e) => {
@@ -1044,5 +1042,48 @@ export function chat() {
 			visibleList = false;
 		}
 	});
+
+	// Fonction pour creer et afficher une alerte personnalisée
+	function showAlert(message) {
+
+		// Crée un élément semi-transparent pour recouvrir la page
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay-alert';
+		document.body.appendChild(overlay);
+
+		// Crée un élément d'alerte
+		var alertElement = document.createElement('div');
+		alertElement.className = 'custom-alert';
+
+		// Crée un élément pour le titre
+		var titleElement = document.createElement('div');
+		titleElement.className = 'alert-title';
+		titleElement.textContent = 'Alert information';
+
+		// Crée un bouton de fermeture
+		var closeButton = document.createElement('button');
+		closeButton.textContent = 'X';
+		closeButton.className = 'close-button';
+		closeButton.onclick = function () {
+			document.body.removeChild(overlay);
+			document.body.removeChild(alertElement);
+		};
+
+		// Crée un élément pour le message
+		var messageContainer = document.createElement('div');
+		messageContainer.className = 'message-container';
+
+		// Ajoute le texte du message à l'élément de message
+		var messageElement = document.createElement('div');
+		messageElement.textContent = message;
+
+		// Ajoute les éléments au DOM
+		titleElement.appendChild(closeButton);
+		alertElement.appendChild(titleElement);
+		messageContainer.appendChild(messageElement);
+		alertElement.appendChild(messageContainer);
+		document.body.appendChild(alertElement);
+		document.body.appendChild(overlay);
+	}
 
 }
