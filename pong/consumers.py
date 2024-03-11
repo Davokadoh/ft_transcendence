@@ -105,17 +105,22 @@ class Consumer(AsyncJsonWebsocketConsumer):
         target = content["target"]
         sender_instance = await User.objects.aget(pk=self.user.pk)
         target_instance = await User.objects.aget(username=target)
+        if target_instance is None:
+            target_instance = ""
 
         if "#invitation" in content["message"]:
             tab = content["message"].split(" ")
-            if len(tab) == 2:
+            if len(tab) == 2:  # invitation from remLobby
                 target_instance = await User.objects.aget(nickname=target)
-
-        elif "#accept" in content["message"]:
-            tab = content["message"].split(" ")
-            if len(tab) == 1:
+            elif len(tab) == 1:  # invitation from chat
                 gameId = " " + await self.createGameId(content)
                 content["message"] += gameId
+        """
+        elif "#decline" in content["message"]:
+            tab = content["message"].split(" ")
+            gameId = tab[1]
+            await self.removeGameId(gameId)
+        """
 
         await self.channel_layer.send(
             self.channel_name,
@@ -265,6 +270,16 @@ class Consumer(AsyncJsonWebsocketConsumer):
         await game.asave()
 
         return str(game.pk)
+
+    async def removeGameId(self, gameId):
+        print(gameId)
+        remote = await Game.objects.aget(pk=gameId)
+        if remote is not None:
+            await remote.teams.all().adelete()
+            await remote.adelete()
+            print(f"GameId: ${gameId}: has been removed!")
+        else:
+            print(f"GameId: ${gameId}: Doesn't exist!")
 
     async def manage_conversation(self, content):
         print("==manage_conversation==: ")

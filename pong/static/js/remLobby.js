@@ -9,7 +9,7 @@ export function remLobby(gameId) {
 		const data = JSON.parse(event.data);
 		if (data.type == "game_invitation" && data.message.includes("#accept")) {
 			const gameId = parseInt(data.message.split(' ')[1]);
-			history.pushState(null, null, `/remote/${gameId}/`);
+			history.pushState(null, null, `/remote/${gameId}`);
 			router();
 		}
 	};
