@@ -104,7 +104,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
         sender_instance = await User.objects.aget(pk=self.user.pk)
-        target_instance = await User.objects.aget(username=target)
+        target_instance = await User.objects.aget(nickname=target)
 
         if "#invitation" in content["message"]:
             tab = content["message"].split(" ")
