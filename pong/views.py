@@ -810,6 +810,8 @@ def manageFriend(request, prefix, action, nickname):
     if request.method == "POST":
         try:
             target = CustomUser.objects.get(nickname=nickname)
+            if target is request.user:
+                return JsonResponse({"error": "Can't yourself as a friend"}, status=400)
 
             if action == "add":
                 if not request.user.friends.filter(nickname=target.nickname).exists():
@@ -836,7 +838,6 @@ def manageFriend(request, prefix, action, nickname):
                         {"message": "Friend doesn't exist or has been removed"},
                         status=200,
                     )
-
             elif action == "block":
                 if (
                     request.user.friends.filter(nickname=target.nickname).exists()
@@ -907,10 +908,9 @@ def manageFriend(request, prefix, action, nickname):
 #                     )
 #                 else:
 #                     return JsonResponse(
-                        {"message": "Friend doesn't exist or has been removed"},
-                        status=200,
-                    )
-
+#                        {"message": "Friend doesn't exist or has been removed"},
+#                        status=200,
+#                    )
 #             elif action == "block":
 #                 if (
 #                     request.user.friends.filter(username=target.username).exists()
@@ -948,7 +948,6 @@ def manageFriend(request, prefix, action, nickname):
 #                     )
 #             else:
 #                 return JsonResponse({"message": "Action not recognized"}, status=200)
-
 #         except CustomUser.DoesNotExist:
 #             print(f"User not found: {username}")
 #             return JsonResponse({"error": "user not found"}, status=404)
