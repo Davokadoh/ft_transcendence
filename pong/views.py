@@ -643,9 +643,18 @@ def UpdateUserSettingsView(request):
         request.user.backgroundColor = background_color
 
         request.user.save()
-        return redirect(profil)
+
+        data = {
+            "ballSpeed": request.user.ballSpeed,
+            "paddleSpeed": request.user.paddleSpeed,
+            "paddleColor": request.user.paddleColor,
+            "ballColor": request.user.ballColor,
+            "backgroundColor": request.user.backgroundColor,
+        }
+        return JsonResponse(data)
     else:
         return HttpResponseBadRequest("Invalid request method")
+
 
 
 @login_required
