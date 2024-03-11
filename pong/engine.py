@@ -14,7 +14,6 @@ class Engine:
         self.players = list()
         self.left = self.game.gameteam_set.first()
         self.right = self.game.gameteam_set.last()
-        self.status = "LOBBY"
         self.width = 800  # Should be getted from game
         self.height = 650
         self.max_points = 5
@@ -33,15 +32,15 @@ class Engine:
         for p in self.players:
             print(f"{p.consumer.user.nickname}:{' not' if not p.ready else ''} ready")
         await self.send({"type": "game_ready", "player": player.username})
-        if self.status == "LOBBY" or self.status == "PAUSE":
+        if self.game.status == "LOBBY" or self.game.status == "PAUSE":
             await self.play()
 
     async def play(self):
         if all(player.ready for player in self.players):
-            if self.status == "LOBBY":
+            if self.game.status == "LOBBY":
                 await self.reset()
-            self.status = "PLAY"
-            await self.send({"type": "game_status", "status": self.status})
+            self.game.status = "PLAY"
+            await self.send({"type": "game_status", "status": self.game.status})
             task = asyncio.create_task(self.loop())
             self.background_tasks.add(task)
             task.add_done_callback(self.background_tasks.discard)
@@ -53,24 +52,21 @@ class Engine:
             )
             return
         player.pauseLeft -= 1
-        self.status = "PAUSE"
-        await self.send({"type": "game_status", "status": self.status})
+        self.game.status = "PAUSE"
+        await self.send({"type": "game_status", "status": self.game.status})
         for player in self.players:
             player.ready = False
 
     async def end(self):
-        self.status = "END"
-        await self.send({"type": "game_status", "status": self.status})
-        self.players.clear()
-        for p in self.players:
-            await p.consumer.leave_game()
         if self.left.score > self.right.score:
             self.game.winner = await self.game.teams.afirst()
         else:
             self.game.winner = await self.game.teams.alast()
+        self.game.status = "END"
         await self.game.asave()
         await self.left.asave()
         await self.right.asave()
+        await self.send({"type": "game_status", "status": self.game.status})
 
     async def reset(self):
         self.players[0].pos_x = 10
@@ -90,13 +86,13 @@ class Engine:
             await self.end()
 
     async def loop(self):
-        while self.status == "PLAY":
+        while self.game.status == "PLAY":
             begin = time.time()
             await self.step()
             delta = begin - time.time()
             sleep = max(2 - delta, 0)
             await asyncio.sleep(sleep / 1000)
-        print(f"Status: {self.status}")
+        print(f"Status: {self.game.status}")
 
     async def sendUpdate(self):
         for idx, p in enumerate(self.players):
@@ -150,6 +146,6 @@ class Engine:
         self.ball.pos_y += self.ball.speed_y
 
     async def syncToDb(self):
-        self.game.status = self.status
+        self.game.status = self.game.status
         self.game.left.score.update(self.left.score)
         self.game.right.score.update(self.right.score)
