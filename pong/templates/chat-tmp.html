@@ -41,8 +41,9 @@
     <div class="row row-trayRight g-0 setTray">
         <div class="col-md-12">
             <div class="settings-tray settings-tray--right d-flex align-items-center bgViolet" id="settingsTrayId">
-                <img class="profile-image" id="contactImgProfil" src="{{ profil_picture_url }}" alt="Friend Image"
-                    data-toggle="tooltip" title="Detail du profil" data-image>
+                <img class="profile-image" id="contactImgProfil" data-nickname="friendNickname"
+                    src="{{ profil_picture_url }}" alt="Friend Image" data-toggle="tooltip" title="Detail du profil"
+                    data-image>
                 <div class="text" id="setName" data-text>
                     <h6 class="t-vert"></h6>
                 </div>
@@ -73,74 +74,21 @@
 
             <div class="contact-profil d-flex flex-column align-items justify-content-between invisible-y bgVert bottomR20"
                 id="contactProfil">
-                <div class="row justify-content-end">
-                    <!-- <form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
-                        class="col justify-content-start">
-                        <img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
-                        {% csrf_token %}
-                        <input id="profil-picture-input" type="file" class="form-control" />
-                    </form> -->
-                    <form action="/accounts/profil/nickname/" method="post" class="col-8">
-                        {% csrf_token %}
-                        <div class="col">
-                            <span class="nicknameUser marginLeftNameChatProfil" id="nickname">{{ request.user.nickname }}</span>
-                        </div>
-                    </form>
-
-                </div>
-
-                <!-- Onglets -->
-                <ul class="nav nav-tabs userStat" id="myTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link modNavUser active" id="rank-tab" data-bs-toggle="pill" href="#rank"
-                            role="tab" aria-controls="rank" aria-selected="true">Rank</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link modNavUser" id="win-tab" data-bs-toggle="pill" href="#win" role="tab"
-                            aria-controls="win" aria-selected="false">Win</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link modNavUser" id="match-tab" data-bs-toggle="pill" href="#match" role="tab"
-                            aria-controls="match" aria-selected="false">Match</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link modNavUser" id="ratio-tab" data-bs-toggle="pill" href="#ratio" role="tab"
-                            aria-controls="ratio" aria-selected="false">Ratio</a>
-                    </li>
-                </ul>
-
-                <!-- Contenu des onglets -->
-                <div class="tab-content userStatTab">
-                    <div class="tab-pane fade show active tabCustUser" id="rank" role="tabpanel"
-                        aria-labelledby="rank-tab">
-                        6/10 <!-- (rang par rapport aux amis) -->
-                    </div>
-                    <div class="tab-pane fade tabCustUser" id="win" role="tabpanel" aria-labelledby="win-tab">
-                        306 <!-- (Nbr de victoires) -->
-                    </div>
-                    <div class="tab-pane fade tabCustUser" id="match" role="tabpanel" aria-labelledby="match-tab">
-                        612 <!-- (Nbr de match) -->
-                    </div>
-                    <div class="tab-pane fade tabCustUser" id="ratio" role="tabpanel" aria-labelledby="ratio-tab">
-                        50% <!-- (ratio Nbr de victoires sur nbr de match) -->
-                    </div>
-                </div>
-
+                    <a role="button" class="col-lg-6 btn invitationBtn" id="checkProfil" href="/user"
+                        data-link="/user" alt="Check user profil">Click Here to Check the
+                        User Profil !</a> <br>
+                <!-- <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="checkProfil" data-bs-target="#goToProfil">Click Here to Check the User Profil !</button> -->
                 <div class="row align-items-center justify-content-around">
-                    <button type="button" class="col-lg-6 btn bg-vert" data-bs-target="#addFriend">Friend
+                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" data-bs-target="#addFriend">Friend
                         request</button>
                     <br />
-                    <button type="button" class="col-lg-6 btn bg-vert" data-bs-target="#BlockFriend">Remove
+                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" data-bs-target="#BlockFriend">Remove
                         friend</button>
                 </div>
-
             </div>
-
             <!-- start chat panel -->
             <div class="chat-panel" id="chatPanelId"></div>
-
         </div>
-
     </div>
 
     <!-- nested row3 -->

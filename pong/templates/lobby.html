@@ -19,6 +19,8 @@
 					{% csrf_token %}
 					<input type="text" id="player2" class="col-3 form-control formCust"
 						placeholder="Player 2's nickname" aria-label="Username" aria-describedby="basic-addon1" />
+					<!-- for lobby.js alerte : can't play against yourself -->
+					<input type="hidden" id="player1_username" value="{{ player1_username }}">
 					<button type="button" class="col-3 btn btn-dark imgButton" id="inviteButton"></button>
 				</div>
 				<p class="joinFriends">FRIEND WHO HAS JOINED :</p>

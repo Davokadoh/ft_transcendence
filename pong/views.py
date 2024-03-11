@@ -257,6 +257,13 @@ def profilPicture(request):
 @login_required
 def chat(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.method == "GET":
+        user_chat = request.user
+        render(
+            request,
+            "chat.html",
+            {"template": "ajax.html" if ajax else "index.html", "user_chat": user_chat},
+        )
     if request.path == "/chat/chat-tmp/":
         return render(request, "chat-tmp.html")
     else:
@@ -295,6 +302,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
     game = get_object_or_404(Game, pk=gameId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
+        player1_username = request.user.nickname
         return render(
             request,
             "lobby.html",
@@ -302,6 +310,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
                 "template": "ajax.html" if ajax else "index.html",
                 "gameId": gameId,
                 "invitedPlayer2": invitedPlayer2,
+                "player1_username": player1_username,
             },
         )
     elif request.method == "POST":
@@ -356,6 +365,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
     game = get_object_or_404(Game, pk=remoteId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
+        player1_username = request.user.nickname
         return render(
             request,
             "remLobby.html",
@@ -363,6 +373,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
                 "template": "ajax.html" if ajax else "index.html",
                 "remoteId": remoteId,
                 "invitedPlayer2": invitedPlayer2,
+                "player1_username": player1_username,
             },
         )
     elif request.method == "POST":
@@ -417,6 +428,8 @@ def tourLobby(request, tournamentId=None):
         "template": "ajax.html" if ajax else "index.html",
     }
     if request.method == "GET":
+        player1_username = request.user.nickname
+        context["player1_username"] = player1_username
         return render(request, "tourLobby.html", context)
     elif request.method == "POST":
         try:
