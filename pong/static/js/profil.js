@@ -223,7 +223,7 @@ export function profil() {
 					showAlert("Friend already added ✕");
 				} else {
 					manageFriend("add", nickname);
-					showAlert("Friend added ✔︎");
+					// showAlert("Friend added ✔︎"); // @Verena avec msg backend
 				}
 			}).catch(error => {
 				console.error('Error fetching friends list:', error);
@@ -461,6 +461,7 @@ export function profil() {
 			.then(data => {
 				// test
 				console.log(data.message);
+				showAlert(data.message);
 			})
 			.catch(error => {
 				// Le traitement des erreurs ici
