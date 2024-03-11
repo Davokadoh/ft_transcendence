@@ -93,6 +93,24 @@ export function chat() {
 		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
 			search_contact();*/
 
+		//pour les boutons
+		let removeFriendBtn = document.getElementById('removeFriend');
+		let addFriendBtn = document.getElementById('addFriend');
+		let nickname = document.querySelector("[data-text]").textContent.trim();
+		console.log("DADADA ON CLICK");
+		removeFriendBtn.onclick = (e) => {
+			console.log("remove with active panel: ", activeChatPanel);
+			manageFriend("remove", activeChatPanel);
+		};
+
+		if (addFriendBtn) {
+			addFriendBtn.onclick = (e) => {
+				let target = e.target.closest(".container").querySelector("#nickname").innerText;
+				console.log("click remove friend: ", target);
+				manageFriend("add", target);
+			};
+		}
+
 		const checkProfilButton = document.getElementById('checkProfil');
 
 		//bouton check profil renvoi sur user
@@ -104,7 +122,7 @@ export function chat() {
 			// let friendNameElement = document.getElementById('friendName');
 			// let nickname = friendNameElement.textContent.trim();
 
-			let nickname = document.querySelector("[data-text]").textContent.trim();
+
 
 			console.log(" !!! nickname: ", nickname);
 			console.log(" !!! active chat panel: ", activeChatPanel);
@@ -995,14 +1013,12 @@ export function chat() {
 	let searched_nickname = document.getElementById('searchInput');
 	let removeFriendBtn = document.getElementById('removeFriend');
 	let addFriendBtn = document.getElementById('addFriend');
-
-	if (removeFriendBtn) {
-		removeFriendBtn.onclick = (e) => {
-			let target = e.target.closest(".container").querySelector("#nickname").innerText;
-			console.log("click remove friend: ", target);
-			manageFriend("remove", target);
-		};
-	}
+	console.log("DADADA");
+	removeFriendBtn.onclick = (e) => {
+		let target = e.target.closest(".container").querySelector("#nickname").innerText;
+		console.log("click remove friend: ", target);
+		manageFriend("remove", target);
+	};
 
 	if (addFriendBtn) {
 		addFriendBtn.onclick = (e) => {

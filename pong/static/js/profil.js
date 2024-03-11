@@ -230,6 +230,7 @@ export function profil() {
 		searched_nickname.value = "";
 	});
 
+
 	async function fetchTemplate() {
 		try {
 			const response = await fetch('/chat/chat-tmp/');
