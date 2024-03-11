@@ -13,6 +13,31 @@ export function remote(gameId) {
 	const boardBackground = "black";
 	const ballRadius = 12.5;
 	let gameRunning = false;
+	let player1;
+	let player2;
+
+	function updatePlayerNames() {
+		document.getElementById('player1').textContent = player1;
+		document.getElementById('player2').textContent = player2;
+	}
+	
+	// Utilisez cette fonction pour récupérer les noms des joueurs via fetch
+	function fetchPlayerNames() {
+		
+		fetch(`/game/${gameId}/get-nickname/`)
+			.then(response => response.json())
+			.then(data => {
+				player1 = data.player1_nickname;
+				player2 = data.player2_nickname;
+				console.log(player1);
+				console.log(player2);
+				updatePlayerNames();  // Mettez à jour les noms des joueurs dans l'interface utilisateur
+			})
+			.catch(error => {
+				// Gérer les erreurs survenues lors de la requête
+				console.error('Erreur lors de la requête AJAX :', error);
+			});
+	}
 
 	function draw() {
 		if (!gameRunning) return;
@@ -103,6 +128,9 @@ export function remote(gameId) {
 		paddle1.y = state.player_0_y;
 		paddle2.x = state.player_1_x;
 		paddle2.y = state.player_1_y;
+		console.log("Received state from server:", state);
+		player1.textContent = state.player_0_name;
+		player2.textContent = state.player_1_name;
 	}
 
 	function updateStatus(status) {
@@ -134,6 +162,7 @@ export function remote(gameId) {
 		}
 	}
 
+	fetchPlayerNames();
 	clearBoard();
 	updateScore();
 	sendMessage(socket, JSON.stringify({ 'type': 'game_join', 'gameId': gameId }));
