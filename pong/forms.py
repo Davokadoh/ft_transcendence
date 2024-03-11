@@ -1,5 +1,5 @@
 from django.forms import ModelForm, ImageField, FileInput
-from .models import User
+from .models import CustomUser
 
 
 class NicknameForm(ModelForm):
@@ -9,7 +9,7 @@ class NicknameForm(ModelForm):
             visible.field.widget.attrs["class"] = "form-control form-control-sm"
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ["nickname"]
 
 
@@ -21,6 +21,6 @@ class ProfilPictureForm(ModelForm):
             visible.field.widget.attrs["class"] = "form-control form-control-sm"
 
     class Meta:
-        model = User 
+        model = CustomUser 
         fields = ["profil_picture"]
         

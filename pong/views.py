@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import GameTeam, Tournament, User, Team, Game
+from .models import GameTeam, Tournament, CustomUser, Team, Game
 from .forms import ProfilPictureForm, NicknameForm
 from dotenv import load_dotenv
 import requests
@@ -158,7 +158,7 @@ def profil(request):
 def user(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
-        user = User.objects.get(nickname=nickname)
+        user = CustomUser.objects.get(nickname=nickname)
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
@@ -313,7 +313,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
         try:
             data = json.loads(request.body)
             nickname = data.get("nickname")
-            user = User.objects.get(nickname=nickname)
+            user = CustomUser.objects.get(nickname=nickname)
             if user is None:
                 return JsonResponse({"error_message": "user not found"})
             team2 = Team.objects.create()
@@ -376,7 +376,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
         try:
             data = json.loads(request.body)
             nickname = data.get("nickname")
-            user = User.objects.get(nickname=nickname)
+            user = CustomUser.objects.get(nickname=nickname)
             if user is None:
                 return JsonResponse({"error_message": "user not found"})
             team = Team.objects.create()
@@ -431,7 +431,7 @@ def tourLobby(request, tournamentId=None):
         try:
             data = json.loads(request.body)
             nicknames = [value for key, value in data.items()]
-            users = User.objects.filter(nickname__in=nicknames).distinct()
+            users = CustomUser.objects.filter(nickname__in=nicknames).distinct()
             if users.count() < 3:
                 return JsonResponse({"error_message": "Not enough distinct players"})
             if not users.exists():
@@ -561,9 +561,9 @@ def callback(request):
     )
 
     try:
-        user = User.objects.get(username=response.json()["login"])
-    except User.DoesNotExist:
-        user = User.objects.create_user(username=response.json()["login"])
+        user = CustomUser.objects.get(username=response.json()["login"])
+    except CustomUser.DoesNotExist:
+        user = CustomUser.objects.create(username=response.json()["login"])
         print("USER CREATED")
         try:
             user.profilPictureUrl = response.json()["image"]["link"]
@@ -583,7 +583,7 @@ def get_user_info(request, nickname):
         # nickname = request.GET.get('profil_picture')
         print("nickname GET =", nickname)
         try:
-            user = User.objects.get(nickname=nickname)
+            user = CustomUser.objects.get(nickname=nickname)
             user_info = {
                 "username": user.username,
                 "nickname": user.nickname,
@@ -593,7 +593,7 @@ def get_user_info(request, nickname):
                 # 'profil_picture': user.profil_picture.url if user.profil_picture else user.profil_picture_oauth,
             }
             return JsonResponse(user_info)
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return JsonResponse({"error": "Utilisateur non trouvé"}, status=404)
     elif request.method == "POST":  # condition pour gérer les requêtes GET
         return JsonResponse({"error": "Méthode non autorisée"}, status=405)
@@ -603,7 +603,7 @@ def get_user_info(request, nickname):
 
 def create_fake_user(request):
     # Créer un faux utilisateur
-    fake_user = User.objects.create_user(
+    fake_user = CustomUser.objects.create_user(
         username="user123",
         email="user123@example.com",
         password="password123",
@@ -713,7 +713,7 @@ def get_scores(request, gameId=None):
 @csrf_exempt
 def get_users(request):
     if request.method == "GET":
-        users = User.objects.all()
+        users = CustomUser.objects.all()
         # users = serialize("json", users)
         # users = json.loads(users)
     try:
@@ -730,7 +730,7 @@ def get_users(request):
 
         context = {"user_list": user_list}
         return JsonResponse(context, safe=False)
-    except User.DoesNotExist:
+    except CustomUser.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
 
 
@@ -748,7 +748,7 @@ def getList(request, prefix, type):
         # users = json.loads(users)
         try:
             if type == "users":
-                users = User.objects.all()
+                users = CustomUser.objects.all()
                 user_list = []
                 for user in users:
                     if user.profil_picture:
@@ -800,7 +800,7 @@ def getList(request, prefix, type):
                 context = {"users_blocked": blocked_list}
                 return JsonResponse(context, safe=False)
 
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
 
 
@@ -810,7 +810,7 @@ def manageFriend(request, prefix, action, nickname):
     print("[manageFriend FUNCTION]")
     if request.method == "POST":
         try:
-            target = User.objects.get(nickname=nickname)
+            target = CustomUser.objects.get(nickname=nickname)
 
             if action == "add":
                 if not request.user.friends.filter(nickname=target.nickname).exists():
@@ -872,7 +872,7 @@ def manageFriend(request, prefix, action, nickname):
             else:
                 return JsonResponse({"message": "action not recognize"}, status=200)
 
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             print(f"User not found: {nickname}")
             return JsonResponse({"error": "user not found"}, status=404)
 
@@ -882,7 +882,7 @@ def manageFriend(request, prefix, action, nickname):
 #     print("[manageFriend FUNCTION]")
 #     if request.method == "POST":
 #         try:
-#             target = User.objects.get(username=username)
+#             target = CustomUser.objects.get(username=username)
 
 #             if action == "add":
 #                 if not request.user.friends.filter(username=target.username).exists():
@@ -945,7 +945,7 @@ def manageFriend(request, prefix, action, nickname):
 #             else:
 #                 return JsonResponse({"message": "action not recognize"}, status=200)
 
-#         except User.DoesNotExist:
+#         except CustomUser.DoesNotExist:
 #             print(f"User not found: {username}")
 #             return JsonResponse({"error": "user not found"}, status=404)
 
