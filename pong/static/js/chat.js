@@ -480,24 +480,24 @@ export function chat() {
 		const data = JSON.parse(event.data);
 		console.log("===socket onmessage:===", data);
 
-		parse_msg(data);
+		parse_msg(data, "socket");
 	};
 
-	function parse_msg(data) {
+	function parse_msg(data, from) {
 		let userId = document.getElementById("userId").textContent;
 		console.log(`parse_map: sender: ${data.sender}; userId: ${userId}`)
 		if (data.sender == userId) {
-			message_sent(data);
+			message_sent(data, from);
 		}
 		else
-			message_receive(data);
+			message_receive(data, from);
 	}
 	// socket.onopen = function (e) {
 	//     console.log('WebSocket connection opened: ', e);
 	//     socket.send(JSON.stringify({ 'message': 'Hello from Page 2!' }));
 	// };
 
-	function message_receive(data) {
+	function message_receive(data, from) {
 		console.log("==message_receive FUNCTION==");
 
 		if (data.type == "alert_tournament") {
@@ -559,13 +559,6 @@ export function chat() {
 				document.getElementById("chatPanelId").append(element);
 				scrollUp(document.getElementById("rowChatPanel"));
 				updateChatHistory(activeChatPanel);
-				//#redirection
-				if (data.type == "game_invitation" && data.message.includes("#accept")) {
-					const gameId = parseInt(data.message.split(' ')[1]);
-					history.pushState(null, null, `/remote/${gameId}/`);
-					router();
-					// window.location.href = `/remote/${gameId}/`;
-				}
 			}
 			else {
 
@@ -573,9 +566,16 @@ export function chat() {
 				mapChatHistory.get(data.sender).querySelector("[data-text] h6").textContent = data.sender_nickname;
 				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
 				//document.getElementById(data.sender).classList.toggle("read-on", true);
-
 			}
 			updateConversations(data, "receive");
+
+			//#redirection
+			if (from == "socket" && data.type == "game_invitation"
+				&& data.message.includes("#accept")) {
+				const gameId = parseInt(data.message.split(' ')[1]);
+				history.pushState(null, null, `/remote/${gameId}/`);
+				router();
+			}
 		}
 		else {
 
@@ -604,7 +604,7 @@ export function chat() {
 		}
 	}
 
-	function message_sent(data) {
+	function message_sent(data, from) {
 
 		console.log("==message_sent FUNCTION==");
 
@@ -941,7 +941,7 @@ export function chat() {
 
 						//load the messages within conversation
 						message.timestamp = formatageTime(message.timestamp);
-						parse_msg(message);
+						parse_msg(message, "fetch");
 						console.log("dans fetch sender: ", message.sender_nickname);
 						console.log("dans fetch target: ", message.target_nickname);
 						console.log("dans fetch message: ", message.message);
