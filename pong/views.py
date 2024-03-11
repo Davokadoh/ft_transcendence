@@ -820,7 +820,7 @@ def manageFriend(request, prefix, action, nickname):
                     )
                 else:
                     return JsonResponse(
-                        {"message": "Friend already present"}, status=200
+                        {"message": "Friend already added ✕"}, status=200
                     )
             elif action == "remove":
                 if user_instance.friends.filter(nickname=target.nickname).exists():
@@ -894,7 +894,7 @@ def manageFriendChat(request, prefix, action, username):
                     )
                 else:
                     return JsonResponse(
-                        {"message": "Friend already present"}, status=200
+                        {"message": "Friend already added ✕"}, status=200
                     )
             elif action == "remove":
                 if user_instance.friends.filter(username=target.username).exists():

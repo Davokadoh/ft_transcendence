@@ -114,7 +114,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                 showAlert("Error fetching friends list");
             });
         }
-        testManageFriend("add");
+        // testManageFriend("add");
         searched_nickname.value = "";
     });
 
@@ -297,6 +297,12 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
 
     // Fonction pour creer et afficher une alerte personnalisée
     function showAlert(message) {
+
+        // Crée un élément semi-transparent pour recouvrir la page
+        var overlay = document.createElement('div');
+        overlay.className = 'overlay-alert';
+        document.body.appendChild(overlay);
+
         // Crée un élément d'alerte
         var alertElement = document.createElement('div');
         alertElement.className = 'custom-alert';
@@ -311,6 +317,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         closeButton.textContent = 'X';
         closeButton.className = 'close-button';
         closeButton.onclick = function () {
+            document.body.removeChild(overlay);
             document.body.removeChild(alertElement);
         };
 
@@ -328,6 +335,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
         messageContainer.appendChild(messageElement);
         alertElement.appendChild(messageContainer);
         document.body.appendChild(alertElement);
+        document.body.appendChild(overlay);
     }
 
 }
