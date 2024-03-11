@@ -29,13 +29,16 @@ export function profil() {
 	});
 
 	settingsModal.addEventListener('hidden.bs.modal', function () {
-		settingsForm.reset();
+		// settingsForm.reset();
 		let event = new Event('input');
 		paddleSpeedInput.dispatchEvent(event);
 		ballSpeedInput.dispatchEvent(event);
 	});
 
-	function statsModalClose() { modal.style.display = 'none'; }
+	function statsModalClose() {
+		const modal = bootstrap.Modal.getInstance('#settingsModal');
+		modal.hide();
+	}
 
 	let saveButton = document.getElementById('saveButton');
 	saveButton.onclick = function () {
@@ -73,31 +76,31 @@ export function profil() {
 		});
 	}
 
-	// // settings
-	//     // Ajoutez l'écouteur d'événement pour le formulaire
-	// 	const settingsForm = document.getElementById('settingsForm');
-	// 	settingsForm.addEventListener('submit', function(event) {
-	// 		event.preventDefault();
-	// 		const paddleSpeed = document.getElementById('paddleSpeed').value;
-	// 		fetch('/profil', {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/x-www-form-urlencoded',
-	// 				'X-CSRFToken': getCookie('csrftoken'),
-	// 			},
-	// 			body: `paddle_speed=${paddleSpeed}`,
-	// 		})
-	// 		.then(response => {
-	// 			if (response.ok) {
-	// 				// Gérer la réponse en cas de succès si nécessaire
-	// 			} else {
-	// 				console.error('Erreur lors de la soumission du formulaire');
-	// 			}
-	// 		})
-	// 		.catch(error => {
-	// 			console.error('Erreur lors de la soumission du formulaire :', error);
-	// 		});
-	// 	});
+	settingsForm.addEventListener('submit', function (event) {
+		event.preventDefault();
+		console.log("COUCOU");
+		const form = event.currentTarget;
+		const url = new URL(form.action);
+		const formData = new FormData(form);
+		fetch(url, {
+			method: form.method,
+			body: formData,
+			mode: 'same-origin',
+		})
+			.then(response => response.json())
+			.then(data => {
+				paddleSpeedInput.value = data.paddleSpeed;
+				paddleSpeedValue.value = data.paddleSpeed;
+				console.log("paddle speed: ", paddleSpeedInput.value)
+				ballSpeedInput.value = data.ballSpeed;
+				ballSpeedValue.value = data.ballSpeed;
+				console.log("paddle speed: ", ballSpeedInput.value)
+
+			})
+			.catch(error => {
+				console.error('Erreur lors de la soumission du formulaire :', error);
+			});
+	});
 
 	let nicknameInput = document.getElementById('nickname-form');
 	let nicknameForm = document.getElementById('nickname-form');
@@ -220,7 +223,7 @@ export function profil() {
 					showAlert("Friend already added ✕");
 				} else {
 					manageFriend("add", nickname);
-					showAlert("Friend added ✔︎");
+					// showAlert("Friend added ✔︎"); // @Verena avec msg backend
 				}
 			}).catch(error => {
 				console.error('Error fetching friends list:', error);
@@ -458,6 +461,7 @@ export function profil() {
 			.then(data => {
 				// test
 				console.log(data.message);
+				showAlert(data.message);
 			})
 			.catch(error => {
 				// Le traitement des erreurs ici
