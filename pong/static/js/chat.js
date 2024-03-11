@@ -95,7 +95,7 @@ export function chat() {
 	// 	checkProfil.setAttribute("data-link", `/user/${nickname}/`);
 	// 	return;
 	// });
-	
+
 
 	// //click manage fonction originale
 	// document.addEventListener("click", (e) => {
@@ -142,35 +142,35 @@ export function chat() {
 
 
 	//click manage foctionne mais envoi un message d invitation a jouer
-document.addEventListener("click", (e) => {
-	//e.stopImmediatePropagation();
+	document.addEventListener("click", (e) => {
+		//e.stopImmediatePropagation();
 
-	console.log("e.target***: ", e.target);
-	console.log("e.curtarget***: ", e.currentTarget);
-	console.log("activeChatPanel by listener click: ", activeChatPanel);
+		console.log("e.target***: ", e.target);
+		console.log("e.curtarget***: ", e.currentTarget);
+		console.log("activeChatPanel by listener click: ", activeChatPanel);
 
-	if (e.currentTarget.id != "searchContactId")
-		refresh_display();
-	/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
-		search_contact();*/
+		if (e.currentTarget.id != "searchContactId")
+			refresh_display();
+		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
+			search_contact();*/
 
-	const checkProfilButton = document.getElementById('checkProfil');
+		const checkProfilButton = document.getElementById('checkProfil');
 
-	//probeleme sur cet événement "click" ??
-	checkProfilButton.addEventListener('click', function () {
-		console.log("click on checkProfilButton");
-		// obtien le nickname ici 
-		let nickname = activeChatPanel;
+		//probeleme sur cet événement "click" ??
+		checkProfilButton.addEventListener('click', function () {
+			console.log("click on checkProfilButton");
+			// obtien le nickname ici 
+			let nickname = activeChatPanel;
 
-		// redir du user vers la page user avec le nickname
-		if (nickname)
-			// window.location.href = `/user/${nickname}`;
-			checkProfil.href = `/user/${nickname}/`;
-		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-		return;
+			// redir du user vers la page user avec le nickname
+			if (nickname)
+				// window.location.href = `/user/${nickname}`;
+				checkProfil.href = `/user/${nickname}/`;
+			checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+			return;
 
+		});
 	});
-});
 	// click on search
 	document.getElementById("searchContactId").addEventListener("click", search_contact);
 
@@ -543,10 +543,10 @@ document.addEventListener("click", (e) => {
 	function message_receive(data) {
 		console.log("==message_receive FUNCTION==");
 
-		/*if (data.type == "tournament_alert") {
-			showToast();
+		if (data.type == "alert_tournament") {
+			showToast(data);
 			return;
-		}*/
+		}
 
 		const element = document.createElement("div");
 
@@ -801,9 +801,11 @@ document.addEventListener("click", (e) => {
 		});
 	}
 
-	function showToast() {
-		const toastElement = document.getElementById('liveToast');
-		toastElement.querySelector('.toast-body').textContent = "You are expected for the pong tournament";
+	function showToast(data) {
+		console.log("==showToast function==");
+		const toastElement = document.getElementById("liveToast");
+		toastElement.querySelector(".toast-header .time").innerText = data.timestamp;
+		toastElement.querySelector(".toast-body").textContent = data.message;
 
 		const toast = new bootstrap.Toast(toastElement);
 		toast.show();

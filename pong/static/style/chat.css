@@ -768,7 +768,16 @@ body-msg {
 }
 
 .toast {
+
+    z-index: 999999 !important;
+
+    .toast-header .me-auto {
+        color: var(--violet) !important;
+    }
+
     .toast-body {
-        color: black;
+        background-color: var(--vert) !important;
+        color: white;
+        font-size: medium;
     }
 }
