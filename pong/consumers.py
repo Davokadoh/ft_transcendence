@@ -49,6 +49,9 @@ class Consumer(AsyncJsonWebsocketConsumer):
         elif content["type"] == "game_invitation":
             print("Invited received!")
             await self.game_invitation(content)
+        elif content["type"] == "alert_tournament":
+            print("Invited received!")
+            await self.alert_tournament(content)
         else:
             print(f"Unknown message type: {content['type']}")
 
@@ -99,6 +102,32 @@ class Consumer(AsyncJsonWebsocketConsumer):
             timestamp=time_for_all,
         )
         await self.update_or_create_conversation(target_instance, messages)
+
+    async def alert_tournament(self, content):
+        time_for_all = datetime.now().strftime("%H:%M")
+        sender_instance = await User.objects.aget(pk=self.user.pk)
+        targets = content["target"].split(",")
+
+        for target in targets:
+            target_instance = await User.objects.aget(nickname=target)
+            blocked_users = await target_instance.blocked_users.filter(
+                pk=self.user.pk
+            ).aexists()
+            # check before send a message if sender was blocked
+            if not blocked_users:
+                await self.channel_layer.send(
+                    target_instance.channel_name,
+                    {
+                        "type": "chat_alert_tournament",
+                        "id": content["id"],
+                        "sender": sender_instance.username,
+                        "sender_nickname": sender_instance.nickname,
+                        "target": target_instance.username,
+                        "target_nickname": target_instance.nickname,
+                        "message": content["message"],
+                        "timestamp": time_for_all,
+                    },
+                )
 
     async def game_invitation(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
@@ -186,6 +215,21 @@ class Consumer(AsyncJsonWebsocketConsumer):
         await self.send_json(
             {
                 "type": "game_invitation",
+                "id": event["id"],
+                "sender": event["sender"],
+                "sender_nickname": event["sender_nickname"],
+                "target": event["target"],
+                "target_nickname": event["target_nickname"],
+                "message": event["message"],
+                "timestamp": event["timestamp"],
+            }
+        )
+
+    async def chat_alert_tournament(self, event):
+        print("send message chat invitation...")
+        await self.send_json(
+            {
+                "type": "alert_tournament",
                 "id": event["id"],
                 "sender": event["sender"],
                 "sender_nickname": event["sender_nickname"],

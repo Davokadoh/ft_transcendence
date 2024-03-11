@@ -25,7 +25,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
 
     fetchTemplate();
 
-    // POUR LE FORM USER profil et user ?
+    // POUR LE FORM USER profil et user
     let user = document.getElementById('user');
     let searched_nickname = document.getElementById('searchInput');
     let removeFriendBtn = document.getElementById('removeFriend');
@@ -107,14 +107,14 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                 } else {
                     manageFriend("add", nickname);
                     // testManageFriend("add");
-                    showAlert("Friend added ✔︎");
+                    // showAlert("Friend added ✔︎");
                 }
             }).catch(error => {
                 console.error('Error fetching friends list:', error);
                 showAlert("Error fetching friends list");
             });
         }
-        testManageFriend("add");
+        // testManageFriend("add");
         searched_nickname.value = "";
     });
 
@@ -287,6 +287,7 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             .then(data => {
                 // test
                 console.log(data.message);
+                showAlert(data.message);
             })
             .catch(error => {
                 // Le traitement des erreurs ici
@@ -294,39 +295,46 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
             });
     }
 
-    // Fonction pour creer et afficher une alerte personnalisée
-    function showAlert(message) {
-        // Crée un élément d'alerte
-        var alertElement = document.createElement('div');
-        alertElement.className = 'custom-alert';
+	// Fonction pour creer et afficher une alerte personnalisée
+	function showAlert(message) {
 
-        // Crée un élément pour le titre
-        var titleElement = document.createElement('div');
-        titleElement.className = 'alert-title';
-        titleElement.textContent = 'Alert information';
+		// Crée un élément semi-transparent pour recouvrir la page
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay-alert';
+		document.body.appendChild(overlay);
 
-        // Crée un bouton de fermeture
-        var closeButton = document.createElement('button');
-        closeButton.textContent = 'X';
-        closeButton.className = 'close-button';
-        closeButton.onclick = function () {
-            document.body.removeChild(alertElement);
-        };
+		// Crée un élément d'alerte
+		var alertElement = document.createElement('div');
+		alertElement.className = 'custom-alert';
 
-        // Crée un élément pour le message
-        var messageContainer = document.createElement('div');
-        messageContainer.className = 'message-container';
+		// Crée un élément pour le titre
+		var titleElement = document.createElement('div');
+		titleElement.className = 'alert-title';
+		titleElement.textContent = 'Alert information';
 
-        // Ajoute le texte du message à l'élément de message
-        var messageElement = document.createElement('div');
-        messageElement.textContent = message;
+		// Crée un bouton de fermeture
+		var closeButton = document.createElement('button');
+		closeButton.textContent = 'X';
+		closeButton.className = 'close-button';
+		closeButton.onclick = function () {
+			document.body.removeChild(overlay);
+			document.body.removeChild(alertElement);
+		};
 
-        // Ajoute les éléments au DOM
-        titleElement.appendChild(closeButton);
-        alertElement.appendChild(titleElement);
-        messageContainer.appendChild(messageElement);
-        alertElement.appendChild(messageContainer);
-        document.body.appendChild(alertElement);
-    }
+		// Crée un élément pour le message
+		var messageContainer = document.createElement('div');
+		messageContainer.className = 'message-container';
 
+		// Ajoute le texte du message à l'élément de message
+		var messageElement = document.createElement('div');
+		messageElement.textContent = message;
+
+		// Ajoute les éléments au DOM
+		titleElement.appendChild(closeButton);
+		alertElement.appendChild(titleElement);
+		messageContainer.appendChild(messageElement);
+		alertElement.appendChild(messageContainer);
+		document.body.appendChild(alertElement);
+		document.body.appendChild(overlay);
+	}
 }

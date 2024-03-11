@@ -78,99 +78,56 @@ export function chat() {
 			console.error('fetch template failed :', error);
 		});
 
+	//click manage 
+	document.addEventListener("click", (e) => {
+		//e.stopImmediatePropagation();
 
-	// // Sélectionnez le bouton par son ID
-	// const checkProfilButton = document.getElementById('checkProfil');
+		console.log("e.target***: ", e.target);
+		console.log("e.curtarget***: ", e.currentTarget);
+		console.log("activeChatPanel by listener click: ", activeChatPanel);
 
-	// // Ajoutez un écouteur d'événements pour l'événement "click"
-	// checkProfilButton.addEventListener('click', function () {
-	// 	console.log("click on checkProfilButton");
-	// 	let nickname = activeChatPanel;
-	// 	console.log("NICKNAME: ", nickname);
+		if (e.currentTarget.id != "searchContactId")
+			refresh_display();
+		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
+			search_contact();*/
 
-	// 	// redir du user vers la page user avec le nickname
-	// 	if (nickname)
-	// 		// window.location.href = `/user/${nickname}`;
-	// 		checkProfil.href = `/user/${nickname}/`;
-	// 	checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-	// 	return;
-	// });
-	
+		//pour les boutons
+		let removeFriendBtn = document.getElementById('removeFriend');
+		let unBlockFriend = document.getElementById('unBlockFriend');
+		let nickname = document.querySelector("[data-text]").textContent.trim();
 
-	// //click manage fonction originale
-	// document.addEventListener("click", (e) => {
-	// 	//e.stopImmediatePropagation();
+		removeFriendBtn.onclick = (e) => {
+			console.log("remove with active panel: ", activeChatPanel);
+			manageFriend("remove", activeChatPanel);
+		};
 
-	// 	console.log("e.target***: ", e.target);
-	// 	console.log("e.curtarget***: ", e.currentTarget);
-	// 	console.log("activeChatPanel by listener click: ", activeChatPanel);
+		unBlockFriend.onclick = (e) => {
+			manageFriend("unblock", activeChatPanel);
+		};
 
-	// 	if (e.currentTarget.id != "searchContactId")
-	// 		refresh_display();
-	// 	/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
-	// 		search_contact();*/
-	// });
+		const checkProfilButton = document.getElementById('checkProfil');
 
-	// //click manage semble logique mais ne fonctionne pas
-	// document.addEventListener("click", (e) => {
-	// 	//e.stopImmediatePropagation();
+		//bouton check profil renvoi sur user
+		checkProfilButton.addEventListener('click', function () {
+			console.log("click on checkProfilButton");
 
-	// 	console.log("e.target***: ", e.target);
-	// 	console.log("e.curtarget***: ", e.currentTarget);
-	// 	console.log("activeChatPanel by listener click: ", activeChatPanel);
-	// 	console.log("e.target.id: ", e.target.id);
-	// 	if (e.target.id === "checkProfil") {
-	// 		const checkProfilButton = document.getElementById('checkProfil');
+			if (nickname === "" && activeChatPanel !== null) {
+				console.log("Using nickname from friendName: ", activeChatPanel);
+				redirectToUserProfile(activeChatPanel);
+			} else {
+				console.log("Using activeChatPanel as nickname: ", nickname);
+				redirectToUserProfile(nickname);
+			}
+		});
+		function redirectToUserProfile(nickname) {
+			if (nickname)
+				checkProfil.href = `/user/${nickname}/`;
+			checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+			return;
 
-	// 		checkProfilButton.addEventListener('click', function () {
-	// 			console.log("ACTIVE CHAT PANEL DANS LA FONCTION: ", activeChatPanel);
-	// 			console.log("click on checkProfilButton");
-	// 			let nickname = activeChatPanel;
-
-	// 			// redir du user vers la page user avec le nickname
-	// 			if (nickname)
-	// 				// window.location.href = `/user/${nickname}`;
-	// 				checkProfil.href = `/user/${nickname}/`;
-	// 			checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-	// 			return;
-	// 		});
-	// 		return;
-	// 	}
-	// 	if (e.currentTarget.id != "searchContactId")
-	// 		refresh_display();
-	// });
-
-
-	//click manage foctionne mais envoi un message d invitation a jouer
-document.addEventListener("click", (e) => {
-	//e.stopImmediatePropagation();
-
-	console.log("e.target***: ", e.target);
-	console.log("e.curtarget***: ", e.currentTarget);
-	console.log("activeChatPanel by listener click: ", activeChatPanel);
-
-	if (e.currentTarget.id != "searchContactId")
-		refresh_display();
-	/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
-		search_contact();*/
-
-	const checkProfilButton = document.getElementById('checkProfil');
-
-	//probeleme sur cet événement "click" ??
-	checkProfilButton.addEventListener('click', function () {
-		console.log("click on checkProfilButton");
-		// obtien le nickname ici 
-		let nickname = activeChatPanel;
-
-		// redir du user vers la page user avec le nickname
-		if (nickname)
-			// window.location.href = `/user/${nickname}`;
-			checkProfil.href = `/user/${nickname}/`;
-		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-		return;
-
+		}
 	});
-});
+
 	// click on search
 	document.getElementById("searchContactId").addEventListener("click", search_contact);
 
@@ -543,10 +500,10 @@ document.addEventListener("click", (e) => {
 	function message_receive(data) {
 		console.log("==message_receive FUNCTION==");
 
-		/*if (data.type == "tournament_alert") {
-			showToast();
+		if (data.type == "alert_tournament") {
+			showToast(data);
 			return;
-		}*/
+		}
 
 		const element = document.createElement("div");
 
@@ -801,9 +758,11 @@ document.addEventListener("click", (e) => {
 		});
 	}
 
-	function showToast() {
-		const toastElement = document.getElementById('liveToast');
-		toastElement.querySelector('.toast-body').textContent = "You are expected for the pong tournament";
+	function showToast(data) {
+		console.log("==showToast function==");
+		const toastElement = document.getElementById("liveToast");
+		toastElement.querySelector(".toast-header .time").innerText = data.timestamp;
+		toastElement.querySelector(".toast-body").textContent = data.message;
 
 		const toast = new bootstrap.Toast(toastElement);
 		toast.show();
@@ -1014,26 +973,13 @@ document.addEventListener("click", (e) => {
 			.then(data => {
 				// test
 				console.log(data.message);
+				showAlert(data.message);
 			})
 			.catch(error => {
 				// Le traitement des erreurs ici
 				console.error('Request fetch Error:', error);
 			});
 	}
-
-
-	// POUR LE FORM USER profil et user et chat VERENA bouton check user profil
-
-	// function redirectToProfile() {
-	// 	const nickname = prompt("Enter the user's nickname:"); // Demander le nickname à l'utilisateur
-	// 	if (nickname) {
-	// 		window.location.href = `/user/${nickname}/`;
-	// 	}
-	// }
-
-	// document.addEventListener("DOMContentLoaded", function () {
-
-	// });
 
 	let user = document.getElementById('user');
 	let searched_nickname = document.getElementById('searchInput');
@@ -1072,5 +1018,48 @@ document.addEventListener("click", (e) => {
 			visibleList = false;
 		}
 	});
+
+	// Fonction pour creer et afficher une alerte personnalisée
+	function showAlert(message) {
+
+		// Crée un élément semi-transparent pour recouvrir la page
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay-alert';
+		document.body.appendChild(overlay);
+
+		// Crée un élément d'alerte
+		var alertElement = document.createElement('div');
+		alertElement.className = 'custom-alert';
+
+		// Crée un élément pour le titre
+		var titleElement = document.createElement('div');
+		titleElement.className = 'alert-title';
+		titleElement.textContent = 'Alert information';
+
+		// Crée un bouton de fermeture
+		var closeButton = document.createElement('button');
+		closeButton.textContent = 'X';
+		closeButton.className = 'close-button';
+		closeButton.onclick = function () {
+			document.body.removeChild(overlay);
+			document.body.removeChild(alertElement);
+		};
+
+		// Crée un élément pour le message
+		var messageContainer = document.createElement('div');
+		messageContainer.className = 'message-container';
+
+		// Ajoute le texte du message à l'élément de message
+		var messageElement = document.createElement('div');
+		messageElement.textContent = message;
+
+		// Ajoute les éléments au DOM
+		titleElement.appendChild(closeButton);
+		alertElement.appendChild(titleElement);
+		messageContainer.appendChild(messageElement);
+		alertElement.appendChild(messageContainer);
+		document.body.appendChild(alertElement);
+		document.body.appendChild(overlay);
+	}
 
 }

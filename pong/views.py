@@ -92,7 +92,6 @@ def profil(request):
     try:
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=request.user)
-        games = Game.objects.filter(teams__in=user_teams)
         matches = (
             Game.objects.filter(teams__in=user_teams)
             .filter(status="END")
@@ -123,8 +122,8 @@ def profil(request):
     nickname_form = NicknameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
 
-    matches_played = games.count()
-    wins = games.filter(winner__users=request.user).count()
+    matches_played = matches.count()
+    wins = matches.filter(winner__users=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
     status = request.user.status
@@ -335,7 +334,7 @@ def game(request, gameId=None):
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     # envoi du signal pour le mode de jeu "playing"
-    # user_playing_mode.send(sender=None, request=request, user=request.user)
+    user_playing_mode.send(sender=None, request=request, user=request.user)
     return render(
         request,
         "game.html",
@@ -818,11 +817,11 @@ def manageFriend(request, prefix, action, nickname):
                     print(f"friend: {nickname} added by {request.user.nickname}")
                     print("*****:", request.user.friends.all())
                     return JsonResponse(
-                        {"message": "friend have been added"}, status=200
+                        {"message": "Friend has been added ✔︎"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend already present"}, status=200
+                        {"message": "Friend already added ✕"}, status=200
                     )
             elif action == "remove":
                 if request.user.friends.filter(nickname=target.nickname).exists():
@@ -830,10 +829,14 @@ def manageFriend(request, prefix, action, nickname):
                     print("*****:", request.user.friends.all())
                     print(f"friend: {nickname} removed by {request.user.nickname}")
                     return JsonResponse(
-                        {"message": "friend have been removed"}, status=200
+                        {"message": "Friend has been removed"}, status=200
                     )
                 else:
-                    return JsonResponse({"message": "friend doesn't exist"}, status=200)
+                    return JsonResponse(
+                        {"message": "Friend doesn't exist or has been removed"},
+                        status=200,
+                    )
+
             elif action == "block":
                 if (
                     request.user.friends.filter(nickname=target.nickname).exists()
@@ -844,11 +847,11 @@ def manageFriend(request, prefix, action, nickname):
                     request.user.blocked_users.add(target)
                     print(f"friend: {nickname} was blocked by {request.user.nickname}")
                     return JsonResponse(
-                        {"message": "friend have been blocked"}, status=200
+                        {"message": "Friend has been blocked"}, status=200
                     )
                 else:
                     return JsonResponse(
-                        {"message": "friend doesn't exist or already blocked"},
+                        {"message": "Friend is already blocked"},
                         status=200,
                     )
             elif action == "unblock":
@@ -860,15 +863,13 @@ def manageFriend(request, prefix, action, nickname):
                 ):
                     request.user.blocked_users.remove(target)
                     print(
-                        f"friend: {nickname} was unblocked by {request.user.nickname}"
+                        f"Friend: {nickname} was unblocked by {request.user.nickname}"
                     )
                     return JsonResponse(
-                        {"message": "friend have been unblocked"}, status=200
+                        {"message": "Friend have been unblocked"}, status=200
                     )
                 else:
-                    return JsonResponse(
-                        {"message": "friend doesn't exist or not blocked"}, status=200
-                    )
+                    return JsonResponse({"message": "Friend is unblocked"}, status=200)
             else:
                 return JsonResponse({"message": "action not recognize"}, status=200)
 
@@ -890,11 +891,11 @@ def manageFriend(request, prefix, action, nickname):
 #                     print(f"friend: {username} added by {request.user.username}")
 #                     print("*****:", request.user.friends.all())
 #                     return JsonResponse(
-#                         {"message": "friend have been added"}, status=200
+#                         {"message": "Friend have been added"}, status=200
 #                     )
 #                 else:
 #                     return JsonResponse(
-#                         {"message": "friend already present"}, status=200
+#                         {"message": "Friend already added ✕"}, status=200
 #                     )
 #             elif action == "remove":
 #                 if request.user.friends.filter(username=target.username).exists():
@@ -902,10 +903,13 @@ def manageFriend(request, prefix, action, nickname):
 #                     print("*****:", request.user.friends.all())
 #                     print(f"friend: {username} removed by {request.user.username}")
 #                     return JsonResponse(
-#                         {"message": "friend have been removed"}, status=200
+#                         {"message": "Friend has been removed"}, status=200
 #                     )
 #                 else:
-#                     return JsonResponse({"message": "friend doesn't exist"}, status=200)
+#                     return JsonResponse(
+                        {"message": "Friend doesn't exist or has been removed"},
+                        status=200,
+                    )
 
 #             elif action == "block":
 #                 if (
@@ -917,11 +921,11 @@ def manageFriend(request, prefix, action, nickname):
 #                     request.user.blocked_users.add(target)
 #                     print(f"friend: {username} was blocked by {request.user.username}")
 #                     return JsonResponse(
-#                         {"message": "friend have been blocked"}, status=200
+#                         {"message": "Friend has been blocked"}, status=200
 #                     )
 #                 else:
 #                     return JsonResponse(
-#                         {"message": "friend doesn't exist or already blocked"},
+#                         {"message": "Friend doesn't exist or already blocked"},
 #                         status=200,
 #                     )
 #             elif action == "unblock":
@@ -933,17 +937,17 @@ def manageFriend(request, prefix, action, nickname):
 #                 ):
 #                     request.user.blocked_users.remove(target)
 #                     print(
-#                         f"friend: {username} was unblocked by {request.user.username}"
+#                         f"Friend: {username} was unblocked by {request.user.username}"
 #                     )
 #                     return JsonResponse(
-#                         {"message": "friend have been unblocked"}, status=200
+#                         {"message": "Friend have been unblocked"}, status=200
 #                     )
 #                 else:
 #                     return JsonResponse(
-#                         {"message": "friend doesn't exist or not blocked"}, status=200
+#                         {"message": "Friend doesn't exist or isn't blocked"}, status=200
 #                     )
 #             else:
-#                 return JsonResponse({"message": "action not recognize"}, status=200)
+#                 return JsonResponse({"message": "Action not recognized"}, status=200)
 
 #         except CustomUser.DoesNotExist:
 #             print(f"User not found: {username}")

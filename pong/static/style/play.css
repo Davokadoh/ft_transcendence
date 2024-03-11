@@ -195,7 +195,7 @@
 	/* width: auto; */
 	height: fit-content;
 	font-size: 18px;
-	z-index: 200;
+	z-index: 3000;
 }
 
 .night-mode .custom-alert {
@@ -233,7 +233,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 186, 185, 0.5);
-	z-index: auto;
+	z-index: 2000;
 }
 
 .night-mode .overlay-alert {

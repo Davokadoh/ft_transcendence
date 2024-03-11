@@ -1,3 +1,5 @@
+import { socket } from './index.js';
+
 export function tourLobby(tournamentId) {
 	let button = document.getElementById('startButton');
 	let isNicknameValid = false;
@@ -56,10 +58,22 @@ export function tourLobby(tournamentId) {
 	});
 
 	button.addEventListener('click', e => {
+
 		if (!isNicknameValid) {
 			e.preventDefault();
 			e.stopPropagation();
 			showAlert("Please enter a valid username first.");
+		}
+		else {
+			var p2 = document.getElementById('playerInput2').value;
+			var p3 = document.getElementById('playerInput3').value;
+			var p4 = document.getElementById('playerInput4').value;
+			socket.send(JSON.stringify({
+				'type': 'alert_tournament',
+				'id': "id" + Math.random().toString(16).slice(2),
+				'target': `${p2},${p3},${p4}`, //nickname target
+				'message': `You are expected for the pong tournament`
+			}));
 		}
 	});
 

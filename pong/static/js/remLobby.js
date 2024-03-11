@@ -18,12 +18,7 @@ export function remLobby(gameId) {
 	document.getElementById('inviteButton').addEventListener('click', function () {
 		var player2Nickname = document.getElementById('player2').value;
 		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-		// Bloque l invitation a soi meme
-		console.log("Player 1 Username:", player1_username);
-		if (player2Nickname.trim() === document.getElementById('player1_username').value) {
-			showAlert("You can't play against yourself !");
-			return;
-		}
+
 		if (player2Nickname.trim() !== "") {
 			var data = {
 				nickname: player2Nickname
