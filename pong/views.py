@@ -96,7 +96,6 @@ def profil(request):
     try:
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=request.user)
-        games = Game.objects.filter(teams__in=user_teams)
         matches = (
             Game.objects.filter(teams__in=user_teams)
             .filter(status="END")
@@ -127,8 +126,8 @@ def profil(request):
     nickname_form = NicknameForm(instance=request.user)
     profil_picture_form = ProfilPictureForm(instance=request.user)
 
-    matches_played = games.count()
-    wins = games.filter(winner__users=request.user).count()
+    matches_played = matches.count()
+    wins = matches.filter(winner__users=request.user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
     status = request.user.status
