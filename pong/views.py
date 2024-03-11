@@ -339,7 +339,7 @@ def game(request, gameId=None):
         return redirect(home)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     # envoi du signal pour le mode de jeu "playing"
-    # user_playing_mode.send(sender=None, request=request, user=request.user)
+    user_playing_mode.send(sender=None, request=request, user=request.user)
     return render(
         request,
         "game.html",
