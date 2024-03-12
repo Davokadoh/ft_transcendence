@@ -1,5 +1,5 @@
 from channels.layers import get_channel_layer
-from pong.models import Game, User
+from pong.models import Game, CustomUser
 from .ball import Ball
 import asyncio
 import time
@@ -10,7 +10,7 @@ Status = {"LOBBY", "PLAY", "PAUSE", "END"}
 class Engine:
     def __init__(self, gameId):
         self.game = Game.objects.get(pk=gameId)
-        self.users = User.objects.filter(team__gameteam__game=self.game)
+        self.users = CustomUser.objects.filter(team__gameteam__game=self.game)
         self.players = list()
         self.left = self.game.gameteam_set.first()
         self.right = self.game.gameteam_set.last()

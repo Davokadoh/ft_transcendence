@@ -21,11 +21,9 @@ def user_directory_path(instance, filename):
     )
 
 
-class User(AbstractBaseUser):
+class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=255, primary_key=True)
     nickname = models.CharField(max_length=255, unique=True, null=True)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     profil_picture = models.ImageField(
         max_length=255,
         upload_to=user_directory_path,
@@ -33,12 +31,6 @@ class User(AbstractBaseUser):
         default=None,
     )
     profil_picture_oauth = models.URLField(max_length=255)
-    groups = models.CharField(max_length=255)
-    user_permissions = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    is_staff = models.CharField(max_length=255)
-    is_superuser = models.CharField(max_length=255)
-    is_active = models.CharField(max_length=255)
     chats = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
     conversations = models.ManyToManyField("Conversation")
 
@@ -54,7 +46,7 @@ class User(AbstractBaseUser):
         default=50, validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
     ballSpeed = models.IntegerField(
-        default=5, validators=[MinValueValidator(1), MaxValueValidator(10)]
+        default=3, validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
     paddleColor = models.CharField(default="#feffff", max_length=50, blank=True)
     ballColor = models.CharField(default="#feffff", max_length=50, blank=True)
@@ -79,7 +71,7 @@ class User(AbstractBaseUser):
 
 
 class Conversation(models.Model):
-    participants = models.ForeignKey(User, on_delete=models.CASCADE)
+    participants = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     messages = models.ManyToManyField("Message")
     # unread = models.BooleanField(default=True)
 
@@ -89,10 +81,10 @@ class Conversation(models.Model):
 
 class Message(models.Model):
     sender = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
+        CustomUser, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
     )
     target = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, blank=False, related_name="target"
+        CustomUser, on_delete=models.CASCADE, null=False, blank=False, related_name="target"
     )
     message = models.TextField(null=False, blank=False)
     id_msg = models.TextField(null=False, blank=False)
@@ -113,14 +105,14 @@ class GameTeam(models.Model):
 
 
 class Team(models.Model):
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(CustomUser)
     max_player = models.PositiveSmallIntegerField(default=2)
 
     def add_player(self, player_id):
         if self.users.count() < self.max_player:
             self.users.add(player_id)
 
-    # @target(pre_delete, sender=User)
+    # @target(pre_delete, sender=CustomUser)
     # def pre_delete_User_in_team(sender, instance, created, **kwargs):
     #     team_list = Team.objects.filter(users=None)
     #     for team in team_list:

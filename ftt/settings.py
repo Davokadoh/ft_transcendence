@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = ["pong.backend.CustomAuthenticationBackend"]
-AUTH_USER_MODEL = "pong.User"
+AUTH_USER_MODEL = "pong.CustomUser"
 CSRF_USE_SESSIONS = True
 
 # Internationalization

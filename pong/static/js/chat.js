@@ -845,8 +845,12 @@ export function chat() {
 						handle_click_contact(document.getElementById("listContact").lastElementChild);
 						// }
 					});
-					//console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
-
+					console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
+					let userListResponse = document.getElementById("listContact").innerHTML;
+					//no friend to chat
+					if (userListResponse.length === 0) {
+						showAlert("If you don't have any friends, take a curly and go to the profile page to find some.");
+					}
 					//Listen event about search
 					handle_input_steam();
 					resolve();
@@ -958,7 +962,7 @@ export function chat() {
 
 	function manageFriend(action, target) {
 
-		fetch(`manageFriendChat/${action}/${target}/`, {
+		fetch(`manageFriend/${action}/${target}/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
