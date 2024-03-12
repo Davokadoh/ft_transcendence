@@ -5,7 +5,7 @@
 // import { user } from "./user.js";
 import { router } from "./router.js";
 
-export var socket = new WebSocket(`ws://${window.location.host}/ws/`);
+export var socket = new WebSocket(`wss://${window.location.host}/ws/`);
 
 const waitForOpenConnection = (socket) => {
     return new Promise((resolve, reject) => {

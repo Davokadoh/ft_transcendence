@@ -22,8 +22,8 @@ def user_directory_path(instance, filename):
 
 
 class CustomUser(AbstractBaseUser):
-    username = models.CharField(max_length=255, primary_key=True)
-    nickname = models.CharField(max_length=255, unique=True, null=True)
+    username = models.CharField(max_length=15, primary_key=True)
+    nickname = models.CharField(max_length=15, unique=True, null=True)
     profil_picture = models.ImageField(
         max_length=255,
         upload_to=user_directory_path,
@@ -37,7 +37,7 @@ class CustomUser(AbstractBaseUser):
     channel_name = models.CharField(max_length=255)
     USERNAME_FIELD = "username"
     friends = models.ManyToManyField("self")
-    blocked_users = models.ManyToManyField("self")
+    blocked_users = models.ManyToManyField("self", symmetrical=False, related_name="blocked_users_set")
     status = models.CharField(max_length=10)
 
     objects = UserManager()
