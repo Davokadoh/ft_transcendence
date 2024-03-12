@@ -35,7 +35,7 @@ urlpatterns = [
     path("user/<str:nickname>/", views.user),
     path("api/create-fake-user/", create_fake_user, name="create_fake_user"),
     path("accounts/profil/settings/", views.UpdateUserSettingsView),
-    path("accounts/profil/settings/data/", views.getUserData),
+    path("profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),
     path("game/<int:gameId>/get-nickname/", views.get_nicknames),
     path("tournament/<int:gameId>/get-nickname/", views.get_nicknames),
