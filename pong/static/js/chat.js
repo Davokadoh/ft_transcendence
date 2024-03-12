@@ -407,18 +407,27 @@ export function chat() {
 
 		document.getElementById("removeFriend").addEventListener("click", () => {
 			console.log("remove with active panel: ", activeChatPanel);
-			let del = conversation.querySelector("#delId");
-			del.click();
-			console.log(del)
-			//manageFriend("remove", activeChatPanel);
+			manageFriend("remove", activeChatPanel);
 		});
 
-		document.getElementById("blockUnblockFriend").addEventListener("click", () => {
-			console.log("click on blockUnblock contact");
+		document.getElementById("unblockFriend").addEventListener("click", () => {
+			console.log(`click on blockUnblock contact: ${activeChatPanel}`);
+			let convBtnBlockUnblock = document.querySelector(`.conversation-list #${activeChatPanel}`);
+			convBtnBlockUnblock = convBtnBlockUnblock.querySelector("#blockUnblockId").textContent = "Block contact";
+			blockContact(activeChatPanel, false);
+			manageFriend("unblock", activeChatPanel);
 		});
 
 		document.getElementById("invitation").addEventListener("click", sendByMe);
 		document.getElementById("send-id").addEventListener("click", sendByMe);
+	}
+
+	function redirectToUserProfile(nickname) {
+		if (nickname)
+			checkProfil.href = `/user/${nickname}/`;
+		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+		return;
+
 	}
 
 	function findConversation(name) {
