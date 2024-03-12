@@ -846,7 +846,11 @@ export function chat() {
 						// }
 					});
 					console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
-
+					let userListResponse = document.getElementById("listContact").innerHTML;
+					//no friend to chat
+					if (userListResponse.length === 0) {
+						showAlert("If you don't have any friends, take a curly and go to the profile page to find some.");
+					}
 					//Listen event about search
 					handle_input_steam();
 					resolve();
