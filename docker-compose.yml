@@ -22,7 +22,7 @@ services:
   db:
     image: postgres:latest
     env_file: .env
-    container_name: $dbhost
+    container_name: $POSTGRES_HOST
     ports:
       - "5432:5432"
     networks:
