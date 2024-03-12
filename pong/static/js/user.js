@@ -1,23 +1,4 @@
-// export function user() {
-// 	let user = document.getElementById('user');
-// 	let searched_nickname = document.getElementById('searchInput');
-// 	searched_nickname.onchange = function() {
-// 		console.log("searched_nickname JS = ", searched_nickname.value);
-// 		// console.log("WINDOW HREF = ", window.location.href);
-// 		user.href = `/user/${searched_nickname.value}/`;
-// 	};
-// }
-
-export function user() { //modif de claire du 26.092.24 pour regler le soucis d'image
-    // let user = document.getElementById('user');
-    // let profilPicture = document.getElementById('profil-picture');
-    // let searched_nickname = document.getElementById('searchInput');
-    // if (searched_nickname) {
-    //     searched_nickname.onchange = function () {
-    //         console.log("searched_nickname JS = ", searched_nickname.value);
-    //         profilPicture.href = `/user/${searchedUsername.value}/`;
-    //     };
-    // }
+export function user() { 
 
     // POUR LE FORM USER 
     let visibleList = false;
@@ -150,8 +131,10 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                 return response.json();
             })
             .then(data => {
-                console.log('Response server _data_ : users/friends : ', data.friend_list);
-                return data.friend_list.map(friend => friend.nickname); // Return the list of nicknames
+                if (data.friend_list) {
+                    console.log('Response server _data_ : users/friends : ', data.friend_list);
+                    return data.friend_list.map(friend => friend.nickname);
+                }
             })
             .catch(error => {
                 console.error('request error: Fetch', error);
@@ -185,43 +168,49 @@ export function user() { //modif de claire du 26.092.24 pour regler le soucis d'
                     //#check#user
 
                     var myNickname = document.getElementById("searchInput").value;
-                    data.user_list.map(user => {
+                    if (data.user_list) {
+                        data.user_list.map(user => {
 
-                        if (myNickname != user.nickname) {
-                            //take template
-                            var tpl = templateContactList.content.cloneNode(true);
-                            tpl.querySelector(".contact").id = `${user.nickname}-contact-id`;
-                            tpl.querySelector("[data-image]").src = user.profil_picture;
-                            tpl.querySelector("[data-name]").textContent = truncNickname(user.nickname);
-                            tpl.querySelector("[data-full-name]").textContent = user.nickname;
+                            if (myNickname != user.nickname) {
+                                //take template
+                                var tpl = templateContactList.content.cloneNode(true);
+                                tpl.querySelector(".contact").id = `${user.nickname}-contact-id`;
+                                tpl.querySelector("[data-image]").src = user.profil_picture;
+                                tpl.querySelector("[data-name]").textContent = truncNickname(user.nickname);
+                                tpl.querySelector("[data-full-name]").textContent = user.nickname;
 
-                            // Set the status indicator @Verena Status
-                            let statusIndicator = tpl.querySelector(".status-indicator");
-                            statusIndicator.textContent = user.status;
-                            statusIndicator.setAttribute('data-status', user.status);
+                                // Set the status indicator @Verena Status
+                                let statusIndicator = tpl.querySelector(".status-indicator");
+                                statusIndicator.textContent = user.status;
+                                statusIndicator.setAttribute('data-status', user.status);
 
-                            // Modify the status indicator color based on status
-                            if (user.status === 'online') {
-                                statusIndicator.classList.add('online');
-                            } else if (user.status === 'offline') {
-                                statusIndicator.classList.add('offline');
-                            } else if (user.status === 'playing') {
-                                statusIndicator.classList.add('playing');
-                            } else if (user.status === '') {
-                                statusIndicator.classList.add('empty');
+                                // Modify the status indicator color based on status
+                                if (user.status === 'online') {
+                                    statusIndicator.classList.add('online');
+                                } else if (user.status === 'offline') {
+                                    statusIndicator.classList.add('offline');
+                                } else if (user.status === 'playing') {
+                                    statusIndicator.classList.add('playing');
+                                } else if (user.status === '') {
+                                    statusIndicator.classList.add('empty');
+                                }
+
+                                //insert contact 
+                                document.getElementById("listContact").append(tpl);
+                                handle_click_contact(document.getElementById("listContact").lastElementChild);
                             }
-
-                            //insert contact 
-                            document.getElementById("listContact").append(tpl);
-                            handle_click_contact(document.getElementById("listContact").lastElementChild);
-                        }
-
-                    });
+                        });
+                    }else {
+                        console.error('Error: user_list not present in data');
+                        return [];
+                    }
                     console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
                     //Listen event about search
                     handle_input_steam();
                     resolve();
-                    return data.friend_list.map(friend => friend.nickname); // Return the list of nicknames not sure is usefull here
+                    if (data.friend_list) {
+                        return data.friend_list.map(friend => friend.nickname);
+                    }
                 })
                 .catch(error => {
                     console.error('request error: Fetch', error);

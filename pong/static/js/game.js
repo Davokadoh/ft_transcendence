@@ -97,17 +97,14 @@ export function game(gameId) {
 		clearBoard();
 		document.getElementsByClassName("close")[0].addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
 		});
 		document.querySelector('.modalButton').addEventListener('click', function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
 		});
 	}
 
 	document.getElementById("start-game").addEventListener("click", startGame);
 	document.getElementById("stop-game").addEventListener("click", stopGame);
-	document.getElementById("reset-game").addEventListener("click", resetGame);
 
 
 	function draw() {
@@ -234,13 +231,6 @@ export function game(gameId) {
 
 	function updateScore() {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
-	}
-
-	// function 
-
-	function resetGame() {
-		initializeGame();
-		updateScore();
 	}
 
 	function startGame() {
