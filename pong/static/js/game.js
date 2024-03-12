@@ -47,7 +47,6 @@ export function game(gameId) {
 				console.log("paddle speed: ", paddleSpeed);
 			})
 			.catch(error => {
-				// Gérer les erreurs survenues lors de la requête
 				console.error('Erreur lors de la requête AJAX :', error);
 			});
 
@@ -62,7 +61,6 @@ export function game(gameId) {
 				document.getElementById('player2').textContent = player2;
 			})
 			.catch(error => {
-				// Gérer les erreurs survenues lors de la requête
 				console.error('Erreur lors de la requête AJAX :', error);
 			});
 
@@ -75,7 +73,6 @@ export function game(gameId) {
 				console.log(player2Score);
 			})
 			.catch(error => {
-				// Gérer les erreurs survenues lors de la requête
 				console.error('Erreur lors de la requête AJAX :', error);
 			});
 
@@ -97,18 +94,14 @@ export function game(gameId) {
 		clearBoard();
 		document.getElementsByClassName("close")[0].addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
 		});
 		document.querySelector('.modalButton').addEventListener('click', function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
 		});
 	}
 
 	document.getElementById("start-game").addEventListener("click", startGame);
 	document.getElementById("stop-game").addEventListener("click", stopGame);
-	document.getElementById("reset-game").addEventListener("click", resetGame);
-
 
 	function draw() {
 		if (!gameRunning) {
@@ -236,13 +229,6 @@ export function game(gameId) {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
 
-	// function 
-
-	function resetGame() {
-		initializeGame();
-		updateScore();
-	}
-
 	function startGame() {
 		if (!gameRunning) {
 			gameRunning = true;
@@ -264,8 +250,8 @@ export function game(gameId) {
 			console.error('CSRF token not found');
 			return;
 		}
-		// if (player1Score >= 5 || player2Score >= 5) {
-		if (player1Score >= 1 || player2Score >= 1) {
+		if (player1Score >= 5 || player2Score >= 5) {
+		// if (player1Score >= 1 || player2Score >= 1) {
 			stopGame();
 			let winnerMessage = "Game Over! ";
 			if (player1Score > player2Score) {
