@@ -6,9 +6,11 @@
 {% block content %}
 <div id="app">
   <div class="container-fluid d-flex flex-row">
-    <div class="col-md-4 d-flex flex-column align-items-start justify-content-start mt-3 marginLeft">
-      <button id="start-game" class="btn bg-vert">Start</button>
-      <button id="stop-game" class="btn bg-vert">Stop</button>
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <div class="d-flex flex-column align-items-center">
+        <button id="start-game" class="btn bg-vert">Démarrer</button>
+        <button id="stop-game" class="btn bg-vert">Arrêter</button>
+      </div>
     </div>
     <div class="col-md-4 d-flex align-items-center justify-content-center mt-3 position-relative">
       <div id="boardGame" class="gameContainer">
@@ -25,7 +27,6 @@
           <span id="player1" class="badge">Player1</span>
           <span id="player2" class="badge">Player2</span>
         </div>
-
       </div>
       <div class="col-md-12 rule blackboard">
         <button class="close-button" id="closeRulesButton">-</button>

@@ -1,4 +1,4 @@
-export function user() { 
+export function user() {
 
     // POUR LE FORM USER 
     let visibleList = false;
@@ -73,15 +73,12 @@ export function user() {
         console.log("click on ladder");
 
         const nickname = searched_nickname.value.trim(); //@Verena
-        // const currentUser = document.getElementById("current-user").dataset.nickname;
         const currentUser = document.getElementById("ladder").dataset.nickname;
         if (nickname) {
-            // Vérifie si l'utilisateur essaie de s'ajouter lui-même
             if (nickname === currentUser) {
                 showAlert("You are already your own friend ♥︎");
                 return;
             }
-            // Appel de createListFriends pour obtenir la liste des amis
             createListFriends().then(friendsList => {
                 if (isFriend(nickname, friendsList)) {
                     showAlert("Friend already added ✕");
@@ -170,7 +167,6 @@ export function user() {
                     var myNickname = document.getElementById("searchInput").value;
                     if (data.user_list) {
                         data.user_list.map(user => {
-
                             if (myNickname != user.nickname) {
                                 //take template
                                 var tpl = templateContactList.content.cloneNode(true);
@@ -199,11 +195,11 @@ export function user() {
                                 document.getElementById("listContact").append(tpl);
                                 handle_click_contact(document.getElementById("listContact").lastElementChild);
                             }
-                        });
-                    }else {
-                        console.error('Error: user_list not present in data');
-                        return [];
-                    }
+                    });
+                } else {
+                    console.error('Error: user_list not present in data');
+                    return [];
+                }
                     console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
                     //Listen event about search
                     handle_input_steam();
@@ -235,11 +231,9 @@ export function user() {
             console.log("CLICK on CONTACT");
             const contactName = contact.querySelector("[data-full-name]").textContent;
             const img = contact.querySelector("[data-image]").src;
-            //console.log(`Clic sur le contact ${contactName}. Image source: ${img}`);
             searched_nickname.value = contactName;
             searched_nickname.focus();
             document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
-            //isVisibleList = false;
         });
     }
 
