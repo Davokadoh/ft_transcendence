@@ -28,4 +28,4 @@ RUN python manage.py makemigrations pong
 RUN python manage.py migrate
 
 # ENTRYPOINT ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
-ENTRYPOINT ["daphne", "-e", "ssl:443:privateKey=/ssl/privkey.key:certKey=/ssl/cert.crt", "ftt.asgi:application"]
+ENTRYPOINT ["daphne", "-e", "tcp:80", "-e", "ssl:443:privateKey=/ssl/privkey.key:certKey=/ssl/cert.crt", "ftt.asgi:application"]
