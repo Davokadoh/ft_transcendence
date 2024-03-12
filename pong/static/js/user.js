@@ -14,17 +14,26 @@ export function user() {
 
     if (removeFriendBtn) {
         removeFriendBtn.onclick = (e) => {
+            let user_logged = document.getElementById("userLog").textContent.trim();
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
-            console.log("click remove friend: ", target);
-            manageFriend("remove", target);
+            if (target === user_logged)
+                showAlert("You cannot remove yourself from your friends list!");
+            else
+                manageFriend("remove", target);
         };
     }
 
     if (addFriendBtn) {
         addFriendBtn.onclick = (e) => {
+            // let user_logged =`{{ user_logged }}`;
+            let user_logged = document.getElementById("userLog").textContent.trim();
+            console.log("user_logged: ", user_logged);
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
-            console.log("click remove friend: ", target);
-            manageFriend("add", target);
+            console.log("target: ", target);
+            if (target === user_logged)
+                showAlert("You are already your own friend ♥︎");
+            else
+                manageFriend("add", target);
         };
     }
 
@@ -195,11 +204,11 @@ export function user() {
                                 document.getElementById("listContact").append(tpl);
                                 handle_click_contact(document.getElementById("listContact").lastElementChild);
                             }
-                    });
-                } else {
-                    console.error('Error: user_list not present in data');
-                    return [];
-                }
+                        });
+                    } else {
+                        console.error('Error: user_list not present in data');
+                        return [];
+                    }
                     console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
                     //Listen event about search
                     handle_input_steam();
@@ -278,46 +287,46 @@ export function user() {
             });
     }
 
-	// Fonction pour creer et afficher une alerte personnalisée
-	function showAlert(message) {
+    // Fonction pour creer et afficher une alerte personnalisée
+    function showAlert(message) {
 
-		// Crée un élément semi-transparent pour recouvrir la page
-		var overlay = document.createElement('div');
-		overlay.className = 'overlay-alert';
-		document.body.appendChild(overlay);
+        // Crée un élément semi-transparent pour recouvrir la page
+        var overlay = document.createElement('div');
+        overlay.className = 'overlay-alert';
+        document.body.appendChild(overlay);
 
-		// Crée un élément d'alerte
-		var alertElement = document.createElement('div');
-		alertElement.className = 'custom-alert';
+        // Crée un élément d'alerte
+        var alertElement = document.createElement('div');
+        alertElement.className = 'custom-alert';
 
-		// Crée un élément pour le titre
-		var titleElement = document.createElement('div');
-		titleElement.className = 'alert-title';
-		titleElement.textContent = 'Alert information';
+        // Crée un élément pour le titre
+        var titleElement = document.createElement('div');
+        titleElement.className = 'alert-title';
+        titleElement.textContent = 'Alert information';
 
-		// Crée un bouton de fermeture
-		var closeButton = document.createElement('button');
-		closeButton.textContent = 'X';
-		closeButton.className = 'close-button';
-		closeButton.onclick = function () {
-			document.body.removeChild(overlay);
-			document.body.removeChild(alertElement);
-		};
+        // Crée un bouton de fermeture
+        var closeButton = document.createElement('button');
+        closeButton.textContent = 'X';
+        closeButton.className = 'close-button';
+        closeButton.onclick = function () {
+            document.body.removeChild(overlay);
+            document.body.removeChild(alertElement);
+        };
 
-		// Crée un élément pour le message
-		var messageContainer = document.createElement('div');
-		messageContainer.className = 'message-container';
+        // Crée un élément pour le message
+        var messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
 
-		// Ajoute le texte du message à l'élément de message
-		var messageElement = document.createElement('div');
-		messageElement.textContent = message;
+        // Ajoute le texte du message à l'élément de message
+        var messageElement = document.createElement('div');
+        messageElement.textContent = message;
 
-		// Ajoute les éléments au DOM
-		titleElement.appendChild(closeButton);
-		alertElement.appendChild(titleElement);
-		messageContainer.appendChild(messageElement);
-		alertElement.appendChild(messageContainer);
-		document.body.appendChild(alertElement);
-		document.body.appendChild(overlay);
-	}
+        // Ajoute les éléments au DOM
+        titleElement.appendChild(closeButton);
+        alertElement.appendChild(titleElement);
+        messageContainer.appendChild(messageElement);
+        alertElement.appendChild(messageContainer);
+        document.body.appendChild(alertElement);
+        document.body.appendChild(overlay);
+    }
 }
