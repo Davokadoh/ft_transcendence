@@ -90,42 +90,6 @@ export function chat() {
 			refresh_display();
 		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
 			search_contact();*/
-
-		//pour les boutons
-		let removeFriendBtn = document.getElementById('removeFriend');
-		let unBlockFriend = document.getElementById('unBlockFriend');
-		let nickname = document.querySelector("[data-text]").textContent.trim();
-
-		removeFriendBtn.onclick = (e) => {
-			console.log("remove with active panel: ", activeChatPanel);
-			manageFriend("remove", activeChatPanel);
-		};
-
-		unBlockFriend.onclick = (e) => {
-			manageFriend("unblock", activeChatPanel);
-		};
-
-		const checkProfilButton = document.getElementById('checkProfil');
-
-		//bouton check profil renvoi sur user
-		checkProfilButton.addEventListener('click', function () {
-			console.log("click on checkProfilButton");
-
-			if (nickname === "" && activeChatPanel !== null) {
-				console.log("Using nickname from friendName: ", activeChatPanel);
-				redirectToUserProfile(activeChatPanel);
-			} else {
-				console.log("Using activeChatPanel as nickname: ", nickname);
-				redirectToUserProfile(nickname);
-			}
-		});
-		function redirectToUserProfile(nickname) {
-			if (nickname)
-				checkProfil.href = `/user/${nickname}/`;
-			checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-			return;
-
-		}
 	});
 
 	// click on search
@@ -167,7 +131,6 @@ export function chat() {
 			const contactId = contact.id;
 			const contactName = contact.querySelector("[data-name]").textContent;
 			const img = contact.querySelector("[data-image]").src;
-			const contactNickname = contact.getAttribute('[data-nickname]');
 
 			searchInput.value = "";
 
@@ -186,9 +149,6 @@ export function chat() {
 				createChatPanel(obj);
 			}
 
-			document.getElementById('friendName').textContent = contactNickname;
-			console.log("friendName: ", contactNickname);
-			console.log("Name: ", name);
 			console.log("Contact name: ", contactName);
 			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
 			document.getElementById('conversationListId').classList.toggle('hide', false);
@@ -315,11 +275,13 @@ export function chat() {
 		console.log(`active chat: ${activeChatPanel}`);
 
 		if (activeChatPanel != contactId) {
+			activeChatPanel = contactId;
+
 			document.querySelector(".conversation-history").innerHTML = "";
 			document.querySelector(".conversation-history").append(mapChatHistory.get(contactId));
 
 			console.log(mapChatHistory.get(contactId));
-			document.querySelector(".conversation-history").addEventListener("click", handle_click_history);
+			handle_click_history();
 			document.getElementById("input-id").addEventListener("keypress", sendByMe);
 
 
@@ -327,7 +289,6 @@ export function chat() {
 			document.getElementById('chatBoxId').classList.toggle('hide', false);
 
 
-			activeChatPanel = contactId;
 			conversationExist = true;
 		}
 	}
@@ -378,6 +339,7 @@ export function chat() {
 			//set value
 			tpl.querySelector(".conversation").id = obj.id;
 			let name = tpl.querySelector("[data-text] h6");
+			tpl.querySelector(".conversation").setAttribute("data-nickname", obj.name);
 			let img = tpl.querySelector("[data-image]");
 			let blockUnblock = tpl.querySelector("#blockUnblockId");
 			let statusIndicator = tpl.querySelector(".status-indicator");
@@ -401,33 +363,62 @@ export function chat() {
 		const contactId = obj.id;
 		if (activeChatPanel != obj.id) {
 
+			activeChatPanel = obj.id;
+
 			document.querySelector(".conversation-history").innerHTML = "";
 			document.querySelector(".conversation-history").append(setTemplate("chatHistory", obj));
 
-			document.querySelector(".conversation-history").addEventListener("click", handle_click_history);
+			handle_click_history();
 			document.getElementById("input-id").addEventListener("keypress", sendByMe);
 
 
 			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
 			document.getElementById('chatBoxId').classList.toggle('hide', false);
 
-			activeChatPanel = obj.id;
 			conversationExist = true;
 
 		}
 	}
 
-	function handle_click_history(event) {
+	function handle_click_history() {
 
-		console.log("==handle_click_history==:  ", event.target);
+		console.log("==handle_click_history==");
 
-		if (event.target.classList.contains("profile-image")) {
+		let conversation = document.querySelector(`.conversation-list #${activeChatPanel}`);
+		let nickname = conversation.getAttribute("data-nickname");
+
+
+		document.getElementById("contactImgProfil").addEventListener("click", () => {
 			console.log("click img contact");
-			handle_click_contact(event.target.parentElement);
+			//handle_click_contact(event.target.parentElement);
 			document.getElementById("contactProfil").classList.toggle("invisible-y");
-		}
-		else if (event.target.classList.contains("invitation") || event.target.classList.contains("i-send"))
-			sendByMe(event);
+		});
+
+		document.getElementById('checkProfil').addEventListener('click', function () {
+
+			console.log("click on checkProfilButton");
+			if (nickname) {
+				console.log(`Check profile: ${nickname}`);
+				redirectToUserProfile(nickname);
+			}
+			else
+				console.log(`Empty Nickname: from checkProfilButton`);
+		});
+
+		document.getElementById("removeFriend").addEventListener("click", () => {
+			console.log("remove with active panel: ", activeChatPanel);
+			let del = conversation.querySelector("#delId");
+			del.click();
+			console.log(del)
+			//manageFriend("remove", activeChatPanel);
+		});
+
+		document.getElementById("blockUnblockFriend").addEventListener("click", () => {
+			console.log("click on blockUnblock contact");
+		});
+
+		document.getElementById("invitation").addEventListener("click", sendByMe);
+		document.getElementById("send-id").addEventListener("click", sendByMe);
 	}
 
 	function findConversation(name) {
@@ -598,8 +589,8 @@ export function chat() {
 			mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
 
 			console.log("****conversationList SIZE*****: ", mapConversationList.size);
-			console.log("****conversationList*****: ", mapConversationList.get(data.sender));
-			console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));
+			//console.log("****conversationList*****: ", mapConversationList.get(data.sender));
+			//console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));
 			conversationExist = true;
 		}
 	}
@@ -668,7 +659,7 @@ export function chat() {
 				//delete invitation after decision 
 				if (data.type == "game_invitation" && data.message.includes("#accept") || data.message.includes("#decline")) {
 					console.log("sent id: ", data.id);
-					console.log("sent element: ", panel.innerHTML);
+					//console.log("sent element: ", panel.innerHTML);
 
 					let myEl = panel.querySelector(`#${data.id}`);
 					let parent = myEl.parentElement;
@@ -682,7 +673,7 @@ export function chat() {
 	}
 
 	function sendByMe(event) {
-		console.log("Click from input chat: ", event.type);
+		console.log("from sendByme event type: ", event.type);
 
 		const inputField = document.getElementById("input-id");
 
@@ -722,7 +713,7 @@ export function chat() {
 		socket.send(JSON.stringify({
 			'type': 'game_invitation',
 			'id': id_tmp.id,
-			'target': activeChatPanel, //nickname target
+			'target': activeChatPanel, //username target
 			'message': decision + ` ${gameId}`
 		}));
 	}
@@ -745,7 +736,7 @@ export function chat() {
 
 	function handle_input_steam() {
 
-		console.log("Handle input stream Function");
+		console.log("==Handle input stream Function==");
 		const contacts = document.querySelectorAll('.contact');
 
 		searchInput.addEventListener("input", function (e) {
@@ -845,7 +836,7 @@ export function chat() {
 						handle_click_contact(document.getElementById("listContact").lastElementChild);
 						// }
 					});
-					console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
+					//console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
 
 					//Listen event about search
 					handle_input_steam();
@@ -942,9 +933,9 @@ export function chat() {
 						//load the messages within conversation
 						message.timestamp = formatageTime(message.timestamp);
 						parse_msg(message, "fetch");
-						console.log("dans fetch sender: ", message.sender_nickname);
-						console.log("dans fetch target: ", message.target_nickname);
-						console.log("dans fetch message: ", message.message);
+						console.log("Conversation fetch sender: ", message.sender_nickname);
+						console.log("Conversation fetch target: ", message.target_nickname);
+						console.log("Conversation fetch message: ", message.message);
 
 					});
 				});
@@ -972,7 +963,7 @@ export function chat() {
 			})
 			.then(data => {
 				// test
-				console.log(data.message);
+				console.log("Show alert: ", data.message);
 				showAlert(data.message);
 			})
 			.catch(error => {
@@ -982,42 +973,6 @@ export function chat() {
 	}
 
 	let user = document.getElementById('user');
-	let searched_nickname = document.getElementById('searchInput');
-	let removeFriendBtn = document.getElementById('removeFriend');
-	let addFriendBtn = document.getElementById('addFriend');
-
-	if (removeFriendBtn) {
-		removeFriendBtn.onclick = (e) => {
-			let target = e.target.closest(".container").querySelector("#nickname").innerText;
-			console.log("click remove friend: ", target);
-			manageFriend("remove", target);
-		};
-	}
-
-	if (addFriendBtn) {
-		addFriendBtn.onclick = (e) => {
-			let target = e.target.closest(".container").querySelector("#nickname").innerText;
-			console.log("click remove friend: ", target);
-			manageFriend("add", target);
-		};
-	}
-
-	searched_nickname.addEventListener("keypress", (e) => {
-		if (e.key == "Enter")
-			user.click();
-	});
-	user.addEventListener("click", () => {
-		if (searched_nickname.value)
-			user.href = `/user/${searched_nickname.value}/`;
-		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
-	});
-
-	document.addEventListener("click", (e) => {
-		if (visibleList && !e.target.classList.contains("text")) {
-			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
-			visibleList = false;
-		}
-	});
 
 	// Fonction pour creer et afficher une alerte personnalisée
 	function showAlert(message) {
@@ -1062,4 +1017,83 @@ export function chat() {
 		document.body.appendChild(overlay);
 	}
 
+	/*----------
+	//pour les boutons
+	
+	let unBlockFriend = document.getElementById('blockUnblockFriend');
+	unBlockFriend.onclick = (e) => {
+		manageFriend("unblock", activeChatPanel);
+	};*/
+
+	/*const checkProfilButton = document.getElementById('checkProfil');
+
+	//bouton check profil renvoi sur user
+	checkProfilButton.addEventListener('click', function () {
+		console.log("click on checkProfilButton");
+		let conversation = document.querySelector(`.conversation-list #${activeChatPanel}`);
+		let nickname = conversation.getAttribute("data-nickname");
+
+		if (nickname) {
+			console.log(`Check profile: ${nickname}`);
+			redirectToUserProfile(nickname);
+		}
+		else
+			console.log(`Empty Nickname: from checkProfilButton`);
+
+
+	});
+	function redirectToUserProfile(nickname) {
+		if (nickname)
+			checkProfil.href = `/user/${nickname}/`;
+		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
+		return;
+
+	}*/
+
+	/*
+
+	let removeFriendBtn = document.getElementById('removeFriend');
+	let addFriendBtn = document.getElementById('addFriend');
+
+	if (removeFriendBtn) {
+		removeFriendBtn.onclick = (e) => {
+			let target = e.target.closest(".container").querySelector("#nickname").innerText;
+			console.log("click remove friend: ", target);
+			manageFriend("remove", target);
+		};
+	}
+
+	if (addFriendBtn) {
+		addFriendBtn.onclick = (e) => {
+			let target = e.target.closest(".container").querySelector("#nickname").innerText;
+			console.log("click add friend: ", target);
+			manageFriend("add", target);
+		};
+	}
+
+	--------------
+
+	const contactNickname = contact.getAttribute('[data-nickname]');
+			document.getElementById('friendName').textContent = contactNickname;
+			console.log("friendName: ", contactNickname);
+			console.log("Name: ", name);
+
+	
+	document.addEventListener("click", (e) => {
+		if (visibleList && !e.target.classList.contains("text")) {
+			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
+			visibleList = false;
+		}
+	});
+	
+	let searched_nickname = document.getElementById('searchInput');
+	searched_nickname.addEventListener("keypress", (e) => {
+		if (e.key == "Enter")
+			user.click();
+	});
+	user.addEventListener("click", () => {
+		if (searched_nickname.value)
+			user.href = `/user/${searched_nickname.value}/`;
+		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+	});*/
 }

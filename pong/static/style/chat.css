@@ -769,8 +769,6 @@ body-msg {
 
 .toast {
 
-    z-index: 999999 !important;
-
     .toast-header .me-auto {
         color: var(--violet) !important;
     }

@@ -12,7 +12,7 @@
 
 <!-- conversations list -->
 <template conversation-template>
-    <div class="conversation friend --onhover d-flex" id="">
+    <div class="conversation friend --onhover d-flex" id="" data-nickname="">
         <img src="{{ profil_picture_url }}" alt="Friend photo" class="profile-image" data-image>
         <div class="text" data-text>
             <span class="status-indicator" id="onLineStatus" data-status="{{ user.status }}"></span>
@@ -27,7 +27,7 @@
                 </i>
                 <ul class="dropdown-menu dropdown-menu-dark">
                     <li><button class="dropdown-item" type="button" id="delId">Delete</button></li>
-                    <li><button class="dropdown-item" type="button" id="unreadId">Mark unread</button></li>
+                    <!--<li><button class="dropdown-item" type="button" id="unreadId">Mark unread</button></li>-->
                     <li><button class="dropdown-item" type="button" id="blockUnblockId">Block contact</button></li>
                 </ul>
             </div>
@@ -79,13 +79,14 @@
                     User Profil !</a> <br>
                 <!-- <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="checkProfil" data-bs-target="#goToProfil">Click Here to Check the User Profil !</button> -->
                 <div class="row align-items-center justify-content-around">
-                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="unBlockFriend">Unblock
+                    <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="blockUnblockFriend">Block
                         Friend</button>
                     <br />
                     <button type="button" class="col-lg-6 btn bg-vert invitationBtn" id="removeFriend">Remove
                         friend</button>
                 </div>
             </div>
+
             <!-- start chat panel -->
             <div class="chat-panel" id="chatPanelId"></div>
         </div>
