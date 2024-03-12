@@ -40,6 +40,30 @@ export function profil() {
 		createListBlocked();
 	});
 
+	document.getElementById('settingsModal').addEventListener('show.bs.modal', function (event) {
+		$.ajax({
+			url: "/accounts/profil/settings",
+			method: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				// Traitement des données récupérées
+				console.log('Réglages récupérés depuis le backend:', data);
+	
+				// Mettez à jour les champs du modal avec les données récupérées
+				document.getElementById('paddleSpeed').value = data.paddleSpeed;
+				document.getElementById('ballSpeed').value = data.ballSpeed;
+				document.getElementById('paddleColor').value = data.paddleColor;
+				document.getElementById('ballColor').value = data.ballColor;
+				document.getElementById('backgroundColor').value = data.backgroundColor;
+	
+				// Vous pouvez ajouter d'autres mises à jour de champs ici en fonction de vos données
+			},
+			error: function (error) {
+				console.error('Erreur lors de la récupération des réglages depuis le backend:', error);
+			}
+		});
+	});
+	
 	settingsModal.addEventListener('hidden.bs.modal', function () {
 		// settingsForm.reset();
 		let event = new Event('input');
