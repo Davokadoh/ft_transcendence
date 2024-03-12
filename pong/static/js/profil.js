@@ -1,3 +1,6 @@
+import { socket } from './index.js'
+import { router } from './router.js';
+
 export function profil() {
 	let paddleSpeedInput = document.getElementById('paddleSpeed');
 	let paddleSpeedValue = document.getElementById('paddleSpeedValue');
@@ -17,6 +20,15 @@ export function profil() {
 
 	fetchTemplate();
 
+	// redirection for invitation
+	socket.onmessage = function (event) {
+		const data = JSON.parse(event.data);
+		if (data.type == "game_invitation" && data.message.includes("#accept")) {
+			const gameId = parseInt(data.message.split(' ')[1]);
+			history.pushState(null, null, `/remote/${gameId}`);
+			router();
+		}
+	};
 
 
 	modalContactsBtn.addEventListener("show.bs.modal", () => {
@@ -272,15 +284,15 @@ export function profil() {
 				data.friend_list.forEach(friend => {
 					modalTmp.innerHTML = `
 					${friend.nickname}
-					<button class="inviteContact" type="button" class="btn" data-bs-toggle="tooltip"
-						data-bs-placement="top" title="Invite the contact"
+					<button class="inviteContact" type="button" class="btn" data-username="${friend.username}" 
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Invite the contact"
 						alt="Button to invite the contact" id="btnInvite"></button>
 					<button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip"
 						data-bs-placement="top" title="Block the contact"
 						alt="Button to block the contact" id="btnBlock"></button>
 					`;
 					document.getElementById("modalBodyContact").append(modalTmp);
-					//document.getElementById("btnInvite").addEventListener("click", invitationFunct);
+					document.getElementById("btnInvite").addEventListener("click", invitationFunct);
 					document.getElementById("btnBlock").addEventListener("click", (e) => {
 						manageFriend("block", e.target.closest(".modal-body").innerText);
 					});
@@ -291,6 +303,17 @@ export function profil() {
 				console.error('request error: Fetch', error);
 				throw error;
 			});
+	}
+
+	function invitationFunct(event) {
+		var username = event.target.getAttribute("data-username");
+		console.log(`Invitation have sent to: ${event.target.innerText}`);
+		socket.send(JSON.stringify({
+			'type': 'game_invitation',
+			'id': "id" + Math.random().toString(16).slice(2),
+			'target': username, //username target
+			'message': "#invitation"
+		}));
 	}
 
 	function createListBlocked() {
