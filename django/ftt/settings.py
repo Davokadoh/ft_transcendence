@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [os.getenv("DOMAIN", "localhost")]
 
+SECURE_SSL_REDIRECT = True
+
 # Application definition
 
 INSTALLED_APPS = [
