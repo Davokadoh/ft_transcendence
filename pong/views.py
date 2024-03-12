@@ -198,8 +198,10 @@ def user(request, nickname=None):
         profil_picture_url = user.profil_picture_oauth
     else:
         profil_picture_url = "/static/img/profil/image-defaut.png"
-
+    user_logged = request.user
+    # print(f"user_logged: {user_logged}")
     context = {
+        "user_logged": user_logged,
         "messages": messages.get_messages(request),
         "template": "ajax.html" if ajax else "index.html",
         "user": user,
