@@ -652,7 +652,7 @@ def UpdateUserSettingsView(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
-@login_required
+# @login_required
 def getUserData(request):
     data = {
         "ballSpeed": request.user.ballSpeed,

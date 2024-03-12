@@ -4,11 +4,17 @@ import { router } from './router.js';
 export function profil() {
 	let paddleSpeedInput = document.getElementById('paddleSpeed');
 	let paddleSpeedValue = document.getElementById('paddleSpeedValue');
+	let paddleColor = document.getElementById('paddleColor');
+
 	paddleSpeedInput.oninput = function () { paddleSpeedValue.innerHTML = this.value; }
 
 	let ballSpeedInput = document.getElementById('ballSpeed');
 	let ballSpeedValue = document.getElementById('ballSpeedValue');
+	let ballColor = document.getElementById('ballColor');
+
 	ballSpeedInput.oninput = function () { ballSpeedValue.innerHTML = this.value; }
+
+	let backgroundColor = document.getElementById("backgroundColor");
 
 	let settingsForm = document.getElementById('settingsForm');
 	let settingsModal = document.getElementById('settingsModal');
@@ -17,6 +23,8 @@ export function profil() {
 	let templateContactList = document.createElement("template");
 	let modalContactsBtn = document.getElementById("contactsModal");
 	let modalBlockedBtn = document.getElementById("modalBlocked");
+	let lastClick = "";
+
 
 	fetchTemplate();
 
@@ -40,15 +48,22 @@ export function profil() {
 		createListBlocked();
 	});
 
+
 	settingsModal.addEventListener('hidden.bs.modal', function () {
-		// settingsForm.reset();
-		let event = new Event('input');
-		paddleSpeedInput.dispatchEvent(event);
-		ballSpeedInput.dispatchEvent(event);
+
+		if (lastClick) {
+			let event = new Event('input');
+			paddleSpeedInput.dispatchEvent(event);
+			ballSpeedInput.dispatchEvent(event);
+			lastClick = "";
+		}
+		else
+			fetchModal();
 	});
 
 	function statsModalClose() {
 		const modal = bootstrap.Modal.getInstance('#settingsModal');
+		lastClick = "save";
 		modal.hide();
 	}
 
@@ -94,6 +109,8 @@ export function profil() {
 		const form = event.currentTarget;
 		const url = new URL(form.action);
 		const formData = new FormData(form);
+		console.log("URL ===>:  ", url);
+
 		fetch(url, {
 			method: form.method,
 			body: formData,
@@ -486,6 +503,34 @@ export function profil() {
 			.catch(error => {
 				// Le traitement des erreurs ici
 				console.error('Request fetch Error:', error);
+			});
+	}
+
+	function fetchModal() {
+
+		fetch("settings/data/")
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+				return response.json();
+			})
+			.then(data => {
+
+				console.log(`fetch modal data: ${data}`);
+
+				paddleSpeedInput.value = data.paddleSpeed;
+				paddleSpeedValue.textContent = data.paddleSpeed;
+				paddleColor.value = data.paddleColor;
+
+				ballSpeedInput.value = data.ballSpeed;
+				ballSpeedValue.textContent = data.ballSpeed;
+				ballColor.value = data.ballColor;
+
+				backgroundColor.value = data.backgroundColor;
+			})
+			.catch(error => {
+				console.error('Erreur lors de la récupération des données :', error);
 			});
 	}
 
