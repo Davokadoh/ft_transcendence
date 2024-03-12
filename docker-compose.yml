@@ -7,10 +7,6 @@ services:
       context: ./django
       args:
         DOMAIN:
-    environment:
-      DJANGO_SETTINGS_MODULE: "ftt.settings"
-      DJANGO_ALLOW_ASYNC_UNSAFE: "true"
-    #   DJANGO_DEBUG: "False"
     env_file: .env
     ports:
       - "443:443"

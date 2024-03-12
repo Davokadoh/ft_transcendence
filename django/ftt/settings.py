@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 
@@ -20,12 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-insecure-62waze(5kyu^m0fh=)=qzuxa47q*q4%=2c^ws2$dnc2u6x8g!n"
-SECRET_KEY = os.getenv("SECRET_KEY", "Variable not found")
+SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 SECURE_SSL_REDIRECT = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = [os.getenv("DOMAIN", "error: host not found")]
 
