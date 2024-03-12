@@ -4,6 +4,7 @@ WORKDIR /ftt
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH="$PYTHONPATH:/"
 ARG DOMAIN
 
 RUN mkdir /ssl && openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
@@ -19,13 +20,12 @@ RUN mkdir /ssl && openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 # /etc/letsencrypt/live/$DOMAIN
 
 COPY ./requirements.txt /ftt/requirements.txt
-RUN pip install --no-cache-dir -U -r requirements.txt
+RUN pip3 install --no-cache-dir -U -r requirements.txt
 COPY ./ftt /ftt/ftt
 COPY ./pong /ftt/pong
 COPY ./manage.py /ftt/manage.py
-RUN python manage.py collectstatic --noinput
-RUN python manage.py makemigrations pong
-RUN python manage.py migrate
 
-# ENTRYPOINT ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
-ENTRYPOINT ["daphne", "-e", "tcp:80", "-e", "ssl:443:privateKey=/ssl/privkey.key:certKey=/ssl/cert.crt", "ftt.asgi:application"]
+
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
