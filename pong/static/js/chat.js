@@ -1,6 +1,5 @@
 import { socket } from './index.js';
 import { router } from './router.js';
-
 export function chat() {
 
 	/*fetch('test/create', {

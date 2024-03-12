@@ -1,11 +1,4 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     const playButton = document.querySelector('.game-btn');
-//     const playLink = document.querySelector('.nav-link[data-link]');
 
-//     playButton.addEventListener('click', function() {
-//         window.location.href = playLink.getAttribute('href');
-//     });
-// });
 
 console.log("script home BTN play load with success");
     document.addEventListener('DOMContentLoaded', function () {
