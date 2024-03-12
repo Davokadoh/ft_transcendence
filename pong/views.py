@@ -7,18 +7,14 @@ from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-
-# from django.views.decorators.http import require_http_methods
-# from django.core.serializers import serialize
+from django.views.decorators.http import require_POST
 from django.utils import timezone
 from ftt.settings import STATIC_URL
 from .backend import CustomAuthenticationBackend
-from .models import GameTeam, Tournament, User, Team, Game
+from .models import GameTeam, Tournament, CustomUser, Team, Game
 from .forms import ProfilPictureForm, NicknameForm
 from dotenv import load_dotenv
 import requests
-
-# import json
 import os
 import base64
 from django.dispatch import receiver
@@ -161,7 +157,7 @@ def profil(request):
 def user(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
-        user = User.objects.get(nickname=nickname)
+        user = CustomUser.objects.get(nickname=nickname)
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         games = Game.objects.filter(teams__in=user_teams)
@@ -316,7 +312,7 @@ def lobby(request, gameId=None, invitedPlayer2=None):
         try:
             data = json.loads(request.body)
             nickname = data.get("nickname")
-            user = User.objects.get(nickname=nickname)
+            user = CustomUser.objects.get(nickname=nickname)
             if user is None:
                 return JsonResponse({"error_message": "user not found"})
             team2 = Team.objects.create()
@@ -379,7 +375,7 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
         try:
             data = json.loads(request.body)
             nickname = data.get("nickname")
-            user = User.objects.get(nickname=nickname)
+            user = CustomUser.objects.get(nickname=nickname)
             if user is None:
                 return JsonResponse({"error_message": "user not found"})
             team = Team.objects.create()
@@ -434,7 +430,7 @@ def tourLobby(request, tournamentId=None):
         try:
             data = json.loads(request.body)
             nicknames = [value for key, value in data.items()]
-            users = User.objects.filter(nickname__in=nicknames).distinct()
+            users = CustomUser.objects.filter(nickname__in=nicknames).distinct()
             if users.count() < 3:
                 return JsonResponse({"error_message": "Not enough distinct players"})
             if not users.exists():
@@ -564,9 +560,9 @@ def callback(request):
     )
 
     try:
-        user = User.objects.get(username=response.json()["login"])
-    except User.DoesNotExist:
-        user = User.objects.create_user(username=response.json()["login"])
+        user = CustomUser.objects.get(username=response.json()["login"])
+    except CustomUser.DoesNotExist:
+        user = CustomUser.objects.create(username=response.json()["login"])
         print("USER CREATED")
         try:
             user.profilPictureUrl = response.json()["image"]["link"]
@@ -586,7 +582,7 @@ def get_user_info(request, nickname):
         # nickname = request.GET.get('profil_picture')
         print("nickname GET =", nickname)
         try:
-            user = User.objects.get(nickname=nickname)
+            user = CustomUser.objects.get(nickname=nickname)
             user_info = {
                 "username": user.username,
                 "nickname": user.nickname,
@@ -596,7 +592,7 @@ def get_user_info(request, nickname):
                 # 'profil_picture': user.profil_picture.url if user.profil_picture else user.profil_picture_oauth,
             }
             return JsonResponse(user_info)
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return JsonResponse({"error": "Utilisateur non trouvé"}, status=404)
     elif request.method == "POST":  # condition pour gérer les requêtes GET
         return JsonResponse({"error": "Méthode non autorisée"}, status=405)
@@ -606,7 +602,7 @@ def get_user_info(request, nickname):
 
 def create_fake_user(request):
     # Créer un faux utilisateur
-    fake_user = User.objects.create_user(
+    fake_user = CustomUser.objects.create_user(
         username="user123",
         email="user123@example.com",
         password="password123",
@@ -716,7 +712,7 @@ def get_scores(request, gameId=None):
 @csrf_exempt
 def get_users(request):
     if request.method == "GET":
-        users = User.objects.all()
+        users = CustomUser.objects.all()
         # users = serialize("json", users)
         # users = json.loads(users)
     try:
@@ -733,7 +729,7 @@ def get_users(request):
 
         context = {"user_list": user_list}
         return JsonResponse(context, safe=False)
-    except User.DoesNotExist:
+    except CustomUser.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
 
 
@@ -751,7 +747,7 @@ def getList(request, prefix, type):
         # users = json.loads(users)
         try:
             if type == "users":
-                users = User.objects.all()
+                users = CustomUser.objects.all()
                 user_list = []
                 for user in users:
                     if user.profil_picture:
@@ -772,8 +768,7 @@ def getList(request, prefix, type):
                 return JsonResponse(context, safe=False)
 
             elif type == "friends":
-                user_instance = request.user
-                friends = user_instance.friends.all()
+                friends = request.user.friends.all()
                 friend_list = []
                 for friend in friends:
                     if friend.profil_picture:
@@ -793,8 +788,7 @@ def getList(request, prefix, type):
                 return JsonResponse(context, safe=False)
 
             elif type == "blocked":
-                user_instance = request.user
-                users = user_instance.blocked_users.all()
+                users = request.user.blocked_users.all()
                 blocked_list = []
                 for user in users:
                     user = {
@@ -805,160 +799,158 @@ def getList(request, prefix, type):
                 context = {"users_blocked": blocked_list}
                 return JsonResponse(context, safe=False)
 
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
 
 
 @csrf_exempt
+@require_POST
 def manageFriend(request, prefix, action, nickname):
     print("[manageFriend FUNCTION]")
-    if request.method == "POST":
-        try:
-            user_instance = request.user
-            target = User.objects.get(nickname=nickname)
+    try:
+        target = CustomUser.objects.get(nickname=nickname)
+        if target is request.user:
+            return JsonResponse({"error": "Can't yourself as a friend"}, status=400)
 
-            if action == "add":
-                if not user_instance.friends.filter(nickname=target.nickname).exists():
-                    user_instance.friends.add(target)
-                    print(f"friend: {nickname} added by {user_instance.nickname}")
-                    print("*****:", user_instance.friends.all())
-                    return JsonResponse(
-                        {"message": "Friend has been added ✔︎"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend already added ✕"}, status=200
-                    )
-            elif action == "remove":
-                if user_instance.friends.filter(nickname=target.nickname).exists():
-                    user_instance.friends.remove(target)
-                    print("*****:", user_instance.friends.all())
-                    print(f"friend: {nickname} removed by {user_instance.nickname}")
-                    return JsonResponse(
-                        {"message": "Friend has been removed"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend doesn't exist or has been removed"},
-                        status=200,
-                    )
-
-            elif action == "block":
-                if (
-                    user_instance.friends.filter(nickname=target.nickname).exists()
-                    and not user_instance.blocked_users.filter(
-                        nickname=target.nickname
-                    ).exists()
-                ):
-                    user_instance.blocked_users.add(target)
-                    print(f"friend: {nickname} was blocked by {user_instance.nickname}")
-                    return JsonResponse(
-                        {"message": "Friend has been blocked"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend is already blocked"},
-                        status=200,
-                    )
-            elif action == "unblock":
-                if (
-                    user_instance.friends.filter(nickname=target.nickname).exists()
-                    and user_instance.blocked_users.filter(
-                        nickname=target.nickname
-                    ).exists()
-                ):
-                    user_instance.blocked_users.remove(target)
-                    print(
-                        f"Friend: {nickname} was unblocked by {user_instance.nickname}"
-                    )
-                    return JsonResponse(
-                        {"message": "Friend have been unblocked"}, status=200
-                    )
-                else:
-                    return JsonResponse({"message": "Friend is unblocked"}, status=200)
+        if action == "add":
+            if not request.user.friends.filter(nickname=target.nickname).exists():
+                request.user.friends.add(target)
+                print(f"friend: {nickname} added by {request.user.nickname}")
+                print("*****:", request.user.friends.all())
+                return JsonResponse(
+                    {"message": "Friend has been added ✔︎"}, status=200
+                )
             else:
-                return JsonResponse({"message": "action not recognize"}, status=200)
-
-        except User.DoesNotExist:
-            print(f"User not found: {nickname}")
-            return JsonResponse({"error": "user not found"}, status=404)
+                return JsonResponse(
+                    {"message": "Friend already added ✕"}, status=200
+                )
+        elif action == "remove":
+            if request.user.friends.filter(nickname=target.nickname).exists():
+                request.user.friends.remove(target)
+                print("*****:", request.user.friends.all())
+                print(f"friend: {nickname} removed by {request.user.nickname}")
+                return JsonResponse(
+                    {"message": "Friend has been removed"}, status=200
+                )
+            else:
+                return JsonResponse(
+                    {"message": "Friend doesn't exist or has been removed"},
+                    status=200,
+                )
+        elif action == "block":
+            if (
+                request.user.friends.filter(nickname=target.nickname).exists()
+                and not request.user.blocked_users.filter(
+                    nickname=target.nickname
+                ).exists()
+            ):
+                request.user.blocked_users.add(target)
+                print(f"friend: {nickname} was blocked by {request.user.nickname}")
+                return JsonResponse(
+                    {"message": "Friend has been blocked"}, status=200
+                )
+            else:
+                return JsonResponse(
+                    {"message": "Friend is already blocked"},
+                    status=200,
+                )
+        elif action == "unblock":
+            if (
+                request.user.friends.filter(nickname=target.nickname).exists()
+                and request.user.blocked_users.filter(
+                    nickname=target.nickname
+                ).exists()
+            ):
+                request.user.blocked_users.remove(target)
+                print(
+                    f"Friend: {nickname} was unblocked by {request.user.nickname}"
+                )
+                return JsonResponse(
+                    {"message": "Friend have been unblocked"}, status=200
+                )
+            else:
+                return JsonResponse({"message": "Friend is unblocked"}, status=200)
+        else:
+            return JsonResponse({"message": "action not recognize"}, status=200)
+    except CustomUser.DoesNotExist:
+        print(f"User not found: {nickname}")
+        return JsonResponse({"error": "user not found"}, status=404)
 
 
 @csrf_exempt
+@require_POST
 def manageFriendChat(request, prefix, action, username):
     print("[manageFriend FUNCTION]")
-    if request.method == "POST":
-        try:
-            user_instance = request.user
-            target = User.objects.get(username=username)
+    try:
+        target = CustomUser.objects.get(username=username)
+        if target is request.user:
+            return JsonResponse({"error": "Can't yourself as a friend"}, status=400)
 
-            if action == "add":
-                if not user_instance.friends.filter(username=target.username).exists():
-                    user_instance.friends.add(target)
-                    print(f"friend: {username} added by {user_instance.username}")
-                    print("*****:", user_instance.friends.all())
-                    return JsonResponse(
-                        {"message": "Friend have been added"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend already added ✕"}, status=200
-                    )
-            elif action == "remove":
-                if user_instance.friends.filter(username=target.username).exists():
-                    user_instance.friends.remove(target)
-                    print("*****:", user_instance.friends.all())
-                    print(f"friend: {username} removed by {user_instance.username}")
-                    return JsonResponse(
-                        {"message": "Friend has been removed"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend doesn't exist or has been removed"},
-                        status=200,
-                    )
-
-            elif action == "block":
-                if (
-                    user_instance.friends.filter(username=target.username).exists()
-                    and not user_instance.blocked_users.filter(
-                        username=target.username
-                    ).exists()
-                ):
-                    user_instance.blocked_users.add(target)
-                    print(f"friend: {username} was blocked by {user_instance.username}")
-                    return JsonResponse(
-                        {"message": "Friend has been blocked"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend doesn't exist or already blocked"},
-                        status=200,
-                    )
-            elif action == "unblock":
-                if (
-                    user_instance.friends.filter(username=target.username).exists()
-                    and user_instance.blocked_users.filter(
-                        username=target.username
-                    ).exists()
-                ):
-                    user_instance.blocked_users.remove(target)
-                    print(
-                        f"Friend: {username} was unblocked by {user_instance.username}"
-                    )
-                    return JsonResponse(
-                        {"message": "Friend have been unblocked"}, status=200
-                    )
-                else:
-                    return JsonResponse(
-                        {"message": "Friend doesn't exist or isn't blocked"}, status=200
-                    )
+        if action == "add":
+            if not request.user.friends.filter(username=target.username).exists():
+                request.user.friends.add(target)
+                print(f"friend: {username} added by {request.user.username}")
+                print("*****:", request.user.friends.all())
+                return JsonResponse(
+                    {"message": "Friend have been added"}, status=200
+                )
             else:
-                return JsonResponse({"message": "Action not recognized"}, status=200)
-
-        except User.DoesNotExist:
-            print(f"User not found: {username}")
-            return JsonResponse({"error": "user not found"}, status=404)
+                return JsonResponse(
+                    {"message": "Friend already added ✕"}, status=200
+                )
+        elif action == "remove":
+            if request.user.friends.filter(username=target.username).exists():
+                request.user.friends.remove(target)
+                print("*****:", request.user.friends.all())
+                print(f"friend: {username} removed by {request.user.username}")
+                return JsonResponse(
+                    {"message": "Friend has been removed"}, status=200
+                )
+            else:
+                return JsonResponse(
+                    {"message": "Friend doesn't exist or has been removed"},
+                    status=200,
+                )
+        elif action == "block":
+            if (
+                request.user.friends.filter(username=target.username).exists()
+                and not request.user.blocked_users.filter(
+                    username=target.username
+                ).exists()
+            ):
+                request.user.blocked_users.add(target)
+                print(f"friend: {username} was blocked by {request.user.username}")
+                return JsonResponse(
+                    {"message": "Friend has been blocked"}, status=200
+                )
+            else:
+                return JsonResponse(
+                    {"message": "Friend doesn't exist or already blocked"},
+                    status=200,
+                )
+        elif action == "unblock":
+            if (
+                request.user.friends.filter(username=target.username).exists()
+                and request.user.blocked_users.filter(
+                    username=target.username
+                ).exists()
+            ):
+                request.user.blocked_users.remove(target)
+                print(
+                    f"Friend: {username} was unblocked by {request.user.username}"
+                )
+                return JsonResponse(
+                    {"message": "Friend have been unblocked"}, status=200
+                )
+            else:
+                return JsonResponse(
+                    {"message": "Friend doesn't exist or isn't blocked"}, status=200
+                )
+        else:
+            return JsonResponse({"message": "Action not recognized"}, status=200)
+    except CustomUser.DoesNotExist:
+        print(f"User not found: {username}")
+        return JsonResponse({"error": "user not found"}, status=404)
 
 
 def get_user_conversations(request):

@@ -1,5 +1,5 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .models import Message, User, Conversation, GameTeam, Team, Game
+from .models import Message, CustomUser, Conversation, GameTeam, Team, Game
 from django.utils import timezone
 from asgiref.sync import sync_to_async
 from .engine import Engine
@@ -20,7 +20,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         if not self.user.is_authenticated:
             await self.close()
             return
-        user = await User.objects.aget(nickname=self.user.nickname)
+        user = await CustomUser.objects.aget(nickname=self.user.nickname)
         user.channel_name = self.channel_name
         await user.asave()
         await self.channel_layer.group_add("server", self.channel_name)
@@ -58,8 +58,8 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def receive_chat(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
-        target_instance = await User.objects.aget(username=target)
-        sender_instance = await User.objects.aget(pk=self.user.pk)
+        target_instance = await CustomUser.objects.aget(username=target)
+        sender_instance = await CustomUser.objects.aget(pk=self.user.pk)
 
         await self.channel_layer.send(
             self.channel_name,
@@ -132,15 +132,15 @@ class Consumer(AsyncJsonWebsocketConsumer):
     async def game_invitation(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
-        sender_instance = await User.objects.aget(pk=self.user.pk)
-        target_instance = await User.objects.aget(username=target)
+        sender_instance = await CustomUser.objects.aget(pk=self.user.pk)
+        target_instance = await CustomUser.objects.aget(username=target)
         if target_instance is None:
             target_instance = ""
 
         if "#invitation" in content["message"]:
             tab = content["message"].split(" ")
             if len(tab) == 2:  # invitation from remLobby
-                target_instance = await User.objects.aget(nickname=target)
+                target_instance = await CustomUser.objects.aget(nickname=target)
             elif len(tab) == 1:  # invitation from chat
                 gameId = " " + await self.createGameId(content)
                 content["message"] += gameId
@@ -305,7 +305,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         await gt.asave()
 
         # find by username for request from chat
-        target = await User.objects.aget(username=content["target"])
+        target = await CustomUser.objects.aget(username=content["target"])
         team2 = await Team.objects.acreate()
         await team2.asave()
         await team2.users.aadd(target)
@@ -327,7 +327,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
     async def manage_conversation(self, content):
         print("==manage_conversation==: ")
-        target = await User.objects.aget(username=content["target"])
+        target = await CustomUser.objects.aget(username=content["target"])
 
         if content["action"] == "#remove":
             print("In remove conversation: ", content["target"])

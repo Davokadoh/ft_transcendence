@@ -44,10 +44,6 @@ urlpatterns = [
     path("<path:prefix>/getList/<str:type>", views.getList),
     path("chat/conversations/", views.get_user_conversations),
     path("<path:prefix>/manageFriend/<str:action>/<str:nickname>/", views.manageFriend),
-    path(
-        "<path:prefix>/manageFriendChat/<str:action>/<str:username>/",
-        views.manageFriendChat,
-    ),
     path("update-status/", views.update_status, name="update_status"),
 ]
 
