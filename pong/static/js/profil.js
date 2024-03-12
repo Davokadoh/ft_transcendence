@@ -291,6 +291,7 @@ export function profil() {
 					document.getElementById("modalBodyContact").append(modalTmp);
 					document.getElementById("btnInvite").addEventListener("click", invitationFunct);
 					document.getElementById("btnBlock").addEventListener("click", (e) => {
+						console.log("test =>>>>>>>>>>>: ", e.target.closest(".modal-body").innerText);
 						manageFriend("block", e.target.closest(".modal-body").innerText);
 					});
 				});

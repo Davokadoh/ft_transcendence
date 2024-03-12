@@ -37,7 +37,9 @@ class CustomUser(AbstractBaseUser):
     channel_name = models.CharField(max_length=255)
     USERNAME_FIELD = "username"
     friends = models.ManyToManyField("self")
-    blocked_users = models.ManyToManyField("self")
+    blocked_users = models.ManyToManyField(
+        "self", symmetrical=False, related_name="blocked_users_set"
+    )
     status = models.CharField(max_length=10)
 
     objects = UserManager()
@@ -81,10 +83,18 @@ class Conversation(models.Model):
 
 class Message(models.Model):
     sender = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
+        CustomUser,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name="sender",
     )
     target = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, null=False, blank=False, related_name="target"
+        CustomUser,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name="target",
     )
     message = models.TextField(null=False, blank=False)
     id_msg = models.TextField(null=False, blank=False)
