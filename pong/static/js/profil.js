@@ -157,9 +157,6 @@ export function profil() {
 				nicknameInput.value = data.nickname;
 				nicknameInput.classList.add('nickname-updated');
 			}
-			// else {
-			// 	console.error('Erreur: Aucun utilisateur ou pseudonyme dans la réponse.');
-			// }
 			console.log(data);
 		})
 		.catch(error => {

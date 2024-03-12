@@ -46,7 +46,7 @@ class CustomUser(AbstractBaseUser):
         default=50, validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
     ballSpeed = models.IntegerField(
-        default=5, validators=[MinValueValidator(1), MaxValueValidator(10)]
+        default=3, validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
     paddleColor = models.CharField(default="#feffff", max_length=50, blank=True)
     ballColor = models.CharField(default="#feffff", max_length=50, blank=True)
