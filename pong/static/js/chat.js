@@ -93,31 +93,32 @@ export function chat() {
 		//pour les boutons
 		let removeFriendBtn = document.getElementById('removeFriend');
 		let unBlockFriend = document.getElementById('unBlockFriend');
-		let nickname = document.querySelector("[data-text]").textContent.trim();
+		// let nickname = document.querySelector("[data-text]").textContent.trim();
+		window.onload = function () {
 
-		removeFriendBtn.onclick = (e) => {
-			console.log("remove with active panel: ", activeChatPanel);
-			manageFriend("remove", activeChatPanel);
-		};
+			removeFriendBtn.onclick = (e) => {
+				console.log("remove with active panel: ", activeChatPanel);
+				manageFriend("remove", activeChatPanel);
+			};
 
-		unBlockFriend.onclick = (e) => {
-			manageFriend("unblock", activeChatPanel);
-		};
+			unBlockFriend.onclick = (e) => {
+				manageFriend("unblock", activeChatPanel);
+			};
+			const checkProfilButton = document.getElementById('checkProfil');
 
-		const checkProfilButton = document.getElementById('checkProfil');
+			//bouton check profil renvoi sur user
+			checkProfilButton.addEventListener('click', function () {
+				console.log("click on checkProfilButton");
 
-		//bouton check profil renvoi sur user
-		checkProfilButton.addEventListener('click', function () {
-			console.log("click on checkProfilButton");
-
-			if (nickname === "" && activeChatPanel !== null) {
-				console.log("Using nickname from friendName: ", activeChatPanel);
-				redirectToUserProfile(activeChatPanel);
-			} else {
-				console.log("Using activeChatPanel as nickname: ", nickname);
-				redirectToUserProfile(nickname);
-			}
-		});
+				if (nickname === "" && activeChatPanel !== null) {
+					console.log("Using nickname from friendName: ", activeChatPanel);
+					redirectToUserProfile(activeChatPanel);
+				} else {
+					console.log("Using activeChatPanel as nickname: ", nickname);
+					redirectToUserProfile(nickname);
+				}
+			});
+		}
 		function redirectToUserProfile(nickname) {
 			if (nickname)
 				checkProfil.href = `/user/${nickname}/`;
@@ -184,11 +185,10 @@ export function chat() {
 				createConversation(obj);
 				createChatPanel(obj);
 			}
-
-			document.getElementById('friendName').textContent = contactNickname;
-			console.log("friendName: ", contactNickname);
-			console.log("Name: ", name);
-			console.log("Contact name: ", contactName);
+			// document.getElementById('friendName').textContent = contactNickname;
+			// console.log("friendName: ", contactNickname);
+			// console.log("Name: ", name);
+			// console.log("Contact name: ", contactName);
 			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
 			document.getElementById('conversationListId').classList.toggle('hide', false);
 			isVisibleList = false;
@@ -1004,23 +1004,24 @@ export function chat() {
 			manageFriend("add", target);
 		};
 	}
-
-	searched_nickname.addEventListener("keypress", (e) => {
-		if (e.key == "Enter")
-			user.click();
-	});
-	user.addEventListener("click", () => {
-		if (searched_nickname.value)
-			user.href = `/user/${searched_nickname.value}/`;
-		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
-	});
-
-	document.addEventListener("click", (e) => {
-		if (visibleList && !e.target.classList.contains("text")) {
-			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
-			visibleList = false;
-		}
-	});
+	//a verifier verena
+	// searched_nickname.addEventListener("keypress", (e) => {
+	// 	if (e.key == "Enter")
+	// 		user.click();
+	// });
+	// user.addEventListener("click", () => {
+	// 	if (searched_nickname.value)
+	// 		user.href = `/user/${searched_nickname.value}/`;
+	// 	user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+	// });
+	window.onload = function () {
+		document.addEventListener("click", (e) => {
+			if (visibleList && !e.target.classList.contains("text")) {
+				document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
+				visibleList = false;
+			}
+		});
+	}
 
 	// Fonction pour creer et afficher une alerte personnalisée
 	function showAlert(message) {
