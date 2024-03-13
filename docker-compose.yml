@@ -31,10 +31,10 @@ services:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
 
-
 volumes:
   static:
   db-data:
+
 
 networks:
   my-network:
