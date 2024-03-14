@@ -67,17 +67,17 @@ export function tournament(gameId) {
 		clearBoard();
 		document.getElementsByClassName("close")[0].addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
+			// resetGame();
 		});
 		document.querySelector(".modalButton").addEventListener("click", function () {
 			document.getElementById("myModalGame").style.display = "none";
-			resetGame();
+			// resetGame();
 		});
 	}
 
 	document.getElementById("start-game").addEventListener("click", startGame);
 	document.getElementById("stop-game").addEventListener("click", stopGame);
-	document.getElementById("reset-game").addEventListener("click", resetGame);
+	// document.getElementById("reset-game").addEventListener("click", resetGame);
 
 	function draw() {
 		if (!gameRunning) {
@@ -207,10 +207,10 @@ export function tournament(gameId) {
 		scoreText.textContent = `${player1Score} : ${player2Score}`;
 	}
 
-	function resetGame() {
-		initializeGame();
-		updateScore();
-	}
+	// function resetGame() {
+	// 	initializeGame();
+	// 	updateScore();
+	// }
 
 	function startGame() {
 		if (!gameRunning) {
