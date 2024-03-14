@@ -6,8 +6,8 @@ export function remote(gameId) {
 	let scoreText = document.getElementById("scoreText");
 	let gameWidth = gameBoard.width;
 	let gameHeight = gameBoard.height;
-	paddle1 = { width: 25, height: 100, x: 10, y: 0 };
-	paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 100 };
+	let paddle1 = { width: 25, height: 100, x: 10, y: 0 };
+	let paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 100 };
 	let ball = { x: gameWidth / 2, y: gameHeight / 2, speed: 1 };
 	let score = [0, 0];
 	const boardBackground = "black";
