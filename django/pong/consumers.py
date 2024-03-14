@@ -133,17 +133,19 @@ class Consumer(AsyncJsonWebsocketConsumer):
         time_for_all = datetime.now().strftime("%H:%M")
         target = content["target"]
         sender_instance = await CustomUser.objects.aget(pk=self.user.pk)
-        target_instance = await CustomUser.objects.aget(username=target)
-        if target_instance is None:
-            target_instance = ""
+        target_instance = ""
 
         if "#invitation" in content["message"]:
             tab = content["message"].split(" ")
             if len(tab) == 2:  # invitation from remLobby
                 target_instance = await CustomUser.objects.aget(nickname=target)
             elif len(tab) == 1:  # invitation from chat
+                target_instance = await CustomUser.objects.aget(username=target)
                 gameId = " " + await self.createGameId(content)
                 content["message"] += gameId
+        else:
+            target_instance = await CustomUser.objects.aget(username=target)
+
         """
         elif "#decline" in content["message"]:
             tab = content["message"].split(" ")
