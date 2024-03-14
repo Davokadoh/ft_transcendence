@@ -56,8 +56,8 @@ export function tournament(gameId) {
 		gameHeight = gameBoard.height;
 		player1Score = 0;
 		player2Score = 0;
-		paddle1 = { width: 25, height: 100, x: 10, y: 5 };
-		paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 105 };
+		paddle1 = { width: 25, height: 100, x: 10, y: 0 };
+		paddle2 = { width: 25, height: 100, x: gameWidth - 35, y: gameHeight - 100 };
 		gameRunning = false;
 		ballSpeed = 1;
 		ballX = gameWidth / 2;

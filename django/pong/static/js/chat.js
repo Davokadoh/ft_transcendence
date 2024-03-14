@@ -579,28 +579,37 @@ export function chat() {
 		}
 		else {
 
-			//test take img by list friends
-			let takeImg = document.querySelector(`.list-contact #${data.sender} .profile-image`).getAttribute("src");
-			takeImg = takeImg ? takeImg : "";
-			console.log("takeImg: ", takeImg);
-			const obj = {
-				id: data.sender,
-				name: data.sender_nickname,
-				imgSrc: takeImg,
-				//time msg
-				// few line of the last message
-			};
-			createConversation(obj);
-			//document.getElementById(data.sender).classList.toggle("read-on", true);
-			updateConversations(data, "receive");
-			mapConversationList.set(data.sender, setTemplate("conversationList", obj));
-			mapChatHistory.set(data.sender, setTemplate("chatHistory", obj));
-			mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
+			if (data.sender == activeChatPanel) {
+				updateConversations(data, "receive");
+				document.getElementById("chatPanelId").append(element);
+				scrollUp(document.getElementById("rowChatPanel"));
+				updateChatHistory(activeChatPanel);
+			}
+			else {
 
-			console.log("****conversationList SIZE*****: ", mapConversationList.size);
-			//console.log("****conversationList*****: ", mapConversationList.get(data.sender));
-			//console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));
-			conversationExist = true;
+				//test take img by list friends
+				let takeImg = document.querySelector(`.list-contact #${data.sender} .profile-image`).getAttribute("src");
+				takeImg = takeImg ? takeImg : "";
+				console.log("takeImg: ", takeImg);
+				const obj = {
+					id: data.sender,
+					name: data.sender_nickname,
+					imgSrc: takeImg,
+					//time msg
+					// few line of the last message
+				};
+				createConversation(obj);
+				//document.getElementById(data.sender).classList.toggle("read-on", true);
+				updateConversations(data, "receive");
+				mapConversationList.set(data.sender, setTemplate("conversationList", obj));
+				mapChatHistory.set(data.sender, setTemplate("chatHistory", obj));
+				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
+
+				console.log("****conversationList SIZE*****: ", mapConversationList.size);
+				//console.log("****conversationList*****: ", mapConversationList.get(data.sender));
+				//console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));
+				conversationExist = true;
+			}
 		}
 	}
 
@@ -1039,35 +1048,35 @@ export function chat() {
 	};*/
 
 	/*const checkProfilButton = document.getElementById('checkProfil');
-
+	
 	//bouton check profil renvoi sur user
 	checkProfilButton.addEventListener('click', function () {
 		console.log("click on checkProfilButton");
 		let conversation = document.querySelector(`.conversation-list #${activeChatPanel}`);
 		let nickname = conversation.getAttribute("data-nickname");
-
+	
 		if (nickname) {
 			console.log(`Check profile: ${nickname}`);
 			redirectToUserProfile(nickname);
 		}
 		else
 			console.log(`Empty Nickname: from checkProfilButton`);
-
-
+	
+	
 	});
 	function redirectToUserProfile(nickname) {
 		if (nickname)
 			checkProfil.href = `/user/${nickname}/`;
 		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
 		return;
-
+	
 	}*/
 
 	/*
-
+	
 	let removeFriendBtn = document.getElementById('removeFriend');
 	let addFriendBtn = document.getElementById('addFriend');
-
+	
 	if (removeFriendBtn) {
 		removeFriendBtn.onclick = (e) => {
 			let target = e.target.closest(".container").querySelector("#nickname").innerText;
@@ -1075,7 +1084,7 @@ export function chat() {
 			manageFriend("remove", target);
 		};
 	}
-
+	
 	if (addFriendBtn) {
 		addFriendBtn.onclick = (e) => {
 			let target = e.target.closest(".container").querySelector("#nickname").innerText;
@@ -1083,14 +1092,14 @@ export function chat() {
 			manageFriend("add", target);
 		};
 	}
-
+	
 	--------------
-
+	
 	const contactNickname = contact.getAttribute('[data-nickname]');
 			document.getElementById('friendName').textContent = contactNickname;
 			console.log("friendName: ", contactNickname);
 			console.log("Name: ", name);
-
+	
 	
 	document.addEventListener("click", (e) => {
 		if (visibleList && !e.target.classList.contains("text")) {
