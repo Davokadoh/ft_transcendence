@@ -20,6 +20,7 @@ import base64
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import Signal
+from django.views.decorators.cache import never_cache
 
 
 @receiver(user_logged_in)
@@ -87,6 +88,7 @@ def play(request):
 
 
 @login_required
+@never_cache
 def profil(request):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
