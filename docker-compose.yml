@@ -1,22 +1,36 @@
 version: "3.8"
 
 services:
+  caddy:
+    image: caddy
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - my-network
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - static:/static
+      - media:/media
+    restart: unless-stopped
+
   django:
-    container_name: django
     build:
       context: ./django
       args:
         DOMAIN:
     env_file: .env
     ports:
-      - "443:443"
-      - "80:80"
+      - "8000:8000"
     networks:
       - my-network
     volumes:
-      - static:/ftt/ftt/static
+      - static:/ftt/static
+      - media:/ftt/media
     depends_on:
       - db
+      - caddy
     restart: unless-stopped
 
   db:
@@ -31,10 +45,11 @@ services:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
 
-
 volumes:
+  media:
   static:
   db-data:
+
 
 networks:
   my-network:

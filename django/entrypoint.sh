@@ -12,4 +12,4 @@ echo "PostgreSQL started"
 python3 manage.py collectstatic --noinput && \
 python3 manage.py makemigrations pong && \
 python3 manage.py migrate && \
-daphne -e tcp:80 -e ssl:443:privateKey=/ssl/privkey.key:certKey=/ssl/cert.crt ftt.asgi:application
+daphne ftt.asgi:application --bind 0.0.0.0 --port 8000

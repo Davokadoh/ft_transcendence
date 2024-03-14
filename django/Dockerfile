@@ -7,10 +7,10 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH="$PYTHONPATH:/"
 ARG DOMAIN
 
-RUN mkdir /ssl && openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-	-out /ssl/cert.crt \
-	-keyout /ssl/privkey.key \
-	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42Lausanne/CN=${DOMAIN}"
+# RUN mkdir /ssl && openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+# 	-out /ssl/cert.crt \
+# 	-keyout /ssl/privkey.key \
+# 	-subj "/C=CH/ST=Vaud/L=Renens/O=42/OU=42Lausanne/CN=${DOMAIN}"
 
 # RUN pip install certbot
 # ARG EMAIL
