@@ -105,11 +105,11 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
     async def alert_tournament(self, content):
         time_for_all = datetime.now().strftime("%H:%M")
-        sender_instance = await User.objects.aget(pk=self.user.pk)
+        sender_instance = await CustomUser.objects.aget(pk=self.user.pk)
         targets = content["target"].split(",")
 
         for target in targets:
-            target_instance = await User.objects.aget(nickname=target)
+            target_instance = await CustomUser.objects.aget(nickname=target)
             blocked_users = await target_instance.blocked_users.filter(
                 pk=self.user.pk
             ).aexists()
