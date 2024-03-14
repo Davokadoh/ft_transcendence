@@ -433,18 +433,15 @@ def tourLobby(request, tournamentId=None):
         try:
             data = json.loads(request.body)
             nicknames = [value for key, value in data.items()]
+            nicknames.append(request.user.nickname)
             users = CustomUser.objects.filter(nickname__in=nicknames).distinct()
-            if users.count() < 3:
+            if users.count() < 4:
                 return JsonResponse({"error_message": "Not enough distinct players"})
             if not users.exists():
                 return JsonResponse(
                     {"error_message": "No users found with the provided nicknames"}
                 )
             tournament = Tournament.objects.get(pk=tournamentId)
-            team = Team.objects.create()
-            team.users.add(request.user)
-            team.save()
-            tournament.register_team(team)
             for user in users:
                 team = Team.objects.create()
                 team.users.add(user)
