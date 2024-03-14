@@ -33,7 +33,7 @@ export function game(gameId) {
 	};
 
 	function initializeGame() {
-		fetch('/accounts/profil/settings/data/')
+		fetch('/profil/settings/data/')
 			.then(response => response.json())
 			.then(data => {
 				console.log(data);
