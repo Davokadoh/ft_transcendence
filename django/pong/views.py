@@ -379,14 +379,24 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             data = json.loads(request.body)
             nickname = data.get("nickname")
             user = CustomUser.objects.get(nickname=nickname)
-            if user is None:
-                return JsonResponse({"error_message": "user not found"})
-            team = Team.objects.create()
-            team.save()
-            team.users.add(user)
-            gt = GameTeam(game=game, team=team)
-            gt.save()
-            return JsonResponse({"nickname": user.nickname})
+            team = ""
+            try:
+                team = Team.objects.filter(users=user).exists()
+                if team:
+                    team = Team.objects.get(users=user)
+                else:
+                    team = Team.objects.create()
+                    team.save()
+                    team.users.add(user)
+
+                gt = GameTeam.objects.get(game=game, team=team)
+                return JsonResponse({"nickname": user.nickname})
+
+            except ObjectDoesNotExist:
+                gt = GameTeam(game=game, team=team)
+                gt.save()
+                return JsonResponse({"nickname": user.nickname})
+
         except ObjectDoesNotExist:
             return JsonResponse({"error_message": "Missing valid player nickname"})
 
