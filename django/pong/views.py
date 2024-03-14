@@ -353,12 +353,18 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             # opponent=request.POST.get('player2', ''),
             # score=request.POST.get('scoreText', 0),
         )
-        team = Team.objects.create()
-        team.save()
-        team.users.add(request.user)
+        team = Team.objects.filter(users=request.user).exists()
+        if team:
+            team = Team.objects.get(users=request.user)
+        else:
+            team = Team.objects.create()
+            team.save()
+            team.users.add(request.user)
+        
         gt = GameTeam(game=game, team=team)
         gt.save()
         return redirect(remLobby, game.pk)
+        
     game = get_object_or_404(Game, pk=remoteId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
