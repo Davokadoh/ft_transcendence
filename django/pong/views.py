@@ -162,7 +162,6 @@ def user(request, nickname=None):
         user = CustomUser.objects.get(nickname=nickname)
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
-        games = Game.objects.filter(teams__in=user_teams)
         matches = (
             Game.objects.filter(teams__in=user_teams)
             .filter(status="END")
@@ -190,8 +189,8 @@ def user(request, nickname=None):
             request, "error.html", {"template": "ajax.html" if ajax else "index.html"}
         )
 
-    matches_played = games.count()
-    wins = games.filter(winner__users=user).count()
+    matches_played = matches.count()
+    wins = matches.filter(winner__users=user).count()
     win_ratio = round((wins / matches_played) * 100, 2) if matches_played > 0 else 0
 
     if user.profil_picture:
