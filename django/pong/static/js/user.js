@@ -16,7 +16,8 @@ export function user() {
         removeFriendBtn.onclick = (e) => {
             let user_logged = document.getElementById("userLog").textContent.trim();
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
-            if (target === user_logged)
+            const currentUser = document.getElementById("ladder").dataset.nickname;
+            if (target === user_logged  || target === currentUser)
                 showAlert("You cannot remove yourself from your friends list!");
             else
                 manageFriend("remove", target);
