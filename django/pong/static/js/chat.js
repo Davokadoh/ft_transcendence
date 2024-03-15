@@ -934,6 +934,12 @@ export function chat() {
 			return response.json();
 		}).then(data => {
 			console.log('Response server _data_ : conversations List : ', data.conversations);
+
+			if (data.conversations.length === 0) {
+				console.log("Aucune conversation à afficher.");
+				return ;
+			}
+
 			data.conversations.forEach(conversation => {
 				let statusClass = '';
 				if (conversation.status === 'online') {
