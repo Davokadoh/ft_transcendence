@@ -217,11 +217,12 @@ body-msg {
             top: 10px;
             left: 100px;
             width: 100%;
+            color: var(--violet);
         }
     }
 }
 
-
+.dropdown{ color: white;}
 
 .list-contact {
     position: absolute;
@@ -262,6 +263,10 @@ body-msg {
     .i-down {
         opacity: 0;
     }
+}
+
+.i-down::before {
+    color: #9016B2;
 }
 
 .night-mode .--onhover:hover {
@@ -613,6 +618,11 @@ body-msg {
     .i-send {
         transform: rotate(45deg);
     }
+}
+
+.bi-send {
+    font-size: 30px;
+    color: white;
 }
 
 .night-mode .chat-box .inputCustom:focus {
