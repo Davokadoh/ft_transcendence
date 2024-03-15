@@ -683,7 +683,7 @@ export function chat() {
 			if (data.type == "game_invitation" && data.message.includes("#accept") || data.message.includes("#decline")) {
 				let invitationClass = document.getElementById(`${data.id}`);
 				//#redirection
-				if (data.message.includes("#accept")) {
+				if (from == "socket" && data.message.includes("#accept")) {
 					const gameId = invitationClass.querySelector(".gameId").innerText;
 					history.pushState(null, null, `/remote/${gameId}/`);
 					router();
