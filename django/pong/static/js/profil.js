@@ -331,20 +331,20 @@ export function profil() {
 				'Content-Type': 'application/json'
 			},
 		})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('fetch getList/friends : ERROR');
-			}
-			return response.json();
-		})
-		.then(data => {
-			console.log('Response server _data_ : users/friends : ', data.friend_list);
-			// clear friends list on document
-			document.getElementById("modalBodyContact").innerHTML = "";
-			data.friend_list.forEach(friend => {
-				let modalTmp = document.createElement("p");
-				modalTmp.className = "pseudoBlock d-flex align-items-end";
-				modalTmp.innerHTML = `
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('fetch getList/friends : ERROR');
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log('Response server _data_ : users/friends : ', data.friend_list);
+				// clear friends list on document
+				document.getElementById("modalBodyContact").innerHTML = "";
+				data.friend_list.forEach(friend => {
+					let modalTmp = document.createElement("p");
+					modalTmp.className = "pseudoBlock d-flex align-items-end";
+					modalTmp.innerHTML = `
 					${friend.nickname}
 					<button class="inviteContact" type="button" class="btn" data-username="${friend.username}" 
 						data-bs-toggle="tooltip" data-bs-placement="top" title="Invite the contact"
@@ -353,20 +353,20 @@ export function profil() {
 						data-bs-placement="top" title="Block the contact"
 						alt="Button to block the contact" id="btnBlock"></button>
 					`;
-				document.getElementById("modalBodyContact").appendChild(modalTmp);
-				modalTmp.querySelector(".inviteContact").addEventListener("click", invitationFunct);
-				modalTmp.querySelector(".blockBtn").addEventListener("click", (e) => {
-					manageFriend("block", friend.username);
+					document.getElementById("modalBodyContact").appendChild(modalTmp);
+					modalTmp.querySelector(".inviteContact").addEventListener("click", invitationFunct);
+					modalTmp.querySelector(".blockBtn").addEventListener("click", (e) => {
+						manageFriend("block", friend.username);
+					});
 				});
+				return data.friend_list.map(friend => friend.nickname);
+			})
+			.catch(error => {
+				console.error('request error: Fetch', error);
+				throw error;
 			});
-			return data.friend_list.map(friend => friend.nickname); // Return the list of usernames
-		})
-		.catch(error => {
-			console.error('request error: Fetch', error);
-			throw error;
-		});
 	}
-	
+
 
 	function invitationFunct(event) {
 		var username = event.target.getAttribute("data-username");
@@ -395,34 +395,74 @@ export function profil() {
 				return response.json();
 			})
 			.then(data => {
-
 				console.log('Response server _data_ : users/blocked : ', data.users_blocked);
-				// clear friends list on document
+				// clear blocked list on document
 				document.getElementById("modalBodyBlocked").innerHTML = "";
-				let modalTmp = document.createElement("p");
-				modalTmp.className = "pseudoBlock d-flex align-items-end"
 				data.users_blocked.forEach(user => {
-
-					//let username = truncNickname(friend.username);
+					let modalTmp = document.createElement("p");
+					modalTmp.className = "pseudoBlock d-flex align-items-end";
 					modalTmp.innerHTML = `
-						${user.nickname}
-						<button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip"
-							data-bs-placement="top" title="Unblock the contact"
-							alt="Button to unblock the contact" id="btnUnblock"></button>
-						`
-					document.getElementById("modalBodyBlocked").append(modalTmp);
-					document.getElementById("btnUnblock").addEventListener("click", (e) => {
-						manageFriend("unblock", e.target.closest(".pseudoBlock").innerText);
+					${user.nickname}
+					<button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip"
+						data-bs-placement="top" title="Unblock the contact"
+						alt="Button to unblock the contact" data-username="${user.username}"></button>
+					`;
+					document.getElementById("modalBodyBlocked").appendChild(modalTmp);
+					modalTmp.querySelector(".unblockBtn").addEventListener("click", (e) => {
+						manageFriend("unblock", user.username);
 						e.target.closest(".pseudoBlock").remove();
-
 					});
-
-				})
+				});
+				return data.users_blocked.map(user => user.nickname);
 			})
 			.catch(error => {
 				console.error('request error: Fetch', error);
 			});
 	}
+	// function createListBlocked() {
+
+	// 	console.log("==createListFriends FUNCTION==");
+	// 	fetch("getList/blocked", {
+	// 		method: 'GET',
+	// 		headers: {
+	// 			'Content-Type': 'application/json'
+	// 		},
+	// 	})
+	// 		.then(response => {
+	// 			if (!response.ok) {
+	// 				throw new Error('fetch getList/blocked : ERROR');
+	// 			}
+	// 			return response.json();
+	// 		})
+	// 		.then(data => {
+
+	// 			console.log('Response server _data_ : users/blocked : ', data.users_blocked);
+	// 			// clear friends list on document
+	// 			document.getElementById("modalBodyBlocked").innerHTML = "";
+	// 			let modalTmp = document.createElement("p");
+	// 			modalTmp.className = "pseudoBlock d-flex align-items-end"
+	// 			data.users_blocked.forEach(user => {
+
+	// 				//let username = truncNickname(friend.username);
+	// 				modalTmp.innerHTML = `
+	// 					${user.nickname}
+	// 					<button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip"
+	// 						data-bs-placement="top" title="Unblock the contact"
+	// 						alt="Button to unblock the contact" id="btnUnblock"></button>
+	// 					`
+	// 				document.getElementById("modalBodyBlocked").append(modalTmp);
+	// 				document.getElementById("btnUnblock").addEventListener("click", (e) => {
+	// 					manageFriend("unblock", e.target.closest(".pseudoBlock").innerText);
+	// 					e.target.closest(".pseudoBlock").remove();
+
+	// 				});
+	// 			})
+	// 			return data.friend_list.map(friend => friend.nickname);
+	// 		})
+	// 		.catch(error => {
+	// 			console.error('request error: Fetch', error);
+	// 		});
+	// }
 
 	function createListContact() {
 
