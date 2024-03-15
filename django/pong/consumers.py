@@ -74,11 +74,12 @@ class Consumer(AsyncJsonWebsocketConsumer):
             },
         )
 
+        friend_exist = await sender_instance.friends.filter(pk=self.user.pk).aexists()
         blocked_users = await target_instance.blocked_users.filter(
             pk=self.user.pk
         ).aexists()
         # check before send a message if sender was blocked
-        if not blocked_users:
+        if not blocked_users and friend_exist:
             await self.channel_layer.send(
                 target_instance.channel_name,
                 {
