@@ -98,7 +98,7 @@ export function remote(gameId) {
 	function endGame() {
 		gameRunning = false;
 		clearBoard();
-		let winnerMessage = "Game Over!";
+		let winnerMessage = "Game Over! ";
 		if (score[0] > score[1]) {
 			winnerMessage += player1 + " wins!";
 		} else if (score[0] < score[1]) {
