@@ -30,12 +30,16 @@ export function user() {
             console.log("user_logged: ", user_logged);
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
             console.log("target: ", target);
-            if (target === user_logged)
+            const currentUser = document.getElementById("ladder").dataset.nickname;
+
+            console.log("nickname: ", nickname);
+            if (target === user_logged || target === currentUser)
                 showAlert("You are already your own friend ♥︎");
             else
                 manageFriend("add", target);
         };
     }
+    
 
     searched_nickname.addEventListener("keypress", (e) => {
         if (e.key == "Enter")

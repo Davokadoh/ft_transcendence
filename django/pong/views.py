@@ -159,6 +159,8 @@ def user(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
         user = CustomUser.objects.get(nickname=nickname)
+        print(f"User: {user}")
+        print(f"nickname: {nickname}")
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         matches = (
@@ -209,6 +211,7 @@ def user(request, nickname=None):
         "wins": wins,
         "win_ratio": win_ratio,
         "matches": matches,
+        "nickname": nickname,
     }
     return render(request, "user.html", context)
 
