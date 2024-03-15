@@ -34,7 +34,7 @@ urlpatterns = [
     path("tournament/<int:tournamentId>/next/", views.tournament_next),
     path("tournament/game/<int:gameId>/", views.tournament_game),
     path("user/<str:nickname>/", views.user),
-    path("api/create-fake-user/", create_fake_user, name="create_fake_user"),
+    # path("api/create-fake-user/", create_fake_user, name="create_fake_user"),
     path("accounts/profil/settings/", views.UpdateUserSettingsView),
     path("profil/settings/data/", views.getUserData),
     path("users/list", views.get_users),

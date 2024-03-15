@@ -618,28 +618,28 @@ def get_user_info(request, nickname):
     # TEST AVEC FAUX USERS
 
 
-def create_fake_user(request):
-    # Créer un faux utilisateur
-    fake_user = CustomUser.objects.create_user(
-        username="user123",
-        email="user123@example.com",
-        password="password123",
-        profil_picture=STATIC_URL("./img/profil/image-defaut.png"),
-    )
-    fake_user.first_name = "John"
-    fake_user.last_name = "Doe"
-    # fake_user.profil_picture = '../img/profil/image-defaut.png'
-    fake_user.save()
+# def create_fake_user(request):
+#     # Créer un faux utilisateur
+#     fake_user = CustomUser.objects.create_user(
+#         username="user123",
+#         email="user123@example.com",
+#         password="password123",
+#         profil_picture=STATIC_URL("./img/profil/image-defaut.png"),
+#     )
+#     fake_user.first_name = "John"
+#     fake_user.last_name = "Doe"
+#     # fake_user.profil_picture = '../img/profil/image-defaut.png'
+#     fake_user.save()
 
-    # Renvoyer les informations de l'utilisateur créé
-    user_info = {
-        "username": fake_user.username,
-        "first_name": fake_user.first_name,
-        "last_name": fake_user.last_name,
-        "email": fake_user.email,
-        "profil_picture": "/static/img/profil/image-defaut.png",
-    }
-    return JsonResponse(user_info)
+#     # Renvoyer les informations de l'utilisateur créé
+#     user_info = {
+#         "username": fake_user.username,
+#         "first_name": fake_user.first_name,
+#         "last_name": fake_user.last_name,
+#         "email": fake_user.email,
+#         "profil_picture": "/static/img/profil/image-defaut.png",
+#     }
+#     return JsonResponse(user_info)
 
 
 def UpdateUserSettingsView(request):
