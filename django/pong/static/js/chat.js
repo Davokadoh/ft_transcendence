@@ -53,22 +53,7 @@ export function chat() {
 					console.log("List contacts loaded: ", document.getElementById('listContact').innerHTML);
 
 					// load list conversations
-					fetchListConversation()
-						.then(() => {
-							console.log("==conversations list loaded!==");
-							console.log("maConver : ", mapConversationList.size);
-							mapConversationList.forEach((value, key) => {
-								document.getElementById("conversationListId").append(value);
-								document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
-
-							});
-							mapChatHistory.forEach((value, key) => {
-								console.log("**mapChatHistory value**: ", value);
-							});
-						})
-						.catch(error => {
-							console.error('request error: Fetch chat/conversations/', error);
-						});
+					fetchListConversation();
 				})
 				.catch(error => {
 					console.error('Creation list contact failed :', error);
@@ -145,15 +130,53 @@ export function chat() {
 					name: contactName,
 					imgSrc: img,
 				};
-				createConversation(obj);
-				createChatPanel(obj);
+				// create first conv && chatPanel
+				document.getElementById('panelPrincipalId').classList.toggle('hide', true);
+				createConversationByContact(obj);
+				document.getElementById('conversationListId').classList.toggle('hide', false);
 			}
 
 			console.log("Contact name: ", contactName);
 			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
-			document.getElementById('conversationListId').classList.toggle('hide', false);
+			
 			isVisibleList = false;
 		});
+	}
+
+	function createConversationByContact(obj) {
+	
+		//document.getElementById("conversationListId").innerHTML = "";
+		let tpl = templateConversation.content.cloneNode(true);
+		//set value
+		tpl.querySelector(".conversation").id = obj.id;
+		let name = tpl.querySelector("[data-text] h6");
+		tpl.querySelector(".conversation").setAttribute("data-nickname", obj.name);
+		let img = tpl.querySelector("[data-image]");
+		let blockUnblock = tpl.querySelector("#blockUnblockId");
+		let statusIndicator = tpl.querySelector(".status-indicator");
+		// Vérifie si l'utilisateur est bloqué
+		if (usersBlocked.find(user => user.username === obj.id))
+			blockUnblock.innerText = "Unblock contact";
+		else
+			blockUnblock.innerText = "Block contact";
+		// Défini le nom et l'image
+		name.textContent = obj.name;
+		img.src = obj.imgSrc;
+		//statusIndicator = data.status;
+		document.getElementById("conversationListId").append(tpl);
+		document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
+		console.log("== createConversationBycontact list: ==", document.getElementById("conversationListId").lastElementChild);
+		
+		//load chatPanel
+		let chatPanel = document.getElementById("conversationHistoryId");
+		chatPanel.innerHTML = "";
+		chatPanel.append(setTplHistory(obj.id));
+		if (!conversationExist)
+			conversationExist = true;
+
+		//update activechatPanel
+		activeChatPanel = obj.id;
+		handle_click_history();
 	}
 
 	function handle_conversation(event) {
@@ -275,22 +298,24 @@ export function chat() {
 		console.log(`active chat: ${activeChatPanel}`);
 
 		if (activeChatPanel != contactId) {
-			if (activeChatPanel)
-				updateChatHistory(activeChatPanel)
-			activeChatPanel = contactId;
-			document.querySelector(".conversation-history").innerHTML = "";
-			document.querySelector(".conversation-history").append(mapChatHistory.get(contactId));
-
-			console.log(mapChatHistory.get(contactId));
-			handle_click_history();
-			document.getElementById("input-id").addEventListener("keypress", sendByMe);
-
-
+			//if (activeChatPanel)
+			//	updateChatHistory(activeChatPanel)
+			//create chatPanel
 			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
-			document.getElementById('chatBoxId').classList.toggle('hide', false);
 
-
-			conversationExist = true;
+			document.querySelector(`.conversation-history`).innerHTML = "";
+			document.querySelector(`.conversation-history`).append(setTplHistory(contactId));
+			activeChatPanel = contactId;
+			
+			//test res
+			console.log("select conversation: ", document.querySelector(`.conversation-history`).innerHTML);
+			
+			//load messages
+			fetchMessages(contactId);
+			handle_click_history();
+			//document.getElementById('chatBoxId').classList.toggle('hide', false);
+			if (!conversationExist)
+				conversationExist = true;
 		}
 	}
 
@@ -301,63 +326,71 @@ export function chat() {
 		});
 	}
 
-	function createConversation(obj) {
-		// if none message sent by the activechatpanel erase it
-		if (!mapConversationList.has(activeChatPanel))
-			document.getElementById("conversationListId").innerHTML = "";
-		document.getElementById("conversationListId").append(setTemplate("conversationList", obj));
-		console.log("== createConversation list: ==", document.getElementById("conversationListId").lastElementChild);
+	
 
-		// when click on conversation
-		document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
+	function setTplHistory(conversationId) {
 
+		//const element = document.createElement("div");
+		let conversation = document.querySelector(`.conversation-list #${conversationId}`);
+		console.log("conversation within setTplHist: ", conversation);
+		
+		let tpl = templateConversationHistory.content.cloneNode(true);
+		let settingsTray = tpl.querySelector(".settings-tray");
+		let img = settingsTray.querySelector("[data-image]");
+		settingsTray.querySelector("[data-text]").id = conversationId;
+		let name = settingsTray.querySelector("[data-text] h6");
+		let chatBox = tpl.querySelector("#chatBoxId");
+		img.src = conversation.querySelector("[data-image]").src;
+		name.textContent = conversation.querySelector("[data-text] h6").textContent;
+		
+		if (usersBlocked.find(user => user.username === conversationId))
+			chatBox.classList.toggle("disabled", true);
+		else
+			chatBox.classList.toggle("disabled", false);
+		
+		//element.append(tpl);
+		return tpl;
 	}
-
-	function setTemplate(type, obj) {
+	
+	function setTplConversation(data) {
 
 		//const element = document.createElement("div");
 
-		if (type === "chatHistory") {
-			// take template and set the value
-			let tpl = templateConversationHistory.content.cloneNode(true);
-			let settingsTray = tpl.querySelector(".settings-tray");
-			let img = settingsTray.querySelector("[data-image]");
-			settingsTray.querySelector("[data-text]").id = obj.id;
-			let name = settingsTray.querySelector("[data-text] h6");
-			let chatBox = tpl.querySelector("#chatBoxId");
-			img.src = obj.imgSrc;
-			name.textContent = obj.name;
-			if (usersBlocked.find(user => user.username === obj.id))
-				chatBox.classList.toggle("disabled", true);
-			else
-				chatBox.classList.toggle("disabled", false);
-			//element.append(tpl);
-			return tpl;
-		}
-		else if (type === "conversationList") {
-			//take template
-			let tpl = templateConversation.content.cloneNode(true);
-			//set value
-			tpl.querySelector(".conversation").id = obj.id;
-			let name = tpl.querySelector("[data-text] h6");
-			tpl.querySelector(".conversation").setAttribute("data-nickname", obj.name);
-			let img = tpl.querySelector("[data-image]");
-			let blockUnblock = tpl.querySelector("#blockUnblockId");
-			let statusIndicator = tpl.querySelector(".status-indicator");
-			// Vérifie si l'utilisateur est bloqué
-			if (usersBlocked.find(user => user.username === obj.id))
-				blockUnblock.innerText = "Unblock contact";
-			else
-				blockUnblock.innerText = "Block contact";
-			// Défini le nom et l'image
-			name.textContent = obj.name;
-			img.src = obj.imgSrc;
-			statusIndicator = obj.status;
-			return tpl;
-		}
+		//take img from contact list
+		console.log("setTplConv data: ", data);
+		console.log("setTplConv list contact: ", document.querySelector(`.list-contact`));
+		console.log("setTplConv sender: ", data.sender);
+
+		console.log("setTplConv list contact: ", document.querySelector(`.list-contact #${data.sender}`));
+
+
+		
+		let takeImg = document.querySelector(`.list-contact #${data.sender} .profile-image`).getAttribute("src");
+		takeImg = takeImg ? takeImg : "";
+
+		console.log("takeImg: ", takeImg);
+			
+		let tpl = templateConversation.content.cloneNode(true);
+		//set value
+		tpl.querySelector(".conversation").id = data.sender;
+		let name = tpl.querySelector("[data-text] h6");
+		tpl.querySelector(".conversation").setAttribute("data-nickname", data.sender_nickname);
+		let img = tpl.querySelector("[data-image]");
+		let blockUnblock = tpl.querySelector("#blockUnblockId");
+		let statusIndicator = tpl.querySelector(".status-indicator");
+		// Vérifie si l'utilisateur est bloqué
+		if (usersBlocked.find(user => user.username === data.sender))
+			blockUnblock.innerText = "Unblock contact";
+		else
+			blockUnblock.innerText = "Block contact";
+		// Défini le nom et l'image
+		name.textContent = data.sender_nickname;
+		img.src = takeImg;
+		statusIndicator = data.status;
+		return tpl;
 	}
 
-	function createChatPanel(obj) {
+	/*function createChatPanel(obj) {
 
 		console.log("===createChatPanel FUNCTION===: ", obj.id);
 		const contactName = obj.name;
@@ -381,7 +414,7 @@ export function chat() {
 			conversationExist = true;
 
 		}
-	}
+	}*/
 
 	function handle_click_history() {
 
@@ -422,6 +455,7 @@ export function chat() {
 		});
 
 		document.getElementById("invitation").addEventListener("click", sendByMe);
+		document.getElementById("input-id").addEventListener("keypress", sendByMe);
 		document.getElementById("send-id").addEventListener("click", sendByMe);
 	}
 
@@ -433,11 +467,10 @@ export function chat() {
 
 	}
 
-	function findConversation(name) {
-		console.log("name: ", name);
-		console.log("findconverasation contain name: ", mapConversationList.has(name));
-
-		return mapConversationList.has(name);
+	function findConversation(username) {
+		console.log("name: ", username);
+		let conversation = document.querySelector(`.conversation-list #${username}`);
+		return conversation ? true : false;
 	}
 
 	function updateChatHistory(contactId) {
@@ -449,6 +482,7 @@ export function chat() {
 	}
 
 	function updateConversations(data, type) {
+		
 		var msg = data.message;
 		var shortText = msg.length < 21 ? msg : msg.substring(0, 20) + ' ...';
 		var conversation_id = "";
@@ -462,19 +496,16 @@ export function chat() {
 			conversation_name = data.target_nickname;
 		}
 
-		if (document.querySelector(`.conversation-list #${conversation_id}`)) {
-			const element = document.querySelector(`.conversation-list #${conversation_id}`);
-			element.querySelector(".text h6").textContent = conversation_name;
-			element.querySelector("#textMuted").innerText = shortText;
-			element.querySelector("#timeMsg").innerText = data.timestamp;
-			mapConversationList.set(conversation_id, element);
-			//update map
-		}
-		else if (mapConversationList.has(conversation_id)) {
+		const element = document.querySelector(`.conversation-list #${conversation_id}`);
+		element.querySelector(".text h6").textContent = conversation_name;
+		element.querySelector("#textMuted").innerText = shortText;
+		element.querySelector("#timeMsg").innerText = data.timestamp;
+		//mapConversationList.set(conversation_id, element);
+		//update map
+		/*else if (mapConversationList.has(conversation_id)) {
 			mapConversationList.get(conversation_id).querySelector("#textMuted").innerText = shortText;
 			mapConversationList.get(conversation_id).querySelector("#timeMsg").innerText = data.timestamp;
-		}
-
+		}*/
 		console.log("===mapConversationsList updated!===");
 	}
 
@@ -557,21 +588,14 @@ export function chat() {
 		}
 
 		if (findConversation(data.sender)) {
+			
 			if (data.sender == activeChatPanel) {
 				document.querySelector(".conversation-history [data-text] h6").textContent = data.sender_nickname;
 				document.getElementById("chatPanelId").append(element);
 				scrollUp(document.getElementById("rowChatPanel"));
-				updateChatHistory(activeChatPanel);
+				//updateChatHistory(activeChatPanel);
 			}
-			else {
-
-
-				mapChatHistory.get(data.sender).querySelector("[data-text] h6").textContent = data.sender_nickname;
-				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
-				//document.getElementById(data.sender).classList.toggle("read-on", true);
-			}
-			updateConversations(data, "receive");
-
+			
 			//#redirection
 			if (from == "socket" && data.type == "game_invitation"
 				&& data.message.includes("#accept")) {
@@ -582,38 +606,26 @@ export function chat() {
 		}
 		else {
 
-			if (data.sender == activeChatPanel) {
-				updateConversations(data, "receive");
+				/*updateConversations(data, "receive");
 				document.getElementById("chatPanelId").append(element);
 				scrollUp(document.getElementById("rowChatPanel"));
-				updateChatHistory(activeChatPanel);
-			}
-			else {
+				updateChatHistory(activeChatPanel);*/
 
 				//test take img by list friends
-				let takeImg = document.querySelector(`.list-contact #${data.sender} .profile-image`).getAttribute("src");
-				takeImg = takeImg ? takeImg : "";
-				console.log("takeImg: ", takeImg);
-				const obj = {
-					id: data.sender,
-					name: data.sender_nickname,
-					imgSrc: takeImg,
-					//time msg
-					// few line of the last message
-				};
-				createConversation(obj);
+				document.getElementById("conversationListId").append(setTplConversation(data));
+				document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
+
 				//document.getElementById(data.sender).classList.toggle("read-on", true);
-				updateConversations(data, "receive");
-				mapConversationList.set(data.sender, setTemplate("conversationList", obj));
+				/*mapConversationList.set(data.sender, setTemplate("conversationList", obj));
 				mapChatHistory.set(data.sender, setTemplate("chatHistory", obj));
 				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
 
 				console.log("****conversationList SIZE*****: ", mapConversationList.size);
 				//console.log("****conversationList*****: ", mapConversationList.get(data.sender));
-				//console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));
-				conversationExist = true;
-			}
+				//console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));*/
 		}
+		updateConversations(data, "receive");
+		conversationExist = true;
 	}
 
 	function message_sent(data, from) {
@@ -671,14 +683,14 @@ export function chat() {
 				}
 				invitationClass.remove();
 			}
-			updateChatHistory(activeChatPanel);
+			//updateChatHistory(activeChatPanel);
 		}
-		else {
-			if (findConversation(data.target)) {
+		/*else {
+			//if (findConversation(data.target)) {
 
-				let panel = mapChatHistory.get(data.target).querySelector("#chatPanelId");
+				//let panel = mapChatHistory.get(data.target).querySelector("#chatPanelId");
 				//delete invitation after decision 
-				if (data.type == "game_invitation" && data.message.includes("#accept") || data.message.includes("#decline")) {
+			if (data.type == "game_invitation" && data.message.includes("#accept") || data.message.includes("#decline")) {
 					console.log("sent id: ", data.id);
 					//console.log("sent element: ", panel.innerHTML);
 
@@ -688,7 +700,7 @@ export function chat() {
 				}
 				panel.append(element);
 			}
-		}
+		}*/
 		updateConversations(data, "sent");
 		console.log("active chat dans message_sent: ", activeChatPanel);
 	}
@@ -902,74 +914,75 @@ export function chat() {
 			});
 	}
 
-	async function fetchListConversation() {
+	function fetchListConversation() {
 
-		return new Promise(async (resolve, reject) => {
-			try {
-				const response = await fetch("/chat/conversations/", {
-					//method: 'GET',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-				});
-
-				if (!response.ok)
-					throw new Error('fetch chat/conversations : ERROR');
-
-				const data = await response.json();
-
-				console.log('Response server _data_ : conversations List : ', data.conversations);
-
-				data.conversations.forEach(conversation => {
-					let statusClass = '';
-					if (conversation.status === 'online') {
-						statusClass = 'online';
-					} else if (conversation.status === 'offline') {
-						statusClass = 'offline';
-					} else if (conversation.status === 'playing') {
-						statusClass = 'playing';
-					} else if (conversation.status === '') {
-						statusClass = 'empty';
-					}
-					//load conversation
-					let takeImg = document.querySelector(`.list-contact #${conversation.id} .profile-image`).getAttribute("src");
-					takeImg = takeImg ? takeImg : "";
-					console.log(`takeImg: ${takeImg}`);
-
-					const obj = {
-						"id": conversation.id,
-						"name": conversation.name,
-						"imgSrc": takeImg,
-						// "status": conversation.statusIndicator,
-						"status": statusClass
-						// modification Verena
-					}
-					//console.log("status indicator = ", statusIndicator);
-					//createConversation(obj);
-					//var state = conversation.unread;
-
-					mapConversationList.set(conversation.id, setTemplate("conversationList", obj));
-					//mapConversationList.get(conversation.name).classList.toggle("read-on", !state);
-					mapChatHistory.set(conversation.id, setTemplate("chatHistory", obj));
-					//document.getElementById("conversationListId").append(setTemplate("conversationList", obj));
-
-					conversation.messages.forEach(message => {
-
-						//load the messages within conversation
-						message.timestamp = formatageTime(message.timestamp);
-						parse_msg(message, "fetch");
-						console.log("Conversation fetch sender: ", message.sender_nickname);
-						console.log("Conversation fetch target: ", message.target_nickname);
-						console.log("Conversation fetch message: ", message.message);
-
-					});
-				});
-				resolve();
-
-			} catch (error) {
-				reject();
-			}
+		const response = fetch("conversations/", {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		}).then(response => {
+			
+			if (!response.ok)
+				throw new Error('fetch chat/conversations : ERROR');
+			return response.json();
+		}).then(data => {
+			console.log('Response server _data_ : conversations List : ', data.conversations);
+			data.conversations.forEach(conversation => {
+				let statusClass = '';
+				if (conversation.status === 'online') {
+					statusClass = 'online';
+				} else if (conversation.status === 'offline') {
+					statusClass = 'offline';
+				} else if (conversation.status === 'playing') {
+					statusClass = 'playing';
+				} else if (conversation.status === '') {
+					statusClass = 'empty';
+				}
+				let message;
+				for (message of conversation.messages);
+				console.log("data conversations forEah sender", message.sender);
+				document.getElementById("conversationListId").append(setTplConversation(message));
+				document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
+				message.timestamp = formatageTime(message.timestamp);
+				let userId = document.getElementById("userId").textContent;
+				(message.sender == userId) ? updateConversations(message, "sent") : updateConversations(message, "receive");
+				
+			});
+		}).catch(error => {
+			console.error('Error:', error);
 		});
+	}
+	
+
+	function fetchMessages(username) {
+		
+		fetch(`conversation/${username}/`)
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log("data from fetchMessages :", data);
+				displayMessages(data.conversation.messages, username);
+			})
+			.catch(error => {
+				console.error('Erreur lors de la récupération de la conversation:', error);
+			});
+	
+	}
+
+	function displayMessages(messages, username) {
+		
+		//const chatHistory = document.querySelector(`.conversation-history #${username}`);
+		console.log("=== display messages==");
+		messages.forEach(message => {
+			message.timestamp = formatageTime(message.timestamp);
+			parse_msg(message, "socket");
+			//console.log("from display messages: ", message.message);
+		});
+		//update conversation time stamp et text-mutes here
 	}
 
 	function manageFriend(action, target) {
