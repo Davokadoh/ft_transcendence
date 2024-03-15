@@ -264,6 +264,11 @@ body-msg {
     }
 }
 
+.bi-send {
+    color: white;
+    font-size: 30px;
+}
+
 .night-mode .--onhover:hover {
     background-color: var(--gray) !important;
 }
