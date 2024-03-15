@@ -370,11 +370,16 @@ export function chat() {
 		let userId = document.getElementById("userId").textContent;
 		let target = (data.sender == userId) ? data.target : data.sender;
 		let target_nickname = (data.sender == userId) ? data.target_nickname : data.sender_nickname;
+		let takeImg = "";
 
+		const targetElement = document.querySelector(`.list-contact #${target}`);
+		if (targetElement) {
+			const profileImage = targetElement.querySelector(".profile-image");
+			if (profileImage) {
+				takeImg = profileImage.getAttribute("src");
+			}
+		}
 		
-		let takeImg = document.querySelector(`.list-contact #${target} .profile-image`).getAttribute("src");
-		takeImg = takeImg ? takeImg : "";
-
 		console.log("takeImg: ", takeImg);
 			
 		let tpl = templateConversation.content.cloneNode(true);
