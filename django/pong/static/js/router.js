@@ -34,5 +34,7 @@ export function router() {
 		else if (target.startsWith("/lobby")) lobby(gameId);
 		else if (target.startsWith("/remLobby")) remLobby(gameId);
 		else if (target.startsWith("/tourLobby")) tourLobby(gameId);
+	}).catch(error => {
+		location.href = location.href
 	});
 };

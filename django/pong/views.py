@@ -362,12 +362,13 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             # score=request.POST.get('scoreText', 0),
         )
 
-        team = Team.objects.filter(users=request.user).first()
-        if team is None:
-            team = Team.objects.create()
-            team.users.add(request.user)
-        gt = GameTeam(game=game, team=team)
+        team1 = Team.objects.filter(users=request.user).first()
+        if team1 is None:
+            team1 = Team.objects.create()
+            team1.users.add(request.user)
+        gt = GameTeam(game=game, team=team1)
         gt.save()
+        game.save()
         return redirect(remLobby, game.pk)
 
     game = get_object_or_404(Game, pk=remoteId)
@@ -389,21 +390,22 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             data = json.loads(request.body)
             nickname = data.get("nickname")
             user = CustomUser.objects.get(nickname=nickname)
-            team = ""
             try:
-                team = Team.objects.filter(users=user).first()
-                if team is None:
-                    team = Team.objects.create()
-                    team.users.add(user)
-                gt = GameTeam(game=game, team=team)
+                team2 = Team.objects.filter(users=user).first()
+                if team2 is None:
+                    team2 = Team.objects.create()
+                    team2.users.add(user)
+                gt = GameTeam(game=game, team=team2)
                 gt.save()
+                game.save()
                 return JsonResponse({"nickname": user.nickname})
 
             except ObjectDoesNotExist:
-                gt = GameTeam(game=game, team=team)
+                gt = GameTeam(game=game, team=team2)
                 gt.save()
+                game.save()
                 return JsonResponse({"nickname": user.nickname})
-
+            
         except ObjectDoesNotExist:
             return JsonResponse({"error_message": "Missing valid player nickname"})
 
