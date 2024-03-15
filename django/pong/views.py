@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from ftt.settings import STATIC_URL
-from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, CustomUser, Team, Game
 from .forms import ProfilPictureForm, NicknameForm
 from django.urls import reverse
@@ -136,7 +135,7 @@ def profil(request):
     elif request.user.profil_picture_oauth:
         profil_picture_url = request.user.profil_picture_oauth
     else:
-        profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
+        profil_picture_url = "/static/img/profil/image-defaut.png"
     return render(
         request,
         "profil.html",
@@ -160,6 +159,8 @@ def user(request, nickname=None):
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     try:
         user = CustomUser.objects.get(nickname=nickname)
+        print(f"User: {user}")
+        print(f"nickname: {nickname}")
         # Calcul des statistiques du joueur
         user_teams = Team.objects.filter(users=user)
         matches = (
@@ -185,9 +186,7 @@ def user(request, nickname=None):
                 print(f"Error while retrieving match data : {e}")
                 pass
     except ObjectDoesNotExist:
-        return render(
-            request, "error.html", {"template": "ajax.html" if ajax else "index.html"}
-        )
+        return redirect(errorview)
 
     matches_played = matches.count()
     wins = matches.filter(winner__users=user).count()
@@ -210,8 +209,16 @@ def user(request, nickname=None):
         "wins": wins,
         "win_ratio": win_ratio,
         "matches": matches,
+        "nickname": nickname,
     }
     return render(request, "user.html", context)
+
+
+def errorview(request):
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "error.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
 
 
 @login_required
@@ -270,7 +277,8 @@ def chat(request):
             if request.user.profil_picture_oauth:
                 profil_picture_url = request.user.profil_picture_oauth
             else:
-                profil_picture_url = "/chemin/vers/image/par/defaut.png"
+                # profil_picture_url = "/chemin/vers/image/par/defaut.png"
+                profil_picture_url = "/static/img/profil/image-defaut.png"
         return render(
             request,
             "chat.html",
@@ -353,18 +361,15 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             # opponent=request.POST.get('player2', ''),
             # score=request.POST.get('scoreText', 0),
         )
-        team = Team.objects.filter(users=request.user).exists()
-        if team:
-            team = Team.objects.get(users=request.user)
-        else:
+
+        team = Team.objects.filter(users=request.user).first()
+        if team is None:
             team = Team.objects.create()
-            team.save()
             team.users.add(request.user)
-        
         gt = GameTeam(game=game, team=team)
         gt.save()
         return redirect(remLobby, game.pk)
-        
+
     game = get_object_or_404(Game, pk=remoteId)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "GET":
@@ -386,15 +391,12 @@ def remLobby(request, remoteId=None, invitedPlayer2=None):
             user = CustomUser.objects.get(nickname=nickname)
             team = ""
             try:
-                team = Team.objects.filter(users=user).exists()
-                if team:
-                    team = Team.objects.get(users=user)
-                else:
+                team = Team.objects.filter(users=user).first()
+                if team is None:
                     team = Team.objects.create()
-                    team.save()
                     team.users.add(user)
-
-                gt = GameTeam.objects.get(game=game, team=team)
+                gt = GameTeam(game=game, team=team)
+                gt.save()
                 return JsonResponse({"nickname": user.nickname})
 
             except ObjectDoesNotExist:
@@ -520,9 +522,12 @@ def tournament_game(request, gameId=None):
 
 
 def logoutview(request):
-    if request.user is not None:
-        user_logged_in_handler(sender=None, request=request, user=request.user)
-    logout(request)
+    try:
+        if request.user is not None:
+            user_logged_in_handler(sender=None, request=request, user=request.user)
+            logout(request)
+    except NotImplementedError:
+        return redirect(loginview)
     return redirect(loginview)
 
 
@@ -577,13 +582,10 @@ def callback(request):
         user = CustomUser.objects.get(username=response.json()["login"])
     except CustomUser.DoesNotExist:
         user = CustomUser.objects.create(username=response.json()["login"])
-        print("USER CREATED")
         try:
-            user.profilPictureUrl = response.json()["image"]["link"]
+            user.profil_picture_oauth = response.json()["image"]["link"]
         except KeyError:
-            user.profil_picture_oauth = "https://github.com/{}.png".format(
-                user.username
-            )
+            user.profil_picture_oauth = f"https://github.com/{user.username}.png"
         user.save()
 
     login(request, user)
@@ -633,7 +635,7 @@ def create_fake_user(request):
         "first_name": fake_user.first_name,
         "last_name": fake_user.last_name,
         "email": fake_user.email,
-        "profil_picture": "img/profil/image-defaut.png",
+        "profil_picture": "/static/img/profil/image-defaut.png",
     }
     return JsonResponse(user_info)
 
@@ -674,7 +676,6 @@ def getUserData(request):
         "ballColor": request.user.ballColor,
         "backgroundColor": request.user.backgroundColor,
     }
-
     return JsonResponse(data)
 
 

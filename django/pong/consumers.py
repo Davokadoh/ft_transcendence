@@ -294,27 +294,25 @@ class Consumer(AsyncJsonWebsocketConsumer):
 
     async def createGameId(self, content):
         game = await Game.objects.acreate(
-            start_time=timezone.now(),
-            style="Remote Play",
-            # opponent=request.POST.get("player2"),
-            # score=request.POST.get("scoreText", "0 - 0"),
+            start_time=timezone.now(), style="Remote Play"
         )
 
-        team = await Team.objects.acreate()
-        await team.asave()
-        await team.users.aadd(self.user)
-        gt = GameTeam(game=game, team=team)
+        team1 = await Team.objects.filter(users=self.user).afirst()
+        if team1 is None:
+            team1 = await Team.objects.acreate()
+            team1.users.aadd(self.user)
+        gt = GameTeam(game=game, team=team1)
         await gt.asave()
 
-        # find by username for request from chat
         target = await CustomUser.objects.aget(username=content["target"])
-        team2 = await Team.objects.acreate()
-        await team2.asave()
-        await team2.users.aadd(target)
+        team2 = await Team.objects.filter(users=target).afirst()
+        if team2 is None:
+            team2 = await Team.objects.acreate()
+            team2.users.aadd(self.target)
         gt = GameTeam(game=game, team=team2)
         await gt.asave()
-        await game.asave()
 
+        await game.asave()
         return str(game.pk)
 
     async def removeGameId(self, gameId):
@@ -352,7 +350,10 @@ class Consumer(AsyncJsonWebsocketConsumer):
             games[gameId] = await sync_to_async(Engine)(gameId)
         self.game = games[gameId]
         self.player = Player(self)
-        self.game.players.append(self.player)
+        if self.user is self.game.users.afirst():
+            self.game.players.insert(0, self.player)
+        else:
+            self.game.players.append(self.player)
         await self.channel_layer.group_add(f"game_{gameId}", self.channel_name)
 
     async def leave_game(self):

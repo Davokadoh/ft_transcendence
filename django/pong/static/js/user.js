@@ -16,7 +16,8 @@ export function user() {
         removeFriendBtn.onclick = (e) => {
             let user_logged = document.getElementById("userLog").textContent.trim();
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
-            if (target === user_logged)
+            const currentUser = document.getElementById("ladder").dataset.nickname;
+            if (target === user_logged  || target === currentUser)
                 showAlert("You cannot remove yourself from your friends list!");
             else
                 manageFriend("remove", target);
@@ -30,18 +31,26 @@ export function user() {
             console.log("user_logged: ", user_logged);
             let target = e.target.closest(".container").querySelector("#nickname").innerText;
             console.log("target: ", target);
-            if (target === user_logged)
+            const currentUser = document.getElementById("ladder").dataset.nickname;
+
+            console.log("nickname: ", nickname);
+            if (target === user_logged || target === currentUser)
                 showAlert("You are already your own friend ♥︎");
             else
                 manageFriend("add", target);
         };
     }
 
+
     searched_nickname.addEventListener("keypress", (e) => {
         if (e.key == "Enter")
             user.click();
     });
     user.addEventListener("click", () => {
+        if (searched_nickname.value == "") {
+            // showAlert("Plese enter a nickname");
+            searched_nickname.value = "asdfgHjjkHgfdtoVvaikasvuiausac";
+        }
         if (searched_nickname.value)
             user.href = `/user/${searched_nickname.value}/`;
         user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
