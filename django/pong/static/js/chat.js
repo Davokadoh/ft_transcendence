@@ -27,8 +27,8 @@ export function chat() {
 
 	let activeChatPanel = null;
 
-	let mapConversationList = new Map();
-	let mapChatHistory = new Map();
+	//let mapConversationList = new Map();
+	//let mapChatHistory = new Map();
 
 	let templateConversationHistory = document.createElement("template");
 	let templateConversation = document.createElement("template");
@@ -133,10 +133,12 @@ export function chat() {
 				// create first conv && chatPanel
 				document.getElementById('panelPrincipalId').classList.toggle('hide', true);
 				createConversationByContact(obj);
-				document.getElementById('conversationListId').classList.toggle('hide', false);
+				//document.getElementById('conversationListId').classList.toggle('hide', false);
 			}
 
+
 			console.log("Contact name: ", contactName);
+			document.getElementById('conversationListId').classList.toggle('hide', false);
 			document.getElementById('listContact').classList.replace("visible-y", "invisible-y");
 			
 			isVisibleList = false;
@@ -257,9 +259,9 @@ export function chat() {
 					document.getElementById('panelPrincipalId').classList.toggle('hide', false);
 					activeChatPanel = null;
 				}
-				mapChatHistory.delete(conversationId);
-				mapConversationList.delete(conversationId);
-				if (mapConversationList.size === 0) {
+				//mapChatHistory.delete(conversationId);
+				//mapConversationList.delete(conversationId);
+				if (document.getElementById("conversationListId").innerHTML === "") {
 					activeChatPanel = null;
 					conversationExist = false;
 				}
@@ -281,8 +283,10 @@ export function chat() {
 	}
 
 	function blockContact(contactId, bool) {
-		const chatBoxElement = (activeChatPanel === contactId) ? document.getElementById('chatBoxId') : mapChatHistory.get(contactId).querySelector("#chatBoxId");
-		chatBoxElement.classList.toggle("disabled", bool);
+		if (activeChatPanel === contactId) {
+			const chatBoxElement = document.getElementById('chatBoxId');
+			chatBoxElement.classList.toggle("disabled", bool);
+		}
 	}
 
 	function closeDropdown(myDropdown) {
@@ -361,30 +365,33 @@ export function chat() {
 		console.log("setTplConv list contact: ", document.querySelector(`.list-contact`));
 		console.log("setTplConv sender: ", data.sender);
 
-		console.log("setTplConv list contact: ", document.querySelector(`.list-contact #${data.sender}`));
+		//console.log("setTplConv list contact: ", document.querySelector(`.list-contact #${data.sender}`));
 
+		let userId = document.getElementById("userId").textContent;
+		let target = (data.sender == userId) ? data.target : data.sender;
+		let target_nickname = (data.sender == userId) ? data.target_nickname : data.sender_nickname;
 
 		
-		let takeImg = document.querySelector(`.list-contact #${data.sender} .profile-image`).getAttribute("src");
+		let takeImg = document.querySelector(`.list-contact #${target} .profile-image`).getAttribute("src");
 		takeImg = takeImg ? takeImg : "";
 
 		console.log("takeImg: ", takeImg);
 			
 		let tpl = templateConversation.content.cloneNode(true);
 		//set value
-		tpl.querySelector(".conversation").id = data.sender;
+		tpl.querySelector(".conversation").id = target;
 		let name = tpl.querySelector("[data-text] h6");
-		tpl.querySelector(".conversation").setAttribute("data-nickname", data.sender_nickname);
+		tpl.querySelector(".conversation").setAttribute("data-nickname", target_nickname);
 		let img = tpl.querySelector("[data-image]");
 		let blockUnblock = tpl.querySelector("#blockUnblockId");
 		let statusIndicator = tpl.querySelector(".status-indicator");
 		// Vérifie si l'utilisateur est bloqué
-		if (usersBlocked.find(user => user.username === data.sender))
+		if (usersBlocked.find(user => user.username === target))
 			blockUnblock.innerText = "Unblock contact";
 		else
 			blockUnblock.innerText = "Block contact";
 		// Défini le nom et l'image
-		name.textContent = data.sender_nickname;
+		name.textContent = target_nickname;
 		img.src = takeImg;
 		statusIndicator = data.status;
 		return tpl;
@@ -473,13 +480,13 @@ export function chat() {
 		return conversation ? true : false;
 	}
 
-	function updateChatHistory(contactId) {
+	/*function updateChatHistory(contactId) {
 		const element = document.createElement("div");
 		element.innerHTML = document.querySelector(".conversation-history").innerHTML;
 		mapChatHistory.set(contactId, element);
 		console.log("MAP length: ", mapChatHistory.size);
 		console.log("MAP key: ", contactId);
-	}
+	}*/
 
 	function updateConversations(data, type) {
 		
