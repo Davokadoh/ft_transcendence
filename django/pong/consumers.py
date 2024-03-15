@@ -13,7 +13,6 @@ class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = None
-        self.pauseLeft = 1
 
     async def connect(self):
         self.user = self.scope["user"]
@@ -24,9 +23,17 @@ class Consumer(AsyncJsonWebsocketConsumer):
         user.channel_name = self.channel_name
         await user.asave()
         await self.channel_layer.group_add("server", self.channel_name)
+        self.player = Player(self)
         await self.accept()
 
     async def disconnect(self, close_code):
+        quit_game = await Game.objects.aget(pk=self.game.game.pk)
+        left = await quit_game.teams.afirst()
+        if self.user is await left.users.afirst():
+            self.game.left.score = 5
+        else:
+            self.game.right.score = 5
+        await self.game.end()
         await self.channel_layer.group_discard("server", self.channel_name)
 
     async def receive_json(self, content):
@@ -350,7 +357,8 @@ class Consumer(AsyncJsonWebsocketConsumer):
         if gameId not in games:
             games[gameId] = await sync_to_async(Engine)(gameId)
         self.game = games[gameId]
-        self.player = Player(self)
+        if self.player in self.game.players:
+            return
         if self.user is await self.game.users.afirst():
             self.game.players.insert(0, self.player)
         else:
