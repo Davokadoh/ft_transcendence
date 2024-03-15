@@ -32,7 +32,6 @@ export const sendMessage = async (socket, msg) => {
 	}
 }
 
-
 document.onpopstate = router;
 window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
