@@ -300,7 +300,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         team1 = await Team.objects.filter(users=self.user).afirst()
         if team1 is None:
             team1 = await Team.objects.acreate()
-            team1.users.aadd(self.user)
+            await team1.users.aadd(self.user)
         gt = GameTeam(game=game, team=team1)
         await gt.asave()
 
@@ -308,7 +308,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
         team2 = await Team.objects.filter(users=target).afirst()
         if team2 is None:
             team2 = await Team.objects.acreate()
-            team2.users.aadd(self.target)
+            await team2.users.aadd(target)
         gt = GameTeam(game=game, team=team2)
         await gt.asave()
 
@@ -350,7 +350,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
             games[gameId] = await sync_to_async(Engine)(gameId)
         self.game = games[gameId]
         self.player = Player(self)
-        if self.user is self.game.users.afirst():
+        if self.user is await self.game.users.afirst():
             self.game.players.insert(0, self.player)
         else:
             self.game.players.append(self.player)
