@@ -986,7 +986,7 @@ export function chat() {
 		console.log("=== display messages==");
 		messages.forEach(message => {
 			message.timestamp = formatageTime(message.timestamp);
-			parse_msg(message, "socket");
+			parse_msg(message, "fetch");
 			//console.log("from display messages: ", message.message);
 		});
 		//update conversation time stamp et text-mutes here
