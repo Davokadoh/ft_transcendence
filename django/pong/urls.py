@@ -21,6 +21,7 @@ urlpatterns = [
     path("chat/chat-tmp/", views.chat),
     path("play/", views.play),
     path("profil/", views.profil),
+    path("error/", views.errorview),
     path("user/", views.user),
     path("lobby/", views.lobby),
     path("lobby/<int:gameId>/", views.lobby),

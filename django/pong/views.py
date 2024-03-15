@@ -186,9 +186,7 @@ def user(request, nickname=None):
                 print(f"Error while retrieving match data : {e}")
                 pass
     except ObjectDoesNotExist:
-        return render(
-            request, "error.html", {"template": "ajax.html" if ajax else "index.html"}
-        )
+        return redirect(errorview)
 
     matches_played = matches.count()
     wins = matches.filter(winner__users=user).count()
@@ -214,6 +212,13 @@ def user(request, nickname=None):
         "nickname": nickname,
     }
     return render(request, "user.html", context)
+
+
+def errorview(request):
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    return render(
+        request, "error.html", {"template": "ajax.html" if ajax else "index.html"}
+    )
 
 
 @login_required
@@ -517,9 +522,12 @@ def tournament_game(request, gameId=None):
 
 
 def logoutview(request):
-    if request.user is not None:
-        user_logged_in_handler(sender=None, request=request, user=request.user)
-    logout(request)
+    try:
+        if request.user is not None:
+            user_logged_in_handler(sender=None, request=request, user=request.user)
+            logout(request)
+    except NotImplementedError:
+        return redirect(loginview)
     return redirect(loginview)
 
 

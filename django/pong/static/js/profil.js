@@ -195,11 +195,15 @@ export function profil() {
 		if (e.key == "Enter")
 			user.click();
 	});
-	user.addEventListener("click", () => {
-		if (searched_nickname.value)
-			user.href = `/user/${searched_nickname.value}/`;
-		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
-	});
+    user.addEventListener("click", () => {
+        if (searched_nickname.value == "") {
+            // showAlert("Plese enter a nickname");
+            searched_nickname.value = "asdfgHjjkHgfdtoVvaikasvuiausac";
+        }
+        if (searched_nickname.value)
+            user.href = `/user/${searched_nickname.value}/`;
+        user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+    });
 
 	document.addEventListener("click", (e) => {
 		if (visibleList && !e.target.classList.contains("text")) {
