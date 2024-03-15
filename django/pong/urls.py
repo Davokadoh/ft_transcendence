@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from . import views
-from .views import create_fake_user
+# from .views import create_fake_user
 
 urlpatterns = [
     path("", views.home, name="home"),
