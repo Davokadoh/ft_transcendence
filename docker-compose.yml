@@ -5,8 +5,8 @@ services:
     image: caddy
     env_file: .env
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     networks:
       - my-network
     volumes:
@@ -22,8 +22,8 @@ services:
       args:
         DOMAIN:
     env_file: .env
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     networks:
       - my-network
     volumes:
@@ -39,8 +39,8 @@ services:
     image: postgres:latest
     env_file: .env
     container_name: $POSTGRES_HOST
-    ports:
-      - "5432:5432"
+    expose:
+      - 5432
     networks:
       - my-network
     volumes:
