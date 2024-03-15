@@ -275,8 +275,9 @@ export function chat() {
 		console.log(`active chat: ${activeChatPanel}`);
 
 		if (activeChatPanel != contactId) {
+			if (activeChatPanel)
+				updateChatHistory(activeChatPanel)
 			activeChatPanel = contactId;
-
 			document.querySelector(".conversation-history").innerHTML = "";
 			document.querySelector(".conversation-history").append(mapChatHistory.get(contactId));
 
@@ -363,8 +364,10 @@ export function chat() {
 		const contactId = obj.id;
 		if (activeChatPanel != obj.id) {
 
-			activeChatPanel = obj.id;
+			if (activeChatPanel)
+				updateChatHistory(activeChatPanel);
 
+			activeChatPanel = obj.id;
 			document.querySelector(".conversation-history").innerHTML = "";
 			document.querySelector(".conversation-history").append(setTemplate("chatHistory", obj));
 
