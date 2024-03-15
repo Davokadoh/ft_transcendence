@@ -109,13 +109,15 @@ class Consumer(AsyncJsonWebsocketConsumer):
         sender_instance = await CustomUser.objects.aget(pk=self.user.pk)
         targets = content["target"].split(",")
 
+
         for target in targets:
             target_instance = await CustomUser.objects.aget(nickname=target)
+            friend_exist = await target_instance.friends.filter(pk=self.user.pk).aexists()
             blocked_users = await target_instance.blocked_users.filter(
                 pk=self.user.pk
             ).aexists()
             # check before send a message if sender was blocked
-            if not blocked_users:
+            if not blocked_users and friend_exist:
                 await self.channel_layer.send(
                     target_instance.channel_name,
                     {
@@ -167,12 +169,13 @@ class Consumer(AsyncJsonWebsocketConsumer):
                 "timestamp": time_for_all,
             },
         )
-
+        
+        friend_exist = await target_instance.friends.filter(pk=self.user.pk).aexists()
         blocked_users = await target_instance.blocked_users.filter(
             pk=self.user.pk
         ).aexists()
         # check before send a message if sender was blocked
-        if not blocked_users:
+        if not blocked_users and friend_exist:
             await self.channel_layer.send(
                 target_instance.channel_name,
                 {
