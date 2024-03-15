@@ -1,4 +1,5 @@
 import { router } from "./router.js";
+import { socket } from './index.js';
 
 export function tournament(gameId) {
 	let gameBoard;
@@ -40,10 +41,16 @@ export function tournament(gameId) {
 			.then(data => {
 				player1 = data.player1_nickname;
 				player2 = data.player2_nickname;
-				console.log(player1);
-				console.log(player2);
+				console.log("from tournament1: ", player1);
+				console.log("from tournament2: ", player2);
 				document.getElementById('player1').textContent = player1;
 				document.getElementById('player2').textContent = player2;
+				socket.send(JSON.stringify({
+					'type': 'alert_tournament',
+					'id': "id" + Math.random().toString(16).slice(2),
+					'target': `${player1},${player2}`, //nickname target
+					'message': `You are expected for the pong tournament`
+				}));
 			})
 			.catch(error => {
 				// Gérer les erreurs survenues lors de la requête
