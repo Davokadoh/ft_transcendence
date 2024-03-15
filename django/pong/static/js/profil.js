@@ -196,9 +196,15 @@ export function profil() {
 			user.click();
 	});
 	user.addEventListener("click", () => {
-		if (searched_nickname.value)
-			user.href = `/user/${searched_nickname.value}/`;
-		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
+		// const nickname = searched_nickname.value.trim(); // Supprime les espaces blancs autour du pseudo saisi
+		if (nickname === "") {
+			// Si le champ de recherche est vide, afficher une alerte
+			showAlert("Please choose one nickname before");
+		} else {
+			// Sinon, construire l'URL avec le pseudo saisi
+			user.href = `/user/${nickname}/`;
+			user.setAttribute("data-link", `/user/${nickname}/`);
+		}
 	});
 
 	document.addEventListener("click", (e) => {
