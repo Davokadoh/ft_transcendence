@@ -975,3 +975,45 @@ def get_user_conversations(request):
 
         context = {"conversations": serialized_conversations}
         return JsonResponse(context)
+
+
+
+def get_conversation(request, username):
+    if request.method == "GET":
+        user = request.user
+        try:
+            target = CustomUser.objects.get(username=username)
+            conversation = user.conversations.get(participants=target)
+        
+
+            messages = [
+                {
+                    "type": message.type,
+                    "id": message.id_msg,
+                    "sender": message.sender.username,
+                    "sender_nickname": message.sender.nickname,
+                    "target": message.target.username,
+                    "target_nickname": message.target.nickname,
+                    "message": message.message,
+                    "timestamp": message.timestamp,
+                }
+                for message in conversation.messages.all()
+            ]
+
+            serialized_conversation = {
+                "id": conversation.participants.username,
+                "name": conversation.participants.nickname,
+                "messages": messages,
+                "status": conversation.participants.status,
+                # "unread": conversation.unread,
+            }
+
+            context = {"conversation": serialized_conversation}
+            return JsonResponse(context)
+
+        except Conversation.DoesNotExist:
+            return JsonResponse({"error": f"Conversation with user '{username}' does not exist."}, status=404)
+
+        
+
+        

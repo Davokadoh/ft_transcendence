@@ -16,7 +16,7 @@
         <img src="{{ profil_picture_url }}" alt="Friend photo" class="profile-image" data-image>
         <div class="text" data-text>
             <span class="status-indicator" id="onLineStatus" data-status="{{ user.status }}"></span>
-            <h6 class="t-bleu"></h6>
+            <h6 class="t-bleu" id="nicknameConv"></h6>
             <p class="text-muted" id="textMuted"></p>
         </div>
         <div class="ms-auto">
@@ -96,7 +96,7 @@
     <div class="row row-chatBox g-0">
         <div class="col-md-12">
             <!-- message bar -->
-            <div class="chat-box d-flex align-items-center justify-content-center hide" id="chatBoxId">
+            <div class="chat-box d-flex align-items-center justify-content-center" id="chatBoxId">
                 <!-- <i class="i-emoji bi-emoji-sunglasses" id="emoji-id"></i> -->
                 <input class="inputCustom" id="input-id" />
                 <i class="i-send bi-send" id="send-id"></i>
