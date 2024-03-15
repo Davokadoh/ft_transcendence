@@ -74,7 +74,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
             },
         )
 
-        friend_exist = await sender_instance.friends.filter(pk=self.user.pk).aexists()
+        friend_exist = await target_instance.friends.filter(pk=self.user.pk).aexists()
         blocked_users = await target_instance.blocked_users.filter(
             pk=self.user.pk
         ).aexists()
