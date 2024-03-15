@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from ftt.settings import STATIC_URL
-from .backend import CustomAuthenticationBackend
 from .models import GameTeam, Tournament, CustomUser, Team, Game
 from .forms import ProfilPictureForm, NicknameForm
 from django.urls import reverse
@@ -136,7 +135,7 @@ def profil(request):
     elif request.user.profil_picture_oauth:
         profil_picture_url = request.user.profil_picture_oauth
     else:
-        profil_picture_url = STATIC_URL("img/profil/image-defaut.png")
+        profil_picture_url = "/static/img/profil/image-defaut.png"
     return render(
         request,
         "profil.html",
@@ -270,7 +269,8 @@ def chat(request):
             if request.user.profil_picture_oauth:
                 profil_picture_url = request.user.profil_picture_oauth
             else:
-                profil_picture_url = "/chemin/vers/image/par/defaut.png"
+                # profil_picture_url = "/chemin/vers/image/par/defaut.png"
+                profil_picture_url = "/static/img/profil/image-defaut.png"
         return render(
             request,
             "chat.html",
@@ -577,13 +577,10 @@ def callback(request):
         user = CustomUser.objects.get(username=response.json()["login"])
     except CustomUser.DoesNotExist:
         user = CustomUser.objects.create(username=response.json()["login"])
-        print("USER CREATED")
         try:
-            user.profilPictureUrl = response.json()["image"]["link"]
+            user.profil_picture_oauth = response.json()["image"]["link"]
         except KeyError:
-            user.profil_picture_oauth = "https://github.com/{}.png".format(
-                user.username
-            )
+            user.profil_picture_oauth = f"https://github.com/{user.username}.png"
         user.save()
 
     login(request, user)
@@ -633,7 +630,7 @@ def create_fake_user(request):
         "first_name": fake_user.first_name,
         "last_name": fake_user.last_name,
         "email": fake_user.email,
-        "profil_picture": "img/profil/image-defaut.png",
+        "profil_picture": "/static/img/profil/image-defaut.png",
     }
     return JsonResponse(user_info)
 
@@ -674,7 +671,6 @@ def getUserData(request):
         "ballColor": request.user.ballColor,
         "backgroundColor": request.user.backgroundColor,
     }
-
     return JsonResponse(data)
 
 
