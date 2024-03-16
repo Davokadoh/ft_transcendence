@@ -1,0 +1,401 @@
+{% extends template %}
+{% load static %}
+
+{% block title %}
+<title>PROFIL</title>
+{% endblock %}
+
+{% block content %}
+<div id="app">
+	<div class="container text-center">
+		<div class="row justify-content-around">
+			<div class="container container-option d-flex flex-column align-items justify-content-between">
+				<div class="row align-items-center justify-content-between">
+					<button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal" data-bs-target="#statsModal"
+						id="statsBtn">Statistics</button>
+					<img src="{% static 'img/stat/statistique.png' %}" alt="Statistics Icon"
+						class="col-2 img-fluid icon" />
+				</div>
+				<div class="row align-items-center justify-content-between">
+					<button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal"
+						data-bs-target="#featsModal">Feats</button>
+					<img src="{% static 'img/stat/feats.png' %}" alt="Feats Icon" class="col-2 img-fluid icon" />
+				</div>
+				<div class="row align-items-center justify-content-between">
+					<button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal"
+						data-bs-target="#matchModal">Match History</button>
+					<img src="{% static 'img/stat/historique.png' %}" alt="Match History Icon"
+						class="col-2 img-fluid icon" />
+				</div>
+				<div class="row align-items-center justify-content-between">
+					<button type="button" class="col-3 btn bg-vert" data-bs-toggle="modal"
+						data-bs-target="#settingsModal">Settings</button>
+					<img src="{% static 'img/stat/reglages.png' %}" alt="Settings Icon" class="col-2 img-fluid icon" />
+				</div>
+			</div>
+
+			<div class="container container-profil d-flex flex-column align-items justify-content-between">
+				<div class="row align-items-center justify-content-between">
+					<form id="profil-picture-form" action="/accounts/profil/picture/" method="post"
+						enctype="multipart/form-data" class="col justify-content-start">
+						<img src="{{ profil_picture_url }}" id="profil-picture" class="col-12 col profile-image-set" />
+						{% csrf_token %}
+						{% for field in profil_picture_form %}
+						<label class="hidden-label" style="display: none;" for="{{ field.auto_id }}">{{ field.label
+							}}</label>
+						{{ field }}
+						{% endfor %}
+					</form>
+					<form id="nickname-form" action="/accounts/profil/nickname/" method="post" class="col-8">
+						{% csrf_token %}
+						<div class="row align-items-center justify-content-between">
+							<div class="col justify-content-start">
+								{% for field in nickname_form %}
+								<label style="display: none;" for="{{ field.auto_id }}">{{ field.label }}</label>
+								{{ field }}
+								{% endfor %}
+							</div>
+							<button id="modifyNicknameButton" class="btn bg-vert col-4 d-flex" type="submit">✓</button>
+						</div>
+						<div class="justify-content-start">
+							<button type="button" class="btn bg-vert col-4 d-flex" id="modifyImageButton"><img
+									src="{% static 'img/ajouter-une-image.png' %}" alt="Modify Image"
+									style="width: 28px; height: auto; filter: invert(1);"></button>
+							<input type="file" accept="image/*" id="imageInput"
+								style="display: none; border-radius: 20%;">
+						</div>
+					</form>
+				</div>
+				<div class="row align-items-center justify-content-around">
+					<HR class="sepLigne" ALIGN=CENTER>
+					<button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal"
+						data-bs-target="#contactsModal">Friends</button>
+					<br />
+					<button type="button" class="col-lg-6 btn bg-vert" data-bs-toggle="modal"
+						data-bs-target="#modalBlocked">Blocked</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-info">
+		<section class="py-4 mb-4 text-center seachFriendAlign">
+			<div class="container-fluid">
+				<div class="row align-items-center text-align-right miniMode">
+					<div class="col-lg-3">
+						<p class="findFriend">Find a friend</p>
+					</div>
+					<div class="col-lg-6">
+						<!-- raph ajout -->
+						<div class="list-contact-profile invisible-profile-y" id="listContact" list-contact-container>
+						</div>
+
+						<div class="input-group input-group-custom">
+							<input type="text" class="form-control" name="nickname" id="searchInput"
+								placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" />
+							<div class="input-group-append">
+								<a role="button" class="btn btn-dark btnCustomProfil" id="user" href="/user"
+									data-link="/user" alt="Check user profil"> 👀 </a>
+								<button type="button" class="btn btn-dark imgButton" id="ladder"
+									alt="Add user as a friend"
+									data-nickname="{{ nickname_form.instance.nickname }}"></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Modal Bootstrap Verena FD fenetre de droite bouton CONTACT -->
+	<div class="modal fade overlay" data-bs-backdrop="static" id="contactsModal" tabindex="-1" role="dialog"
+		aria-labelledby="contactsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="contactsModalLabel">Friends</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body" id="modalBodyContact">
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn modalButton modalNightButton"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Bootstrap FD fenetre de droite bouton BLOCKED -->
+	<div class="modal fade modal-dialog-centered overlay" data-bs-backdrop="static" id="modalBlocked"
+		aria-labelledby="modal-blocked" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content custom-modal blockedModalCustom nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title">Blocked contact</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body" id="modalBodyBlocked">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"
+						aria-label="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Bootstrap STATISTICS FG -->
+	<div class="modal fade overlay" data-bs-backdrop="static" id="statsModal" tabindex="-1" role="dialog"
+		aria-labelledby="statsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="statsModalLabel">STATISTICS</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<!-- Onglets -->
+					<ul class="nav nav-tabs navCustom" id="myTabs" role="tablist">
+						<!-- <li class="nav-item" role="presentation">
+							<a class="nav-link modNav active" id="rank-tab" data-bs-toggle="tab" href="#rank" role="tab"
+								aria-controls="rank" aria-selected="true">Rank</a>
+						</li> -->
+						<li class="nav-item" role="presentation">
+							<a class="nav-link modNav active" id="match-tab" data-bs-toggle="tab" href="#match"
+								role="tab" aria-controls="match" aria-selected="false">Match Played</a>
+						</li>
+						<li class="nav-item" role="presentation">
+							<a class="nav-link modNav" id="win-tab" data-bs-toggle="tab" href="#win" role="tab"
+								aria-controls="win" aria-selected="false">Match Won</a>
+						</li>
+						<li class="nav-item" role="presentation">
+							<a class="nav-link modNav" id="ratio-tab" data-bs-toggle="tab" href="#ratio" role="tab"
+								aria-controls="ratio" aria-selected="false">Ratio</a>
+						</li>
+					</ul>
+
+					<!-- Contenu des onglets -->
+					<div class="tab-content">
+						<!-- <div class="tab-pane fade show active tabCust" id="rank" role="tabpanel" -->
+						<!-- aria-labelledby="rank-tab"> -->
+						<!-- 6/10 (rang par rapport aux amis) -->
+						<!-- </div> -->
+						<div class="tab-pane fade tabCust show active" id="match" role="tabpanel"
+							aria-labelledby="match-tab">
+							{{ matches_played }} <!-- (Nbr de match) -->
+						</div>
+						<div class="tab-pane fade tabCust" id="win" role="tabpanel" aria-labelledby="win-tab">
+							{{ wins }} <!-- (Nbr de victoires) -->
+						</div>
+						<div class="tab-pane fade tabCust" id="ratio" role="tabpanel" aria-labelledby="ratio-tab">
+							{{ win_ratio }}% <!-- (ratio Nbr de victoires sur nbr de match) -->
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"
+							aria-label="close">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Bootstrap FEATS FG -->
+	<div class="modal fade overlay" data-bs-backdrop="static" id="featsModal" tabindex="-1" role="dialog"
+		aria-labelledby="featsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="statsModalLabel">FEATS</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+					<!-- IMAGES ET TITRES DES ACCOMPLISSEMENTS en grisé si pas debloqué -->
+					<p class="featModal d-flex align-items-end"
+						title="Put 5pts on your opponent without taking a point">
+						Osh
+						<img class="featImg" src="{% static 'img/feats/5pts_pong1.png' %}"
+							alt="Put 5pts on your opponent without taking a point" />
+					<p>Récompense : un high five de Claire</p>
+					</p>
+					<p class="featModal d-flex align-items-end"
+						title="Put 10pts on your opponent without taking a point">
+						Merciless
+						<img class="featImg" src="{% static 'img/feats/10pts_pong2.png' %}"
+							alt="Put 10pts on your opponent without taking a point" />
+					<p>Récompense : une poignée de main de Verena</p>
+					</p>
+					<p class="featModal d-flex align-items-end"
+						title="Bounce the ball 3 times before scoring the point">
+						Stroke
+						<img class="featImg" src="{% static 'img/feats/bounce_pong3.png' %}"
+							alt="Bounce the ball 3 times before scoring the point" />
+					<p>Récompense : une tape dans le dos de Greg</p>
+					</p>
+					<p class="featModal d-flex align-items-end" title="Play with maximum ball and paddle speeds">
+						Brisk
+						<img class="featImg" src="{% static 'img/feats/speed_pong4.png' %}"
+							alt="Play with maximum ball and paddle speeds" />
+					<p>Récompense : un sourire de Joachim</p>
+					</p>
+					<p class="featModal d-flex align-items-end" title="Score the point on the serve">
+						Service
+						<img class="featImg" src="{% static 'img/feats/service_pong5.png' %}"
+							alt="Score the point on the serve" />
+					<p>Récompense : un compliment de Raphaël</p>
+					</p>
+					<p class="featModal d-flex align-items-end" title="Complete 25 exchanges without losing the ball">
+						Cooperate
+						<img class="featImg" src="{% static 'img/feats/coop_pong6.png' %}"
+							alt="Complete 25 exchanges without losing the ball" />
+					<p>Récompense : notre reconnaissance éternelle</p>
+					</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"
+						aria-label="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Bootstrap MATCH FG -->
+	<div class="modal fade overlay" data-bs-backdrop="static" id="matchModal" tabindex="-1" role="dialog"
+		aria-labelledby="matchModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg-custom" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="statsModalLabel">MATCH HISTORY</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+					<div class="matchHistory text-center">
+						<div class="scrollable-container">
+							<table class="table matchHistTable">
+								<thead>
+									<tr class="cadreTitreHist">
+										<th class="titreHist">Date</th>
+										<th class="titreHist">Game</th>
+										<th class="titreHist">Opponent</th>
+										<th class="titreHist">Score</th>
+										<th class="titreHist">Result</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for match in matches %}
+									<tr>
+										<!-- <div class="match-item"> -->
+										<td class="match-info tabHistory">{{ match.start_time|date }}</td>
+										<!-- Date du match -->
+										<td class="match-info tabHistory">{{ match.style }}</td>
+										<!-- Style de jeu -->
+										<td class="match-info tabHistory">{{ match.opponent.nickname }}</td>
+										<!-- Nom de l'adversaire -->
+										<td class="match-info tabHistory">{{ match.score.0 }} - {{ match.score.1 }}</td>
+										<!-- Score du match -->
+										<td class="match-info tabHistory {{match.result}}">
+											{{match.result}}
+										</td>
+										<!-- Résultat du match -->
+										<!-- </div> -->
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"
+						aria-label="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Bootstrap SETTINGS FG -->
+	<div class="modal fade overlay" data-bs-backdrop="static" id="settingsModal" tabindex="-1" role="dialog"
+		aria-labelledby="settingsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content custom-modal nightModalMod">
+				<div class="modal-header">
+					<h3 class="modal-title" id="settingsModalLabel">SETTINGS</h3>
+					<button type="button" class="close modalCloseButton" data-bs-dismiss="modal"
+						aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+					<form id="settingsForm" method="post" action="/accounts/profil/settings/">
+						{% csrf_token %}
+						<div class="form-group formGroupCustom">
+							<label for="paddleSpeed">
+								Paddles speed
+								<span class="crochets">[</span>
+								<span class="rangCust" id="paddleSpeedValue">{{ request.user.paddleSpeed }}</span>
+								<span class="crochets">]</span>
+							</label>
+							<input type="range" class="form-range rangeCustom" id="paddleSpeed" name="paddle_speed"
+								value="{{ request.user.paddleSpeed }}" min="1" max="100" />
+						</div>
+
+						<!-- Paramètre 2 : Vitesse de la balle -->
+						<div class="form-group formGroupCustom">
+							<label for="ballSpeed">
+								Ball speed
+								<span class="crochets">[</span>
+								<span class="rangCust" id="ballSpeedValue">{{ request.user.ballSpeed }}</span>
+								<span class="crochets">]</span>
+							</label>
+							<input type="range" class="form-range rangeCustom" id="ballSpeed" name="ball_speed"
+								value="{{ request.user.ballSpeed }}" min="1" max="10" />
+						</div>
+
+						<!-- Paramètre 3 : Couleur des paddles et de la balle -->
+						<div class="form-group formGroupCustom">
+							<label for="paddleColor">Paddles color</label>
+							<input type="color" class="form-control" id="paddleColor" name="paddle_color"
+								value="{{ request.user.paddleColor}}" />
+						</div>
+						<div class="form-group formGroupCustom">
+							<label for="ballColor">Ball color</label>
+							<input type="color" class="form-control" id="ballColor" name="ball_color"
+								value="{{ request.user.ballColor}}" />
+						</div>
+
+						<!-- Paramètre 4 : Fond du jeu -->
+						<div class="form-group formGroupCustom">
+							<label for="backgroundColor">Game background</label>
+							<input type="color" class="form-control" id="backgroundColor" name="background_color"
+								value="{{ request.user.backgroundColor}}">
+							<!-- <option value="black">Black</option>
+								<option value="purple">Violet</option>
+								<option value="image1">Image 1</option>
+								<option value="image2">Image 2</option> -->
+							</input>
+						</div>
+
+						<button type="button" class="btn btn-register modalNightButton" id="saveButton">Save</button>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn bg-vert modalButton modalNightButton" data-bs-dismiss="modal"
+						aria-label="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

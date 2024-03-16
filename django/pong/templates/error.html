@@ -1,0 +1,89 @@
+{% extends template %}
+{% load static %}
+<script src="{% static 'js/theme.js' %}"></script>
+
+{% block title %}
+<title>ERROR</title>
+{% endblock %}
+
+{% block content %}
+<div id="app">
+	{% if error_message %}
+	<div class="alert alert-danger">
+		{{ error_message }}
+	</div>
+	{% endif %}
+	<div class="container text-center">
+		<div class="row justify-content-center">
+			<div class="container_homeLeft">
+				<div class="paragraph">
+					<p class="fontSizeTitle">* ERROR *</p>
+					<p class="fontSize">User is empty or not known in our database. Until you find the right one, feel free
+						to learn this wonderful song&nbsp; &nbsp;♥︎</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-info">
+		<section class="py-4 mb-4 text-center">
+			<div class="container-fluid">
+				<div class="row justify-content-center align-items-center">
+					<div class="col-lg-6">
+						<div class="sancho">
+							<div class="">&nbsp;♪&nbsp;♫&nbsp;♬ &nbsp; Je suis Sancho de Cuba
+								J'ai le sang chaud pour la Rumba&nbsp;♬ &nbsp;
+								En jouant des maracas&nbsp;♬ &nbsp;
+								Je fais tchik tchiki&nbsp;♬ &nbsp;
+								boum tchik tchiki boum&nbsp;♬ &nbsp;
+								C'est moi Sancho le Cubain&nbsp;♬ &nbsp;
+								La coqueluche de tous les voisins&nbsp;♬ &nbsp;
+								Et puis quand je danse&nbsp;♬ &nbsp;
+								Tout redevient tchik tchiki&nbsp;♬ &nbsp;
+								boum tchik tchiki boum&nbsp;♬ &nbsp;
+								Les señoritas elles
+								chantent, elles dansent
+								Comme ça elles balancent
+								Comme c'est charmant&nbsp;♬ &nbsp;
+								Plein de piment&nbsp;♬ &nbsp;
+								La fièvre de la Rumba&nbsp;♬ &nbsp;
+								Si elle te prend ne resiste pas&nbsp;♬ &nbsp;
+								Comme une fille qui s'offre à toi&nbsp;♬ &nbsp;
+								OUH !&nbsp;♬ &nbsp;&nbsp;♬ &nbsp;
+								Si tu aime le tempo&nbsp;♬ &nbsp;
+								Vient donc danser avec Sancho&nbsp;♬ &nbsp;
+								Et tu chanteras tchik tchiki&nbsp;♬ &nbsp;
+								boum tchik tchiki boum&nbsp;♬ &nbsp;
+								Je suis sa Paquita&nbsp;♬ &nbsp;
+								Car ce gars c'est le roi&nbsp;♬ &nbsp;
+								De la Havana, de la Havana&nbsp;♬ &nbsp;
+								Si Señorita très chic&nbsp;♬ &nbsp;
+								Caramba tchiki boum tchik&nbsp;♬ &nbsp;
+								Il est charmant&nbsp;♬ &nbsp;
+								Plein de piments&nbsp;♬ &nbsp;
+								Je pose mes mains sur tes hanch&nbsp;♬ &nbsp;es
+								Madremia t'en à de la chance&nbsp;♬ &nbsp;
+								C'est une bataille&nbsp;♬ &nbsp;
+								Petite canaille&nbsp;♬ &nbsp;
+								Aïe Aïe Aïe !&nbsp;♬ &nbsp;
+								Si tu aime le tempo&nbsp;♬ &nbsp;
+								Vient donc danser avec Sancho&nbsp;♬ &nbsp;
+								Et tu chanteras tchik tchiki&nbsp;♬ &nbsp;
+								boum tchik tchiki boum&nbsp;♬ &nbsp;
+								Houmba Houmba c'est chaud&nbsp;♬ &nbsp;
+								Kidy bady wha&nbsp;♬ &nbsp;
+								LIBRE&nbsp;♬ &nbsp;
+								Asta lavis ta!&nbsp;♬ &nbsp;
+								Quoi... tu as vraiment lu toute la chanson ?? Viens nous voir, tu as gagné un kinder...
+								Tu es encore là ? ... Soit tu es courageux, soit taré, je crois qu'entre les deux, la limite est faible.
+								Bon ok, lâche ton ordi et va parler avec des gens là.
+								OUUUUUUST !
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+{% endblock %}
