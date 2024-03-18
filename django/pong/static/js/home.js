@@ -1,4 +1,5 @@
-// document.addEventListener('DOMContentLoaded', function() {
+console.log("script home.js loaded");
+/*// document.addEventListener('DOMContentLoaded', function() {
 //     const playButton = document.querySelector('.game-btn');
 //     const playLink = document.querySelector('.nav-link[data-link]');
 
@@ -41,4 +42,4 @@ console.log("script home BTN play load with success");
             xhr.send();
         });
     });
-
+*/

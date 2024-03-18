@@ -1017,6 +1017,10 @@ def get_conversation(request, username):
         except Conversation.DoesNotExist:
             return JsonResponse({"error": f"Conversation with user '{username}' does not exist."}, status=404)
 
-        
-
-        
+"""
+def check_login_status(request):
+    if request.user.is_authenticated:
+        return JsonResponse({'authenticated': True})
+    else:
+        return JsonResponse({'authenticated': False})
+"""

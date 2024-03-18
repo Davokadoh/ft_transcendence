@@ -1,4 +1,4 @@
-import { socket } from './index.js'
+import { socket } from './index.js';
 import { router } from './router.js';
 
 export function profil() {
@@ -345,8 +345,8 @@ export function profil() {
 					let modalTmp = document.createElement("p");
 					modalTmp.className = "pseudoBlock d-flex align-items-end";
 					modalTmp.innerHTML = `
-					${friend.nickname}
-					<button class="inviteContact" type="button" class="btn" data-username="${friend.username}" 
+					${friend.nickname.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}
+					<button class="inviteContact" type="button" class="btn" data-username="${friend.nickname.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}" 
 						data-bs-toggle="tooltip" data-bs-placement="top" title="Invite the contact"
 						alt="Button to invite the contact" id="btnInvite"></button>
 					<button class="blockBtn" type="button" class="btn" data-bs-toggle="tooltip"
@@ -404,10 +404,10 @@ export function profil() {
 					let modalTmp = document.createElement("p");
 					modalTmp.className = "pseudoBlock d-flex align-items-end";
 					modalTmp.innerHTML = `
-					${user.nickname}
+					${user.nickname.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}
 					<button class="unblockBtn" type="button" class="btn" data-bs-toggle="tooltip"
 						data-bs-placement="top" title="Unblock the contact"
-						alt="Button to unblock the contact" data-username="${user.username}"></button>
+						alt="Button to unblock the contact" data-username="${user.nickname.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}"></button>
 					`;
 					document.getElementById("modalBodyBlocked").appendChild(modalTmp);
 					modalTmp.querySelector(".unblockBtn").addEventListener("click", (e) => {

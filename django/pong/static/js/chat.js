@@ -42,6 +42,8 @@ export function chat() {
 	let usersBlocked = [];
 
 
+	
+
 	fetchUsersBlocked();
 
 	fetchTemplate()
@@ -559,7 +561,7 @@ export function chat() {
 			<!--msg from friend-->
 			<div class="col-md-3 d-flex">
 				<div class="chat-bubble chat-bubble--left" id="msgByOtherId">
-					${data.message}
+					${data.message.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}
 				</div>
 			</div>`;
 			console.log("active chat dans message_receive: ", activeChatPanel);
@@ -653,7 +655,7 @@ export function chat() {
 			element.innerHTML = `
 			<div class="col-md-3 offset-md-9 d-flex">
 				<div class="chat-bubble chat-bubble--blue chat-bubble--right ms-auto" id="msgByMeId">
-					${data.message}
+					${data.message.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}
 				</div>
 			</div>`;
 		}
