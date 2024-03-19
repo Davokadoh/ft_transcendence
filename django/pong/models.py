@@ -210,6 +210,8 @@ class Tournament(models.Model):
 
     def next_game(self):
         last_round = Round.objects.filter(tournament=self).last()
+        if self.teams.count() != 4:
+            raise Tournament.DoesNotExist()
         if last_round is None:
             self.start()
             last_round = Round.objects.filter(tournament=self).last()

@@ -141,6 +141,8 @@ export function profil() {
 		let nickname = document.getElementById("id_nickname").value;
 		if (!regex.test(nickname))
 			nicknameForm.requestSubmit();
+		else
+			showAlert("Please Enter a nickname valid");
 	}
 
 	nicknameForm.onsubmit = function (event) {

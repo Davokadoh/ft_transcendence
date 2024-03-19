@@ -70,7 +70,7 @@ export function tourLobby(tournamentId) {
 
 		if (!isNicknameValid) {
 			e.preventDefault();
-			// e.stopPropagation();
+			e.stopPropagation();
 			showAlert("Please enter a valid username first.");
 		}
 	});

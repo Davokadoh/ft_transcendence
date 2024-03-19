@@ -51,7 +51,7 @@ export function lobby(gameId) {
 	button.addEventListener('click', e => {
 		if (!isNicknameValid) {
 			e.preventDefault();
-			// e.stopPropagation();
+			e.stopPropagation();
 			showAlert("Please enter a valid username first.");
 		}
 	});

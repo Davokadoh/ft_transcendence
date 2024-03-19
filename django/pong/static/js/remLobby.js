@@ -70,7 +70,7 @@ export function remLobby(gameId) {
 	button.addEventListener('click', e => {
 		if (isNicknameValid == false) {
 			e.preventDefault();
-			// e.stopPropagation();
+			e.stopPropagation();
 			showAlert("Please enter a valid nickname first.");
 		}
 	});

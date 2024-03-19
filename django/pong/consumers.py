@@ -197,7 +197,6 @@ class Consumer(AsyncJsonWebsocketConsumer):
                 },
             )
 
-        if friend_exist:
             # save conversations
             messages = await Message.objects.acreate(
                 id_msg=content["id"],
@@ -274,10 +273,11 @@ class Consumer(AsyncJsonWebsocketConsumer):
             await new_conversation.messages.aadd(messages)
             await self.user.conversations.aadd(new_conversation)
 
+        friend_exist = await target_instance.friends.filter(pk=self.user.pk).aexists()
         blocked_users = await target_instance.blocked_users.filter(
             pk=self.user.pk
         ).aexists()
-        if not blocked_users:
+        if not blocked_users and friend_exist:
             existing_conversation_target = await target_instance.conversations.filter(
                 participants=self.user
             ).aexists()

@@ -945,7 +945,7 @@ def manageFriendChat(request, prefix, action, username):
         print(f"User not found: {username}")
         return JsonResponse({"error": "user not found"}, status=404)
 
-
+@login_required
 def get_user_conversations(request):
     if request.method == "GET":
         user = request.user
@@ -980,7 +980,7 @@ def get_user_conversations(request):
         return JsonResponse(context)
 
 
-
+@login_required
 def get_conversation(request, username):
     if request.method == "GET":
         user = request.user

@@ -3,22 +3,6 @@ import { router } from './router.js';
 
 export function chat() {
 
-	/*fetch('test/create', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			// Ajoutez d'autres en-têtes si nécessaire, comme les jetons CSRF
-		},
-		body: JSON.stringify({}),
-	})
-		.then(response => response.json())
-		.then(data => {
-			console.log('Utilisateur créé avec succès:', data);
-			// Faites ce que vous devez faire avec les données de l'utilisateur créé
-		})
-		.catch(error => console.error('Erreur lors de la création de l\'utilisateur:', error));
-	*/
-
 	console.log('SCRIPT CHAT IS LOADED');
 
 	let isVisibleList = false;
@@ -26,9 +10,6 @@ export function chat() {
 	let conversationExist = false;
 
 	let activeChatPanel = null;
-
-	//let mapConversationList = new Map();
-	//let mapChatHistory = new Map();
 
 	let templateConversationHistory = document.createElement("template");
 	let templateConversation = document.createElement("template");
@@ -261,8 +242,6 @@ export function chat() {
 					document.getElementById('panelPrincipalId').classList.toggle('hide', false);
 					activeChatPanel = null;
 				}
-				//mapChatHistory.delete(conversationId);
-				//mapConversationList.delete(conversationId);
 				if (document.getElementById("conversationListId").innerHTML === "") {
 					activeChatPanel = null;
 					conversationExist = false;
@@ -304,9 +283,7 @@ export function chat() {
 		console.log(`active chat: ${activeChatPanel}`);
 
 		if (activeChatPanel != contactId) {
-			//if (activeChatPanel)
-			//	updateChatHistory(activeChatPanel)
-			//create chatPanel
+			
 			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
 
 			document.querySelector(`.conversation-history`).innerHTML = "";
@@ -404,32 +381,6 @@ export function chat() {
 		return tpl;
 	}
 
-	/*function createChatPanel(obj) {
-
-		console.log("===createChatPanel FUNCTION===: ", obj.id);
-		const contactName = obj.name;
-		const contactId = obj.id;
-		if (activeChatPanel != obj.id) {
-
-			if (activeChatPanel)
-				updateChatHistory(activeChatPanel);
-
-			activeChatPanel = obj.id;
-			document.querySelector(".conversation-history").innerHTML = "";
-			document.querySelector(".conversation-history").append(setTemplate("chatHistory", obj));
-
-			handle_click_history();
-			document.getElementById("input-id").addEventListener("keypress", sendByMe);
-
-
-			document.getElementById('panelPrincipalId').classList.toggle('hide', true);
-			document.getElementById('chatBoxId').classList.toggle('hide', false);
-
-			conversationExist = true;
-
-		}
-	}*/
-
 	function handle_click_history() {
 
 		console.log("==handle_click_history==");
@@ -487,14 +438,6 @@ export function chat() {
 		return conversation ? true : false;
 	}
 
-	/*function updateChatHistory(contactId) {
-		const element = document.createElement("div");
-		element.innerHTML = document.querySelector(".conversation-history").innerHTML;
-		mapChatHistory.set(contactId, element);
-		console.log("MAP length: ", mapChatHistory.size);
-		console.log("MAP key: ", contactId);
-	}*/
-
 	function updateConversations(data, type) {
 		
 		var msg = data.message;
@@ -514,12 +457,7 @@ export function chat() {
 		element.querySelector(".text h6").textContent = conversation_name;
 		element.querySelector("#textMuted").innerText = shortText;
 		element.querySelector("#timeMsg").innerText = data.timestamp;
-		//mapConversationList.set(conversation_id, element);
-		//update map
-		/*else if (mapConversationList.has(conversation_id)) {
-			mapConversationList.get(conversation_id).querySelector("#textMuted").innerText = shortText;
-			mapConversationList.get(conversation_id).querySelector("#timeMsg").innerText = data.timestamp;
-		}*/
+		
 		console.log("===mapConversationsList updated!===");
 	}
 
@@ -528,7 +466,8 @@ export function chat() {
 		const data = JSON.parse(event.data);
 		console.log("===socket onmessage:===", data);
 
-		parse_msg(data, "socket");
+		if (data.type == "alert_tournament" || data.type == "game_invitation" || data.type == "chat_message")
+			parse_msg(data, "socket");
 	};
 
 	function parse_msg(data, from) {
@@ -540,10 +479,6 @@ export function chat() {
 		else
 			message_receive(data, from);
 	}
-	// socket.onopen = function (e) {
-	//     console.log('WebSocket connection opened: ', e);
-	//     socket.send(JSON.stringify({ 'message': 'Hello from Page 2!' }));
-	// };
 
 	function message_receive(data, from) {
 		console.log("==message_receive FUNCTION==");
@@ -620,23 +555,9 @@ export function chat() {
 		}
 		else {
 
-				/*updateConversations(data, "receive");
-				document.getElementById("chatPanelId").append(element);
-				scrollUp(document.getElementById("rowChatPanel"));
-				updateChatHistory(activeChatPanel);*/
-
 				//test take img by list friends
 				document.getElementById("conversationListId").append(setTplConversation(data));
 				document.getElementById("conversationListId").lastElementChild.addEventListener("click", handle_conversation);
-
-				//document.getElementById(data.sender).classList.toggle("read-on", true);
-				/*mapConversationList.set(data.sender, setTemplate("conversationList", obj));
-				mapChatHistory.set(data.sender, setTemplate("chatHistory", obj));
-				mapChatHistory.get(data.sender).querySelector("#chatPanelId").append(element);
-
-				console.log("****conversationList SIZE*****: ", mapConversationList.size);
-				//console.log("****conversationList*****: ", mapConversationList.get(data.sender));
-				//console.log("****conversationHistory field panel*****: ", mapChatHistory.get(data.sender).querySelector("#chatPanelId"));*/
 		}
 		updateConversations(data, "receive");
 		conversationExist = true;
@@ -699,22 +620,6 @@ export function chat() {
 			}
 			//updateChatHistory(activeChatPanel);
 		}
-		/*else {
-			//if (findConversation(data.target)) {
-
-				//let panel = mapChatHistory.get(data.target).querySelector("#chatPanelId");
-				//delete invitation after decision 
-			if (data.type == "game_invitation" && data.message.includes("#accept") || data.message.includes("#decline")) {
-					console.log("sent id: ", data.id);
-					//console.log("sent element: ", panel.innerHTML);
-
-					let myEl = panel.querySelector(`#${data.id}`);
-					let parent = myEl.parentElement;
-					parent.remove();
-				}
-				panel.append(element);
-			}
-		}*/
 		updateConversations(data, "sent");
 		console.log("active chat dans message_sent: ", activeChatPanel);
 	}
@@ -767,7 +672,6 @@ export function chat() {
 
 	function scrollUp(element) {
 		if (element.scrollHeight > element.clientHeight) {
-			// Définissez la valeur de scrollTop sur la hauteur totale de l'élément scrollable
 			element.scrollTop = element.scrollHeight;
 		}
 	}
@@ -1076,84 +980,4 @@ export function chat() {
 		document.body.appendChild(alertElement);
 		document.body.appendChild(overlay);
 	}
-
-	/*----------
-	//pour les boutons
-	
-	let unBlockFriend = document.getElementById('blockUnblockFriend');
-	unBlockFriend.onclick = (e) => {
-		manageFriend("unblock", activeChatPanel);
-	};*/
-
-	/*const checkProfilButton = document.getElementById('checkProfil');
-	
-	//bouton check profil renvoi sur user
-	checkProfilButton.addEventListener('click', function () {
-		console.log("click on checkProfilButton");
-		let conversation = document.querySelector(`.conversation-list #${activeChatPanel}`);
-		let nickname = conversation.getAttribute("data-nickname");
-	
-		if (nickname) {
-			console.log(`Check profile: ${nickname}`);
-			redirectToUserProfile(nickname);
-		}
-		else
-			console.log(`Empty Nickname: from checkProfilButton`);
-	
-	
-	});
-	function redirectToUserProfile(nickname) {
-		if (nickname)
-			checkProfil.href = `/user/${nickname}/`;
-		checkProfil.setAttribute("data-link", `/user/${nickname}/`);
-		return;
-	
-	}*/
-
-	/*
-	
-	let removeFriendBtn = document.getElementById('removeFriend');
-	let addFriendBtn = document.getElementById('addFriend');
-	
-	if (removeFriendBtn) {
-		removeFriendBtn.onclick = (e) => {
-			let target = e.target.closest(".container").querySelector("#nickname").innerText;
-			console.log("click remove friend: ", target);
-			manageFriend("remove", target);
-		};
-	}
-	
-	if (addFriendBtn) {
-		addFriendBtn.onclick = (e) => {
-			let target = e.target.closest(".container").querySelector("#nickname").innerText;
-			console.log("click add friend: ", target);
-			manageFriend("add", target);
-		};
-	}
-	
-	--------------
-	
-	const contactNickname = contact.getAttribute('[data-nickname]');
-			document.getElementById('friendName').textContent = contactNickname;
-			console.log("friendName: ", contactNickname);
-			console.log("Name: ", name);
-	
-	
-	document.addEventListener("click", (e) => {
-		if (visibleList && !e.target.classList.contains("text")) {
-			document.getElementById('listContact').classList.replace("visible-profile-y", "invisible-profile-y");
-			visibleList = false;
-		}
-	});
-	
-	let searched_nickname = document.getElementById('searchInput');
-	searched_nickname.addEventListener("keypress", (e) => {
-		if (e.key == "Enter")
-			user.click();
-	});
-	user.addEventListener("click", () => {
-		if (searched_nickname.value)
-			user.href = `/user/${searched_nickname.value}/`;
-		user.setAttribute("data-link", `/user/${searched_nickname.value}/`);
-	});*/
 }
