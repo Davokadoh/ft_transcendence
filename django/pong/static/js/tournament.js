@@ -299,7 +299,7 @@ export function tournament(gameId) {
 			history.pushState(null, null, url);
 			router();
 		}).catch(error => {
-			console.error('Error Fetch request :', error);
+			console.log('Error Fetch request :', error);
 			history.pushState(null, null, window.location.origin);
 			router();
 		});

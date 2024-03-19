@@ -14,6 +14,8 @@ export function chat() {
 	let templateConversationHistory = document.createElement("template");
 	let templateConversation = document.createElement("template");
 	let templateContactList = document.createElement("template");
+	let user = document.getElementById('user');
+
 
 	const searchInput = document.querySelector("[data-search]");
 	const conversationList = document.getElementById("conversationListId");
@@ -21,6 +23,7 @@ export function chat() {
 	const contactSelect = document.querySelector("[data-contact]");
 
 	let usersBlocked = [];
+	let chat = document.querySelector("[chat-container]");
 
 
 	
@@ -47,7 +50,7 @@ export function chat() {
 		});
 
 	//click manage 
-	document.addEventListener("click", (e) => {
+	chat.onclick = (e) => {
 		//e.stopImmediatePropagation();
 
 		console.log("e.target***: ", e.target);
@@ -56,9 +59,7 @@ export function chat() {
 
 		if (e.currentTarget.id != "searchContactId")
 			refresh_display();
-		/*if (e.currentTarget.getElementById("searchContact").contains(e.target))
-			search_contact();*/
-	});
+	};
 
 	// click on search
 	document.getElementById("searchContactId").addEventListener("click", search_contact);
@@ -471,13 +472,16 @@ export function chat() {
 	};
 
 	function parse_msg(data, from) {
-		let userId = document.getElementById("userId").textContent;
-		console.log(`parse_map: sender: ${data.sender}; userId: ${userId}`)
-		if (data.sender == userId) {
-			message_sent(data, from);
+		let userId = document.getElementById("userId");
+		if (userId) {
+			userId = userId.textContent;
+			console.log(`parse_map: sender: ${data.sender}; userId: ${userId}`)
+			if (data.sender == userId) {
+				message_sent(data, from);
+			}
+			else
+				message_receive(data, from);
 		}
-		else
-			message_receive(data, from);
 	}
 
 	function message_receive(data, from) {
@@ -752,56 +756,56 @@ export function chat() {
 				})
 				.then(data => {
 
-					console.log('Response server _data_ : users/list : ', data.friend_list);
-					// clear contact list on document
-					document.getElementById("listContact").innerHTML = "";
-					// var myNickname = document.getElementById("id_nickname").value;
-					data.friend_list.map(user => {
-						// if (myNickname != user.nickname) {
-						//take template
-						var tpl = templateContactList.content.cloneNode(true);
-						tpl.querySelector("[contact-container]").id = `${user.username}`;
-						tpl.querySelector("[data-image]").src = user.profil_picture;
-						tpl.querySelector("[data-name]").textContent = user.nickname;
-						tpl.querySelector("[data-full-name]").textContent = user.nickname;
+					console.log('Response server _data_ : friends/list : ', data.friend_list);
+					if (data.friend_list.length > 0) { 
+						// clear contact list on document
+						document.getElementById("listContact").innerHTML = "";
+						// var myNickname = document.getElementById("id_nickname").value;
+						data.friend_list.map(user => {
+							// if (myNickname != user.nickname) {
+							//take template
+							var tpl = templateContactList.content.cloneNode(true);
+							tpl.querySelector("[contact-container]").id = `${user.username}`;
+							tpl.querySelector("[data-image]").src = user.profil_picture;
+							tpl.querySelector("[data-name]").textContent = user.nickname;
+							tpl.querySelector("[data-full-name]").textContent = user.nickname;
 
 
 
-						// Set the status indicator @Verena Status
-						let statusIndicator = tpl.querySelector(".status-indicator");
-						statusIndicator.textContent = user.status;
-						statusIndicator.setAttribute('data-status', user.status);
+							// Set the status indicator @Verena Status
+							let statusIndicator = tpl.querySelector(".status-indicator");
+							statusIndicator.textContent = user.status;
+							statusIndicator.setAttribute('data-status', user.status);
 
-						// Modify the status indicator color based on status
-						if (user.status === 'online') {
-							statusIndicator.classList.add('online');
-						} else if (user.status === 'offline') {
-							statusIndicator.classList.add('offline');
-						} else if (user.status === 'playing') {
-							statusIndicator.classList.add('playing');
-						} else if (user.status === '') {
-							statusIndicator.classList.add('empty');
-						}
-						//insert contact 
-						document.getElementById("listContact").append(tpl);
-						handle_click_contact(document.getElementById("listContact").lastElementChild);
-						// }
-					});
-					console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
-					let userListResponse = document.getElementById("listContact").innerHTML;
-					//no friend to chat
-					if (userListResponse.length === 0) {
-						showAlert("If you don't have any friends, take a curly and go to the profile page to find some.");
+							// Modify the status indicator color based on status
+							if (user.status === 'online') {
+								statusIndicator.classList.add('online');
+							} else if (user.status === 'offline') {
+								statusIndicator.classList.add('offline');
+							} else if (user.status === 'playing') {
+								statusIndicator.classList.add('playing');
+							} else if (user.status === '') {
+								statusIndicator.classList.add('empty');
+							}
+							//insert contact 
+							document.getElementById("listContact").append(tpl);
+							handle_click_contact(document.getElementById("listContact").lastElementChild);
+							// }
+						});
+						console.log("listContact in doc:  ", document.getElementById("listContact").innerHTML);
+						//let userListResponse = document.getElementById("listContact").innerHTML;
+						//no friend to chat
+						//if (userListResponse.length === 0) {
+							//showAlert("If you don't have any friends, take a curly and go to the profile page to find some.");
+						//}
+						//Listen event about search
+						handle_input_steam();
 					}
-					//Listen event about search
-					handle_input_steam();
+					else
+						showAlert("If you don't have any friends, take a curly and go to the profile page to find some.");
 					resolve();
-
 				})
-				.catch(error => {
-					console.error('request error: Fetch', error);
-					reject(error);
-				});
+				.catch(error => { reject(error); });
 		});
 	}
 
@@ -935,8 +939,6 @@ export function chat() {
 				console.error('Request fetch Error:', error);
 			});
 	}
-
-	let user = document.getElementById('user');
 
 	// Fonction pour creer et afficher une alerte personnalisée
 	function showAlert(message) {

@@ -13,6 +13,7 @@ class Consumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = None
+        self.game = None
 
     async def connect(self):
         self.user = self.scope["user"]
@@ -27,18 +28,19 @@ class Consumer(AsyncJsonWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        quit_game = await Game.objects.afirst(pk=self.game.game.pk)
-        if quit_game is not None and quit_game.status != "END":
-            left = await quit_game.teams.afirst()
-            if self.user is await left.users.afirst():
-                # self.game.right.score = 5
-                for i in range(5):
-                    self.game.score(self.game.right)
-            else:
-                # self.game.left.score = 5
-                for i in range(5):
-                    self.game.score(self.game.left)
-            await self.game.end()
+        if self.game is not None:
+            quit_game = await Game.objects.aget(pk=self.game.game.pk)
+            if quit_game is not None and quit_game.status != "END":
+                left = await quit_game.teams.afirst()
+                if self.user == await left.users.afirst():
+                    # self.game.right.score = 5
+                    while self.game.right.score < self.game.max_points:
+                        await self.game.score(team=self.game.right, side=1)
+                else:
+                    # self.game.left.score = 5
+                    while self.game.left.score < self.game.max_points:
+                        await self.game.score(team=self.game.left, side=0)
+                # await self.game.end()
         await self.channel_layer.group_discard("server", self.channel_name)
 
     async def receive_json(self, content):

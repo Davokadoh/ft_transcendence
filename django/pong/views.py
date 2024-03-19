@@ -680,13 +680,12 @@ def getUserData(request):
     }
     return JsonResponse(data)
 
-
 def get_nicknames(request, gameId=None):
     if gameId is None:
         return JsonResponse({"error": "Invalid request"})
     game = Game.objects.get(pk=gameId)
-    player1_nickname = game.teams.first().users.first().nickname
-    player2_nickname = game.teams.last().users.first().nickname
+    player1_nickname = GameTeam.objects.filter(game=game).first().team.users.first().nickname
+    player2_nickname = GameTeam.objects.filter(game=game).last().team.users.first().nickname
     data = {
         "player1_nickname": player1_nickname,
         "player2_nickname": player2_nickname,

@@ -164,7 +164,7 @@ class Round(models.Model):
     def create_games(self):
         teams = list(self.teams.all())
         for team1, team2 in zip(teams[::2], teams[1::2]):
-            game = Game.objects.create(tournament_round=self)
+            game = Game.objects.create(tournament_round=self, style="Tournament")
             game.teams.add(team1, team2)
             game.save()
 
