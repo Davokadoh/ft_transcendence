@@ -161,6 +161,11 @@ export function profil() {
 				localStorage.setItem('savedNickname', data.nickname);
 				nicknameInput.value = data.nickname;
 				nicknameInput.classList.add('nickname-updated');
+				let ladder = document.querySelector("#ladder");
+				ladder.dataset.nickname = data.nickname;
+				console.log("after submit", document.querySelector("#ladder").dataset.nickname);
+				console.log("data.nickname: ", data.nickname);
+
 			}).catch(error => {
 				console.error('Erreur lors de la mise à jour du nom d\'utilisateur :', error);
 			});
@@ -248,6 +253,7 @@ export function profil() {
 		const currentUser = document.getElementById("ladder").dataset.nickname;
 		if (nickname) {
 			// Vérifie si l'utilisateur essaie de s'ajouter lui-même
+			console.log(`nickname: ${nickname}\ncurrentUser: ${currentUser}`);
 			if (nickname === currentUser) {
 				showAlert("You are already your own friend ♥︎");
 				return;
@@ -361,7 +367,7 @@ export function profil() {
 					document.getElementById("modalBodyContact").appendChild(modalTmp);
 					modalTmp.querySelector(".inviteContact").addEventListener("click", invitationFunct);
 					modalTmp.querySelector(".blockBtn").addEventListener("click", (e) => {
-						manageFriend("block", friend.username);
+						manageFriend("block", friend.nickname);
 					});
 				});
 				return data.friend_list.map(friend => friend.nickname);
@@ -416,7 +422,7 @@ export function profil() {
 					`;
 					document.getElementById("modalBodyBlocked").appendChild(modalTmp);
 					modalTmp.querySelector(".unblockBtn").addEventListener("click", (e) => {
-						manageFriend("unblock", user.username);
+						manageFriend("unblock", user.nickname);
 						e.target.closest(".pseudoBlock").remove();
 					});
 				});

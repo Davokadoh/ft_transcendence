@@ -231,7 +231,7 @@ def nickname(request):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return JsonResponse({"message": "Nickname updated successfully"})
+            return JsonResponse({"message": "Nickname updated successfully", "nickname": request.user.nickname})
         else:
             return JsonResponse({"error": "New nickname is required"}, status=400)
     else:
