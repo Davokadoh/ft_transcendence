@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from ftt.settings import STATIC_URL
-from .models import GameTeam, Tournament, CustomUser, Team, Game
+from .models import Conversation, GameTeam, Tournament, CustomUser, Team, Game
 from .forms import ProfilPictureForm, NicknameForm
 from django.urls import reverse
 import requests
@@ -593,7 +593,7 @@ def callback(request):
     login(request, user)
     return redirect(home)
 
-
+@login_required
 def get_user_info(request, nickname):
     if request.method == "GET":
         # nickname = request.GET.get('nickname')
@@ -641,7 +641,7 @@ def get_user_info(request, nickname):
 #     }
 #     return JsonResponse(user_info)
 
-
+@login_required
 def UpdateUserSettingsView(request):
     if request.method == "POST":
         paddle_speed = int(request.POST.get("paddle_speed"))
@@ -669,7 +669,7 @@ def UpdateUserSettingsView(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
-# @login_required
+@login_required
 def getUserData(request):
     data = {
         "ballSpeed": request.user.ballSpeed,
@@ -680,6 +680,7 @@ def getUserData(request):
     }
     return JsonResponse(data)
 
+@login_required
 def get_nicknames(request, gameId=None):
     if gameId is None:
         return JsonResponse({"error": "Invalid request"})
@@ -692,7 +693,7 @@ def get_nicknames(request, gameId=None):
     }
     return JsonResponse(data)
 
-
+@login_required
 def get_scores(request, gameId=None):
     if gameId is None:
         return JsonResponse({"error": "Invalid request"})
@@ -726,6 +727,7 @@ def get_scores(request, gameId=None):
 
 
 @csrf_exempt
+@login_required
 def get_users(request):
     if request.method == "GET":
         users = CustomUser.objects.all()
@@ -750,12 +752,13 @@ def get_users(request):
 
 
 # FOR MATCH HISTORY
+@login_required
 def profil_view(request):
     # Récupérer tous les matchs associés à l'utilisateur
     matches = Game.objects.filter(teams__users=request.user)
     return render(request, "profil.html", {"matches": matches})
 
-
+@login_required
 def getList(request, prefix, type):
     print("[getList FUNCTION]")
     if request.method == "GET":
@@ -821,6 +824,7 @@ def getList(request, prefix, type):
 
 @csrf_exempt
 @require_POST
+@login_required
 def manageFriend(request, prefix, action, nickname):
     print("[manageFriend FUNCTION]")
     try:
@@ -883,6 +887,7 @@ def manageFriend(request, prefix, action, nickname):
 
 @csrf_exempt
 @require_POST
+@login_required
 def manageFriendChat(request, prefix, action, username):
     print("[manageFriend FUNCTION]")
     try:
